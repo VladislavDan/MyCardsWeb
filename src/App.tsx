@@ -5,12 +5,13 @@ import {
     Route,
     Link
 } from "react-router-dom";
-import {AppBar, Button, IconButton, Toolbar, Typography} from '@material-ui/core';
 
 import './App.css';
 import {IAppContext} from './app/types/IAppContext';
-import {ToolbarComponent} from './app/organism/toolbar-component/ToolbarComponent';
+import {ToolbarContainer} from './app/organism/toolbar-container/ToolbarContainer';
 import {Routs} from './app/common/Routs';
+import {NavigationPanelContainer} from './app/organism/navigation-panel-container/NavigationPanelContainer';
+import {GoogleAuthComponent} from './app/pages/google-auth/GoogleAuthComponent';
 
 export const AppContext = React.createContext<IAppContext>({
     cards: [],
@@ -35,23 +36,14 @@ function App() {
             <Router>
                 <div>
 
-                    <ToolbarComponent/>
-                    <nav>
-                        <ul>
-                            <li>
-                                <Link to="/">
-                                    Default page
-                                </Link>
-                            </li>
-                            <li>
-                                <Link to={Routs.googleAuth.path}>
-                                    {Routs.googleAuth.name}
-                                </Link>
-                            </li>
-                        </ul>
-                    </nav>
+                    <ToolbarContainer/>
+
+                    <NavigationPanelContainer/>
 
                     <Switch>
+                        <Route path={Routs.googleAuth.path}>
+                            <GoogleAuthComponent/>
+                        </Route>
                         <Route path="/about">
                             <AppContext.Provider value={appState}></AppContext.Provider>
                         </Route>
