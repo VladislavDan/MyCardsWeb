@@ -2,7 +2,7 @@ import * as React from 'react';
 import {ReactEventHandler, SyntheticEvent, useState} from 'react';
 
 import {navigationPanelManager} from './NavigationPanelManager';
-import {NavigationPanelComponent} from './molecules/NavigationPanelComponent';
+import {NavigationPanelComponent} from './elements/NavigationPanelComponent';
 import {useSubscribe} from '../../common/hooks/useSubscribe';
 
 export const NavigationPanelContainer = () => {

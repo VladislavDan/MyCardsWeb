@@ -7,6 +7,10 @@ class ToolbarManager {
             return Routs.googleAuth.name;
         }
 
+        if(path === Routs.googleBackups.path) {
+            return Routs.googleBackups.name;
+        }
+
         return 'My Cards'
     }
 }

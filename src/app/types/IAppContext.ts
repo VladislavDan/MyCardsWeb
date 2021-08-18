@@ -1,7 +1,5 @@
-import {Card} from './Card';
-
 export interface IAppContext {
-    cards: Card[],
-
-    updateContext: () => void
+    updateContext: () => void;
+    height: number;
+    width: number;
 }

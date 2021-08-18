@@ -1,7 +1,7 @@
 import {useEffect, useState} from 'react';
 import {Subscription, Subject} from 'rxjs';
 
-export const useSubscribe = <T>(channel: Subject<T>, subscriber: (value: T) => void) => {
+export const useSubscribe = <T>(channel: Subject<T>, subscriber: (value: T) => void, errorSubscriber?: () => void) => {
     const [state, setState] = useState<{ subscription: Subscription | null }>({
         subscription: null
     });
@@ -9,7 +9,7 @@ export const useSubscribe = <T>(channel: Subject<T>, subscriber: (value: T) => v
     useEffect(() => {
 
         if (!state.subscription || state.subscription.closed) {
-            const subscription = channel.subscribe(subscriber);
+            const subscription = channel.subscribe(subscriber, errorSubscriber);
 
             setState({...state, subscription});
         }

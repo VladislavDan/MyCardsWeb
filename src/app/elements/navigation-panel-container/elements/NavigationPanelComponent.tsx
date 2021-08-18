@@ -5,7 +5,7 @@ import {ReactEventHandler} from 'react';
 import {Link} from 'react-router-dom';
 
 import {Routs} from '../../../common/Routs';
-import {NavigationLinkComponent} from './atoms/navigation-link-component/NavigationLinkComponent';
+import {NavigationLinkComponent} from './elements/navigation-link-component/NavigationLinkComponent';
 
 export const NavigationPanelComponent: FC<INavigationPanelComponent> = ({isOpen, toggleDrawer}) => {
 

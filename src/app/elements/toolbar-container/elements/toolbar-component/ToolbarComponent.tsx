@@ -5,7 +5,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 export const ToolbarComponent: FC<IToolbarComponent> = ({pageLabel, onClick}) => {
 
     return (
-        <AppBar position="static">
+        <AppBar position="fixed">
             <Toolbar>
                 <IconButton edge="start" color="inherit" aria-label="menu" onClick={onClick}>
                     <MenuIcon/>
