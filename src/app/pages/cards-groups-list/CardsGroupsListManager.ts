@@ -40,13 +40,13 @@ class CardsGroupsListManager {
             }),
             map((cardsGroups: CardsGroup[]) => {
                 cardsGroups.map((cardsGroup: CardsGroup) => {
-                    let statusInProgress = 0;
+                    let statusDone = 0;
                     cardsGroup.cards.forEach((card: Card) => {
-                        if(card.rangeOfKnowledge === RangeOfKnowledge.IN_PROGRESS) {
-                            statusInProgress++
+                        if(card.rangeOfKnowledge === RangeOfKnowledge.DONE) {
+                            statusDone++
                         }
                     });
-                    cardsGroup.percentRepeatedCards = statusInProgress/cardsGroup.cards.length*100;
+                    cardsGroup.percentRepeatedCards = statusDone/cardsGroup.cards.length*100;
                     return cardsGroup;
                 });
                 return cardsGroups;

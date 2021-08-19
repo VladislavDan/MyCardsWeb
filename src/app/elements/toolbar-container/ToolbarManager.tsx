@@ -15,6 +15,10 @@ class ToolbarManager {
             return Routs.cardsGroups.name;
         }
 
+        if(path === Routs.cards.path) {
+            return Routs.cards.name;
+        }
+
         return 'My Cards'
     }
 }

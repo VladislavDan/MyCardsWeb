@@ -17,6 +17,7 @@ import {GoogleBackupsContainer} from './app/pages/google-backups/GoogleBackupsCo
 import {defaultAppState} from './app/common/Constants';
 import {ConfirmDialogContainer} from './app/elements/confirm-dialog/ConfirmDialogContainer';
 import {CardsGroupsListContainer} from './app/pages/cards-groups-list/CardsGroupsListContainer';
+import {CardsListContainer} from './app/pages/cards-list/CardsListContainer';
 
 export const AppContext = React.createContext<IAppContext>(defaultAppState);
 
@@ -61,7 +62,8 @@ function App() {
                                 <Route path={Routs.googleBackups.path}>
                                     <GoogleBackupsContainer/>
                                 </Route>
-                                <Route path="/">
+                                <Route path={Routs.cards.path}>
+                                    <CardsListContainer/>
                                 </Route>
                             </Switch>
                         </div>

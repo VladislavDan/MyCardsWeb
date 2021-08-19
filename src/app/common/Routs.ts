@@ -12,5 +12,10 @@ export const Routs = {
     cardsGroups: {
         path: '/cards-groups',
         name: 'Cards Groups'
+    },
+
+    cards: {
+        path: '/cards-list',
+        name: 'Cards'
     }
 };

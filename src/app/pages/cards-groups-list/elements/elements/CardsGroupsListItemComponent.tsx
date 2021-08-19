@@ -7,11 +7,22 @@ import ListItemText from '@material-ui/core/ListItemText/ListItemText';
 import {DATE_FORMAT} from '../../../../common/Constants';
 import {CardsGroup} from '../../../../types/CardsGroup';
 import {CircularProgressComponent} from './elements/CircularProgressComponent';
+import {useHistory} from 'react-router';
+import {Routs} from '../../../../common/Routs';
 
 export const CardsGroupsListItemComponent: FC<ICardsGroupsListItemComponent> = ({cardsGroup}) => {
 
+    const history = useHistory();
+
+    const onClick = (cardsGroupID: string): any => () => {
+        history.push({
+            pathname: Routs.cards.path,
+            state: cardsGroupID
+        })
+    };
+
     return <>
-        <ListItem key={cardsGroup.id} button>
+        <ListItem onClick={onClick(cardsGroup.id)} key={cardsGroup.id} button>
             <ListItemIcon>
                 <CircularProgressComponent percent={cardsGroup.percentRepeatedCards || 0}/>
             </ListItemIcon>
