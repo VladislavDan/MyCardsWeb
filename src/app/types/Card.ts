@@ -1,7 +1,9 @@
+import {RangeOfKnowledge} from './RangeOfKnowledge';
+
 export interface Card {
     id: string;
-    groupIds: string[];
-    rangeOfKnowledge: number;
+    rangeOfKnowledge: RangeOfKnowledge;
     answer: string;
     question: string;
+    dateRepeating: number;
 }

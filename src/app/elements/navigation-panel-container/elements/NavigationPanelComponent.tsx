@@ -1,8 +1,7 @@
 import * as React from 'react';
-import {List, ListItem, SwipeableDrawer} from '@material-ui/core';
+import {List, SwipeableDrawer} from '@material-ui/core';
 import {FC} from 'react';
 import {ReactEventHandler} from 'react';
-import {Link} from 'react-router-dom';
 
 import {Routs} from '../../../common/Routs';
 import {NavigationLinkComponent} from './elements/navigation-link-component/NavigationLinkComponent';
@@ -17,6 +16,7 @@ export const NavigationPanelComponent: FC<INavigationPanelComponent> = ({isOpen,
             onOpen={toggleDrawer(true)}
         >
             <List>
+                <NavigationLinkComponent path={Routs.cardsGroups.path} name={Routs.cardsGroups.name} toggleDrawer={toggleDrawer}/>
                 <NavigationLinkComponent path={Routs.googleAuth.path} name={Routs.googleAuth.name} toggleDrawer={toggleDrawer}/>
             </List>
         </SwipeableDrawer>

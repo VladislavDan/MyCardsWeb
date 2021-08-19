@@ -10,8 +10,8 @@ import {ajax} from 'rxjs/ajax';
 import {localStorageManager} from '../../common/managers/LocalStoragManager';
 import {spinnerManager} from '../../elements/spinner-container/SpinnerManager';
 import {errorManager} from '../../elements/error-container/ErrorManager';
-import {Backup} from '../../types/Backup';
 import {GoogleDriveFile} from '../../types/GoogleDriveFile';
+import {CardsGroup} from '../../types/CardsGroup';
 
 class GoogleBackupsManager {
 
@@ -235,13 +235,13 @@ class GoogleBackupsManager {
     public uploadBackupFile(token: string, fileId: string): Observable<any> {
         return of('').pipe(
             switchMap(() => localStorageManager.getBackupFromStorage()),
-            switchMap((backup: Backup) => ajax(
+            switchMap((cardsGroups: CardsGroup[]) => ajax(
                 {
                     url: this.googleDriveUploadAPI + fileId,
                     headers: {
                         'Authorization': 'Bearer ' + token
                     },
-                    body: JSON.stringify(backup, null, 4),
+                    body: JSON.stringify(cardsGroups, null, 4),
                     responseType: 'text',
                     method: 'PATCH'
                 }

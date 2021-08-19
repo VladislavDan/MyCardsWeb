@@ -1,32 +1,29 @@
 import {from, Observable, Subject} from 'rxjs';
-import {Backup} from '../../types/Backup';
+import {CardsGroup} from '../../types/CardsGroup';
 
 class LocalStorageManager {
 
-    public storageChangeChannel: Subject<Backup> = new Subject();
+    public storageChangeChannel: Subject<CardsGroup[]> = new Subject();
 
     private cardsLocalStorageID = 'cards-local-storage';
     private authTokenLocalStorageID = 'auth-token';
 
-    public getBackupFromStorage() : Observable<Backup> {
-        return from(new Promise<Backup>((resolve) => {
+    public getBackupFromStorage() : Observable<CardsGroup[]> {
+        return from(new Promise<CardsGroup[]>((resolve) => {
             const backup = localStorage.getItem(this.cardsLocalStorageID);
             if(backup) {
                 resolve(JSON.parse(backup));
             } else {
-                resolve({
-                    cards: [],
-                    cardsGroups: []
-                })
+                resolve([])
             }
         }));
     }
 
-    public setBackupToStorage(backup: Backup): Observable<Backup> {
-        return from(new Promise<Backup>((resolve) => {
-            this.storageChangeChannel.next(backup);
-            localStorage.setItem(this.cardsLocalStorageID, JSON.stringify(backup, null, 4));
-            resolve(backup);
+    public setBackupToStorage(cardsGroups: CardsGroup[]): Observable<CardsGroup[]> {
+        return from(new Promise<CardsGroup[]>((resolve) => {
+            this.storageChangeChannel.next(cardsGroups);
+            localStorage.setItem(this.cardsLocalStorageID, JSON.stringify(cardsGroups, null, 4));
+            resolve(cardsGroups);
         }));
     }
 

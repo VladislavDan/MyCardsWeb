@@ -11,6 +11,10 @@ class ToolbarManager {
             return Routs.googleBackups.name;
         }
 
+        if(path === Routs.cardsGroups.path) {
+            return Routs.cardsGroups.name;
+        }
+
         return 'My Cards'
     }
 }

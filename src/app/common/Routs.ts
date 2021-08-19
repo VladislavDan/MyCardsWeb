@@ -7,5 +7,10 @@ export const Routs = {
     googleBackups: {
         path: '/google-backups',
         name: 'Google Backups'
+    },
+
+    cardsGroups: {
+        path: '/cards-groups',
+        name: 'Cards Groups'
     }
 };
