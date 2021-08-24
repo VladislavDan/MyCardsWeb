@@ -19,6 +19,10 @@ class ToolbarManager {
             return Routs.cards.name;
         }
 
+        if(path === Routs.cardsRepeater.path) {
+            return Routs.cardsRepeater.name;
+        }
+
         return 'My Cards'
     }
 }

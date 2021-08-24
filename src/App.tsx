@@ -18,6 +18,7 @@ import {defaultAppState} from './app/common/Constants';
 import {ConfirmDialogContainer} from './app/elements/confirm-dialog/ConfirmDialogContainer';
 import {CardsGroupsListContainer} from './app/pages/cards-groups-list/CardsGroupsListContainer';
 import {CardsListContainer} from './app/pages/cards-list/CardsListContainer';
+import {CardRepeaterContainer} from './app/pages/cards-repeater/CardsRepeaterContainer';
 
 export const AppContext = React.createContext<IAppContext>(defaultAppState);
 
@@ -64,6 +65,9 @@ function App() {
                                 </Route>
                                 <Route path={Routs.cards.path}>
                                     <CardsListContainer/>
+                                </Route>
+                                <Route path={Routs.cardsRepeater.path}>
+                                    <CardRepeaterContainer/>
                                 </Route>
                             </Switch>
                         </div>

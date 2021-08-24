@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import {ConfirmDialogComponent} from './elements/confirm-dialog-component/ConfirmDialogComponent';
+import {ConfirmDialogComponent} from './confirm-dialog-component/ConfirmDialogComponent';
 import {useSubscribe} from '../../common/hooks/useSubscribe';
 import {confirmDialogManager} from './ConfirmDialogManager';
 

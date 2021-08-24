@@ -5,13 +5,13 @@ import ListItemIcon from '@material-ui/core/ListItemIcon/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText/ListItemText';
 import FlagIcon from '@material-ui/icons/Flag';
 
-import {DATE_FORMAT} from '../../../../../../common/Constants';
-import {Card} from '../../../../../../types/Card';
-import {RangeOfKnowledge} from '../../../../../../types/RangeOfKnowledge';
+import {DATE_FORMAT} from '../../../../common/Constants';
+import {ICard} from '../../../../types/ICard';
+import {RangeOfKnowledge} from '../../../../types/RangeOfKnowledge';
 
 export const CardsListItemComponent: FC<ICardListItemComponent> = ({card}) => {
 
-    const getIconColor = (card: Card): string => {
+    const getIconColor = (card: ICard): string => {
         if(card.rangeOfKnowledge === RangeOfKnowledge.DONE){
             return 'green'
         }
@@ -33,5 +33,5 @@ export const CardsListItemComponent: FC<ICardListItemComponent> = ({card}) => {
 };
 
 interface ICardListItemComponent {
-    card: Card;
+    card: ICard;
 }

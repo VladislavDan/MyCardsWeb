@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 
-import {Card} from '../../types/Card';
-import {CardsListComponent} from './elements/cards-list-component/CardsListComponent';
+import {ICard} from '../../types/ICard';
+import {CardsListComponent} from './cards-list-component/CardsListComponent';
 import {useSubscribe} from '../../common/hooks/useSubscribe';
 import {cardsListManager} from './CardsListManager';
 import {useLocation} from 'react-router';
@@ -13,7 +13,7 @@ export const CardsListContainer = () => {
 
     const [state, setState] = useState<CardsListContainerState>({cards: []});
 
-    useSubscribe(cardsListManager.cardsChannel, (cards: Card[]) => {
+    useSubscribe(cardsListManager.cardsChannel, (cards: ICard[]) => {
         setState({
             cards: cards
         });
@@ -27,5 +27,5 @@ export const CardsListContainer = () => {
 };
 
 interface CardsListContainerState {
-    cards: Card[];
+    cards: ICard[];
 }

@@ -2,14 +2,14 @@ import {List} from '@material-ui/core';
 import * as React from 'react';
 import {FC} from 'react';
 
-import {CardsListItemComponent} from './elements/cards-list-item/CardsListItemComponent';
-import {Card} from '../../../../types/Card';
+import {CardsListItemComponent} from './cards-list-item/CardsListItemComponent';
+import {ICard} from '../../../types/ICard';
 
 export const CardsListComponent: FC<ICardsListComponent> = ({cards}) => {
     return (
         <List>
             {
-                cards.map((card: Card) => {
+                cards.map((card: ICard) => {
                     return <CardsListItemComponent
                         key={card.id}
                         card={card}
@@ -21,5 +21,5 @@ export const CardsListComponent: FC<ICardsListComponent> = ({cards}) => {
 };
 
 interface ICardsListComponent {
-    cards: Card[]
+    cards: ICard[]
 }

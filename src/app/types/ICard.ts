@@ -1,6 +1,6 @@
 import {RangeOfKnowledge} from './RangeOfKnowledge';
 
-export interface Card {
+export interface ICard {
     id: string;
     rangeOfKnowledge: RangeOfKnowledge;
     answer: string;

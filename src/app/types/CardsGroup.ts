@@ -1,9 +1,9 @@
-import {Card} from './Card';
+import {ICard} from './ICard';
 
 export interface CardsGroup {
     nameCardsGroup: string;
     id: string;
     percentRepeatedCards?: number;
     dateRepeating?: number
-    cards: Card[]
+    cards: ICard[]
 }
