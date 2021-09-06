@@ -7,9 +7,9 @@ import {
 } from 'rxjs/operators';
 import {ajax} from 'rxjs/ajax';
 
-import {localStorageManager} from '../../common/managers/LocalStoragManager';
+import {localStorageManager} from '../../common/managers/LocalStoragService';
 import {spinnerManager} from '../../elements/spinner-container/SpinnerManager';
-import {errorManager} from '../../elements/error-container/ErrorManager';
+import {errorManager} from '../../elements/error-container/ErrorService';
 import {GoogleDriveFile} from '../../types/GoogleDriveFile';
 import {CardsGroup} from '../../types/CardsGroup';
 

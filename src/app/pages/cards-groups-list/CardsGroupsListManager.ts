@@ -1,9 +1,9 @@
 import {Subject, throwError} from 'rxjs';
 import {catchError, map, switchMap} from 'rxjs/operators';
 
-import {localStorageManager} from '../../common/managers/LocalStoragManager';
+import {localStorageManager} from '../../common/managers/LocalStoragService';
 import {CardsGroup} from '../../types/CardsGroup';
-import {errorManager} from '../../elements/error-container/ErrorManager';
+import {errorManager} from '../../elements/error-container/ErrorService';
 import {ICard} from '../../types/ICard';
 import {RangeOfKnowledge} from '../../types/RangeOfKnowledge';
 

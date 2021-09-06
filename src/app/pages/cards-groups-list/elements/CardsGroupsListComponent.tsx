@@ -8,7 +8,7 @@ export const CardsGroupsListComponent: FC<ICardsGroupsListComponent> = ({cardsGr
 
     return <List component="nav" aria-label="contacts">
         {cardsGroups.map((cardsGroup: CardsGroup) => {
-            return <CardsGroupsListItemComponent cardsGroup={cardsGroup}/>
+            return <CardsGroupsListItemComponent key={cardsGroup.id} cardsGroup={cardsGroup}/>
         })}
     </List>
 };

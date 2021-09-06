@@ -30,10 +30,10 @@ export const CardsRepeaterComponent: FC<ICardsRepeaterComponent> = ({card}) => {
             </Typography>
             <CardActions className="cards-repeater_buttons-container">
                 <Button size="small" color="primary">
-                    No
+                    Yes
                 </Button>
                 <Button size="small" color="primary">
-                    Yes
+                    No
                 </Button>
             </CardActions>
         </CardContent>

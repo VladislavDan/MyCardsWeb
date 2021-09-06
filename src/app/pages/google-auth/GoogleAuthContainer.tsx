@@ -5,7 +5,7 @@ import {useHistory} from 'react-router';
 import {Routs} from '../../common/Routs';
 import {useSubscribe} from '../../common/hooks/useSubscribe';
 import {googleAuthManager} from './GoogleAuthManager';
-import {errorManager} from '../../elements/error-container/ErrorManager';
+import {errorManager} from '../../elements/error-container/ErrorService';
 import {GoogleAuthComponent} from './elements/GoogleAuthComponent';
 import {IAppContext} from '../../types/IAppContext';
 import {AppContext} from '../../../App';

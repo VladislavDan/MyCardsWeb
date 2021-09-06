@@ -1,6 +1,6 @@
 import {Subject} from 'rxjs';
 
-class ErrorManager {
+class ErrorService {
     public errorChannel: Subject<string>;
 
 
@@ -10,4 +10,4 @@ class ErrorManager {
 
 }
 
-export const errorManager = new ErrorManager();
+export const errorManager = new ErrorService();

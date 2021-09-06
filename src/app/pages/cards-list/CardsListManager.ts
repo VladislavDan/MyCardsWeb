@@ -3,10 +3,10 @@ import {of, throwError} from 'rxjs';
 import {catchError, map, switchMap} from 'rxjs/operators';
 
 import {ICard} from '../../types/ICard';
-import {localStorageManager} from '../../common/managers/LocalStoragManager';
+import {localStorageManager} from '../../common/managers/LocalStoragService';
 import {CardsGroup} from '../../types/CardsGroup';
 import {spinnerManager} from '../../elements/spinner-container/SpinnerManager';
-import {errorManager} from '../../elements/error-container/ErrorManager';
+import {errorManager} from '../../elements/error-container/ErrorService';
 
 class CardsListManager {
     public cardsChannel: Subject<any>;

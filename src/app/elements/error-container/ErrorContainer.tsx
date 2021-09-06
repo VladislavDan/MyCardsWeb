@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 
 import {useSubscribe} from '../../common/hooks/useSubscribe';
-import {errorManager} from './ErrorManager';
+import {errorManager} from './ErrorService';
 import {ErrorComponent} from './elements/error-component/ErrorComponent';
 
 export const ErrorContainer = () => {

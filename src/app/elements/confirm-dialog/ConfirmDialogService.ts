@@ -2,7 +2,7 @@ import {Subject} from 'rxjs';
 
 import {ConfirmDialogContainerState} from './ConfirmDialogContainer';
 
-class ConfirmDialogManager {
+class ConfirmDialogService {
     public openDialogChannel = new Subject<ConfirmDialogContainerState>();
     public confirmationChannel = new Subject<boolean>();
 
@@ -11,5 +11,5 @@ class ConfirmDialogManager {
 
 }
 
-export const confirmDialogManager = new ConfirmDialogManager();
+export const confirmDialogManager = new ConfirmDialogService();
 

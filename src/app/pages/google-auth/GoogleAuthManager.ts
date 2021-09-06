@@ -2,8 +2,8 @@ import {Subject} from 'rxjs';
 import {catchError, tap} from 'rxjs/operators';
 import {throwError} from 'rxjs';
 
-import {localStorageManager} from '../../common/managers/LocalStoragManager';
-import {errorManager} from '../../elements/error-container/ErrorManager';
+import {localStorageManager} from '../../common/managers/LocalStoragService';
+import {errorManager} from '../../elements/error-container/ErrorService';
 
 class GoogleAuthManager {
     public loginChannel: Subject<string>;

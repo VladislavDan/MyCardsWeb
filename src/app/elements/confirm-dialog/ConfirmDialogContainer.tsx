@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import {ConfirmDialogComponent} from './confirm-dialog-component/ConfirmDialogComponent';
 import {useSubscribe} from '../../common/hooks/useSubscribe';
-import {confirmDialogManager} from './ConfirmDialogManager';
+import {confirmDialogManager} from './ConfirmDialogService';
 
 export const ConfirmDialogContainer = () => {
 
