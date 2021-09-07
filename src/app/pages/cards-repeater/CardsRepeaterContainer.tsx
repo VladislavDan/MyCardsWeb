@@ -4,7 +4,7 @@ import React, {useState} from 'react';
 import {useSubscribe} from '../../common/hooks/useSubscribe';
 import {ICard} from '../../types/ICard';
 import {useFirstRender} from '../../common/hooks/useFirstRender';
-import {cardsRepeaterManager} from './CardsRepeaterManager';
+import {cardsRepeaterManager} from './CardsRepeaterService';
 import {CardsRepeaterComponent} from './cards-repeater-component/CardsRepeterComponent';
 
 export const CardRepeaterContainer = () => {

@@ -1,6 +1,6 @@
 import {Routs} from '../../common/Routs';
 
-class ToolbarManager {
+class ToolbarService {
 
     public getPageLabel(path: string) {
         if(path === Routs.googleAuth.path) {
@@ -27,4 +27,4 @@ class ToolbarManager {
     }
 }
 
-export const toolbarManager = new ToolbarManager();
+export const toolbarManager = new ToolbarService();

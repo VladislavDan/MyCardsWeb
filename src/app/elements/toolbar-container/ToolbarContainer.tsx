@@ -2,7 +2,7 @@ import React, {ReactElement, useEffect, useState} from 'react';
 import * as H from 'history';
 import {useLocation} from 'react-router-dom';
 
-import {toolbarManager} from './ToolbarManager';
+import {toolbarManager} from './ToolbarService';
 import {ToolbarComponent} from './elements/toolbar-component/ToolbarComponent';
 import {navigationPanelManager} from '../navigation-panel-container/NavigationPanelManager';
 

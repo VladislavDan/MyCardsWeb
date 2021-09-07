@@ -1,4 +1,4 @@
-import {of, Subject, throwError} from 'rxjs';
+import {of, Subject, throwError, Observable} from 'rxjs';
 import {catchError, map, switchMap} from 'rxjs/operators';
 
 import {ICard} from '../../types/ICard';
@@ -7,12 +7,12 @@ import {CardsGroup} from '../../types/CardsGroup';
 import {spinnerManager} from '../../elements/spinner-container/SpinnerManager';
 import {errorManager} from '../../elements/error-container/ErrorService';
 import {RangeOfKnowledge} from '../../types/RangeOfKnowledge';
-import {IChannel} from '../../types/IChannel';
+import {IChannelData} from '../../types/IChannelData';
 import {IRepeatingArgs} from '../../types/IRepeatingArgs';
 
-class CardsRepeaterManager {
+class CardsRepeaterService {
     public cardChannel: Subject<any>;
-    public repeatingResultChannel: Subject<IChannel<IRepeatingArgs, void>>;
+    public repeatingResultChannel: Subject<IChannelData<IRepeatingArgs, void>>;
 
 
     constructor() {
@@ -26,14 +26,14 @@ class CardsRepeaterManager {
             })
         ) as Subject<ICard | undefined>;
 
-        this.repeatingResultChannel = new Subject<IChannel<IRepeatingArgs, void>>().pipe(
-            switchMap(({args}) => this.writeRangeOfKnowledge(args)),
+        this.repeatingResultChannel = new Subject<IChannelData<IRepeatingArgs, void>>().pipe(
+            switchMap((data: IChannelData<IRepeatingArgs, void>) => this.writeRangeOfKnowledge(data)),
             catchError((error: Error) => {
                 spinnerManager.spinnerCounterChannel.next(-1);
                 errorManager.errorChannel.next('Cannot load cards');
                 return throwError(error);
             })
-        );
+        ) as Subject<IChannelData<IRepeatingArgs, void>>;
     }
 
     getCards(cardsGroupID: string) {
@@ -49,7 +49,8 @@ class CardsRepeaterManager {
         )
     }
 
-    writeRangeOfKnowledge(args: IRepeatingArgs) {
+    writeRangeOfKnowledge = (data: IChannelData<IRepeatingArgs, void>) => {
+        const args = data.args;
         return of('').pipe(
             switchMap(() => localStorageManager.getBackupFromStorage()),
             map((cardsGroups: CardsGroup[]) => {
@@ -73,9 +74,10 @@ class CardsRepeaterManager {
 
                 return cardsGroups;
             }),
-            switchMap((cardsGroups: CardsGroup[]) => localStorageManager.setBackupToStorage(cardsGroups))
+            switchMap((cardsGroups: CardsGroup[]) => localStorageManager.setBackupToStorage(cardsGroups)),
+            map(() => data)
         )
-    }
+    };
 
     getCardForRepeating(cards: ICard[]): ICard | undefined {
         let foundCard= cards.find((card: ICard) => {
@@ -93,4 +95,4 @@ class CardsRepeaterManager {
 
 }
 
-export const cardsRepeaterManager= new CardsRepeaterManager();
+export const cardsRepeaterManager= new CardsRepeaterService();
