@@ -7,12 +7,7 @@ export const useFirstRender = (callback: () => void) => {
 
         if(!state) {
             callback();
-        }
-
-        setState(true);
-
-        return () => {
-            setState(false);
+            setState(true);
         }
     });
 };

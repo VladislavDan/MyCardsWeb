@@ -9,11 +9,11 @@ import {CardsRepeaterComponent} from './cards-repeater-component/CardsRepeterCom
 
 export const CardRepeaterContainer = () => {
 
-    const location = useLocation();
+    const location = useLocation<string>();
 
-    const [state, setState] = useState<CardRepeaterContainerState>({card: null});
+    const [state, setState] = useState<CardRepeaterContainerState>({card: undefined});
 
-    useSubscribe(cardsRepeaterManager.cardChannel, (card: ICard) => {
+    useSubscribe<string, ICard | undefined>(cardsRepeaterManager.cardChannel, (card: ICard | undefined) => {
         setState({
             card: card
         });
@@ -27,5 +27,5 @@ export const CardRepeaterContainer = () => {
 };
 
 interface CardRepeaterContainerState {
-    card: ICard | null
+    card: ICard | undefined
 }

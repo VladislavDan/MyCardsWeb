@@ -2,12 +2,12 @@ import * as React from 'react';
 import {useEffect, useState} from 'react';
 
 import {useSubscribe} from '../../common/hooks/useSubscribe';
-import {googleBackupsManager} from './GoogleBackupsManager';
+import {googleBackupsManager} from './GoogleBackupsService';
 import {GoogleDriveFile} from '../../types/GoogleDriveFile';
-import {spinnerManager} from '../../elements/spinner-container/SpinnerManager';
-import {BackupsListComponent} from './elements/backups-list-component/BackupsListComponent';
+import {BackupsListComponent} from './backups-list-component/BackupsListComponent';
 import {useHistory} from 'react-router';
 import {Routs} from '../../common/Routs';
+import {spinnerManager} from '../../../App';
 
 export const GoogleBackupsContainer = () => {
 

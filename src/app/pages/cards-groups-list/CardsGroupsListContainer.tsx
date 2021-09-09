@@ -1,16 +1,17 @@
 import React, {useState} from "react";
 
-import {CardsGroupsListComponent} from './elements/CardsGroupsListComponent';
+import {CardsGroupsListComponent} from './cards-groups-list-component/CardsGroupsListComponent';
 import {useSubscribe} from '../../common/hooks/useSubscribe';
-import {cardsGroupsListManager} from './CardsGroupsListManager';
+import {cardsGroupsListManager} from './CardsGroupsListService';
 import {CardsGroup} from '../../types/CardsGroup';
 import {useFirstRender} from '../../common/hooks/useFirstRender';
+import {string} from 'prop-types';
 
 export const CardsGroupsListContainer = () => {
 
     const [state, setState] = useState<CardsGroupsListContainerState>({cardsGroups: []});
 
-    useSubscribe<CardsGroup[]>(cardsGroupsListManager.groupsListChannel, (cardsGroups: CardsGroup[]) => {
+    useSubscribe<string, CardsGroup[]>(cardsGroupsListManager.groupsListChannel, (cardsGroups: CardsGroup[]) => {
         setState({cardsGroups: cardsGroups})
     });
 

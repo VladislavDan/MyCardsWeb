@@ -1,14 +1,14 @@
 import React, {useState} from 'react';
 
 import {useSubscribe} from '../../common/hooks/useSubscribe';
-import {errorManager} from './ErrorService';
-import {ErrorComponent} from './elements/error-component/ErrorComponent';
+import {ErrorComponent} from './error-component/ErrorComponent';
+import {errorService} from '../../../App';
 
 export const ErrorContainer = () => {
 
     const [state, setState] = useState<IErrorContainerState>({isOpen: false, errorMessage: ''});
 
-    useSubscribe<string>(errorManager.errorChannel, (errorMessage: string) => {
+    useSubscribe<string, string>(errorService.errorChannel, (errorMessage: string) => {
         setState({
             isOpen: true,
             errorMessage

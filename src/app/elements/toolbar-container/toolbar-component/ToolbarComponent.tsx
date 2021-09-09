@@ -4,8 +4,8 @@ import MenuIcon from '@material-ui/icons/Menu';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 
 import './ToolbarComponent.css'
-import {Routs} from '../../../../common/Routs';
 import {useHistory, useLocation} from 'react-router';
+import {Routs} from '../../../common/Routs';
 
 export const ToolbarComponent: FC<IToolbarComponent> = ({pageLabel, onClick}) => {
 

@@ -19,14 +19,17 @@ import {ConfirmDialogContainer} from './app/elements/confirm-dialog/ConfirmDialo
 import {CardsGroupsListContainer} from './app/pages/cards-groups-list/CardsGroupsListContainer';
 import {CardsListContainer} from './app/pages/cards-list/CardsListContainer';
 import {CardRepeaterContainer} from './app/pages/cards-repeater/CardsRepeaterContainer';
+import {SpinnerService} from './app/elements/spinner-container/SpinnerService';
+import {ErrorService} from './app/elements/error-container/ErrorService';
 
 export const AppContext = React.createContext<IAppContext>(defaultAppState);
+
+export const spinnerManager = new SpinnerService();
+export const errorService = new ErrorService();
 
 function App() {
 
     const [appState, setAppState] = useState<IAppContext>(defaultAppState);
-
-    const history = useHistory();
 
     useEffect(() => {
         const height = window.screen.height;

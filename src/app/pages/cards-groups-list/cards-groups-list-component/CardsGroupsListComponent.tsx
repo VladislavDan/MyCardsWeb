@@ -2,7 +2,7 @@ import React, {FC} from "react";
 import List from '@material-ui/core/List';
 
 import {CardsGroup} from '../../../types/CardsGroup';
-import {CardsGroupsListItemComponent} from './elements/CardsGroupsListItemComponent';
+import {CardsGroupsListItemComponent} from './cards-groups-listItem-component/CardsGroupsListItemComponent';
 
 export const CardsGroupsListComponent: FC<ICardsGroupsListComponent> = ({cardsGroups}) => {
 

@@ -1,8 +1,8 @@
 import * as React from 'react';
 import {ReactEventHandler, SyntheticEvent, useState} from 'react';
 
-import {navigationPanelManager} from './NavigationPanelManager';
-import {NavigationPanelComponent} from './elements/NavigationPanelComponent';
+import {navigationPanelService} from './NavigationPanelService';
+import {NavigationPanelComponent} from './navigation-panel-component/NavigationPanelComponent';
 import {useSubscribe} from '../../common/hooks/useSubscribe';
 
 export const NavigationPanelContainer = () => {
@@ -11,7 +11,7 @@ export const NavigationPanelContainer = () => {
         isOpen: false
     });
 
-    useSubscribe<void>(navigationPanelManager.navigationPanelOpenChannel, () => {
+    useSubscribe<string, string>(navigationPanelService.navigationPanelOpenChannel, () => {
         setState({...state, isOpen: true});
     });
 

@@ -1,13 +1,13 @@
-import {Subject} from 'rxjs';
+import {of} from 'rxjs';
 
-class ErrorService {
-    public errorChannel: Subject<string>;
+import {Channel} from '../../common/Channel';
+
+export class ErrorService {
+    public errorChannel: Channel<string, string>;
 
 
     constructor() {
-        this.errorChannel = new Subject<string>();
+        this.errorChannel = new Channel<string, string>((error: string)=> of(error));
     }
 
 }
-
-export const errorManager = new ErrorService();

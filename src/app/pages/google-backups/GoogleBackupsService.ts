@@ -1,24 +1,23 @@
-import {Subject, Observable, throwError, of} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {
-    catchError,
     map,
     switchMap,
     tap
 } from 'rxjs/operators';
-import {ajax} from 'rxjs/ajax';
+import {ajax, AjaxResponse} from 'rxjs/ajax';
 
-import {localStorageManager} from '../../common/managers/LocalStoragService';
-import {spinnerManager} from '../../elements/spinner-container/SpinnerManager';
-import {errorManager} from '../../elements/error-container/ErrorService';
+import {localStorageService} from '../../common/services/LocalStoragService';
 import {GoogleDriveFile} from '../../types/GoogleDriveFile';
 import {CardsGroup} from '../../types/CardsGroup';
+import {Channel} from '../../common/Channel';
+import {spinnerManager} from '../../../App';
 
-class GoogleBackupsManager {
+class GoogleBackupsService {
 
-    public backupsNameLoadChannel;
-    public backupLoadChannel;
-    public backupUploadChannel: any;
-    public backupDeleteChannel: any;
+    public backupsNameLoadChannel: Channel<string, GoogleDriveFile[]>;
+    public backupLoadChannel: Channel<string, GoogleDriveFile[]>;
+    public backupUploadChannel: Channel<string, string>;
+    public backupDeleteChannel: Channel<string, AjaxResponse<string>>;
 
     private backupFileName = 'my-cards.json';
     private backupFolderName = 'my-cards';
@@ -31,9 +30,9 @@ class GoogleBackupsManager {
 
     constructor() {
 
-        this.backupsNameLoadChannel = new Subject<any>().pipe(
+        this.backupsNameLoadChannel = new Channel(() => of('').pipe(
             tap(() => spinnerManager.spinnerCounterChannel.next(1)),
-            switchMap(() => localStorageManager.getAuthToken()),
+            switchMap(() => localStorageService.getAuthToken()),
             switchMap(
                 (authToken: string): Observable<GoogleDriveFile[]> => this.getBackupFiles(authToken)
             ),
@@ -42,53 +41,33 @@ class GoogleBackupsManager {
                     return {...googleDriveFile, createdTime: googleDriveFile.createdTime.slice(0, 10)};
                 });
             }),
-            tap(() => spinnerManager.spinnerCounterChannel.next(-1)),
-            catchError((error: Error) => {
-                spinnerManager.spinnerCounterChannel.next(-1);
-                errorManager.errorChannel.next('Cannot load backups files names');
-                return throwError(error);
-            })
-        ) as Subject<any>;
+            tap(() => spinnerManager.spinnerCounterChannel.next(-1))
+        ));
 
-        this.backupLoadChannel = new Subject<any>().pipe(
+        this.backupLoadChannel = new Channel(() => of('').pipe(
             tap(() => spinnerManager.spinnerCounterChannel.next(1)),
             switchMap((backupID: string): Observable<any> => this.loadBackupFile(backupID)),
             tap(() => spinnerManager.spinnerCounterChannel.next(-1)),
-            catchError((error: Error) => {
-                spinnerManager.spinnerCounterChannel.next(-1);
-                errorManager.errorChannel.next('Cannot load backup file');
-                return throwError(error);
-            })
-        ) as Subject<any>;
+        ));
 
-        this.backupUploadChannel = new Subject().pipe(
+        this.backupUploadChannel = new Channel(() => of('').pipe(
             tap(() => spinnerManager.spinnerCounterChannel.next(1)),
-            switchMap(() => localStorageManager.getAuthToken()),
+            switchMap(() => localStorageService.getAuthToken()),
             switchMap((authToken: string) => this.createNewBackup(authToken)),
-            tap(() => spinnerManager.spinnerCounterChannel.next(-1)),
-            catchError((error: Error) => {
-                spinnerManager.spinnerCounterChannel.next(-1);
-                errorManager.errorChannel.next('Cannot upload backup files');
-                return throwError(error);
-            })
-        );
+            tap(() => spinnerManager.spinnerCounterChannel.next(-1))
+        ));
 
-        this.backupDeleteChannel = new Subject<any>().pipe(
+        this.backupDeleteChannel = new Channel(() => of("").pipe(
             tap(() => spinnerManager.spinnerCounterChannel.next(1)),
             switchMap((fileID: string) => this.deleteBackupFile(fileID)),
             tap(() => {
                 this.backupsNameLoadChannel.next('')
             }),
-            tap(() => spinnerManager.spinnerCounterChannel.next(-1)),
-            catchError((error: Error) => {
-                spinnerManager.spinnerCounterChannel.next(-1);
-                errorManager.errorChannel.next('Cannot delete backup file');
-                return throwError(error);
-            })
-        );
+            tap(() => spinnerManager.spinnerCounterChannel.next(-1))
+        ));
     }
 
-    public createNewBackup(authToken: string) {
+    public createNewBackup(authToken: string): Observable<string> {
         return this.getBackupFolder(authToken)
             .pipe(
                 switchMap((folders: GoogleDriveFile[]) => {
@@ -105,7 +84,7 @@ class GoogleBackupsManager {
                         return this.createBackupFolder(authToken);
                     }
                 }),
-                switchMap((folderId) => {
+                switchMap((folderId: string) => {
                     return this.createNewBackupFile(
                         authToken,
                         folderId
@@ -118,13 +97,13 @@ class GoogleBackupsManager {
                     )
                 }),
                 tap(() => {
-                    return this.backupsNameLoadChannel.next('');
+                    this.backupsNameLoadChannel.next('');
                 })
             );
     }
 
     public getBackupFiles(token: string): Observable<GoogleDriveFile[]> {
-        return ajax(
+        return ajax<{files: GoogleDriveFile[]}>(
             {
                 url: `${this.searchFilesURI}'${this.backupFileName}'`,
                 headers: {
@@ -133,16 +112,16 @@ class GoogleBackupsManager {
                 method: 'GET'
             }
         ).pipe(
-            map((result: any) => {
+            map((result: AjaxResponse<{files: GoogleDriveFile[]}>) => {
                 return result.response.files;
             })
-        ) as Observable<GoogleDriveFile[]>;
+        );
     }
 
-    public loadBackupFile(fileId: string): Observable<any> {
+    public loadBackupFile(fileId: string): Observable<AjaxResponse<CardsGroup[]>> {
         return of('').pipe(
-            switchMap(() => localStorageManager.getAuthToken()),
-            switchMap((authToken: string) => ajax(
+            switchMap(() => localStorageService.getAuthToken()),
+            switchMap((authToken: string) => ajax<CardsGroup[]>(
                 {
                     url: this.googleDriveFilesAPI + fileId + this.getFilesAdditionalPartURI,
                     headers: {
@@ -151,15 +130,15 @@ class GoogleBackupsManager {
                     method: "GET"
                 }
             )),
-            tap((result: any) => {
-                localStorageManager.setBackupToStorage(result.response)
+            tap((result: AjaxResponse<CardsGroup[]>) => {
+                localStorageService.setBackupToStorage(result.response)
             })
         );
     }
 
 
-    public getBackupFolder(token: string): Observable<any> {
-        return ajax(
+    public getBackupFolder(token: string): Observable<GoogleDriveFile[]> {
+        return ajax<{files:GoogleDriveFile[]}>(
             {
                 url: `${this.searchFolderURI}'${this.backupFolderName}'`,
                 headers: {
@@ -168,16 +147,16 @@ class GoogleBackupsManager {
                 method: 'GET'
             }
         ).pipe(
-            map((result: any) => {
+            map((result: AjaxResponse<{files:GoogleDriveFile[]}>) => {
                 return result.response.files;
             })
         );
     }
 
-    public deleteBackupFile(fileId: string): Observable<any> {
+    public deleteBackupFile(fileId: string): Observable<AjaxResponse<string>> {
         return of('').pipe(
-            switchMap(() => localStorageManager.getAuthToken()),
-            switchMap((authToken: string) => ajax(
+            switchMap(() => localStorageService.getAuthToken()),
+            switchMap((authToken: string) => ajax<string>(
                 {
                     url: this.googleDriveFilesAPI + fileId,
                     headers: {
@@ -190,8 +169,8 @@ class GoogleBackupsManager {
         );
     }
 
-    public createNewBackupFile(token: string, id: string): Observable<any> {
-        return ajax(
+    public createNewBackupFile(token: string, id: string): Observable<string> {
+        return ajax<{id:string}>(
             {
                 url: this.googleDriveFilesAPI,
                 headers: {
@@ -205,14 +184,14 @@ class GoogleBackupsManager {
                 method: 'POST'
             }
         ).pipe(
-            map((result: any) => {
+            map((result: AjaxResponse<{id:string}>) => {
                 return result.response.id;
             })
         );
     }
 
-    public createBackupFolder(token: string): Observable<any> {
-        return ajax(
+    public createBackupFolder(token: string): Observable<string> {
+        return ajax<{id:string}>(
             {
                 url: this.googleDriveFilesAPI,
                 headers: {
@@ -226,15 +205,15 @@ class GoogleBackupsManager {
                 method: 'POST'
             }
         ).pipe(
-            map((result: any) => {
+            map((result: AjaxResponse<{id:string}>) => {
                 return result.response.id;
             })
         );
     }
 
-    public uploadBackupFile(token: string, fileId: string): Observable<any> {
+    public uploadBackupFile(token: string, fileId: string): Observable<string> {
         return of('').pipe(
-            switchMap(() => localStorageManager.getBackupFromStorage()),
+            switchMap(() => localStorageService.getBackupFromStorage()),
             switchMap((cardsGroups: CardsGroup[]) => ajax(
                 {
                     url: this.googleDriveUploadAPI + fileId,
@@ -255,4 +234,4 @@ class GoogleBackupsManager {
 
 }
 
-export const googleBackupsManager = new GoogleBackupsManager();
+export const googleBackupsManager = new GoogleBackupsService();

@@ -1,5 +1,5 @@
-import {GoogleDriveFile} from '../../../../types/GoogleDriveFile';
-import {BackupsListItemComponent} from './elements/backups-list-item-component/BackupsListItemComponent';
+import {GoogleDriveFile} from '../../../types/GoogleDriveFile';
+import {BackupsListItemComponent} from './backups-list-item-component/BackupsListItemComponent';
 import {List} from '@material-ui/core';
 import * as React from 'react';
 import {FC} from 'react';

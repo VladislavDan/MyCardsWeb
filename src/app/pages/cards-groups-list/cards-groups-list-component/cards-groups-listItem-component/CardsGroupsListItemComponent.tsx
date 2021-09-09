@@ -6,7 +6,7 @@ import ListItemText from '@material-ui/core/ListItemText/ListItemText';
 
 import {DATE_FORMAT} from '../../../../common/Constants';
 import {CardsGroup} from '../../../../types/CardsGroup';
-import {CircularProgressComponent} from './elements/CircularProgressComponent';
+import {CircularProgressComponent} from './circular-progress-component/CircularProgressComponent';
 import {useHistory} from 'react-router';
 import {Routs} from '../../../../common/Routs';
 

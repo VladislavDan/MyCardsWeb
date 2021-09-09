@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import {ConfirmDialogComponent} from './confirm-dialog-component/ConfirmDialogComponent';
 import {useSubscribe} from '../../common/hooks/useSubscribe';
-import {confirmDialogManager} from './ConfirmDialogService';
+import {confirmDialogService} from './ConfirmDialogService';
 
 export const ConfirmDialogContainer = () => {
 
@@ -11,8 +11,8 @@ export const ConfirmDialogContainer = () => {
         message: ''
     });
 
-    useSubscribe<ConfirmDialogContainerState>(
-        confirmDialogManager.openDialogChannel,
+    useSubscribe<ConfirmDialogContainerState, ConfirmDialogContainerState>(
+        confirmDialogService.openDialogChannel,
         (state: ConfirmDialogContainerState) => {
             setState({...state});
         }
@@ -23,11 +23,11 @@ export const ConfirmDialogContainer = () => {
     };
 
     const onClickAgree = () => {
-        confirmDialogManager.confirmationChannel.next(true);
+        confirmDialogService.confirmationChannel.next(true);
     };
 
     const onClickDisagree = () => {
-        confirmDialogManager.confirmationChannel.next(false);
+        confirmDialogService.confirmationChannel.next(false);
     };
 
     return <ConfirmDialogComponent

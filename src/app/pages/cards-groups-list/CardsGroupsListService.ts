@@ -1,20 +1,20 @@
-import {Subject, throwError} from 'rxjs';
+import {Subject, throwError, of} from 'rxjs';
 import {catchError, map, switchMap} from 'rxjs/operators';
 
-import {localStorageManager} from '../../common/managers/LocalStoragService';
+import {localStorageService} from '../../common/services/LocalStoragService';
 import {CardsGroup} from '../../types/CardsGroup';
-import {errorManager} from '../../elements/error-container/ErrorService';
 import {ICard} from '../../types/ICard';
 import {RangeOfKnowledge} from '../../types/RangeOfKnowledge';
+import {Channel} from '../../common/Channel';
 
-class CardsGroupsListManager {
-    public groupsListChannel: Subject<any>;
+class CardsGroupsListService {
+    public groupsListChannel: Channel<string, CardsGroup[]>;
 
 
     constructor() {
-        this.groupsListChannel = new Subject<any>().pipe(
+        this.groupsListChannel = new Channel(() => of('').pipe(
             switchMap(() => {
-                return localStorageManager.getBackupFromStorage();
+                return localStorageService.getBackupFromStorage();
             }),
             map((cardsGroups: CardsGroup[]) => {
                 cardsGroups.map((cardsGroup: CardsGroup) => {
@@ -50,13 +50,9 @@ class CardsGroupsListManager {
                     return cardsGroup;
                 });
                 return cardsGroups;
-            }),
-            catchError((error: Error) => {
-                errorManager.errorChannel.next('Cannot load files from local storage');
-                return throwError(error);
             })
-        ) as Subject<any>;
+        ));
     }
 }
 
-export const cardsGroupsListManager = new CardsGroupsListManager();
+export const cardsGroupsListManager = new CardsGroupsListService();

@@ -3,13 +3,13 @@ import React, {useState} from 'react';
 import {ICard} from '../../types/ICard';
 import {CardsListComponent} from './cards-list-component/CardsListComponent';
 import {useSubscribe} from '../../common/hooks/useSubscribe';
-import {cardsListManager} from './CardsListManager';
+import {cardsListManager} from './CardsListService';
 import {useLocation} from 'react-router';
 import {useFirstRender} from '../../common/hooks/useFirstRender';
 
 export const CardsListContainer = () => {
 
-    const location = useLocation();
+    const location = useLocation<string>();
 
     const [state, setState] = useState<CardsListContainerState>({cards: []});
 

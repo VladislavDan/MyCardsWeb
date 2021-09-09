@@ -46,4 +46,4 @@ class LocalStorageManager {
     }
 }
 
-export const localStorageManager = new LocalStorageManager();
+export const localStorageService = new LocalStorageManager();

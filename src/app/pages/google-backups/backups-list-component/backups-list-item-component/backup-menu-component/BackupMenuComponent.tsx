@@ -6,7 +6,7 @@ import {
 } from '@material-ui/core';
 import {default as React, FC} from 'react';
 
-import {googleBackupsManager} from '../../../../../../GoogleBackupsManager';
+import {googleBackupsManager} from '../../../GoogleBackupsService';
 
 export const BackupMenuComponent: FC<IBackupMenuComponent> = ({backupID}) => {
 

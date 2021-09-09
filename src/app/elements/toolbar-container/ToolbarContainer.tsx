@@ -3,8 +3,8 @@ import * as H from 'history';
 import {useLocation} from 'react-router-dom';
 
 import {toolbarManager} from './ToolbarService';
-import {ToolbarComponent} from './elements/toolbar-component/ToolbarComponent';
-import {navigationPanelManager} from '../navigation-panel-container/NavigationPanelManager';
+import {ToolbarComponent} from './toolbar-component/ToolbarComponent';
+import {navigationPanelService} from '../navigation-panel-container/NavigationPanelService';
 
 export const ToolbarContainer = (): ReactElement => {
 
@@ -17,7 +17,7 @@ export const ToolbarContainer = (): ReactElement => {
     });
 
     const onClick = () => {
-        navigationPanelManager.navigationPanelOpenChannel.next();
+        navigationPanelService.navigationPanelOpenChannel.next('');
     };
 
     return (

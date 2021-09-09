@@ -1,20 +1,20 @@
-import {Subject} from 'rxjs';
+import {Subject, of} from 'rxjs';
 import {map} from 'rxjs/operators';
 
-class SpinnerManager {
+import {Channel} from '../../common/Channel';
 
-    public spinnerCounterChannel: Subject<number>;
+export class SpinnerService {
+
+    public spinnerCounterChannel: Channel<number, number>;
 
     private spinnerCounter = 0;
 
     constructor() {
-        this.spinnerCounterChannel = new Subject<number>().pipe(map((difference: number) => {
+        this.spinnerCounterChannel = new Channel((difference: number) => of('').pipe(map(() => {
             if(this.spinnerCounter + difference >= 0) {
                 this.spinnerCounter = this.spinnerCounter + difference;
             }
             return this.spinnerCounter;
-        })) as Subject<number>
+        })))
     }
 }
-
-export const spinnerManager = new SpinnerManager();
