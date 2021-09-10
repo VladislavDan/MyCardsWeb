@@ -2,10 +2,10 @@ import React, {useState} from 'react';
 
 import {ICard} from '../../types/ICard';
 import {CardsListComponent} from './cards-list-component/CardsListComponent';
-import {useSubscribe} from '../../common/hooks/useSubscribe';
+import {useObservable} from '../../common/hooks/useObservable';
 import {cardsListManager} from './CardsListService';
 import {useLocation} from 'react-router';
-import {useFirstRender} from '../../common/hooks/useFirstRender';
+import {useConstructor} from '../../common/hooks/useConstructor';
 
 export const CardsListContainer = () => {
 
@@ -13,13 +13,13 @@ export const CardsListContainer = () => {
 
     const [state, setState] = useState<CardsListContainerState>({cards: []});
 
-    useSubscribe(cardsListManager.cardsChannel, (cards: ICard[]) => {
+    useObservable(cardsListManager.cardsChannel, (cards: ICard[]) => {
         setState({
             cards: cards
         });
     });
 
-    useFirstRender(() => {
+    useConstructor(() => {
         cardsListManager.cardsChannel.next(location.state)
     });
 

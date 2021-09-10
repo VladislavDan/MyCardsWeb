@@ -15,7 +15,7 @@ import {spinnerManager} from '../../../App';
 class GoogleBackupsService {
 
     public backupsNameLoadChannel: Channel<string, GoogleDriveFile[]>;
-    public backupLoadChannel: Channel<string, GoogleDriveFile[]>;
+    public backupLoadChannel: Channel<string, CardsGroup[]>;
     public backupUploadChannel: Channel<string, string>;
     public backupDeleteChannel: Channel<string, AjaxResponse<string>>;
 
@@ -44,9 +44,9 @@ class GoogleBackupsService {
             tap(() => spinnerManager.spinnerCounterChannel.next(-1))
         ));
 
-        this.backupLoadChannel = new Channel(() => of('').pipe(
+        this.backupLoadChannel = new Channel((backupID: string) => of('').pipe(
             tap(() => spinnerManager.spinnerCounterChannel.next(1)),
-            switchMap((backupID: string): Observable<any> => this.loadBackupFile(backupID)),
+            switchMap((): Observable<CardsGroup[]> => this.loadBackupFile(backupID)),
             tap(() => spinnerManager.spinnerCounterChannel.next(-1)),
         ));
 
@@ -118,7 +118,7 @@ class GoogleBackupsService {
         );
     }
 
-    public loadBackupFile(fileId: string): Observable<AjaxResponse<CardsGroup[]>> {
+    public loadBackupFile(fileId: string): Observable<CardsGroup[]> {
         return of('').pipe(
             switchMap(() => localStorageService.getAuthToken()),
             switchMap((authToken: string) => ajax<CardsGroup[]>(
@@ -130,8 +130,9 @@ class GoogleBackupsService {
                     method: "GET"
                 }
             )),
-            tap((result: AjaxResponse<CardsGroup[]>) => {
-                localStorageService.setBackupToStorage(result.response)
+            map((result: AjaxResponse<CardsGroup[]>) => {
+                localStorageService.setBackupToStorage(result.response);
+                return result.response;
             })
         );
     }

@@ -3,7 +3,7 @@ import {ReactEventHandler, SyntheticEvent, useState} from 'react';
 
 import {navigationPanelService} from './NavigationPanelService';
 import {NavigationPanelComponent} from './navigation-panel-component/NavigationPanelComponent';
-import {useSubscribe} from '../../common/hooks/useSubscribe';
+import {useObservable} from '../../common/hooks/useObservable';
 
 export const NavigationPanelContainer = () => {
 
@@ -11,7 +11,7 @@ export const NavigationPanelContainer = () => {
         isOpen: false
     });
 
-    useSubscribe<string, string>(navigationPanelService.navigationPanelOpenChannel, () => {
+    useObservable<string, string>(navigationPanelService.navigationPanelOpenChannel, () => {
         setState({...state, isOpen: true});
     });
 

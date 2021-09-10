@@ -1,13 +1,14 @@
 import * as React from 'react';
 import {useEffect, useState} from 'react';
 
-import {useSubscribe} from '../../common/hooks/useSubscribe';
+import {useObservable} from '../../common/hooks/useObservable';
 import {googleBackupsManager} from './GoogleBackupsService';
 import {GoogleDriveFile} from '../../types/GoogleDriveFile';
 import {BackupsListComponent} from './backups-list-component/BackupsListComponent';
 import {useHistory} from 'react-router';
 import {Routs} from '../../common/Routs';
 import {spinnerManager} from '../../../App';
+import {useConstructor} from '../../common/hooks/useConstructor';
 
 export const GoogleBackupsContainer = () => {
 
@@ -17,7 +18,7 @@ export const GoogleBackupsContainer = () => {
         backupsFiles: []
     });
 
-    useSubscribe(
+    useObservable(
         googleBackupsManager.backupsNameLoadChannel,
         (backupsFiles: GoogleDriveFile[]) => {
             setState({...state, backupsFiles: backupsFiles});
@@ -28,7 +29,7 @@ export const GoogleBackupsContainer = () => {
         }
     );
 
-    useSubscribe(
+    useObservable(
         googleBackupsManager.backupLoadChannel,
         () => {
             spinnerManager.spinnerCounterChannel.next(-1);
@@ -38,10 +39,8 @@ export const GoogleBackupsContainer = () => {
         }
     );
 
-    useEffect(() => {
-        if (!state.backupsFiles.length) {
-            googleBackupsManager.backupsNameLoadChannel.next('');
-        }
+    useConstructor(() => {
+        googleBackupsManager.backupsNameLoadChannel.next('');
     });
 
     return <BackupsListComponent backupsFiles={state.backupsFiles}/>;

@@ -2,14 +2,14 @@ import {useState} from 'react';
 import * as React from 'react';
 
 import {SpinnerComponent} from './spinner-component/SpinnerComponent';
-import {useSubscribe} from '../../common/hooks/useSubscribe';
+import {useObservable} from '../../common/hooks/useObservable';
 import {spinnerManager} from '../../../App';
 
 export const SpinnerContainer = () => {
 
     const [isShow, setShowing] = useState(false);
 
-    useSubscribe<number, number>(spinnerManager.spinnerCounterChannel, (spinnerCounter) => {
+    useObservable<number, number>(spinnerManager.spinnerCounterChannel, (spinnerCounter) => {
         setShowing(spinnerCounter !== 0);
     });
 

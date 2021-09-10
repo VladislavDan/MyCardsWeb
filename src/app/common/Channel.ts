@@ -14,7 +14,9 @@ export class Channel<A, D> {
     }
 
     next(value: A) {
-        this.subscriptions.push(this.observableCreator(value).subscribe(this.outputSubject));
+        this.subscriptions.push(this.observableCreator(value).subscribe((value) => {
+            this.outputSubject.next(value);
+        }));
     }
 
     subscribe(next: (data: D) => void, additionalErrorHandler?: (error: Error) => void): Subscription {
