@@ -21,6 +21,11 @@ export const Routs = {
 
     cardsRepeater: {
         path: '/cards-repeater',
-        name: 'Card'
+        name: 'Repeat Card'
+    },
+
+    cardsEditor: {
+        path: '/cards-editor',
+        name: 'Edit Card'
     }
 };

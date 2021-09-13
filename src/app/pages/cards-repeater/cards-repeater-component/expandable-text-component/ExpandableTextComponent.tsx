@@ -21,7 +21,7 @@ export const ExpandableTextComponent: FC<IExpandableTextComponent> = ({text, onC
     };
 
     return <>
-        <Typography color="textSecondary" gutterBottom onClick={onClickText}>
+        <Typography color="textSecondary" gutterBottom onClick={onClickText} style={{whiteSpace: 'pre-wrap'}}>
             {getText()}
         </Typography>
         {text.length > 400 ? state.isExpanded ? <Button variant="contained" color="primary" onClick={onShowMore} style={{marginBottom:'30px', width: '100%'}}>

@@ -10,6 +10,7 @@ import {Button} from '@material-ui/core';
 import {Routs} from '../../common/Routs';
 import {IRepeatingArgs} from '../../types/IRepeatingArgs';
 import {CardsGroup} from '../../types/CardsGroup';
+import {IStatistic} from '../../types/IStatistic';
 
 export const CardRepeaterContainer = () => {
 
@@ -17,10 +18,18 @@ export const CardRepeaterContainer = () => {
 
     const history = useHistory();
 
+    const defaultStatisticValue = {
+        inProgress: 0,
+        todo: 0,
+        done: 0
+    };
+
     const [state, setState] = useState<CardRepeaterContainerState>({
         card: undefined,
         isQuestionSide: true
     });
+
+    const [statistic, setStatistic] = useState<IStatistic>(defaultStatisticValue);
 
     useObservable<string, ICard | undefined>(cardsRepeaterManager.cardChannel, (card: ICard | undefined) => {
         setState({
@@ -29,12 +38,18 @@ export const CardRepeaterContainer = () => {
         });
     });
 
+    useObservable<string, IStatistic>(cardsRepeaterManager.statisticChannel, (statistic: IStatistic) => {
+        setStatistic(statistic)
+    });
+
     useObservable<IRepeatingArgs, CardsGroup[]>(cardsRepeaterManager.repeatingResultChannel, () => {
         cardsRepeaterManager.cardChannel.next(location.state);
+        cardsRepeaterManager.statisticChannel.next(location.state);
     });
 
     useConstructor(() => {
         cardsRepeaterManager.cardChannel.next(location.state);
+        cardsRepeaterManager.statisticChannel.next(location.state);
     });
 
     const onClick = (isKnown: boolean) => {
@@ -61,7 +76,13 @@ export const CardRepeaterContainer = () => {
     };
 
     return state.card ?
-        <CardsRepeaterComponent isQuestionSide={state.isQuestionSide} onClickCard={onClickCard} onClick={onClick} card={state.card}/> :
+        <CardsRepeaterComponent
+            isQuestionSide={state.isQuestionSide}
+            onClickCard={onClickCard}
+            onClick={onClick}
+            card={state.card}
+            statistic={statistic}
+        /> :
         <>
             <span>All cards repeated</span>
             <Button size="small" color="primary" onClick={() => history.replace(Routs.cardsGroups.path)}>

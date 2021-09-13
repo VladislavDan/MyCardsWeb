@@ -9,21 +9,13 @@ import {ICard} from '../../../types/ICard';
 import "./CardsRepeaterComponent.css"
 import {Button, CardActions, List} from '@material-ui/core';
 import {ExpandableTextComponent} from './expandable-text-component/ExpandableTextComponent';
+import {IStatistic} from '../../../types/IStatistic';
+import {RepeatingStatisticComponent} from './repeating-statistic-component/RepeatingStatisticComponent';
 
-export const CardsRepeaterComponent: FC<ICardsRepeaterComponent> = ({card, isQuestionSide, onClickCard, onClick}) => {
+export const CardsRepeaterComponent: FC<ICardsRepeaterComponent> = ({card, isQuestionSide, onClickCard, onClick, statistic}) => {
 
     return <div className="cards-repeater">
-        <div>
-            <Button size="small">
-                <span style={{color: "green"}}>Completed: 5</span>
-            </Button>
-            <Button size="small">
-                <span style={{color: "orange"}}>In progress: 6</span>
-            </Button>
-            <Button size="small">
-                <span style={{color: "red"}}>To Do: 7</span>
-            </Button>
-        </div>
+        <RepeatingStatisticComponent statistic={statistic}/>
         {isQuestionSide ? <Card>
             <CardContent onClick={onClickCard}>
                 <Typography gutterBottom variant="h5" component="h2">
@@ -58,4 +50,5 @@ interface ICardsRepeaterComponent {
     onClick: (isUnderstandable: boolean) => void
     isQuestionSide: boolean,
     onClickCard: () => void
+    statistic: IStatistic
 }

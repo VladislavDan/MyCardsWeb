@@ -2,6 +2,7 @@ import {FC, MouseEventHandler} from 'react';
 import {AppBar, IconButton, Toolbar, Typography} from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
+import EditIcon from '@material-ui/icons/Edit';
 
 import './ToolbarComponent.css'
 import {useHistory, useLocation} from 'react-router';
@@ -14,7 +15,7 @@ export const ToolbarComponent: FC<IToolbarComponent> = ({pageLabel, onClick}) =>
 
     const onOpenRepeater = () => {
 
-        if(pageLabel === Routs.cards.name) {
+        if (pageLabel === Routs.cards.name) {
             history.push({
                 pathname: Routs.cardsRepeater.path,
                 state: location.state
@@ -28,17 +29,29 @@ export const ToolbarComponent: FC<IToolbarComponent> = ({pageLabel, onClick}) =>
 
     };
 
+    const onOpenEditor = () => {
+        history.push({
+            pathname: Routs.cardsEditor.path,
+            state: location.state
+        })
+    };
+
     return (
         <AppBar position="fixed">
             <Toolbar className="toolbar">
-                <IconButton className="toolbar_menu-icon" edge="start" color="inherit" aria-label="menu" onClick={onClick}>
+                <IconButton className="toolbar_menu-icon" edge="start" color="inherit" aria-label="menu"
+                            onClick={onClick}>
                     <MenuIcon/>
                 </IconButton>
                 <Typography className="toolbar_label" variant="h6">
                     {pageLabel}
                 </Typography>
-                {pageLabel === Routs.cards.name || pageLabel === Routs.cardsGroups.name ? <IconButton color="inherit" onClick={onOpenRepeater}>
-                    <PlayArrowIcon/>
+                {pageLabel === Routs.cards.name || pageLabel === Routs.cardsGroups.name ?
+                    <IconButton color="inherit" onClick={onOpenRepeater}>
+                        <PlayArrowIcon/>
+                    </IconButton> : null}
+                {pageLabel === Routs.cardsRepeater.name ? <IconButton color="inherit" onClick={onOpenEditor}>
+                    <EditIcon/>
                 </IconButton> : null}
             </Toolbar>
         </AppBar>
