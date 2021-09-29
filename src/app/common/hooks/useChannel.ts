@@ -3,7 +3,7 @@ import {Subscription,Subject} from 'rxjs';
 
 import {Channel} from '../Channel';
 
-export const useObservable = <A, D>(channel: Channel<A, D>, next: (value: D) => void, error?: (error: Error) => void) => {
+export const useChannel = <A, D>(channel: Channel<A, D>, next: (value: D) => void, error?: (error: Error) => void) => {
     const [state, setState] = useState<{ subscription: Subscription | null }>({
         subscription: null
     });

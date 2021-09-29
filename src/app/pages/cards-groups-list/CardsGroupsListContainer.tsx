@@ -1,9 +1,9 @@
 import React, {useState} from "react";
 
 import {CardsGroupsListComponent} from './cards-groups-list-component/CardsGroupsListComponent';
-import {useObservable} from '../../common/hooks/useObservable';
+import {useChannel} from '../../common/hooks/useChannel';
 import {cardsGroupsListManager} from './CardsGroupsListService';
-import {CardsGroup} from '../../types/CardsGroup';
+import {ICardsGroup} from '../../types/ICardsGroup';
 import {useConstructor} from '../../common/hooks/useConstructor';
 import {string} from 'prop-types';
 
@@ -11,7 +11,7 @@ export const CardsGroupsListContainer = () => {
 
     const [state, setState] = useState<CardsGroupsListContainerState>({cardsGroups: []});
 
-    useObservable<string, CardsGroup[]>(cardsGroupsListManager.groupsListChannel, (cardsGroups: CardsGroup[]) => {
+    useChannel<string, ICardsGroup[]>(cardsGroupsListManager.groupsListChannel, (cardsGroups: ICardsGroup[]) => {
         setState({cardsGroups: cardsGroups})
     });
 
@@ -23,5 +23,5 @@ export const CardsGroupsListContainer = () => {
 };
 
 interface CardsGroupsListContainerState {
-    cardsGroups: CardsGroup[];
+    cardsGroups: ICardsGroup[];
 }

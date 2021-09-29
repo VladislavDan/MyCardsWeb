@@ -23,6 +23,10 @@ class ToolbarService {
             return Routs.cardsRepeater.name;
         }
 
+        if(path === Routs.localBackups.path) {
+            return Routs.localBackups.name;
+        }
+
         return 'My Cards'
     }
 }

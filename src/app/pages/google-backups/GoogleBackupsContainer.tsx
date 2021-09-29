@@ -1,9 +1,9 @@
 import * as React from 'react';
 import {useEffect, useState} from 'react';
 
-import {useObservable} from '../../common/hooks/useObservable';
+import {useChannel} from '../../common/hooks/useChannel';
 import {googleBackupsManager} from './GoogleBackupsService';
-import {GoogleDriveFile} from '../../types/GoogleDriveFile';
+import {IGoogleDriveFile} from '../../types/IGoogleDriveFile';
 import {BackupsListComponent} from './backups-list-component/BackupsListComponent';
 import {useHistory} from 'react-router';
 import {Routs} from '../../common/Routs';
@@ -18,9 +18,9 @@ export const GoogleBackupsContainer = () => {
         backupsFiles: []
     });
 
-    useObservable(
+    useChannel(
         googleBackupsManager.backupsNameLoadChannel,
-        (backupsFiles: GoogleDriveFile[]) => {
+        (backupsFiles: IGoogleDriveFile[]) => {
             setState({...state, backupsFiles: backupsFiles});
             spinnerManager.spinnerCounterChannel.next(-1);
         },
@@ -29,7 +29,7 @@ export const GoogleBackupsContainer = () => {
         }
     );
 
-    useObservable(
+    useChannel(
         googleBackupsManager.backupLoadChannel,
         () => {
             spinnerManager.spinnerCounterChannel.next(-1);
@@ -47,5 +47,5 @@ export const GoogleBackupsContainer = () => {
 };
 
 interface GoogleAuthComponentState {
-    backupsFiles: GoogleDriveFile[];
+    backupsFiles: IGoogleDriveFile[];
 }

@@ -5,7 +5,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText/ListItemText';
 
 import {DATE_FORMAT} from '../../../../common/Constants';
-import {CardsGroup} from '../../../../types/CardsGroup';
+import {ICardsGroup} from '../../../../types/ICardsGroup';
 import {CircularProgressComponent} from './circular-progress-component/CircularProgressComponent';
 import {useHistory} from 'react-router';
 import {Routs} from '../../../../common/Routs';
@@ -36,5 +36,5 @@ export const CardsGroupsListItemComponent: FC<ICardsGroupsListItemComponent> = (
 
 interface ICardsGroupsListItemComponent {
 
-    cardsGroup: CardsGroup;
+    cardsGroup: ICardsGroup;
 }

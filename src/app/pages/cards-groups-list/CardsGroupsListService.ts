@@ -2,13 +2,13 @@ import {Subject, throwError, of} from 'rxjs';
 import {catchError, map, switchMap} from 'rxjs/operators';
 
 import {localStorageService} from '../../common/services/LocalStoragService';
-import {CardsGroup} from '../../types/CardsGroup';
+import {ICardsGroup} from '../../types/ICardsGroup';
 import {ICard} from '../../types/ICard';
-import {RangeOfKnowledge} from '../../types/RangeOfKnowledge';
+import {IRangeOfKnowledge} from '../../types/IRangeOfKnowledge';
 import {Channel} from '../../common/Channel';
 
 class CardsGroupsListService {
-    public groupsListChannel: Channel<string, CardsGroup[]>;
+    public groupsListChannel: Channel<string, ICardsGroup[]>;
 
 
     constructor() {
@@ -16,8 +16,8 @@ class CardsGroupsListService {
             switchMap(() => {
                 return localStorageService.getBackupFromStorage();
             }),
-            map((cardsGroups: CardsGroup[]) => {
-                cardsGroups.map((cardsGroup: CardsGroup) => {
+            map((cardsGroups: ICardsGroup[]) => {
+                cardsGroups.map((cardsGroup: ICardsGroup) => {
                     let dateRepeating = 0;
                     cardsGroup.cards.forEach((card: ICard) => {
                         if(card.dateRepeating > dateRepeating) {
@@ -29,8 +29,8 @@ class CardsGroupsListService {
                 });
                 return cardsGroups;
             }),
-            map((cardsGroups: CardsGroup[]) => {
-                return cardsGroups.sort((firstCardGroup: CardsGroup, secondCardsGroup: CardsGroup) => {
+            map((cardsGroups: ICardsGroup[]) => {
+                return cardsGroups.sort((firstCardGroup: ICardsGroup, secondCardsGroup: ICardsGroup) => {
                     if(firstCardGroup.dateRepeating && secondCardsGroup.dateRepeating) {
                         return secondCardsGroup.dateRepeating - firstCardGroup.dateRepeating;
                     } else {
@@ -38,11 +38,11 @@ class CardsGroupsListService {
                     }
                 })
             }),
-            map((cardsGroups: CardsGroup[]) => {
-                cardsGroups.map((cardsGroup: CardsGroup) => {
+            map((cardsGroups: ICardsGroup[]) => {
+                cardsGroups.map((cardsGroup: ICardsGroup) => {
                     let statusDone = 0;
                     cardsGroup.cards.forEach((card: ICard) => {
-                        if(card.rangeOfKnowledge === RangeOfKnowledge.DONE) {
+                        if(card.rangeOfKnowledge === IRangeOfKnowledge.DONE) {
                             statusDone++
                         }
                     });

@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import {ConfirmDialogComponent} from './confirm-dialog-component/ConfirmDialogComponent';
-import {useObservable} from '../../common/hooks/useObservable';
+import {useChannel} from '../../common/hooks/useChannel';
 import {confirmDialogService} from './ConfirmDialogService';
 
 export const ConfirmDialogContainer = () => {
@@ -11,7 +11,7 @@ export const ConfirmDialogContainer = () => {
         message: ''
     });
 
-    useObservable<ConfirmDialogContainerState, ConfirmDialogContainerState>(
+    useChannel<ConfirmDialogContainerState, ConfirmDialogContainerState>(
         confirmDialogService.openDialogChannel,
         (state: ConfirmDialogContainerState) => {
             setState({...state});

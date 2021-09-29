@@ -3,7 +3,7 @@ import {GoogleLoginResponse, GoogleLoginResponseOffline} from 'react-google-logi
 import {useHistory} from 'react-router';
 
 import {Routs} from '../../common/Routs';
-import {useObservable} from '../../common/hooks/useObservable';
+import {useChannel} from '../../common/hooks/useChannel';
 import {googleAuthService} from './GoogleAuthService';
 import {GoogleAuthComponent} from './google-auth-component/GoogleAuthComponent';
 import {IAppContext} from '../../types/IAppContext';
@@ -13,7 +13,7 @@ export const GoogleAuthContainer = () => {
 
     const history = useHistory();
 
-    useObservable(googleAuthService.loginChannel, ()=> {
+    useChannel(googleAuthService.loginChannel, ()=> {
         history.replace(Routs.googleBackups.path);
     });
 

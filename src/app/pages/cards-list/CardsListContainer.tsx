@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 
 import {ICard} from '../../types/ICard';
 import {CardsListComponent} from './cards-list-component/CardsListComponent';
-import {useObservable} from '../../common/hooks/useObservable';
+import {useChannel} from '../../common/hooks/useChannel';
 import {cardsListManager} from './CardsListService';
 import {useLocation} from 'react-router';
 import {useConstructor} from '../../common/hooks/useConstructor';
@@ -13,7 +13,7 @@ export const CardsListContainer = () => {
 
     const [state, setState] = useState<CardsListContainerState>({cards: []});
 
-    useObservable(cardsListManager.cardsChannel, (cards: ICard[]) => {
+    useChannel(cardsListManager.cardsChannel, (cards: ICard[]) => {
         setState({
             cards: cards
         });

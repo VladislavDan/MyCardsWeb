@@ -7,15 +7,15 @@ import {
 import {ajax, AjaxResponse} from 'rxjs/ajax';
 
 import {localStorageService} from '../../common/services/LocalStoragService';
-import {GoogleDriveFile} from '../../types/GoogleDriveFile';
-import {CardsGroup} from '../../types/CardsGroup';
+import {IGoogleDriveFile} from '../../types/IGoogleDriveFile';
+import {ICardsGroup} from '../../types/ICardsGroup';
 import {Channel} from '../../common/Channel';
 import {spinnerManager} from '../../../App';
 
 class GoogleBackupsService {
 
-    public backupsNameLoadChannel: Channel<string, GoogleDriveFile[]>;
-    public backupLoadChannel: Channel<string, CardsGroup[]>;
+    public backupsNameLoadChannel: Channel<string, IGoogleDriveFile[]>;
+    public backupLoadChannel: Channel<string, ICardsGroup[]>;
     public backupUploadChannel: Channel<string, string>;
     public backupDeleteChannel: Channel<string, AjaxResponse<string>>;
 
@@ -34,10 +34,10 @@ class GoogleBackupsService {
             tap(() => spinnerManager.spinnerCounterChannel.next(1)),
             switchMap(() => localStorageService.getAuthToken()),
             switchMap(
-                (authToken: string): Observable<GoogleDriveFile[]> => this.getBackupFiles(authToken)
+                (authToken: string): Observable<IGoogleDriveFile[]> => this.getBackupFiles(authToken)
             ),
-            map((googleDriveFiles: GoogleDriveFile[]) => {
-                return googleDriveFiles.map((googleDriveFile: GoogleDriveFile) => {
+            map((googleDriveFiles: IGoogleDriveFile[]) => {
+                return googleDriveFiles.map((googleDriveFile: IGoogleDriveFile) => {
                     return {...googleDriveFile, createdTime: googleDriveFile.createdTime.slice(0, 10)};
                 });
             }),
@@ -46,7 +46,7 @@ class GoogleBackupsService {
 
         this.backupLoadChannel = new Channel((backupID: string) => of('').pipe(
             tap(() => spinnerManager.spinnerCounterChannel.next(1)),
-            switchMap((): Observable<CardsGroup[]> => this.loadBackupFile(backupID)),
+            switchMap((): Observable<ICardsGroup[]> => this.loadBackupFile(backupID)),
             tap(() => spinnerManager.spinnerCounterChannel.next(-1)),
         ));
 
@@ -70,7 +70,7 @@ class GoogleBackupsService {
     public createNewBackup(authToken: string): Observable<string> {
         return this.getBackupFolder(authToken)
             .pipe(
-                switchMap((folders: GoogleDriveFile[]) => {
+                switchMap((folders: IGoogleDriveFile[]) => {
                     if (folders) {
                         let foundedFolder = folders.find((file) => {
                             return file.mimeType === this.googleDriveFolderType
@@ -102,8 +102,8 @@ class GoogleBackupsService {
             );
     }
 
-    public getBackupFiles(token: string): Observable<GoogleDriveFile[]> {
-        return ajax<{files: GoogleDriveFile[]}>(
+    public getBackupFiles(token: string): Observable<IGoogleDriveFile[]> {
+        return ajax<{files: IGoogleDriveFile[]}>(
             {
                 url: `${this.searchFilesURI}'${this.backupFileName}'`,
                 headers: {
@@ -112,16 +112,16 @@ class GoogleBackupsService {
                 method: 'GET'
             }
         ).pipe(
-            map((result: AjaxResponse<{files: GoogleDriveFile[]}>) => {
+            map((result: AjaxResponse<{files: IGoogleDriveFile[]}>) => {
                 return result.response.files;
             })
         );
     }
 
-    public loadBackupFile(fileId: string): Observable<CardsGroup[]> {
+    public loadBackupFile(fileId: string): Observable<ICardsGroup[]> {
         return of('').pipe(
             switchMap(() => localStorageService.getAuthToken()),
-            switchMap((authToken: string) => ajax<CardsGroup[]>(
+            switchMap((authToken: string) => ajax<ICardsGroup[]>(
                 {
                     url: this.googleDriveFilesAPI + fileId + this.getFilesAdditionalPartURI,
                     headers: {
@@ -130,7 +130,7 @@ class GoogleBackupsService {
                     method: "GET"
                 }
             )),
-            map((result: AjaxResponse<CardsGroup[]>) => {
+            map((result: AjaxResponse<ICardsGroup[]>) => {
                 localStorageService.setBackupToStorage(result.response);
                 return result.response;
             })
@@ -138,8 +138,8 @@ class GoogleBackupsService {
     }
 
 
-    public getBackupFolder(token: string): Observable<GoogleDriveFile[]> {
-        return ajax<{files:GoogleDriveFile[]}>(
+    public getBackupFolder(token: string): Observable<IGoogleDriveFile[]> {
+        return ajax<{files:IGoogleDriveFile[]}>(
             {
                 url: `${this.searchFolderURI}'${this.backupFolderName}'`,
                 headers: {
@@ -148,7 +148,7 @@ class GoogleBackupsService {
                 method: 'GET'
             }
         ).pipe(
-            map((result: AjaxResponse<{files:GoogleDriveFile[]}>) => {
+            map((result: AjaxResponse<{files:IGoogleDriveFile[]}>) => {
                 return result.response.files;
             })
         );
@@ -215,7 +215,7 @@ class GoogleBackupsService {
     public uploadBackupFile(token: string, fileId: string): Observable<string> {
         return of('').pipe(
             switchMap(() => localStorageService.getBackupFromStorage()),
-            switchMap((cardsGroups: CardsGroup[]) => ajax(
+            switchMap((cardsGroups: ICardsGroup[]) => ajax(
                 {
                     url: this.googleDriveUploadAPI + fileId,
                     headers: {

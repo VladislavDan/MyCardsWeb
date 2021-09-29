@@ -1,6 +1,6 @@
 import {ICard} from './ICard';
 
-export interface CardsGroup {
+export interface ICardsGroup {
     nameCardsGroup: string;
     id: string;
     percentRepeatedCards?: number;

@@ -1,7 +1,7 @@
 import {useHistory, useLocation} from 'react-router';
 import React, {useState} from 'react';
 
-import {useObservable} from '../../common/hooks/useObservable';
+import {useChannel} from '../../common/hooks/useChannel';
 import {ICard} from '../../types/ICard';
 import {useConstructor} from '../../common/hooks/useConstructor';
 import {cardsRepeaterManager} from './CardsRepeaterService';
@@ -9,7 +9,7 @@ import {CardsRepeaterComponent} from './cards-repeater-component/CardsRepeterCom
 import {Button} from '@material-ui/core';
 import {Routs} from '../../common/Routs';
 import {IRepeatingArgs} from '../../types/IRepeatingArgs';
-import {CardsGroup} from '../../types/CardsGroup';
+import {ICardsGroup} from '../../types/ICardsGroup';
 import {IStatistic} from '../../types/IStatistic';
 
 export const CardRepeaterContainer = () => {
@@ -31,18 +31,18 @@ export const CardRepeaterContainer = () => {
 
     const [statistic, setStatistic] = useState<IStatistic>(defaultStatisticValue);
 
-    useObservable<string, ICard | undefined>(cardsRepeaterManager.cardChannel, (card: ICard | undefined) => {
+    useChannel<string, ICard | undefined>(cardsRepeaterManager.cardChannel, (card: ICard | undefined) => {
         setState({
             card: card,
             isQuestionSide: true
         });
     });
 
-    useObservable<string, IStatistic>(cardsRepeaterManager.statisticChannel, (statistic: IStatistic) => {
+    useChannel<string, IStatistic>(cardsRepeaterManager.statisticChannel, (statistic: IStatistic) => {
         setStatistic(statistic)
     });
 
-    useObservable<IRepeatingArgs, CardsGroup[]>(cardsRepeaterManager.repeatingResultChannel, () => {
+    useChannel<IRepeatingArgs, ICardsGroup[]>(cardsRepeaterManager.repeatingResultChannel, () => {
         cardsRepeaterManager.cardChannel.next(location.state);
         cardsRepeaterManager.statisticChannel.next(location.state);
     });

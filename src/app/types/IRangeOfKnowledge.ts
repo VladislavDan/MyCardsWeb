@@ -1,4 +1,4 @@
-export enum RangeOfKnowledge {
+export enum IRangeOfKnowledge {
     TO_DO,
     IN_PROGRESS,
     DONE

@@ -21,6 +21,7 @@ import {CardsListContainer} from './app/pages/cards-list/CardsListContainer';
 import {CardRepeaterContainer} from './app/pages/cards-repeater/CardsRepeaterContainer';
 import {SpinnerService} from './app/elements/spinner-container/SpinnerService';
 import {ErrorService} from './app/elements/error-container/ErrorService';
+import {LocalBackupsContainer} from './app/pages/local-backup/LocalBackupsContainer';
 
 export const AppContext = React.createContext<IAppContext>(defaultAppState);
 
@@ -71,6 +72,9 @@ function App() {
                                 </Route>
                                 <Route path={Routs.cardsRepeater.path}>
                                     <CardRepeaterContainer/>
+                                </Route>
+                                <Route path={Routs.localBackups.path}>
+                                    <LocalBackupsContainer/>
                                 </Route>
                             </Switch>
                         </div>

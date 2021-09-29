@@ -4,7 +4,7 @@ import {catchError, map, switchMap} from 'rxjs/operators';
 
 import {ICard} from '../../types/ICard';
 import {localStorageService} from '../../common/services/LocalStoragService';
-import {CardsGroup} from '../../types/CardsGroup';
+import {ICardsGroup} from '../../types/ICardsGroup';
 import {Channel} from '../../common/Channel';
 import {spinnerManager} from '../../../App';
 
@@ -21,8 +21,8 @@ class CardsListService {
     getCards(cardsGroupID: string): Observable<ICard[]> {
         return of('').pipe(
             switchMap(() => localStorageService.getBackupFromStorage()),
-            map((cardsGroups: CardsGroup[]) => {
-                const foundCardsGroup = cardsGroups.find((cardsGroup: CardsGroup) => {
+            map((cardsGroups: ICardsGroup[]) => {
+                const foundCardsGroup = cardsGroups.find((cardsGroup: ICardsGroup) => {
                     return cardsGroup.id === cardsGroupID;
                 });
 

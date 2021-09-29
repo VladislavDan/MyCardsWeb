@@ -7,15 +7,15 @@ import FlagIcon from '@material-ui/icons/Flag';
 
 import {DATE_FORMAT} from '../../../../common/Constants';
 import {ICard} from '../../../../types/ICard';
-import {RangeOfKnowledge} from '../../../../types/RangeOfKnowledge';
+import {IRangeOfKnowledge} from '../../../../types/IRangeOfKnowledge';
 
 export const CardsListItemComponent: FC<ICardListItemComponent> = ({card}) => {
 
     const getIconColor = (card: ICard): string => {
-        if(card.rangeOfKnowledge === RangeOfKnowledge.DONE){
+        if(card.rangeOfKnowledge === IRangeOfKnowledge.DONE){
             return 'green'
         }
-        if(card.rangeOfKnowledge === RangeOfKnowledge.IN_PROGRESS){
+        if(card.rangeOfKnowledge === IRangeOfKnowledge.IN_PROGRESS){
             return 'yellow'
         }
         return 'red'

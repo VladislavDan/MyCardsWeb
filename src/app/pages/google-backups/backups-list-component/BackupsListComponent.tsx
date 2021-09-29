@@ -1,4 +1,4 @@
-import {GoogleDriveFile} from '../../../types/GoogleDriveFile';
+import {IGoogleDriveFile} from '../../../types/IGoogleDriveFile';
 import {BackupsListItemComponent} from './backups-list-item-component/BackupsListItemComponent';
 import {List} from '@material-ui/core';
 import * as React from 'react';
@@ -9,7 +9,7 @@ export const BackupsListComponent: FC<IBackupsListComponent> = ({backupsFiles}) 
     return (
         <List>
             {
-                backupsFiles.map((backup: GoogleDriveFile) => {
+                backupsFiles.map((backup: IGoogleDriveFile) => {
                     return <BackupsListItemComponent
                         key={backup.id}
                         backupName={backup.createdTime}
@@ -21,5 +21,5 @@ export const BackupsListComponent: FC<IBackupsListComponent> = ({backupsFiles}) 
 };
 
 interface IBackupsListComponent {
-    backupsFiles: GoogleDriveFile[]
+    backupsFiles: IGoogleDriveFile[]
 }

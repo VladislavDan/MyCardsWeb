@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 
-import {useObservable} from '../../common/hooks/useObservable';
+import {useChannel} from '../../common/hooks/useChannel';
 import {ErrorComponent} from './error-component/ErrorComponent';
 import {errorService} from '../../../App';
 
@@ -8,7 +8,7 @@ export const ErrorContainer = () => {
 
     const [state, setState] = useState<IErrorContainerState>({isOpen: false, errorMessage: ''});
 
-    useObservable<string, string>(errorService.errorChannel, (errorMessage: string) => {
+    useChannel<string, string>(errorService.errorChannel, (errorMessage: string) => {
         setState({
             isOpen: true,
             errorMessage

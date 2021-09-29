@@ -27,5 +27,10 @@ export const Routs = {
     cardsEditor: {
         path: '/cards-editor',
         name: 'Edit Card'
+    },
+
+    localBackups: {
+        path: '/local-backups',
+        name: 'Local Backups'
     }
 };

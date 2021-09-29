@@ -3,15 +3,15 @@ import {map, switchMap} from 'rxjs/operators';
 
 import {ICard} from '../../types/ICard';
 import {localStorageService} from '../../common/services/LocalStoragService';
-import {CardsGroup} from '../../types/CardsGroup';
-import {RangeOfKnowledge} from '../../types/RangeOfKnowledge';
+import {ICardsGroup} from '../../types/ICardsGroup';
+import {IRangeOfKnowledge} from '../../types/IRangeOfKnowledge';
 import {IRepeatingArgs} from '../../types/IRepeatingArgs';
 import {Channel} from '../../common/Channel';
 import {IStatistic} from '../../types/IStatistic';
 
 class CardsRepeaterService {
     public cardChannel: Channel<string, ICard | undefined>;
-    public repeatingResultChannel: Channel<IRepeatingArgs, CardsGroup[]>;
+    public repeatingResultChannel: Channel<IRepeatingArgs, ICardsGroup[]>;
     public statisticChannel: Channel<string, IStatistic>;
 
     constructor() {
@@ -32,8 +32,8 @@ class CardsRepeaterService {
     getCards(cardsGroupID: string) {
         return of('').pipe(
             switchMap(() => localStorageService.getBackupFromStorage()),
-            map((cardsGroups: CardsGroup[]) => {
-                const foundCardsGroup = cardsGroups.find((cardsGroup: CardsGroup) => {
+            map((cardsGroups: ICardsGroup[]) => {
+                const foundCardsGroup = cardsGroups.find((cardsGroup: ICardsGroup) => {
                     return !cardsGroupID || cardsGroup.id === cardsGroupID;
                 });
 
@@ -45,17 +45,17 @@ class CardsRepeaterService {
     writeRangeOfKnowledge = (args: IRepeatingArgs) => {
         return of('').pipe(
             switchMap(() => localStorageService.getBackupFromStorage()),
-            map((cardsGroups: CardsGroup[]) => {
-                cardsGroups.forEach((cardsGroup: CardsGroup) => {
+            map((cardsGroups: ICardsGroup[]) => {
+                cardsGroups.forEach((cardsGroup: ICardsGroup) => {
                     if (!args.cardsGroupID || cardsGroup.id === args.cardsGroupID) {
                         cardsGroup.cards.forEach((card: ICard) => {
                             if (!args.cardID || card.id === args.cardID) {
-                                if (args.isKnown && card.rangeOfKnowledge === RangeOfKnowledge.IN_PROGRESS) {
-                                    card.rangeOfKnowledge = RangeOfKnowledge.DONE;
-                                } else if (args.isKnown && card.rangeOfKnowledge === RangeOfKnowledge.TO_DO) {
-                                    card.rangeOfKnowledge = RangeOfKnowledge.DONE;
-                                } else if (!args.isKnown && card.rangeOfKnowledge === RangeOfKnowledge.TO_DO) {
-                                    card.rangeOfKnowledge = RangeOfKnowledge.IN_PROGRESS;
+                                if (args.isKnown && card.rangeOfKnowledge === IRangeOfKnowledge.IN_PROGRESS) {
+                                    card.rangeOfKnowledge = IRangeOfKnowledge.DONE;
+                                } else if (args.isKnown && card.rangeOfKnowledge === IRangeOfKnowledge.TO_DO) {
+                                    card.rangeOfKnowledge = IRangeOfKnowledge.DONE;
+                                } else if (!args.isKnown && card.rangeOfKnowledge === IRangeOfKnowledge.TO_DO) {
+                                    card.rangeOfKnowledge = IRangeOfKnowledge.IN_PROGRESS;
                                 }
                             }
                         });
@@ -65,18 +65,18 @@ class CardsRepeaterService {
 
                 return cardsGroups;
             }),
-            switchMap((cardsGroups: CardsGroup[]) => localStorageService.setBackupToStorage(cardsGroups))
+            switchMap((cardsGroups: ICardsGroup[]) => localStorageService.setBackupToStorage(cardsGroups))
         )
     };
 
     getCardForRepeating(cards: ICard[]): ICard | undefined {
         let foundCard = cards.find((card: ICard) => {
-            return card.rangeOfKnowledge === RangeOfKnowledge.TO_DO;
+            return card.rangeOfKnowledge === IRangeOfKnowledge.TO_DO;
         });
 
         if (!foundCard) {
             foundCard = cards.find((card: ICard) => {
-                return card.rangeOfKnowledge === RangeOfKnowledge.IN_PROGRESS;
+                return card.rangeOfKnowledge === IRangeOfKnowledge.IN_PROGRESS;
             });
         }
 
@@ -86,7 +86,7 @@ class CardsRepeaterService {
     getStatistic(cardsGroupID: string): Observable<IStatistic> {
         return of('').pipe(
             switchMap(() => localStorageService.getBackupFromStorage()),
-            map((cardsGroups: CardsGroup[]) => {
+            map((cardsGroups: ICardsGroup[]) => {
 
                 const statistic: IStatistic = {
                     inProgress: 0,
@@ -94,15 +94,15 @@ class CardsRepeaterService {
                     done: 0
                 };
 
-                const foundCardsGroup = cardsGroups.find((cardsGroup: CardsGroup) => {
+                const foundCardsGroup = cardsGroups.find((cardsGroup: ICardsGroup) => {
                     return !cardsGroupID || cardsGroup.id === cardsGroupID;
                 });
 
                 if(foundCardsGroup) {
                     foundCardsGroup.cards.forEach((card: ICard) => {
-                        if(card.rangeOfKnowledge === RangeOfKnowledge.IN_PROGRESS) {
+                        if(card.rangeOfKnowledge === IRangeOfKnowledge.IN_PROGRESS) {
                             statistic.inProgress = statistic.inProgress + 1
-                        } else if(card.rangeOfKnowledge === RangeOfKnowledge.TO_DO) {
+                        } else if(card.rangeOfKnowledge === IRangeOfKnowledge.TO_DO) {
                             statistic.todo = statistic.todo + 1
                         } else {
                             statistic.done = statistic.done + 1

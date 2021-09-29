@@ -1,8 +1,8 @@
-import {RangeOfKnowledge} from './RangeOfKnowledge';
+import {IRangeOfKnowledge} from './IRangeOfKnowledge';
 
 export interface ICard {
     id: string;
-    rangeOfKnowledge: RangeOfKnowledge;
+    rangeOfKnowledge: IRangeOfKnowledge;
     answer: string;
     question: string;
     dateRepeating: number;
