@@ -1,0 +1,9 @@
+.cards-groups {
+    padding-bottom: 45px !important;
+}
+
+.cards-groups_fab {
+    position: fixed !important;
+    bottom: 10px;
+    left: 45%;
+}
