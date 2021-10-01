@@ -1,5 +1,4 @@
-import {Subject, throwError, of} from 'rxjs';
-import {catchError, map, switchMap} from 'rxjs/operators';
+import {map} from 'rxjs/operators';
 
 import {localStorageService} from '../../common/services/LocalStoragService';
 import {ICardsGroup} from '../../types/ICardsGroup';
@@ -12,10 +11,7 @@ class CardsGroupsListService {
 
 
     constructor() {
-        this.groupsListChannel = new Channel(() => of('').pipe(
-            switchMap(() => {
-                return localStorageService.getBackupFromStorage();
-            }),
+        this.groupsListChannel = new Channel(() => localStorageService.getBackupFromStorage().pipe(
             map((cardsGroups: ICardsGroup[]) => {
                 cardsGroups.map((cardsGroup: ICardsGroup) => {
                     let dateRepeating = 0;
