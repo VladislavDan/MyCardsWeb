@@ -1,8 +1,8 @@
 import {FC, MouseEventHandler} from 'react';
-import {AppBar, IconButton, Toolbar, Typography} from '@material-ui/core';
-import MenuIcon from '@material-ui/icons/Menu';
-import PlayArrowIcon from '@material-ui/icons/PlayArrow';
-import EditIcon from '@material-ui/icons/Edit';
+import {AppBar, IconButton, Toolbar, Typography} from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import EditIcon from '@mui/icons-material/Edit';
 
 import './ToolbarComponent.css'
 import {useHistory, useLocation} from 'react-router';

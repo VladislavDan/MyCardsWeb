@@ -1,0 +1,12 @@
+.group-editor {
+    display: flex;
+    flex-direction: column;
+}
+
+.group-editor_text {
+    margin: 10px !important;
+}
+
+.group-editor_button {
+    margin: 10px !important;
+}

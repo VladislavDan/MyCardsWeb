@@ -1,9 +1,9 @@
 import React, {FC} from "react"
 import format from 'date-fns/format'
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText/ListItemText';
-import FlagIcon from '@material-ui/icons/Flag';
+import ListItem from '@mui/material/ListItem';
+import ListItemIcon from '@mui/material/ListItemIcon/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText/ListItemText';
+import FlagIcon from '@mui/icons-material/Flag';
 
 import {DATE_FORMAT} from '../../../../common/Constants';
 import {ICard} from '../../../../types/ICard';

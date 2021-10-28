@@ -1,6 +1,6 @@
-import {LinearProgress} from '@material-ui/core';
-import {FC} from 'react';
+import {LinearProgress} from '@mui/material';
 import * as React from 'react';
+import {FC} from 'react';
 
 export const SpinnerComponent: FC<ISpinnerComponent> = ({isShow}) => {
     return (

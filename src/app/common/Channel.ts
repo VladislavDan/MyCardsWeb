@@ -1,6 +1,6 @@
-import {Subject, Observable, Subscription} from 'rxjs';
+import {Observable, Subject, Subscription} from 'rxjs';
 
-import {errorService, spinnerManager} from '../../App';
+import {errorService, spinnerService} from '../../App';
 
 export class Channel<A, D> {
 
@@ -19,14 +19,20 @@ export class Channel<A, D> {
         }));
     }
 
-    subscribe(next: (data: D) => void, additionalErrorHandler?: (error: Error) => void): Subscription {
+    subscribe(next?: (data: D) => void, additionalErrorHandler?: (error: Error) => void): Subscription {
+
+
         const outputSubjectSubscription = this.outputSubject.subscribe(
-            next,
+            (data: D) => {
+                if(next) {
+                    next(data)
+                }
+            },
             (error: Error) => {
                 if(additionalErrorHandler) {
                     additionalErrorHandler(error);
                 }
-                spinnerManager.spinnerCounterChannel.next(-1);
+                spinnerService.spinnerCounterChannel.next(-1);
                 errorService.errorChannel.next('Cannot load cards');
             }
         );

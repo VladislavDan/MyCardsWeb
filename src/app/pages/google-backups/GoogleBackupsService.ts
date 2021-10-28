@@ -1,16 +1,12 @@
 import {Observable, of} from 'rxjs';
-import {
-    map,
-    switchMap,
-    tap
-} from 'rxjs/operators';
+import {map, switchMap, tap} from 'rxjs/operators';
 import {ajax, AjaxResponse} from 'rxjs/ajax';
 
 import {localStorageService} from '../../common/services/LocalStoragService';
 import {IGoogleDriveFile} from '../../types/IGoogleDriveFile';
 import {ICardsGroup} from '../../types/ICardsGroup';
 import {Channel} from '../../common/Channel';
-import {spinnerManager} from '../../../App';
+import {spinnerService} from '../../../App';
 
 class GoogleBackupsService {
 
@@ -31,7 +27,7 @@ class GoogleBackupsService {
     constructor() {
 
         this.backupsNameLoadChannel = new Channel(() => of('').pipe(
-            tap(() => spinnerManager.spinnerCounterChannel.next(1)),
+            tap(() => spinnerService.spinnerCounterChannel.next(1)),
             switchMap(() => localStorageService.getAuthToken()),
             switchMap(
                 (authToken: string): Observable<IGoogleDriveFile[]> => this.getBackupFiles(authToken)
@@ -41,29 +37,29 @@ class GoogleBackupsService {
                     return {...googleDriveFile, createdTime: googleDriveFile.createdTime.slice(0, 10)};
                 });
             }),
-            tap(() => spinnerManager.spinnerCounterChannel.next(-1))
+            tap(() => spinnerService.spinnerCounterChannel.next(-1))
         ));
 
         this.backupLoadChannel = new Channel((backupID: string) => of('').pipe(
-            tap(() => spinnerManager.spinnerCounterChannel.next(1)),
+            tap(() => spinnerService.spinnerCounterChannel.next(1)),
             switchMap((): Observable<ICardsGroup[]> => this.loadBackupFile(backupID)),
-            tap(() => spinnerManager.spinnerCounterChannel.next(-1)),
+            tap(() => spinnerService.spinnerCounterChannel.next(-1)),
         ));
 
         this.backupUploadChannel = new Channel(() => of('').pipe(
-            tap(() => spinnerManager.spinnerCounterChannel.next(1)),
+            tap(() => spinnerService.spinnerCounterChannel.next(1)),
             switchMap(() => localStorageService.getAuthToken()),
             switchMap((authToken: string) => this.createNewBackup(authToken)),
-            tap(() => spinnerManager.spinnerCounterChannel.next(-1))
+            tap(() => spinnerService.spinnerCounterChannel.next(-1))
         ));
 
         this.backupDeleteChannel = new Channel(() => of("").pipe(
-            tap(() => spinnerManager.spinnerCounterChannel.next(1)),
+            tap(() => spinnerService.spinnerCounterChannel.next(1)),
             switchMap((fileID: string) => this.deleteBackupFile(fileID)),
             tap(() => {
                 this.backupsNameLoadChannel.next('')
             }),
-            tap(() => spinnerManager.spinnerCounterChannel.next(-1))
+            tap(() => spinnerService.spinnerCounterChannel.next(-1))
         ));
     }
 

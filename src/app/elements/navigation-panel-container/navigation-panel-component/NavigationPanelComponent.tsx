@@ -1,7 +1,6 @@
 import * as React from 'react';
-import {List, SwipeableDrawer} from '@material-ui/core';
-import {FC} from 'react';
-import {ReactEventHandler} from 'react';
+import {FC, ReactEventHandler} from 'react';
+import {List, SwipeableDrawer} from '@mui/material';
 
 import {Routs} from '../../../common/Routs';
 import {NavigationLinkComponent} from './navigation-panel-component/navigation-link-component/NavigationLinkComponent';

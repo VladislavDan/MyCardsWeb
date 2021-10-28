@@ -1,13 +1,11 @@
-import React, {FC, useState} from 'react';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import Typography from '@material-ui/core/Typography';
-import orange from '@material-ui/core/colors/orange';
-import red from '@material-ui/core/colors/red';
+import React, {FC} from 'react';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Typography from '@mui/material/Typography';
 
 import {ICard} from '../../../types/ICard';
 import "./CardsRepeaterComponent.css"
-import {Button, CardActions, List} from '@material-ui/core';
+import {Button, CardActions} from '@mui/material';
 import {ExpandableTextComponent} from './expandable-text-component/ExpandableTextComponent';
 import {IStatistic} from '../../../types/IStatistic';
 import {RepeatingStatisticComponent} from './repeating-statistic-component/RepeatingStatisticComponent';

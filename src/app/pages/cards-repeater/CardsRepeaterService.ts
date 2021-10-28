@@ -10,12 +10,12 @@ import {Channel} from '../../common/Channel';
 import {IStatistic} from '../../types/IStatistic';
 
 class CardsRepeaterService {
-    public cardChannel: Channel<string, ICard | undefined>;
+    public cardChannel: Channel<number, ICard | undefined>;
     public repeatingResultChannel: Channel<IRepeatingArgs, ICardsGroup[]>;
-    public statisticChannel: Channel<string, IStatistic>;
+    public statisticChannel: Channel<number, IStatistic>;
 
     constructor() {
-        this.cardChannel = new Channel((cardsGroupID: string) => of('').pipe(
+        this.cardChannel = new Channel((cardsGroupID: number) => of('').pipe(
             switchMap(() => this.getCards(cardsGroupID)),
             map((cards: ICard[]) => this.getCardForRepeating(cards))
         ));
@@ -24,12 +24,12 @@ class CardsRepeaterService {
             return this.writeRangeOfKnowledge(args);
         });
 
-        this.statisticChannel = new Channel((cardsGroupID: string) => {
+        this.statisticChannel = new Channel((cardsGroupID: number) => {
             return this.getStatistic(cardsGroupID);
         });
     }
 
-    getCards(cardsGroupID: string) {
+    getCards(cardsGroupID: number) {
         return of('').pipe(
             switchMap(() => localStorageService.getBackupFromStorage()),
             map((cardsGroups: ICardsGroup[]) => {
@@ -83,7 +83,7 @@ class CardsRepeaterService {
         return foundCard
     }
 
-    getStatistic(cardsGroupID: string): Observable<IStatistic> {
+    getStatistic(cardsGroupID: number): Observable<IStatistic> {
         return of('').pipe(
             switchMap(() => localStorageService.getBackupFromStorage()),
             map((cardsGroups: ICardsGroup[]) => {

@@ -1,5 +1,5 @@
-import {FC, default as React} from 'react';
-import {ListItem, ListItemIcon, ListItemText} from '@material-ui/core';
+import {default as React, FC} from 'react';
+import {ListItem, ListItemIcon, ListItemText} from '@mui/material';
 
 import {BackupMenuComponent} from './backup-menu-component/BackupMenuComponent';
 

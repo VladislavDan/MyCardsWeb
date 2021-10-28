@@ -1,6 +1,6 @@
-import Typography from '@material-ui/core/Typography';
-import React, {FC, useEffect, useState} from 'react';
-import {Button} from '@material-ui/core';
+import Typography from '@mui/material/Typography';
+import React, {FC, useState} from 'react';
+import {Button} from '@mui/material';
 
 export const ExpandableTextComponent: FC<IExpandableTextComponent> = ({text, onClickText}) => {
 

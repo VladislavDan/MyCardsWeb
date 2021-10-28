@@ -1,4 +1,4 @@
-import {List} from '@material-ui/core';
+import {List} from '@mui/material';
 import * as React from 'react';
 import {FC} from 'react';
 

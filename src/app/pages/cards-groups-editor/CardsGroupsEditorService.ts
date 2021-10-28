@@ -1,13 +1,13 @@
-import {of} from 'rxjs';
+import {map} from 'rxjs/operators';
 
 import {localStorageService} from '../../common/services/LocalStoragService';
 import {ICardsGroup} from '../../types/ICardsGroup';
 import {Channel} from '../../common/Channel';
-import {map, switchMap, tap} from 'rxjs/operators';
 
-class CardsGroupsEditorService {
+export class CardsGroupsEditorService {
 
     public groupEditingChannel: Channel<ICardsGroup, ICardsGroup[]>;
+    public groupChannel: Channel<number, ICardsGroup>;
 
     constructor() {
         this.groupEditingChannel = new Channel((editedCardGroup: ICardsGroup) => localStorageService.getBackupFromStorage().pipe(
@@ -22,8 +22,24 @@ class CardsGroupsEditorService {
 
                 return cardsGroups;
             })
+        ));
+
+        this.groupChannel = new Channel((cardGroupID: number) => localStorageService.getBackupFromStorage().pipe(
+            map((cardsGroups: ICardsGroup[]) => {
+
+                let cardsGroup = cardsGroups.find((cardGroup: ICardsGroup) => cardGroupID === cardGroup.id);
+
+                if(!cardsGroup) {
+                    cardsGroup = {
+                        cards: [],
+                        nameCardsGroup: '',
+                        dateRepeating: new Date().getTime(),
+                        id: new Date().getTime(),
+                        percentRepeatedCards: 0
+                    }
+                }
+                return cardsGroup;
+            })
         ))
     }
 }
-
-export const cardsGroupsEditorService= new CardsGroupsEditorService();

@@ -1,6 +1,6 @@
 import React, {FC} from 'react';
 
-import {Button} from '@material-ui/core';
+import {Button} from '@mui/material';
 import {IStatistic} from '../../../../types/IStatistic';
 
 export const RepeatingStatisticComponent: FC<IRepeatingStatisticComponent> = ({statistic}) => {
