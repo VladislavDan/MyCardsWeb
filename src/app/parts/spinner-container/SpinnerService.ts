@@ -1,4 +1,4 @@
-import {Subject, of} from 'rxjs';
+import {of} from 'rxjs';
 import {map} from 'rxjs/operators';
 
 import {Channel} from '../../common/Channel';

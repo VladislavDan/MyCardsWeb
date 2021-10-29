@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {FC, useState} from 'react';
-import {useLocation} from 'react-router';
+import {useHistory, useLocation} from 'react-router';
 
 import {useChannel} from '../../common/hooks/useChannel';
 import {ICardsGroup} from '../../types/ICardsGroup';
@@ -9,9 +9,11 @@ import {CardsGroupsEditorComponent} from './CardsGroupsEditorComponent';
 import {INavigationState} from '../../types/INavigationState';
 import {useConstructor} from '../../common/hooks/useConstructor';
 
-export const CardsGroupsEditorContainer: FC<ICardsGroupsEditorContainer> = ({service}) => {
+export const CardsGroupsEditorContainer: FC<ICardsGroupsEditorContainer> = ({cardsGroupsEditorService}) => {
 
     const location = useLocation<INavigationState>();
+
+    const history = useHistory();
 
     const [state, setState] = useState<CardsGroupsEditorState>({
         cardsGroup: {
@@ -23,16 +25,16 @@ export const CardsGroupsEditorContainer: FC<ICardsGroupsEditorContainer> = ({ser
         }
     });
 
-    useChannel<ICardsGroup, ICardsGroup[]>(service.groupEditingChannel);
+    useChannel<ICardsGroup, ICardsGroup[]>(cardsGroupsEditorService.groupEditingChannel);
 
-    useChannel<number, ICardsGroup>(service.groupChannel, (cardsGroup: ICardsGroup) => {
+    useChannel<number, ICardsGroup>(cardsGroupsEditorService.groupChannel, (cardsGroup: ICardsGroup) => {
         setState({
             cardsGroup
         })
     });
 
     useConstructor(() => {
-        service.groupChannel.next(location.state.cardsGroupID);
+        cardsGroupsEditorService.groupChannel.next(location.state.cardsGroupID);
     });
 
     const onChangeGroupName = (groupName: string) => {
@@ -45,7 +47,8 @@ export const CardsGroupsEditorContainer: FC<ICardsGroupsEditorContainer> = ({ser
     };
 
     const onSaveGroup = () => {
-        service.groupEditingChannel.next(state.cardsGroup);
+        cardsGroupsEditorService.groupEditingChannel.next(state.cardsGroup);
+        history.goBack();
     };
 
     return <CardsGroupsEditorComponent
@@ -60,5 +63,5 @@ interface CardsGroupsEditorState {
 }
 
 interface ICardsGroupsEditorContainer {
-    service: CardsGroupsEditorService
+    cardsGroupsEditorService: CardsGroupsEditorService
 }

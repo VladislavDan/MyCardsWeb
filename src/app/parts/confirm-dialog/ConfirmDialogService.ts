@@ -1,4 +1,4 @@
-import {Subject, of} from 'rxjs';
+import {of} from 'rxjs';
 
 import {ConfirmDialogContainerState} from './ConfirmDialogContainer';
 import {Channel} from '../../common/Channel';

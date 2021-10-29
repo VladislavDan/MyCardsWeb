@@ -1,4 +1,4 @@
-import {map} from 'rxjs/operators';
+import {map, tap} from 'rxjs/operators';
 
 import {localStorageService} from '../../common/services/LocalStoragService';
 import {ICardsGroup} from '../../types/ICardsGroup';
@@ -21,6 +21,9 @@ export class CardsGroupsEditorService {
                 }
 
                 return cardsGroups;
+            }),
+            tap((cardsGroups: ICardsGroup[]) => {
+                localStorageService.setBackupToStorage(cardsGroups);
             })
         ));
 

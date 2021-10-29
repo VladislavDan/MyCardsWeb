@@ -6,7 +6,7 @@ import {ICard} from '../../types/ICard';
 import {IRangeOfKnowledge} from '../../types/IRangeOfKnowledge';
 import {Channel} from '../../common/Channel';
 
-class CardsGroupsListService {
+export class CardsGroupsListService {
     public groupsListChannel: Channel<string, ICardsGroup[]>;
 
 

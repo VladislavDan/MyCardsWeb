@@ -6,7 +6,7 @@ import EditIcon from '@mui/icons-material/Edit';
 
 import './ToolbarComponent.css'
 import {useHistory, useLocation} from 'react-router';
-import {Routs} from '../../../common/Routs';
+import {Routs} from '../../common/Routs';
 
 export const ToolbarComponent: FC<IToolbarComponent> = ({pageLabel, onClick}) => {
 

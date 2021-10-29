@@ -1,9 +1,7 @@
-import {from, Observable, Subject} from 'rxjs';
+import {from, Observable} from 'rxjs';
 import {ICardsGroup} from '../../types/ICardsGroup';
 
 class LocalStorageManager {
-
-    public storageChangeChannel: Subject<ICardsGroup[]> = new Subject();
 
     private cardsLocalStorageID = 'cards-local-storage';
     private authTokenLocalStorageID = 'auth-token';
@@ -21,7 +19,6 @@ class LocalStorageManager {
 
     public setBackupToStorage(cardsGroups: ICardsGroup[]): Observable<ICardsGroup[]> {
         return from(new Promise<ICardsGroup[]>((resolve) => {
-            this.storageChangeChannel.next(cardsGroups);
             localStorage.setItem(this.cardsLocalStorageID, JSON.stringify(cardsGroups, null, 4));
             resolve(cardsGroups);
         }));

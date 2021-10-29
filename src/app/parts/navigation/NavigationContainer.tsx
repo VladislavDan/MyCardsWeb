@@ -10,15 +10,17 @@ import {CardRepeaterContainer} from '../../pages/cards-repeater/CardsRepeaterCon
 import {LocalBackupsContainer} from '../../pages/local-backup/LocalBackupsContainer';
 import {CardsGroupsEditorContainer} from '../../pages/cards-groups-editor/CardsGroupsEditorContainer';
 import {CardsGroupsEditorService} from '../../pages/cards-groups-editor/CardsGroupsEditorService';
+import {CardsGroupsListService} from '../../pages/cards-groups-list/CardsGroupsListService';
 
 export const NavigationContainer = () => {
 
     const cardsGroupsEditorService = new CardsGroupsEditorService();
+    const cardsGroupsListService = new CardsGroupsListService();
 
     return <Switch>
         <Redirect exact from="/" to={Routs.cardsGroups.path} />
         <Route path={Routs.cardsGroups.path}>
-            <CardsGroupsListContainer/>
+            <CardsGroupsListContainer cardsGroupsListService={cardsGroupsListService}/>
         </Route>
         <Route path={Routs.googleAuth.path}>
             <GoogleAuthContainer/>
@@ -36,7 +38,7 @@ export const NavigationContainer = () => {
             <LocalBackupsContainer/>
         </Route>
         <Route path={Routs.cardsGroupEditor.path}>
-            <CardsGroupsEditorContainer service={cardsGroupsEditorService}/>
+            <CardsGroupsEditorContainer cardsGroupsEditorService={cardsGroupsEditorService}/>
         </Route>
     </Switch>
 };
