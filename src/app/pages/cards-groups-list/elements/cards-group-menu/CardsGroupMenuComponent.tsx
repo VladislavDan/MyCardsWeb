@@ -2,7 +2,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import {IconButton, Menu, MenuItem} from '@mui/material';
 import {default as React, FC} from 'react';
 
-export const ListMenuComponent: FC<IListMenuComponent> = ({onEdit, onDelete}) => {
+export const CardsGroupMenuComponent: FC<IListMenuComponent> = ({onEdit, onDelete}) => {
 
     const [anchorEl, setAnchorEl] = React.useState(null);
 

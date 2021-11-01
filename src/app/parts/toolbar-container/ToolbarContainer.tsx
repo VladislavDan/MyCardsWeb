@@ -14,7 +14,7 @@ export const ToolbarContainer = (): ReactElement => {
     useEffect(() => {
         const newPageLabel = toolbarManager.getPageLabel(location.pathname);
         setPageLabel(newPageLabel);
-    });
+    }, [location.pathname]);
 
     const onClick = () => {
         navigationPanelService.navigationPanelOpenChannel.next('');

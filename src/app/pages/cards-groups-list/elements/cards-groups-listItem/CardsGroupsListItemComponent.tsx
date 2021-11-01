@@ -3,28 +3,16 @@ import format from 'date-fns/format'
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText/ListItemText';
-import {useHistory} from 'react-router';
 
 import {DATE_FORMAT} from '../../../../common/Constants';
 import {ICardsGroup} from '../../../../types/ICardsGroup';
-import {CircularProgressComponent} from './circular-progress-component/CircularProgressComponent';
-import {Routs} from '../../../../common/Routs';
+import {CircularProgressComponent} from '../circular-progress/CircularProgressComponent';
+import {CardsGroupMenuComponent} from '../cards-group-menu/CardsGroupMenuComponent';
 
-export const CardsGroupsListItemComponent: FC<ICardsGroupsListItemComponent> = ({cardsGroup}) => {
-
-    const history = useHistory();
-
-    const onClick = (cardsGroupID: number): any => () => {
-        history.push({
-            pathname: Routs.cards.path,
-            state: {
-                cardsGroupID : cardsGroupID
-            }
-        })
-    };
+export const CardsGroupsListItemComponent: FC<ICardsGroupsListItemComponent> = ({cardsGroup, onClickItem, onEditItem, onDeleteItem}) => {
 
     return <>
-        <ListItem onClick={onClick(cardsGroup.id)} key={cardsGroup.id} button>
+        <ListItem onClick={() => onClickItem(cardsGroup.id)} key={cardsGroup.id} button>
             <ListItemIcon>
                 <CircularProgressComponent percent={cardsGroup.percentRepeatedCards || 0}/>
             </ListItemIcon>
@@ -32,11 +20,16 @@ export const CardsGroupsListItemComponent: FC<ICardsGroupsListItemComponent> = (
                 primary={cardsGroup.nameCardsGroup}
                 secondary={'Last repeating date: ' + format(cardsGroup.dateRepeating ? cardsGroup.dateRepeating : new Date(), DATE_FORMAT)}
             />
+            <ListItemIcon>
+                <CardsGroupMenuComponent onEdit={() => onEditItem(cardsGroup.id)} onDelete={() => onDeleteItem(cardsGroup.id)}/>
+            </ListItemIcon>
         </ListItem>
     </>
 };
 
 interface ICardsGroupsListItemComponent {
-
     cardsGroup: ICardsGroup;
+    onClickItem: (id: number) => void;
+    onEditItem: (id: number) => void;
+    onDeleteItem: (id: number) => void;
 }
