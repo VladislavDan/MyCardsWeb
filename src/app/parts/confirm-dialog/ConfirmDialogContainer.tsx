@@ -1,10 +1,11 @@
 import * as React from 'react';
+import {FC} from 'react';
 
-import {ConfirmDialogComponent} from './confirm-dialog-component/ConfirmDialogComponent';
+import {ConfirmDialogComponent} from './ConfirmDialogComponent';
 import {useChannel} from '../../common/hooks/useChannel';
-import {confirmDialogService} from './ConfirmDialogService';
+import {ConfirmDialogService} from './ConfirmDialogService';
 
-export const ConfirmDialogContainer = () => {
+export const ConfirmDialogContainer: FC<IConfirmDialogContainer> = ({confirmDialogService}) => {
 
     const [state, setState] = React.useState<ConfirmDialogContainerState>({
         isOpen: false,
@@ -38,6 +39,10 @@ export const ConfirmDialogContainer = () => {
         message={state.message}
     />
 };
+
+export interface IConfirmDialogContainer {
+    confirmDialogService: ConfirmDialogService;
+}
 
 export interface ConfirmDialogContainerState {
     isOpen: boolean;

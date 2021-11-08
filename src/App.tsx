@@ -12,11 +12,24 @@ import {ConfirmDialogContainer} from './app/parts/confirm-dialog/ConfirmDialogCo
 import {SpinnerService} from './app/parts/spinner-container/SpinnerService';
 import {ErrorService} from './app/parts/error-container/ErrorService';
 import {NavigationContainer} from './app/parts/navigation/NavigationContainer';
+import {CardsGroupsEditorService} from './app/pages/cards-groups-editor/CardsGroupsEditorService';
+import {CardsGroupsListService} from './app/pages/cards-groups-list/CardsGroupsListService';
+import {ConfirmDialogService} from './app/parts/confirm-dialog/ConfirmDialogService';
+import {GoogleAuthService} from './app/pages/google-auth/GoogleAuthService';
+import {GoogleBackupsService} from './app/pages/google-backups/GoogleBackupsService';
 
 export const AppContext = React.createContext<IAppContext>(defaultAppState);
 
-export const spinnerService = new SpinnerService();
+//TODO needs to make it local
 export const errorService = new ErrorService();
+
+const spinnerService = new SpinnerService();
+const confirmDialogService= new ConfirmDialogService();
+
+const cardsGroupsEditorService = new CardsGroupsEditorService();
+const cardsGroupsListService = new CardsGroupsListService();
+const googleAuthService = new GoogleAuthService();
+const googleBackupsService = new GoogleBackupsService(spinnerService);
 
 function App() {
 
@@ -36,17 +49,24 @@ function App() {
                 <Router>
                     <div>
 
-                        <ErrorContainer/>
+                        <ErrorContainer errorService={errorService}/>
 
                         <ToolbarContainer/>
 
                         <NavigationPanelContainer/>
 
-                        <ConfirmDialogContainer/>
+                        <ConfirmDialogContainer confirmDialogService={confirmDialogService}/>
 
                         <div className="page-container" style={{height: appState.height, width: appState.width}}>
-                            <SpinnerContainer/>
-                            <NavigationContainer/>
+                            <SpinnerContainer spinnerService={spinnerService}/>
+                            <NavigationContainer
+                                cardsGroupsListService={cardsGroupsListService}
+                                cardsGroupsEditorService={cardsGroupsEditorService}
+                                googleAuthService={googleAuthService}
+                                googleBackupsService={googleBackupsService}
+                                errorService={errorService}
+                                spinnerService={spinnerService}
+                            />
                         </div>
                     </div>
                 </Router>

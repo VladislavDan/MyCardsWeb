@@ -16,7 +16,8 @@ export const CardsGroupsEditorComponent: FC<ICardsGroupsEditorComponent> = ({gro
             id="outlined-required"
             label="Group name"
             onChange={onChange}
-            defaultValue={groupName}
+            value={groupName}
+            variant="filled"
         />
         <Button variant="outlined" className="group-editor_button" size="small" onClick={() => onSaveGroup()}>
             Save

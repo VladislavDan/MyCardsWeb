@@ -1,16 +1,16 @@
 import * as React from 'react';
-import {useState} from 'react';
+import {FC, useState} from 'react';
 
 import {useChannel} from '../../common/hooks/useChannel';
-import {googleBackupsManager} from './GoogleBackupsService';
+import {GoogleBackupsService} from './GoogleBackupsService';
 import {IGoogleDriveFile} from '../../types/IGoogleDriveFile';
-import {BackupsListComponent} from './backups-list-component/BackupsListComponent';
+import {BackupsListComponent} from './BackupsListComponent';
 import {useHistory} from 'react-router';
 import {Routs} from '../../common/Routs';
-import {spinnerService} from '../../../App';
 import {useConstructor} from '../../common/hooks/useConstructor';
+import {SpinnerService} from '../../parts/spinner-container/SpinnerService';
 
-export const GoogleBackupsContainer = () => {
+export const GoogleBackupsContainer: FC<IGoogleBackupsContainer> = ({spinnerService, googleBackupsService}) => {
 
     const history = useHistory();
 
@@ -19,7 +19,7 @@ export const GoogleBackupsContainer = () => {
     });
 
     useChannel(
-        googleBackupsManager.backupsNameLoadChannel,
+        googleBackupsService.backupsNameLoadChannel,
         (backupsFiles: IGoogleDriveFile[]) => {
             setState({...state, backupsFiles: backupsFiles});
             spinnerService.spinnerCounterChannel.next(-1);
@@ -30,7 +30,7 @@ export const GoogleBackupsContainer = () => {
     );
 
     useChannel(
-        googleBackupsManager.backupLoadChannel,
+        googleBackupsService.backupLoadChannel,
         () => {
             spinnerService.spinnerCounterChannel.next(-1);
         },
@@ -40,11 +40,16 @@ export const GoogleBackupsContainer = () => {
     );
 
     useConstructor(() => {
-        googleBackupsManager.backupsNameLoadChannel.next('');
+        googleBackupsService.backupsNameLoadChannel.next('');
     });
 
     return <BackupsListComponent backupsFiles={state.backupsFiles}/>;
 };
+
+interface IGoogleBackupsContainer {
+    spinnerService: SpinnerService;
+    googleBackupsService: GoogleBackupsService;
+}
 
 interface GoogleAuthComponentState {
     backupsFiles: IGoogleDriveFile[];

@@ -6,9 +6,9 @@ import {localStorageService} from '../../common/services/LocalStoragService';
 import {IGoogleDriveFile} from '../../types/IGoogleDriveFile';
 import {ICardsGroup} from '../../types/ICardsGroup';
 import {Channel} from '../../common/Channel';
-import {spinnerService} from '../../../App';
+import {SpinnerService} from '../../parts/spinner-container/SpinnerService';
 
-class GoogleBackupsService {
+export class GoogleBackupsService {
 
     public backupsNameLoadChannel: Channel<string, IGoogleDriveFile[]>;
     public backupLoadChannel: Channel<string, ICardsGroup[]>;
@@ -24,7 +24,7 @@ class GoogleBackupsService {
     private getFilesAdditionalPartURI = '?alt=media';
     private googleDriveFolderType = 'application/vnd.google-apps.folder';
 
-    constructor() {
+    constructor(spinnerService: SpinnerService) {
 
         this.backupsNameLoadChannel = new Channel(() => of('').pipe(
             tap(() => spinnerService.spinnerCounterChannel.next(1)),
@@ -230,5 +230,3 @@ class GoogleBackupsService {
     }
 
 }
-
-export const googleBackupsManager = new GoogleBackupsService();

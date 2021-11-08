@@ -4,7 +4,7 @@ import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 
 import {ICardsGroup} from '../../types/ICardsGroup';
-import {CardsGroupsListItemComponent} from './elements/cards-groups-listItem/CardsGroupsListItemComponent';
+import {CardsGroupsListItemComponent} from './elements/cards-groups-list-item/CardsGroupsListItemComponent';
 import './CardsGroupsListComponent.css'
 
 export const CardsGroupsListComponent: FC<ICardsGroupsListComponent> = ({cardsGroups, onClickItem, onEditItem, onDeleteItem, onOpenEditor}) => {

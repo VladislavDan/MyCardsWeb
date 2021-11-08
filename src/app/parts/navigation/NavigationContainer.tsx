@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {FC} from 'react';
 import {Redirect, Route, Switch} from 'react-router';
 
 import {Routs} from '../../common/Routs';
@@ -9,24 +10,33 @@ import {CardsListContainer} from '../../pages/cards-list/CardsListContainer';
 import {CardRepeaterContainer} from '../../pages/cards-repeater/CardsRepeaterContainer';
 import {LocalBackupsContainer} from '../../pages/local-backup/LocalBackupsContainer';
 import {CardsGroupsEditorContainer} from '../../pages/cards-groups-editor/CardsGroupsEditorContainer';
-import {CardsGroupsEditorService} from '../../pages/cards-groups-editor/CardsGroupsEditorService';
 import {CardsGroupsListService} from '../../pages/cards-groups-list/CardsGroupsListService';
+import {CardsGroupsEditorService} from '../../pages/cards-groups-editor/CardsGroupsEditorService';
+import {ErrorService} from '../error-container/ErrorService';
+import {GoogleAuthService} from '../../pages/google-auth/GoogleAuthService';
+import {GoogleBackupsService} from '../../pages/google-backups/GoogleBackupsService';
+import {SpinnerService} from '../spinner-container/SpinnerService';
 
-export const NavigationContainer = () => {
 
-    const cardsGroupsEditorService = new CardsGroupsEditorService();
-    const cardsGroupsListService = new CardsGroupsListService();
+export const NavigationContainer: FC<INavigationContainer> = ({
+                                                                  cardsGroupsListService,
+                                                                  cardsGroupsEditorService,
+                                                                  errorService,
+                                                                  googleAuthService,
+                                                                  googleBackupsService,
+                                                                  spinnerService
+                                                              }) => {
 
     return <Switch>
-        <Redirect exact from="/" to={Routs.cardsGroups.path} />
+        <Redirect exact from="/" to={Routs.cardsGroups.path}/>
         <Route path={Routs.cardsGroups.path}>
             <CardsGroupsListContainer cardsGroupsListService={cardsGroupsListService}/>
         </Route>
         <Route path={Routs.googleAuth.path}>
-            <GoogleAuthContainer/>
+            <GoogleAuthContainer googleAuthService={googleAuthService} errorService={errorService}/>
         </Route>
         <Route path={Routs.googleBackups.path}>
-            <GoogleBackupsContainer/>
+            <GoogleBackupsContainer googleBackupsService={googleBackupsService} spinnerService={spinnerService}/>
         </Route>
         <Route path={Routs.cards.path}>
             <CardsListContainer/>
@@ -42,3 +52,12 @@ export const NavigationContainer = () => {
         </Route>
     </Switch>
 };
+
+interface INavigationContainer {
+    cardsGroupsListService: CardsGroupsListService;
+    cardsGroupsEditorService: CardsGroupsEditorService;
+    errorService: ErrorService;
+    googleAuthService: GoogleAuthService;
+    googleBackupsService: GoogleBackupsService;
+    spinnerService: SpinnerService;
+}

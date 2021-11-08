@@ -1,12 +1,12 @@
-import React, {useState} from 'react';
+import React, {FC, useState} from 'react';
 
 import {useChannel} from '../../common/hooks/useChannel';
-import {ErrorComponent} from './error-component/ErrorComponent';
-import {errorService} from '../../../App';
+import {ErrorComponent} from './ErrorComponent';
+import {ErrorService} from './ErrorService';
 
-export const ErrorContainer = () => {
+export const ErrorContainer: FC<IErrorContainer> = ({errorService}) => {
 
-    const [state, setState] = useState<IErrorContainerState>({isOpen: false, errorMessage: ''});
+    const [state, setState] = useState<ErrorContainerState>({isOpen: false, errorMessage: ''});
 
     useChannel<string, string>(errorService.errorChannel, (errorMessage: string) => {
         setState({
@@ -25,7 +25,11 @@ export const ErrorContainer = () => {
     return <ErrorComponent isOpen={state.isOpen} errorMessage={state.errorMessage} handleClose={onClose}/>
 };
 
-interface IErrorContainerState {
+interface IErrorContainer {
+    errorService: ErrorService;
+}
+
+interface ErrorContainerState {
     isOpen: boolean;
     errorMessage: string;
 }

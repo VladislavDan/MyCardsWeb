@@ -4,7 +4,7 @@ import {tap} from 'rxjs/operators';
 import {localStorageService} from '../../common/services/LocalStoragService';
 import {Channel} from '../../common/Channel';
 
-class GoogleAuthService {
+export class GoogleAuthService {
     public loginChannel: Channel<string, string>;
 
 
@@ -16,7 +16,4 @@ class GoogleAuthService {
             })
         ));
     }
-
 }
-
-export const googleAuthService = new GoogleAuthService();

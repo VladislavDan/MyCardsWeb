@@ -34,7 +34,8 @@ export const CardsGroupsEditorContainer: FC<ICardsGroupsEditorContainer> = ({car
     });
 
     useConstructor(() => {
-        cardsGroupsEditorService.groupChannel.next(location.state.cardsGroupID);
+        let cardsGroupID = location.state ? location.state.cardsGroupID : -1;
+        cardsGroupsEditorService.groupChannel.next(cardsGroupID);
     });
 
     const onChangeGroupName = (groupName: string) => {

@@ -12,11 +12,12 @@ import {CardsGroupMenuComponent} from '../cards-group-menu/CardsGroupMenuCompone
 export const CardsGroupsListItemComponent: FC<ICardsGroupsListItemComponent> = ({cardsGroup, onClickItem, onEditItem, onDeleteItem}) => {
 
     return <>
-        <ListItem onClick={() => onClickItem(cardsGroup.id)} key={cardsGroup.id} button>
-            <ListItemIcon>
+        <ListItem key={cardsGroup.id} button>
+            <ListItemIcon onClick={() => onClickItem(cardsGroup.id)}>
                 <CircularProgressComponent percent={cardsGroup.percentRepeatedCards || 0}/>
             </ListItemIcon>
             <ListItemText
+                onClick={() => onClickItem(cardsGroup.id)}
                 primary={cardsGroup.nameCardsGroup}
                 secondary={'Last repeating date: ' + format(cardsGroup.dateRepeating ? cardsGroup.dateRepeating : new Date(), DATE_FORMAT)}
             />

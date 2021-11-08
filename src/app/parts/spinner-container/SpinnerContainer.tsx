@@ -1,11 +1,11 @@
 import * as React from 'react';
-import {useState} from 'react';
+import {FC, useState} from 'react';
 
-import {SpinnerComponent} from './spinner-component/SpinnerComponent';
+import {SpinnerComponent} from './SpinnerComponent';
 import {useChannel} from '../../common/hooks/useChannel';
-import {spinnerService} from '../../../App';
+import {SpinnerService} from './SpinnerService';
 
-export const SpinnerContainer = () => {
+export const SpinnerContainer: FC<ISpinnerContainer> = ({spinnerService}) => {
 
     const [isShow, setShowing] = useState(false);
 
@@ -15,3 +15,7 @@ export const SpinnerContainer = () => {
 
     return <SpinnerComponent isShow={isShow}/>
 };
+
+interface ISpinnerContainer {
+    spinnerService: SpinnerService;
+}

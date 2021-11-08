@@ -2,7 +2,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import {IconButton, Menu, MenuItem} from '@mui/material';
 import {default as React, FC} from 'react';
 
-import {googleBackupsManager} from '../../../GoogleBackupsService';
+import {googleBackupsManager} from '../../GoogleBackupsService';
 
 export const BackupMenuComponent: FC<IBackupMenuComponent> = ({backupID}) => {
 

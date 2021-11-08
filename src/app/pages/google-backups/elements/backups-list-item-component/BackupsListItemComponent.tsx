@@ -1,7 +1,7 @@
 import {default as React, FC} from 'react';
 import {ListItem, ListItemIcon, ListItemText} from '@mui/material';
 
-import {BackupMenuComponent} from './backup-menu-component/BackupMenuComponent';
+import {BackupMenuComponent} from '../backup-menu-component/BackupMenuComponent';
 
 export const BackupsListItemComponent: FC<IBackupsListItemComponent> = ({backupName, backupID}) => {
 

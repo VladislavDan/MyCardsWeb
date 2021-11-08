@@ -1,15 +1,17 @@
 import * as React from 'react';
+import {FC} from 'react';
 import {GoogleLoginResponse, GoogleLoginResponseOffline} from 'react-google-login';
 import {useHistory} from 'react-router';
 
 import {Routs} from '../../common/Routs';
 import {useChannel} from '../../common/hooks/useChannel';
-import {googleAuthService} from './GoogleAuthService';
-import {GoogleAuthComponent} from './google-auth-component/GoogleAuthComponent';
+import {GoogleAuthService} from './GoogleAuthService';
+import {GoogleAuthComponent} from './GoogleAuthComponent';
 import {IAppContext} from '../../types/IAppContext';
-import {AppContext, errorService} from '../../../App';
+import {AppContext} from '../../../App';
+import {ErrorService} from '../../parts/error-container/ErrorService';
 
-export const GoogleAuthContainer = () => {
+export const GoogleAuthContainer: FC<IGoogleAuthContainer> = ({googleAuthService, errorService}) => {
 
     const history = useHistory();
 
@@ -34,3 +36,8 @@ export const GoogleAuthContainer = () => {
         width={width}
     />;
 };
+
+interface IGoogleAuthContainer {
+    googleAuthService: GoogleAuthService;
+    errorService: ErrorService;
+}
