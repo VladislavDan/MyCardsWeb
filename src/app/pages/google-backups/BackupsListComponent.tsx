@@ -5,7 +5,7 @@ import * as React from 'react';
 import {FC} from 'react';
 
 
-export const BackupsListComponent: FC<IBackupsListComponent> = ({backupsFiles}) => {
+export const BackupsListComponent: FC<IBackupsListComponent> = ({backupsFiles, onLoad}) => {
     return (
         <List>
             {
@@ -13,6 +13,7 @@ export const BackupsListComponent: FC<IBackupsListComponent> = ({backupsFiles}) 
                     return <BackupsListItemComponent
                         key={backup.id}
                         backupName={backup.createdTime}
+                        onLoad={onLoad}
                         backupID={backup.id}/>
                 })
             }
@@ -21,5 +22,6 @@ export const BackupsListComponent: FC<IBackupsListComponent> = ({backupsFiles}) 
 };
 
 interface IBackupsListComponent {
-    backupsFiles: IGoogleDriveFile[]
+    backupsFiles: IGoogleDriveFile[];
+    onLoad: (backupID: string) => void;
 }

@@ -22,8 +22,8 @@ export const AppContext = React.createContext<IAppContext>(defaultAppState);
 
 //TODO needs to make it local
 export const errorService = new ErrorService();
+export const spinnerService = new SpinnerService();
 
-const spinnerService = new SpinnerService();
 const confirmDialogService= new ConfirmDialogService();
 
 const cardsGroupsEditorService = new CardsGroupsEditorService();
@@ -66,6 +66,7 @@ function App() {
                                 googleBackupsService={googleBackupsService}
                                 errorService={errorService}
                                 spinnerService={spinnerService}
+                                confirmDialogService={confirmDialogService}
                             />
                         </div>
                     </div>

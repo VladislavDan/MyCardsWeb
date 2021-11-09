@@ -43,7 +43,11 @@ export const GoogleBackupsContainer: FC<IGoogleBackupsContainer> = ({spinnerServ
         googleBackupsService.backupsNameLoadChannel.next('');
     });
 
-    return <BackupsListComponent backupsFiles={state.backupsFiles}/>;
+    const onLoad = (backupID: string) => {
+        googleBackupsService.backupLoadChannel.next(backupID);
+    };
+
+    return <BackupsListComponent backupsFiles={state.backupsFiles} onLoad={onLoad}/>;
 };
 
 interface IGoogleBackupsContainer {

@@ -7,8 +7,10 @@ import {useConstructor} from '../../common/hooks/useConstructor';
 import {CardsGroupsListService} from './CardsGroupsListService';
 import {Routs} from '../../common/Routs';
 import {useHistory} from 'react-router';
+import {ConfirmDialogService} from '../../parts/confirm-dialog/ConfirmDialogService';
+import {useUnsubscribe} from '../../common/hooks/useUnsubscribe';
 
-export const CardsGroupsListContainer: FC<ICardsGroupsListContainer> = ({cardsGroupsListService}) => {
+export const CardsGroupsListContainer: FC<ICardsGroupsListContainer> = ({cardsGroupsListService, confirmDialogService}) => {
 
     const [state, setState] = useState<CardsGroupsListContainerState>({cardsGroups: []});
 
@@ -18,9 +20,15 @@ export const CardsGroupsListContainer: FC<ICardsGroupsListContainer> = ({cardsGr
         setState({cardsGroups: cardsGroups})
     });
 
+    useChannel<number, ICardsGroup[]>(cardsGroupsListService.groupDeleteChannel, (cardsGroups: ICardsGroup[]) => {
+        cardsGroupsListService.groupsListChannel.next('');
+    });
+
     useConstructor(() => {
         cardsGroupsListService.groupsListChannel.next('');
     });
+
+    const setSubscription = useUnsubscribe();
 
     const onClickItem = (cardsGroupID: number): void => {
         history.push({
@@ -39,6 +47,23 @@ export const CardsGroupsListContainer: FC<ICardsGroupsListContainer> = ({cardsGr
 
     const onDeleteItem = (cardsGroupID: number) => {
 
+        const subscription = confirmDialogService.confirmationChannel.subscribe((isConfirm) => {
+            if (isConfirm) {
+                cardsGroupsListService.groupDeleteChannel.next(cardsGroupID);
+            }
+
+            confirmDialogService.openDialogChannel.next({
+                isOpen: false,
+                message: ''
+            })
+        });
+
+        setSubscription(subscription);
+
+        confirmDialogService.openDialogChannel.next({
+            isOpen: true,
+            message: 'Do you want to remove this group?'
+        })
     };
 
     const onEditItem = (cardsGroupID: number) => {
@@ -63,5 +88,6 @@ interface CardsGroupsListContainerState {
 }
 
 interface ICardsGroupsListContainer {
-    cardsGroupsListService: CardsGroupsListService
+    cardsGroupsListService: CardsGroupsListService;
+    confirmDialogService: ConfirmDialogService;
 }

@@ -2,9 +2,8 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import {IconButton, Menu, MenuItem} from '@mui/material';
 import {default as React, FC} from 'react';
 
-import {googleBackupsManager} from '../../GoogleBackupsService';
 
-export const BackupMenuComponent: FC<IBackupMenuComponent> = ({backupID}) => {
+export const BackupMenuComponent: FC<IBackupMenuComponent> = ({backupID, onLoad}) => {
 
     const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -16,9 +15,9 @@ export const BackupMenuComponent: FC<IBackupMenuComponent> = ({backupID}) => {
         setAnchorEl(null);
     };
 
-    const onLoad = () => {
-        googleBackupsManager.backupLoadChannel.next(backupID);
+    const onLoadBackup = () => {
         setAnchorEl(null);
+        onLoad(backupID);
     };
 
     return (
@@ -30,7 +29,7 @@ export const BackupMenuComponent: FC<IBackupMenuComponent> = ({backupID}) => {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
             >
-                <MenuItem onClick={onLoad}>Load</MenuItem>
+                <MenuItem onClick={onLoadBackup}>Load</MenuItem>
                 <MenuItem onClick={handleClose}>Delete</MenuItem>
             </Menu>
             <IconButton aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
@@ -42,4 +41,5 @@ export const BackupMenuComponent: FC<IBackupMenuComponent> = ({backupID}) => {
 
 interface IBackupMenuComponent {
     backupID: string;
+    onLoad: (backupID: string)=>void;
 }

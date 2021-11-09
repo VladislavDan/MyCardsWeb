@@ -3,7 +3,7 @@ import {ListItem, ListItemIcon, ListItemText} from '@mui/material';
 
 import {BackupMenuComponent} from '../backup-menu-component/BackupMenuComponent';
 
-export const BackupsListItemComponent: FC<IBackupsListItemComponent> = ({backupName, backupID}) => {
+export const BackupsListItemComponent: FC<IBackupsListItemComponent> = ({backupName, backupID, onLoad}) => {
 
     return (
         <ListItem>
@@ -11,7 +11,7 @@ export const BackupsListItemComponent: FC<IBackupsListItemComponent> = ({backupN
                 primary={backupName}
             />
             <ListItemIcon>
-                <BackupMenuComponent backupID={backupID}/>
+                <BackupMenuComponent backupID={backupID} onLoad={onLoad}/>
             </ListItemIcon>
         </ListItem>
     );
@@ -20,4 +20,5 @@ export const BackupsListItemComponent: FC<IBackupsListItemComponent> = ({backupN
 interface IBackupsListItemComponent {
     backupName: string;
     backupID: string;
+    onLoad: (backupID: string)=>void;
 }

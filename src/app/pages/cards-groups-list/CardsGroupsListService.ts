@@ -1,4 +1,4 @@
-import {map} from 'rxjs/operators';
+import {map, tap} from 'rxjs/operators';
 
 import {localStorageService} from '../../common/services/LocalStoragService';
 import {ICardsGroup} from '../../types/ICardsGroup';
@@ -8,6 +8,7 @@ import {Channel} from '../../common/Channel';
 
 export class CardsGroupsListService {
     public groupsListChannel: Channel<string, ICardsGroup[]>;
+    public groupDeleteChannel: Channel<number, ICardsGroup[]>;
 
 
     constructor() {
@@ -48,6 +49,15 @@ export class CardsGroupsListService {
                 return cardsGroups;
             })
         ));
+
+        this.groupDeleteChannel = new Channel((groupID: number) => localStorageService.getBackupFromStorage().pipe(
+            map((cardsGroups: ICardsGroup[]) => {
+                return cardsGroups.filter((cardGroup) => {
+                    return cardGroup.id !== groupID;
+                });
+            }),
+            tap((cardsGroups: ICardsGroup[]) => localStorageService.setBackupToStorage(cardsGroups))
+        ))
     }
 }
 

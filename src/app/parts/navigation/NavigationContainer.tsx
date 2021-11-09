@@ -16,6 +16,7 @@ import {ErrorService} from '../error-container/ErrorService';
 import {GoogleAuthService} from '../../pages/google-auth/GoogleAuthService';
 import {GoogleBackupsService} from '../../pages/google-backups/GoogleBackupsService';
 import {SpinnerService} from '../spinner-container/SpinnerService';
+import {ConfirmDialogService} from '../confirm-dialog/ConfirmDialogService';
 
 
 export const NavigationContainer: FC<INavigationContainer> = ({
@@ -24,13 +25,14 @@ export const NavigationContainer: FC<INavigationContainer> = ({
                                                                   errorService,
                                                                   googleAuthService,
                                                                   googleBackupsService,
-                                                                  spinnerService
+                                                                  spinnerService,
+                                                                  confirmDialogService
                                                               }) => {
 
     return <Switch>
         <Redirect exact from="/" to={Routs.cardsGroups.path}/>
         <Route path={Routs.cardsGroups.path}>
-            <CardsGroupsListContainer cardsGroupsListService={cardsGroupsListService}/>
+            <CardsGroupsListContainer cardsGroupsListService={cardsGroupsListService} confirmDialogService={confirmDialogService}/>
         </Route>
         <Route path={Routs.googleAuth.path}>
             <GoogleAuthContainer googleAuthService={googleAuthService} errorService={errorService}/>
@@ -60,4 +62,5 @@ interface INavigationContainer {
     googleAuthService: GoogleAuthService;
     googleBackupsService: GoogleBackupsService;
     spinnerService: SpinnerService;
+    confirmDialogService: ConfirmDialogService;
 }
