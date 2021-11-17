@@ -2,13 +2,13 @@ import React, {FC} from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
-
-import {ICard} from '../../../types/ICard';
-import "./CardsRepeaterComponent.css"
 import {Button, CardActions} from '@mui/material';
-import {ExpandableTextComponent} from './expandable-text-component/ExpandableTextComponent';
-import {IStatistic} from '../../../types/IStatistic';
-import {RepeatingStatisticComponent} from './repeating-statistic-component/RepeatingStatisticComponent';
+
+import {ICard} from '../../types/ICard';
+import {RepeatingStatisticComponent} from './elements/repeating-statistic-component/RepeatingStatisticComponent';
+import {ExpandableTextComponent} from './elements/expandable-text-component/ExpandableTextComponent';
+import "./CardsRepeaterComponent.css"
+import {IStatistic} from '../../types/IStatistic';
 
 export const CardsRepeaterComponent: FC<ICardsRepeaterComponent> = ({card, isQuestionSide, onClickCard, onClick, statistic}) => {
 

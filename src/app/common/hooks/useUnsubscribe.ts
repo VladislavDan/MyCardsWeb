@@ -16,7 +16,7 @@ export const useUnsubscribe = () => {
         }
     }, []);
 
-    return (subscribtion: Subscription) => {
+    return { setSubscription: (subscribtion: Subscription) => {
         setSubscription([...subscriptions, subscribtion]);
-    }
+    }}
 };

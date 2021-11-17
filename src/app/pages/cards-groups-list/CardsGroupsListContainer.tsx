@@ -28,7 +28,7 @@ export const CardsGroupsListContainer: FC<ICardsGroupsListContainer> = ({cardsGr
         cardsGroupsListService.groupsListChannel.next('');
     });
 
-    const setSubscription = useUnsubscribe();
+    const { setSubscription } = useUnsubscribe();
 
     const onClickItem = (cardsGroupID: number): void => {
         history.push({

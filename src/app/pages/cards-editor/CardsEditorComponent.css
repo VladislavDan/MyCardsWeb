@@ -1,0 +1,12 @@
+.cards-editor {
+    display: flex;
+    flex-direction: column;
+}
+
+.cards-editor_text {
+    margin: 10px !important;
+}
+
+.cards-editor_button {
+    margin: 10px !important;
+}

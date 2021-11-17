@@ -17,6 +17,8 @@ import {GoogleAuthService} from '../../pages/google-auth/GoogleAuthService';
 import {GoogleBackupsService} from '../../pages/google-backups/GoogleBackupsService';
 import {SpinnerService} from '../spinner-container/SpinnerService';
 import {ConfirmDialogService} from '../confirm-dialog/ConfirmDialogService';
+import {CardsEditorContainer} from '../../pages/cards-editor/CardsEditorContainer';
+import {CardsEditorService} from '../../pages/cards-editor/CardsEditorService';
 
 
 export const NavigationContainer: FC<INavigationContainer> = ({
@@ -26,13 +28,15 @@ export const NavigationContainer: FC<INavigationContainer> = ({
                                                                   googleAuthService,
                                                                   googleBackupsService,
                                                                   spinnerService,
-                                                                  confirmDialogService
+                                                                  confirmDialogService,
+                                                                  cardsEditorService
                                                               }) => {
 
     return <Switch>
         <Redirect exact from="/" to={Routs.cardsGroups.path}/>
         <Route path={Routs.cardsGroups.path}>
-            <CardsGroupsListContainer cardsGroupsListService={cardsGroupsListService} confirmDialogService={confirmDialogService}/>
+            <CardsGroupsListContainer cardsGroupsListService={cardsGroupsListService}
+                                      confirmDialogService={confirmDialogService}/>
         </Route>
         <Route path={Routs.googleAuth.path}>
             <GoogleAuthContainer googleAuthService={googleAuthService} errorService={errorService}/>
@@ -52,6 +56,9 @@ export const NavigationContainer: FC<INavigationContainer> = ({
         <Route path={Routs.cardsGroupEditor.path}>
             <CardsGroupsEditorContainer cardsGroupsEditorService={cardsGroupsEditorService}/>
         </Route>
+        <Route path={Routs.cardsEditor.path}>
+            <CardsEditorContainer cardsEditorService={cardsEditorService}/>
+        </Route>
     </Switch>
 };
 
@@ -63,4 +70,5 @@ interface INavigationContainer {
     googleBackupsService: GoogleBackupsService;
     spinnerService: SpinnerService;
     confirmDialogService: ConfirmDialogService;
+    cardsEditorService: CardsEditorService;
 }

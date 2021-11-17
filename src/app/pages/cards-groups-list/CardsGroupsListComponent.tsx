@@ -1,11 +1,10 @@
 import React, {FC} from "react";
 import List from '@mui/material/List';
-import Fab from '@mui/material/Fab';
-import AddIcon from '@mui/icons-material/Add';
 
 import {ICardsGroup} from '../../types/ICardsGroup';
 import {CardsGroupsListItemComponent} from './elements/cards-groups-list-item/CardsGroupsListItemComponent';
 import './CardsGroupsListComponent.css'
+import {AddButton} from '../../common/elements/add-button/AddButton';
 
 export const CardsGroupsListComponent: FC<ICardsGroupsListComponent> = ({cardsGroups, onClickItem, onEditItem, onDeleteItem, onOpenEditor}) => {
 
@@ -21,9 +20,7 @@ export const CardsGroupsListComponent: FC<ICardsGroupsListComponent> = ({cardsGr
                 />
             })}
         </List>
-        <Fab size="medium" color="secondary" aria-label="add" className="cards-groups_fab" onClick={onOpenEditor}>
-            <AddIcon/>
-        </Fab>
+        <AddButton onClick={onOpenEditor}/>
     </>
 };
 

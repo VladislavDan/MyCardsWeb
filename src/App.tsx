@@ -17,6 +17,7 @@ import {CardsGroupsListService} from './app/pages/cards-groups-list/CardsGroupsL
 import {ConfirmDialogService} from './app/parts/confirm-dialog/ConfirmDialogService';
 import {GoogleAuthService} from './app/pages/google-auth/GoogleAuthService';
 import {GoogleBackupsService} from './app/pages/google-backups/GoogleBackupsService';
+import {CardsEditorService} from './app/pages/cards-editor/CardsEditorService';
 
 export const AppContext = React.createContext<IAppContext>(defaultAppState);
 
@@ -30,6 +31,7 @@ const cardsGroupsEditorService = new CardsGroupsEditorService();
 const cardsGroupsListService = new CardsGroupsListService();
 const googleAuthService = new GoogleAuthService();
 const googleBackupsService = new GoogleBackupsService(spinnerService);
+const cardsEditorService = new CardsEditorService();
 
 function App() {
 
@@ -67,6 +69,7 @@ function App() {
                                 errorService={errorService}
                                 spinnerService={spinnerService}
                                 confirmDialogService={confirmDialogService}
+                                cardsEditorService={cardsEditorService}
                             />
                         </div>
                     </div>

@@ -5,7 +5,7 @@ import {useChannel} from '../../common/hooks/useChannel';
 import {ICard} from '../../types/ICard';
 import {useConstructor} from '../../common/hooks/useConstructor';
 import {cardsRepeaterManager} from './CardsRepeaterService';
-import {CardsRepeaterComponent} from './cards-repeater-component/CardsRepeterComponent';
+import {CardsRepeaterComponent} from './CardsRepeterComponent';
 import {Button} from '@mui/material';
 import {Routs} from '../../common/Routs';
 import {IRepeatingArgs} from '../../types/IRepeatingArgs';
