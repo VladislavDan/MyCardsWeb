@@ -33,8 +33,8 @@ export const CardsEditorComponent: FC<ICardsGroupsEditorComponent> = ({
             required
             id="outlined-required"
             label="Question"
-            onChange={changeAnswer}
-            value={answer}
+            onChange={changeQuestion}
+            value={question}
             variant="filled"
         />
         <TextField
@@ -42,8 +42,8 @@ export const CardsEditorComponent: FC<ICardsGroupsEditorComponent> = ({
             required
             id="outlined-required"
             label="Answer"
-            onChange={changeQuestion}
-            value={question}
+            onChange={changeAnswer}
+            value={answer}
             variant="filled"
         />
         <Select

@@ -10,7 +10,6 @@ import {useConstructor} from '../../common/hooks/useConstructor';
 import {ICard} from '../../types/ICard';
 import {IRangeOfKnowledge} from '../../types/IRangeOfKnowledge';
 import {ICardsGroup} from '../../types/ICardsGroup';
-import {useUnsubscribe} from '../../common/hooks/useUnsubscribe';
 import {ISimplifiedCardsGroup} from '../../types/ISimplifiedCardsGroup';
 
 export const CardsEditorContainer: FC<ICardsGroupsEditorContainer> = ({cardsEditorService}) => {
@@ -36,36 +35,33 @@ export const CardsEditorContainer: FC<ICardsGroupsEditorContainer> = ({cardsEdit
 
     useChannel<{ card: ICard, cardsGroupID: number }, ICardsGroup[]>(cardsEditorService.cardEditingChannel);
 
-    useChannel<number, {currentCardsGroup: ISimplifiedCardsGroup | undefined, cardsGroups: ISimplifiedCardsGroup[]}>(
+    useChannel<number, { currentCardsGroup: ISimplifiedCardsGroup | undefined, cardsGroups: ISimplifiedCardsGroup[] }>(
         cardsEditorService.simplifiedCardsGroupsChannel,
         ({currentCardsGroup, cardsGroups}) => {
-            if(currentCardsGroup) {
-                setState({
-                    ...state,
+            if (currentCardsGroup) {
+                setState((newState) => { return  {
+                    ...newState,
                     cardsGroups,
                     currentCardsGroup
-                })
+                }})
             } else {
-                setState({
-                    ...state,
+                setState((newState) =>{ return  {
+                    ...newState,
+                    currentCardsGroup: state.currentCardsGroup,
                     cardsGroups
-                })
+                }})
             }
         }
     );
 
     useChannel<{ cardID: number, cardsGroupID: number }, ICard | undefined>(cardsEditorService.cardChannel, (card: ICard | undefined) => {
-        if(!card) {
-            return
+        if (card) {
+            setState({
+                ...state,
+                card
+            })
         }
-
-        setState({
-            ...state,
-            card
-        })
     });
-
-    const {setSubscription} = useUnsubscribe();
 
     useConstructor(() => {
         let cardsGroupID = location.state ? location.state.cardsGroupID : -1;
@@ -102,8 +98,7 @@ export const CardsEditorContainer: FC<ICardsGroupsEditorContainer> = ({cardsEdit
     };
 
     const onSaveCard = () => {
-        let cardsGroupID = location.state ? location.state.cardsGroupID : -1;
-        cardsEditorService.cardEditingChannel.next({card: state.card, cardsGroupID});
+        cardsEditorService.cardEditingChannel.next({card: state.card, cardsGroupID: state.currentCardsGroup.id});
         history.goBack();
     };
 
