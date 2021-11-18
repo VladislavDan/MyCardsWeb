@@ -20,7 +20,11 @@ export const CardsGroupsListContainer: FC<ICardsGroupsListContainer> = ({cardsGr
         setState({cardsGroups: cardsGroups})
     });
 
-    useChannel<number, ICardsGroup[]>(cardsGroupsListService.groupDeleteChannel, (cardsGroups: ICardsGroup[]) => {
+    useChannel<number, ICardsGroup[]>(cardsGroupsListService.groupDeleteChannel, () => {
+        cardsGroupsListService.groupsListChannel.next('');
+    });
+
+    useChannel<number, ICardsGroup[]>(cardsGroupsListService.resetProgressChannel, () => {
         cardsGroupsListService.groupsListChannel.next('');
     });
 
@@ -75,11 +79,32 @@ export const CardsGroupsListContainer: FC<ICardsGroupsListContainer> = ({cardsGr
         })
     };
 
+    const onResetProgress = (cardsGroupID: number) => {
+        const subscription = confirmDialogService.confirmationChannel.subscribe((isConfirm) => {
+            if (isConfirm) {
+                cardsGroupsListService.resetProgressChannel.next(cardsGroupID);
+            }
+
+            confirmDialogService.openDialogChannel.next({
+                isOpen: false,
+                message: ''
+            })
+        });
+
+        setSubscription(subscription);
+
+        confirmDialogService.openDialogChannel.next({
+            isOpen: true,
+            message: 'Do you want to reset progress of this group?'
+        });
+    };
+
     return <CardsGroupsListComponent
         onClickItem={onClickItem}
         onOpenEditor={onOpenEditor}
         onDeleteItem={onDeleteItem}
         onEditItem={onEditItem}
+        onResetProgress={onResetProgress}
         cardsGroups={state.cardsGroups}/>
 };
 

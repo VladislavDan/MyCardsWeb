@@ -2,7 +2,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import {IconButton, Menu, MenuItem} from '@mui/material';
 import {default as React, FC} from 'react';
 
-export const CardsGroupMenuComponent: FC<IListMenuComponent> = ({onEdit, onDelete}) => {
+export const ListItemMenuComponent: FC<IListItemMenuComponent> = ({onEdit, onDelete, onResetProgress}) => {
 
     const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -24,6 +24,7 @@ export const CardsGroupMenuComponent: FC<IListMenuComponent> = ({onEdit, onDelet
                 onClose={handleClose}
             >
                 <MenuItem onClick={onEdit}>Edit</MenuItem>
+                <MenuItem onClick={onResetProgress}>Reset progress</MenuItem>
                 <MenuItem onClick={onDelete}>Delete</MenuItem>
             </Menu>
             <IconButton aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
@@ -33,7 +34,8 @@ export const CardsGroupMenuComponent: FC<IListMenuComponent> = ({onEdit, onDelet
     )
 };
 
-interface IListMenuComponent {
-    onEdit: () => void
-    onDelete: () => void
+interface IListItemMenuComponent {
+    onEdit: () => void;
+    onDelete: () => void;
+    onResetProgress: () => void;
 }

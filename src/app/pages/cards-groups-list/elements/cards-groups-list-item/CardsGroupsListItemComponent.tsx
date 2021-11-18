@@ -7,9 +7,9 @@ import ListItemText from '@mui/material/ListItemText/ListItemText';
 import {DATE_FORMAT} from '../../../../common/Constants';
 import {ICardsGroup} from '../../../../types/ICardsGroup';
 import {CircularProgressComponent} from '../circular-progress/CircularProgressComponent';
-import {CardsGroupMenuComponent} from '../cards-group-menu/CardsGroupMenuComponent';
+import {ListItemMenuComponent} from '../../../../common/elements/list-item-menu/ListItemMenuComponent';
 
-export const CardsGroupsListItemComponent: FC<ICardsGroupsListItemComponent> = ({cardsGroup, onClickItem, onEditItem, onDeleteItem}) => {
+export const CardsGroupsListItemComponent: FC<ICardsGroupsListItemComponent> = ({cardsGroup, onClickItem, onEditItem, onDeleteItem, onResetProgress}) => {
 
     return <>
         <ListItem key={cardsGroup.id} button>
@@ -22,7 +22,11 @@ export const CardsGroupsListItemComponent: FC<ICardsGroupsListItemComponent> = (
                 secondary={'Last repeating date: ' + format(cardsGroup.dateRepeating ? cardsGroup.dateRepeating : new Date(), DATE_FORMAT)}
             />
             <ListItemIcon>
-                <CardsGroupMenuComponent onEdit={() => onEditItem(cardsGroup.id)} onDelete={() => onDeleteItem(cardsGroup.id)}/>
+                <ListItemMenuComponent
+                    onEdit={() => onEditItem(cardsGroup.id)}
+                    onDelete={() => onDeleteItem(cardsGroup.id)}
+                    onResetProgress={() => onResetProgress(cardsGroup.id)}
+                />
             </ListItemIcon>
         </ListItem>
     </>
@@ -33,4 +37,5 @@ interface ICardsGroupsListItemComponent {
     onClickItem: (id: number) => void;
     onEditItem: (id: number) => void;
     onDeleteItem: (id: number) => void;
+    onResetProgress: (id: number) => void;
 }

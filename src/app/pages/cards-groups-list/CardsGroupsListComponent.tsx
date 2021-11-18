@@ -6,7 +6,7 @@ import {CardsGroupsListItemComponent} from './elements/cards-groups-list-item/Ca
 import './CardsGroupsListComponent.css'
 import {AddButton} from '../../common/elements/add-button/AddButton';
 
-export const CardsGroupsListComponent: FC<ICardsGroupsListComponent> = ({cardsGroups, onClickItem, onEditItem, onDeleteItem, onOpenEditor}) => {
+export const CardsGroupsListComponent: FC<ICardsGroupsListComponent> = ({cardsGroups, onClickItem, onEditItem, onDeleteItem, onOpenEditor, onResetProgress}) => {
 
     return <>
         <List component="nav" aria-label="contacts" className="cards-groups">
@@ -17,6 +17,7 @@ export const CardsGroupsListComponent: FC<ICardsGroupsListComponent> = ({cardsGr
                     onClickItem={onClickItem}
                     onEditItem={onEditItem}
                     onDeleteItem={onDeleteItem}
+                    onResetProgress={onResetProgress}
                 />
             })}
         </List>
@@ -30,4 +31,5 @@ interface ICardsGroupsListComponent {
     onEditItem: (id: number) => void;
     onDeleteItem: (id: number) => void;
     onOpenEditor: () => void;
+    onResetProgress: (id: number) => void;
 }

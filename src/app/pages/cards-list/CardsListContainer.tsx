@@ -36,7 +36,31 @@ export const CardsListContainer = () => {
         })
     };
 
-    return <CardsListComponent cards={state.cards} onOpenEditor={onOpenEditor}/>
+    const onEditItem = (cardID: number) => {
+        history.push({
+            pathname: Routs.cardsEditor.path,
+            state: {
+                cardsGroupID: location.state.cardsGroupID,
+                cardID: cardID
+            }
+        })
+    };
+
+    const onDeleteItem = (cardID: number) => {
+
+    };
+
+    const onResetProgress = (cardID: number) => {
+
+    };
+
+    return <CardsListComponent
+        cards={state.cards}
+        onOpenEditor={onOpenEditor}
+        onEditItem={onEditItem}
+        onDeleteItem={onDeleteItem}
+        onResetProgress={onResetProgress}
+    />
 };
 
 interface CardsListContainerState {

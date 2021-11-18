@@ -9,6 +9,7 @@ import {Channel} from '../../common/Channel';
 export class CardsGroupsListService {
     public groupsListChannel: Channel<string, ICardsGroup[]>;
     public groupDeleteChannel: Channel<number, ICardsGroup[]>;
+    public resetProgressChannel: Channel<number, ICardsGroup[]>;
 
 
     constructor() {
@@ -57,8 +58,27 @@ export class CardsGroupsListService {
                 });
             }),
             tap((cardsGroups: ICardsGroup[]) => localStorageService.setBackupToStorage(cardsGroups))
+        ));
+
+        this.resetProgressChannel = new Channel((cardsGroupID: number) => localStorageService.getBackupFromStorage().pipe(
+            map((cardsGroups: ICardsGroup[]) => {
+
+                const cardGroupIndex = cardsGroups.findIndex((cardGroup: ICardsGroup) => cardsGroupID === cardGroup.id);
+
+                if (cardGroupIndex < 0) {
+                    return cardsGroups;
+                }
+
+                cardsGroups[cardGroupIndex].cards = cardsGroups[cardGroupIndex].cards.map((card: ICard) => {
+                    return {
+                        ...card,
+                        rangeOfKnowledge: IRangeOfKnowledge.TO_DO
+                    }
+                });
+
+                return cardsGroups;
+            }),
+            tap((cardsGroups: ICardsGroup[]) => localStorageService.setBackupToStorage(cardsGroups))
         ))
     }
 }
-
-export const cardsGroupsListManager = new CardsGroupsListService();
