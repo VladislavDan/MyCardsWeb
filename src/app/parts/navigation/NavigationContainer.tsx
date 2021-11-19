@@ -19,6 +19,10 @@ import {SpinnerService} from '../spinner-container/SpinnerService';
 import {ConfirmDialogService} from '../confirm-dialog/ConfirmDialogService';
 import {CardsEditorContainer} from '../../pages/cards-editor/CardsEditorContainer';
 import {CardsEditorService} from '../../pages/cards-editor/CardsEditorService';
+import {LocalStorageService} from '../../common/services/LocalStoragService';
+import {CardsListService} from '../../pages/cards-list/CardsListService';
+import {CardsRepeaterService} from '../../pages/cards-repeater/CardsRepeaterService';
+import {LocalBackupsService} from '../../pages/local-backup/LocalBackupsService';
 
 
 export const NavigationContainer: FC<INavigationContainer> = ({
@@ -29,7 +33,10 @@ export const NavigationContainer: FC<INavigationContainer> = ({
                                                                   googleBackupsService,
                                                                   spinnerService,
                                                                   confirmDialogService,
-                                                                  cardsEditorService
+                                                                  cardsEditorService,
+    cardsListService,
+    cardsRepeaterService,
+                                                                  localBackupsService
                                                               }) => {
 
     return <Switch>
@@ -45,13 +52,13 @@ export const NavigationContainer: FC<INavigationContainer> = ({
             <GoogleBackupsContainer googleBackupsService={googleBackupsService} spinnerService={spinnerService}/>
         </Route>
         <Route path={Routs.cards.path}>
-            <CardsListContainer/>
+            <CardsListContainer cardsListService={cardsListService}/>
         </Route>
         <Route path={Routs.cardsRepeater.path}>
-            <CardRepeaterContainer/>
+            <CardRepeaterContainer cardsRepeaterService={cardsRepeaterService}/>
         </Route>
         <Route path={Routs.localBackups.path}>
-            <LocalBackupsContainer/>
+            <LocalBackupsContainer localBackupsService={localBackupsService}/>
         </Route>
         <Route path={Routs.cardsGroupEditor.path}>
             <CardsGroupsEditorContainer cardsGroupsEditorService={cardsGroupsEditorService}/>
@@ -71,4 +78,8 @@ interface INavigationContainer {
     spinnerService: SpinnerService;
     confirmDialogService: ConfirmDialogService;
     cardsEditorService: CardsEditorService;
+    localStorageService: LocalStorageService;
+    cardsListService: CardsListService;
+    cardsRepeaterService: CardsRepeaterService;
+    localBackupsService: LocalBackupsService;
 }

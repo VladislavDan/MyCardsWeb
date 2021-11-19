@@ -14,6 +14,21 @@ export const ListItemMenuComponent: FC<IListItemMenuComponent> = ({onEdit, onDel
         setAnchorEl(null);
     };
 
+    const editClick = () => {
+        onEdit();
+        handleClose();
+    };
+
+    const resetClick = () => {
+        onResetProgress();
+        handleClose();
+    };
+
+    const deleteClick = () => {
+        onDelete();
+        handleClose();
+    };
+
     return (
         <>
             <Menu
@@ -23,9 +38,9 @@ export const ListItemMenuComponent: FC<IListItemMenuComponent> = ({onEdit, onDel
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
             >
-                <MenuItem onClick={onEdit}>Edit</MenuItem>
-                <MenuItem onClick={onResetProgress}>Reset progress</MenuItem>
-                <MenuItem onClick={onDelete}>Delete</MenuItem>
+                <MenuItem onClick={editClick}>Edit</MenuItem>
+                <MenuItem onClick={resetClick}>Reset progress</MenuItem>
+                <MenuItem onClick={deleteClick}>Delete</MenuItem>
             </Menu>
             <IconButton aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
                 <MoreVertIcon/>

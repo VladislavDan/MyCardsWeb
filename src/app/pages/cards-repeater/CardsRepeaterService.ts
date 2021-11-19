@@ -2,21 +2,21 @@ import {Observable, of} from 'rxjs';
 import {map, switchMap} from 'rxjs/operators';
 
 import {ICard} from '../../types/ICard';
-import {localStorageService} from '../../common/services/LocalStoragService';
+import {LocalStorageService} from '../../common/services/LocalStoragService';
 import {ICardsGroup} from '../../types/ICardsGroup';
 import {IRangeOfKnowledge} from '../../types/IRangeOfKnowledge';
 import {IRepeatingArgs} from '../../types/IRepeatingArgs';
 import {Channel} from '../../common/Channel';
 import {IStatistic} from '../../types/IStatistic';
 
-class CardsRepeaterService {
-    public cardChannel: Channel<number, ICard | undefined>;
+export class CardsRepeaterService {
+    public cardChannel: Channel<{cardsGroupID: number, cardID: number}, ICard | undefined>;
     public repeatingResultChannel: Channel<IRepeatingArgs, ICardsGroup[]>;
     public statisticChannel: Channel<number, IStatistic>;
 
-    constructor() {
-        this.cardChannel = new Channel((cardsGroupID: number) => of('').pipe(
-            switchMap(() => this.getCards(cardsGroupID)),
+    constructor(private localStorageService: LocalStorageService) {
+        this.cardChannel = new Channel(({cardsGroupID, cardID}) => of('').pipe(
+            switchMap(() => this.getCards(cardsGroupID, cardID)),
             map((cards: ICard[]) => this.getCardForRepeating(cards))
         ));
 
@@ -29,22 +29,40 @@ class CardsRepeaterService {
         });
     }
 
-    getCards(cardsGroupID: number) {
-        return of('').pipe(
-            switchMap(() => localStorageService.getBackupFromStorage()),
+    getCards(cardsGroupID: number, cardID: number) {
+        return this.localStorageService.getBackupFromStorage().pipe(
             map((cardsGroups: ICardsGroup[]) => {
+
                 const foundCardsGroup = cardsGroups.find((cardsGroup: ICardsGroup) => {
                     return !cardsGroupID || cardsGroup.id === cardsGroupID;
                 });
 
-                return foundCardsGroup ? foundCardsGroup.cards : [];
+                let foundCards: Array<ICard> = [];
+
+                if(foundCardsGroup) {
+                    foundCards = foundCardsGroup.cards;
+
+                    if(cardID) {
+
+                        const foundCard = foundCards.find((card: ICard) => {
+                            return card.id === cardID;
+                        });
+
+                        if(foundCard) {
+                            foundCards = [];
+                            foundCards.push(foundCard)
+                        }
+                    }
+                }
+
+                return foundCards;
             })
-        )
+        );
     }
 
     writeRangeOfKnowledge = (args: IRepeatingArgs) => {
         return of('').pipe(
-            switchMap(() => localStorageService.getBackupFromStorage()),
+            switchMap(() => this.localStorageService.getBackupFromStorage()),
             map((cardsGroups: ICardsGroup[]) => {
                 cardsGroups.forEach((cardsGroup: ICardsGroup) => {
                     if (!args.cardsGroupID || cardsGroup.id === args.cardsGroupID) {
@@ -65,7 +83,7 @@ class CardsRepeaterService {
 
                 return cardsGroups;
             }),
-            switchMap((cardsGroups: ICardsGroup[]) => localStorageService.setBackupToStorage(cardsGroups))
+            switchMap((cardsGroups: ICardsGroup[]) => this.localStorageService.setBackupToStorage(cardsGroups))
         )
     };
 
@@ -85,7 +103,7 @@ class CardsRepeaterService {
 
     getStatistic(cardsGroupID: number): Observable<IStatistic> {
         return of('').pipe(
-            switchMap(() => localStorageService.getBackupFromStorage()),
+            switchMap(() => this.localStorageService.getBackupFromStorage()),
             map((cardsGroups: ICardsGroup[]) => {
 
                 const statistic: IStatistic = {
@@ -116,5 +134,3 @@ class CardsRepeaterService {
     }
 
 }
-
-export const cardsRepeaterManager = new CardsRepeaterService();

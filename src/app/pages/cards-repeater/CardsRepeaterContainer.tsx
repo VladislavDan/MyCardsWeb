@@ -1,10 +1,10 @@
 import {useHistory, useLocation} from 'react-router';
-import React, {useState} from 'react';
+import React, {FC, useState} from 'react';
 
 import {useChannel} from '../../common/hooks/useChannel';
 import {ICard} from '../../types/ICard';
 import {useConstructor} from '../../common/hooks/useConstructor';
-import {cardsRepeaterManager} from './CardsRepeaterService';
+import {CardsRepeaterService} from './CardsRepeaterService';
 import {CardsRepeaterComponent} from './CardsRepeterComponent';
 import {Button} from '@mui/material';
 import {Routs} from '../../common/Routs';
@@ -13,7 +13,7 @@ import {ICardsGroup} from '../../types/ICardsGroup';
 import {IStatistic} from '../../types/IStatistic';
 import {INavigationState} from '../../types/INavigationState';
 
-export const CardRepeaterContainer = () => {
+export const CardRepeaterContainer: FC<ICardRepeaterContainer> = ({cardsRepeaterService}) => {
 
     const location = useLocation<INavigationState>();
 
@@ -32,31 +32,32 @@ export const CardRepeaterContainer = () => {
 
     const [statistic, setStatistic] = useState<IStatistic>(defaultStatisticValue);
 
-    useChannel<number, ICard | undefined>(cardsRepeaterManager.cardChannel, (card: ICard | undefined) => {
+    useChannel<{cardsGroupID: number, cardID: number}, ICard | undefined>(cardsRepeaterService.cardChannel, (card: ICard | undefined) => {
         setState({
             card: card,
             isQuestionSide: true
         });
     });
 
-    useChannel<number, IStatistic>(cardsRepeaterManager.statisticChannel, (statistic: IStatistic) => {
+    useChannel<number, IStatistic>(cardsRepeaterService.statisticChannel, (statistic: IStatistic) => {
         setStatistic(statistic)
     });
 
-    useChannel<IRepeatingArgs, ICardsGroup[]>(cardsRepeaterManager.repeatingResultChannel, () => {
-        cardsRepeaterManager.cardChannel.next(location.state.cardsGroupID);
-        cardsRepeaterManager.statisticChannel.next(location.state.cardsGroupID);
+    useChannel<IRepeatingArgs, ICardsGroup[]>(cardsRepeaterService.repeatingResultChannel, () => {
+
+        cardsRepeaterService.cardChannel.next({cardsGroupID: location.state.cardsGroupID, cardID: location.state.cardID});
+        cardsRepeaterService.statisticChannel.next(location.state.cardsGroupID);
     });
 
     useConstructor(() => {
-        cardsRepeaterManager.cardChannel.next(location.state.cardsGroupID);
-        cardsRepeaterManager.statisticChannel.next(location.state.cardsGroupID);
+        cardsRepeaterService.cardChannel.next({cardsGroupID: location.state.cardsGroupID, cardID: location.state.cardID});
+        cardsRepeaterService.statisticChannel.next(location.state.cardsGroupID);
     });
 
     const onClick = (isKnown: boolean) => {
 
         if (state.card) {
-            cardsRepeaterManager.repeatingResultChannel.next({
+            cardsRepeaterService.repeatingResultChannel.next({
                 isKnown: isKnown,
                 cardID: state.card.id,
                 cardsGroupID: location.state.cardsGroupID
@@ -95,4 +96,8 @@ export const CardRepeaterContainer = () => {
 interface CardRepeaterContainerState {
     card: ICard | undefined,
     isQuestionSide: boolean
+}
+
+interface ICardRepeaterContainer {
+    cardsRepeaterService: CardsRepeaterService
 }

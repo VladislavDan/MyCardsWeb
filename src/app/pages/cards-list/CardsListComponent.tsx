@@ -7,7 +7,7 @@ import {ICard} from '../../types/ICard';
 import {AddButton} from '../../common/elements/add-button/AddButton';
 import './CardsListComponent.css'
 
-export const CardsListComponent: FC<ICardsListComponent> = ({cards, onOpenEditor, onEditItem, onDeleteItem, onResetProgress}) => {
+export const CardsListComponent: FC<ICardsListComponent> = ({cards, onOpenEditor, onEditItem, onDeleteItem, onResetProgress, onClickItem}) => {
     return (
         <>
             <List className="cards">
@@ -19,6 +19,7 @@ export const CardsListComponent: FC<ICardsListComponent> = ({cards, onOpenEditor
                             onEditItem={onEditItem}
                             onDeleteItem={onDeleteItem}
                             onResetProgress={onResetProgress}
+                            onClickItem={onClickItem}
                         />
                     })
                 }
@@ -34,4 +35,5 @@ interface ICardsListComponent {
     onEditItem: (id: number) => void;
     onDeleteItem: (id: number) => void;
     onResetProgress: (id: number) => void;
+    onClickItem: (id: number) => void;
 }

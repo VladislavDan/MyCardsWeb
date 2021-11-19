@@ -2,7 +2,7 @@ import {Observable, of} from 'rxjs';
 import {map, switchMap, tap} from 'rxjs/operators';
 import {ajax, AjaxResponse} from 'rxjs/ajax';
 
-import {localStorageService} from '../../common/services/LocalStoragService';
+import {LocalStorageService} from '../../common/services/LocalStoragService';
 import {IGoogleDriveFile} from '../../types/IGoogleDriveFile';
 import {ICardsGroup} from '../../types/ICardsGroup';
 import {Channel} from '../../common/Channel';
@@ -24,7 +24,7 @@ export class GoogleBackupsService {
     private getFilesAdditionalPartURI = '?alt=media';
     private googleDriveFolderType = 'application/vnd.google-apps.folder';
 
-    constructor(spinnerService: SpinnerService) {
+    constructor(spinnerService: SpinnerService, private localStorageService: LocalStorageService) {
 
         this.backupsNameLoadChannel = new Channel(() => of('').pipe(
             tap(() => spinnerService.spinnerCounterChannel.next(1)),
@@ -116,7 +116,7 @@ export class GoogleBackupsService {
 
     public loadBackupFile(fileId: string): Observable<ICardsGroup[]> {
         return of('').pipe(
-            switchMap(() => localStorageService.getAuthToken()),
+            switchMap(() => this.localStorageService.getAuthToken()),
             switchMap((authToken: string) => ajax<ICardsGroup[]>(
                 {
                     url: this.googleDriveFilesAPI + fileId + this.getFilesAdditionalPartURI,
@@ -127,7 +127,7 @@ export class GoogleBackupsService {
                 }
             )),
             map((result: AjaxResponse<ICardsGroup[]>) => {
-                localStorageService.setBackupToStorage(result.response);
+                this.localStorageService.setBackupToStorage(result.response);
                 return result.response;
             })
         );
@@ -152,7 +152,7 @@ export class GoogleBackupsService {
 
     public deleteBackupFile(fileId: string): Observable<AjaxResponse<string>> {
         return of('').pipe(
-            switchMap(() => localStorageService.getAuthToken()),
+            switchMap(() => this.localStorageService.getAuthToken()),
             switchMap((authToken: string) => ajax<string>(
                 {
                     url: this.googleDriveFilesAPI + fileId,
@@ -210,7 +210,7 @@ export class GoogleBackupsService {
 
     public uploadBackupFile(token: string, fileId: string): Observable<string> {
         return of('').pipe(
-            switchMap(() => localStorageService.getBackupFromStorage()),
+            switchMap(() => this.localStorageService.getBackupFromStorage()),
             switchMap((cardsGroups: ICardsGroup[]) => ajax(
                 {
                     url: this.googleDriveUploadAPI + fileId,

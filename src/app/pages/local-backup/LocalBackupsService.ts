@@ -1,15 +1,15 @@
 import {of} from 'rxjs';
 
-import {localStorageService} from '../../common/services/LocalStoragService';
+import {LocalStorageService} from '../../common/services/LocalStoragService';
 import {ICardsGroup} from '../../types/ICardsGroup';
 import {Channel} from '../../common/Channel';
 import {switchMap, tap} from 'rxjs/operators';
 
-class LocalBackupsService {
+export class LocalBackupsService {
 
     public localBackupChannel: Channel<void, ICardsGroup[]>;
 
-    constructor() {
+    constructor(private localStorageService: LocalStorageService) {
         this.localBackupChannel = new Channel(() => of('').pipe(
             switchMap(() => this.saveFile())
         ))
@@ -28,7 +28,7 @@ class LocalBackupsService {
     };
 
     saveFile() {
-        return localStorageService.getBackupFromStorage().pipe(
+        return this.localStorageService.getBackupFromStorage().pipe(
             tap((backup: ICardsGroup[]) => {
                 const fileData: string = JSON.stringify(backup, null, 4);
                 const blob = new Blob([fileData], {type: "octet/stream"});
@@ -46,5 +46,3 @@ class LocalBackupsService {
         );
     }
 }
-
-export const localBackupsService = new LocalBackupsService();

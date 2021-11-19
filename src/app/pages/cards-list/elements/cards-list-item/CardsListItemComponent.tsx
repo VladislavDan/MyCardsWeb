@@ -10,7 +10,7 @@ import {ICard} from '../../../../types/ICard';
 import {IRangeOfKnowledge} from '../../../../types/IRangeOfKnowledge';
 import {ListItemMenuComponent} from '../../../../common/elements/list-item-menu/ListItemMenuComponent';
 
-export const CardsListItemComponent: FC<ICardListItemComponent> = ({card, onEditItem, onDeleteItem, onResetProgress}) => {
+export const CardsListItemComponent: FC<ICardListItemComponent> = ({card, onEditItem, onDeleteItem, onResetProgress, onClickItem}) => {
 
     const getIconColor = (card: ICard): string => {
         if(card.rangeOfKnowledge === IRangeOfKnowledge.DONE){
@@ -23,10 +23,11 @@ export const CardsListItemComponent: FC<ICardListItemComponent> = ({card, onEdit
     };
 
     return <ListItem key={card.id} button>
-        <ListItemIcon>
+        <ListItemIcon onClick={() => onClickItem(card.id)}>
              <FlagIcon style={{color: getIconColor(card)}}/>
         </ListItemIcon>
         <ListItemText
+            onClick={() => onClickItem(card.id)}
             primary={card.question}
             secondary={'Last repeating date: ' + format(card.dateRepeating ? card.dateRepeating : new Date(), DATE_FORMAT)}
         />
@@ -45,4 +46,5 @@ interface ICardListItemComponent {
     onEditItem: (id: number) => void;
     onDeleteItem: (id: number) => void;
     onResetProgress: (id: number) => void;
+    onClickItem: (id: number) => void;
 }

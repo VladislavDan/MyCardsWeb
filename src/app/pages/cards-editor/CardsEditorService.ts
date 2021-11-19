@@ -1,6 +1,6 @@
 import {map, tap} from 'rxjs/operators';
 
-import {localStorageService} from '../../common/services/LocalStoragService';
+import {LocalStorageService} from '../../common/services/LocalStoragService';
 import {ICardsGroup} from '../../types/ICardsGroup';
 import {Channel} from '../../common/Channel';
 import {ICard} from '../../types/ICard';
@@ -13,7 +13,7 @@ export class CardsEditorService {
     public simplifiedCardsGroupsChannel: Channel<number, {currentCardsGroup: ISimplifiedCardsGroup | undefined, cardsGroups: ISimplifiedCardsGroup[]}>;
     public cardChannel: Channel<{ cardID: number, cardsGroupID: number }, ICard | undefined>;
 
-    constructor() {
+    constructor(localStorageService: LocalStorageService) {
         this.cardEditingChannel = new Channel(({card, cardsGroupID}) => localStorageService.getBackupFromStorage().pipe(
             map((cardsGroups: ICardsGroup[]) => {
                 const cardGroupIndex = cardsGroups.findIndex((cardGroup: ICardsGroup) => cardsGroupID === cardGroup.id);

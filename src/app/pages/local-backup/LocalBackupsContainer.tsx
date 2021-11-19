@@ -1,10 +1,11 @@
 import * as React from 'react';
+import {FC} from 'react';
 
 import {useChannel} from '../../common/hooks/useChannel';
-import {localBackupsService} from './LocalBackupsService';
+import {LocalBackupsService} from './LocalBackupsService';
 import {Button} from '@mui/material';
 
-export const LocalBackupsContainer = () => {
+export const LocalBackupsContainer: FC<ILocalBackupsContainer> = ({localBackupsService}) => {
 
     useChannel(
         localBackupsService.localBackupChannel
@@ -14,3 +15,7 @@ export const LocalBackupsContainer = () => {
         Save
     </Button>
 };
+
+interface ILocalBackupsContainer {
+    localBackupsService: LocalBackupsService
+}

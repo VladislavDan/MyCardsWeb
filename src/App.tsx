@@ -18,6 +18,10 @@ import {ConfirmDialogService} from './app/parts/confirm-dialog/ConfirmDialogServ
 import {GoogleAuthService} from './app/pages/google-auth/GoogleAuthService';
 import {GoogleBackupsService} from './app/pages/google-backups/GoogleBackupsService';
 import {CardsEditorService} from './app/pages/cards-editor/CardsEditorService';
+import {LocalStorageService} from './app/common/services/LocalStoragService';
+import {CardsListService} from './app/pages/cards-list/CardsListService';
+import {CardsRepeaterService} from './app/pages/cards-repeater/CardsRepeaterService';
+import {LocalBackupsService} from './app/pages/local-backup/LocalBackupsService';
 
 export const AppContext = React.createContext<IAppContext>(defaultAppState);
 
@@ -27,11 +31,15 @@ export const spinnerService = new SpinnerService();
 
 const confirmDialogService= new ConfirmDialogService();
 
-const cardsGroupsEditorService = new CardsGroupsEditorService();
-const cardsGroupsListService = new CardsGroupsListService();
-const googleAuthService = new GoogleAuthService();
-const googleBackupsService = new GoogleBackupsService(spinnerService);
-const cardsEditorService = new CardsEditorService();
+const localStorageService = new LocalStorageService();
+const cardsGroupsEditorService = new CardsGroupsEditorService(localStorageService);
+const cardsGroupsListService = new CardsGroupsListService(localStorageService);
+const googleAuthService = new GoogleAuthService(localStorageService);
+const googleBackupsService = new GoogleBackupsService(spinnerService, localStorageService);
+const cardsEditorService = new CardsEditorService(localStorageService);
+const cardsListService = new CardsListService(localStorageService);
+const cardsRepeaterService = new CardsRepeaterService(localStorageService);
+const localBackupsService = new  LocalBackupsService(localStorageService);
 
 function App() {
 
@@ -70,6 +78,10 @@ function App() {
                                 spinnerService={spinnerService}
                                 confirmDialogService={confirmDialogService}
                                 cardsEditorService={cardsEditorService}
+                                localStorageService={localStorageService}
+                                cardsListService={cardsListService}
+                                cardsRepeaterService={cardsRepeaterService}
+                                localBackupsService={localBackupsService}
                             />
                         </div>
                     </div>

@@ -1,6 +1,6 @@
 import {map, tap} from 'rxjs/operators';
 
-import {localStorageService} from '../../common/services/LocalStoragService';
+import {LocalStorageService} from '../../common/services/LocalStoragService';
 import {ICardsGroup} from '../../types/ICardsGroup';
 import {ICard} from '../../types/ICard';
 import {IRangeOfKnowledge} from '../../types/IRangeOfKnowledge';
@@ -12,7 +12,7 @@ export class CardsGroupsListService {
     public resetProgressChannel: Channel<number, ICardsGroup[]>;
 
 
-    constructor() {
+    constructor(localStorageService: LocalStorageService) {
         this.groupsListChannel = new Channel(() => localStorageService.getBackupFromStorage().pipe(
             map((cardsGroups: ICardsGroup[]) => {
                 cardsGroups.map((cardsGroup: ICardsGroup) => {

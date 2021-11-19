@@ -1,7 +1,7 @@
 import {from, Observable} from 'rxjs';
 import {ICardsGroup} from '../../types/ICardsGroup';
 
-class LocalStorageManager {
+export class LocalStorageService {
 
     private cardsLocalStorageID = 'cards-local-storage';
     private authTokenLocalStorageID = 'auth-token';
@@ -42,5 +42,3 @@ class LocalStorageManager {
         }));
     }
 }
-
-export const localStorageService = new LocalStorageManager();
