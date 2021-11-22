@@ -8,8 +8,11 @@ import {useHistory, useLocation} from 'react-router';
 import {useConstructor} from '../../common/hooks/useConstructor';
 import {INavigationState} from '../../types/INavigationState';
 import {Routs} from '../../common/Routs';
+import {ICardsGroup} from '../../types/ICardsGroup';
+import {ConfirmDialogService} from '../../parts/confirm-dialog/ConfirmDialogService';
+import {useUnsubscribe} from '../../common/hooks/useUnsubscribe';
 
-export const CardsListContainer: FC<ICardsListContainer> = ({cardsListService}) => {
+export const CardsListContainer: FC<ICardsListContainer> = ({cardsListService, confirmDialogService}) => {
 
     const location = useLocation<INavigationState>();
 
@@ -21,6 +24,14 @@ export const CardsListContainer: FC<ICardsListContainer> = ({cardsListService}) 
         setState({
             cards: cards
         });
+    });
+
+    useChannel(cardsListService.resetCardProgressChannel, (cards: ICardsGroup[]) => {
+        cardsListService.cardsChannel.next(location.state.cardsGroupID)
+    });
+
+    useChannel(cardsListService.deleteCardChannel, (cards: ICardsGroup[]) => {
+        cardsListService.cardsChannel.next(location.state.cardsGroupID)
     });
 
     useConstructor(() => {
@@ -46,12 +57,30 @@ export const CardsListContainer: FC<ICardsListContainer> = ({cardsListService}) 
         })
     };
 
-    const onDeleteItem = (cardID: number) => {
+    const { setSubscription } = useUnsubscribe();
 
+    const onDeleteItem = (cardID: number) => {
+        const subscription = confirmDialogService.confirmationChannel.subscribe((isConfirm) => {
+            if (isConfirm) {
+                cardsListService.deleteCardChannel.next({cardID, cardsGroupID: location.state.cardsGroupID});
+            }
+
+            confirmDialogService.openDialogChannel.next({
+                isOpen: false,
+                message: ''
+            })
+        });
+
+        setSubscription(subscription);
+
+        confirmDialogService.openDialogChannel.next({
+            isOpen: true,
+            message: 'Do you want to remove this card?'
+        })
     };
 
     const onResetProgress = (cardID: number) => {
-
+        cardsListService.resetCardProgressChannel.next({cardID, cardsGroupID: location.state.cardsGroupID})
     };
 
     const onClickItem = (cardID: number) => {
@@ -79,5 +108,6 @@ interface CardsListContainerState {
 }
 
 interface ICardsListContainer {
-    cardsListService: CardsListService
+    cardsListService: CardsListService;
+    confirmDialogService: ConfirmDialogService;
 }

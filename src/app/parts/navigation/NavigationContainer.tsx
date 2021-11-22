@@ -52,7 +52,7 @@ export const NavigationContainer: FC<INavigationContainer> = ({
             <GoogleBackupsContainer googleBackupsService={googleBackupsService} spinnerService={spinnerService}/>
         </Route>
         <Route path={Routs.cards.path}>
-            <CardsListContainer cardsListService={cardsListService}/>
+            <CardsListContainer cardsListService={cardsListService} confirmDialogService={confirmDialogService}/>
         </Route>
         <Route path={Routs.cardsRepeater.path}>
             <CardRepeaterContainer cardsRepeaterService={cardsRepeaterService}/>
