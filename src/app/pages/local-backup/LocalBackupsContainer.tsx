@@ -1,21 +1,71 @@
 import * as React from 'react';
-import {FC} from 'react';
+import {FC, useRef} from 'react';
 
 import {useChannel} from '../../common/hooks/useChannel';
 import {LocalBackupsService} from './LocalBackupsService';
 import {Button} from '@mui/material';
+import {useUnsubscribe} from '../../common/hooks/useUnsubscribe';
+import {ConfirmDialogService} from '../../parts/confirm-dialog/ConfirmDialogService';
+import {SpinnerService} from '../../parts/spinner-container/SpinnerService';
 
-export const LocalBackupsContainer: FC<ILocalBackupsContainer> = ({localBackupsService}) => {
+export const LocalBackupsContainer: FC<ILocalBackupsContainer> = ({localBackupsService, confirmDialogService, spinnerService}) => {
+
+    const fileBuffer = useRef(null);
 
     useChannel(
         localBackupsService.localBackupChannel
     );
 
-    return <Button size="small" onClick={() => localBackupsService.localBackupChannel.next()}>
-        Save
-    </Button>
+    useChannel(
+        localBackupsService.loadBackupChannel, () => {
+            spinnerService.spinnerCounterChannel.next(-1);
+        }
+    );
+
+    const { setSubscription } = useUnsubscribe();
+
+    const handleFileSelect = (event: any) => {
+        const file = event.target.files[0];
+        if (!file) {
+            return;
+        }
+        const reader = new FileReader();
+        reader.onload = (readerEvent: any) => {
+            const games: string = readerEvent.target.result;
+
+            const subscription = confirmDialogService.confirmationChannel.subscribe((isConfirm) => {
+                if (isConfirm) {
+                    spinnerService.spinnerCounterChannel.next(1);
+                    localBackupsService.loadBackupChannel.next(games);
+                }
+
+                confirmDialogService.openDialogChannel.next({
+                    isOpen: false,
+                    message: ''
+                })
+            });
+
+            setSubscription(subscription);
+
+            confirmDialogService.openDialogChannel.next({
+                isOpen: true,
+                message: 'Do you want to load this backup, your current changes could be removed?'
+            });
+        };
+        reader.readAsText(file);
+    };
+
+    return <>
+        <input type="file" onChange={handleFileSelect}/>
+        <a ref={fileBuffer}></a>
+        <Button size="small" onClick={() => localBackupsService.localBackupChannel.next()}>
+            Save
+        </Button>
+    </>
 };
 
 interface ILocalBackupsContainer {
-    localBackupsService: LocalBackupsService
+    localBackupsService: LocalBackupsService;
+    confirmDialogService: ConfirmDialogService;
+    spinnerService: SpinnerService;
 }

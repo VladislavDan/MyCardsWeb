@@ -58,7 +58,7 @@ export const NavigationContainer: FC<INavigationContainer> = ({
             <CardRepeaterContainer cardsRepeaterService={cardsRepeaterService}/>
         </Route>
         <Route path={Routs.localBackups.path}>
-            <LocalBackupsContainer localBackupsService={localBackupsService}/>
+            <LocalBackupsContainer localBackupsService={localBackupsService} confirmDialogService={confirmDialogService} spinnerService={spinnerService}/>
         </Route>
         <Route path={Routs.cardsGroupEditor.path}>
             <CardsGroupsEditorContainer cardsGroupsEditorService={cardsGroupsEditorService}/>

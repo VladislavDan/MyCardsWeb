@@ -8,24 +8,19 @@ import {switchMap, tap} from 'rxjs/operators';
 export class LocalBackupsService {
 
     public localBackupChannel: Channel<void, ICardsGroup[]>;
+    public loadBackupChannel: Channel<string, ICardsGroup[]>;
 
     constructor(private localStorageService: LocalStorageService) {
         this.localBackupChannel = new Channel(() => of('').pipe(
             switchMap(() => this.saveFile())
-        ))
-    }
+        ));
 
-    loadFile = (event: any) => {
-        const file = event.target.files[0];
-        if (!file) {
-            return;
-        }
-        const reader = new FileReader();
-        reader.onload = (readerEvent: any) => {
-            const games: string = readerEvent.target.result;
-        };
-        reader.readAsText(file);
-    };
+        this.loadBackupChannel = new Channel((backupFile: string) => of('').pipe(
+            switchMap(() => {
+                return this.localStorageService.setBackupToStorage(JSON.parse(backupFile));
+            })
+        ));
+    }
 
     saveFile() {
         return this.localStorageService.getBackupFromStorage().pipe(
@@ -38,7 +33,7 @@ export class LocalBackupsService {
 
                 if (fileBuffer) {
                     fileBuffer.href = url;
-                    fileBuffer.download = 'My Completed Games.txt';
+                    fileBuffer.download = 'My Cards.txt';
                     fileBuffer.click();
                 }
                 window.URL.revokeObjectURL(url);

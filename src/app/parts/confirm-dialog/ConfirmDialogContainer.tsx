@@ -20,7 +20,8 @@ export const ConfirmDialogContainer: FC<IConfirmDialogContainer> = ({confirmDial
     );
 
     const onClose = () => {
-        setState({isOpen: false, message: ''})
+        setState({isOpen: false, message: ''});
+        confirmDialogService.confirmationChannel.unsubscribe();
     };
 
     const onClickAgree = () => {
