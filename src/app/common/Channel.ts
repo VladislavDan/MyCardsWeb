@@ -1,7 +1,5 @@
 import {Observable, Subject, Subscription} from 'rxjs';
 
-import {errorService, spinnerService} from '../../App';
-
 export class Channel<A, D> {
 
     private readonly outputSubject: Subject<D>;
@@ -19,7 +17,7 @@ export class Channel<A, D> {
         }));
     }
 
-    subscribe(next?: (data: D) => void, additionalErrorHandler?: (error: Error) => void): Subscription {
+    subscribe(next?: (data: D) => void, errorHandler?: (error: Error) => void): Subscription {
 
 
         const outputSubjectSubscription = this.outputSubject.subscribe(
@@ -29,11 +27,10 @@ export class Channel<A, D> {
                 }
             },
             (error: Error) => {
-                if(additionalErrorHandler) {
-                    additionalErrorHandler(error);
+                if(errorHandler) {
+                    errorHandler(error);
                 }
-                spinnerService.spinnerCounterChannel.next(-1);
-                errorService.errorChannel.next('Cannot load cards');
+                console.error(error)
             }
         );
         this.subscriptions.push(outputSubjectSubscription);

@@ -25,9 +25,8 @@ import {LocalBackupsService} from './app/pages/local-backup/LocalBackupsService'
 
 export const AppContext = React.createContext<IAppContext>(defaultAppState);
 
-//TODO needs to make it local
-export const errorService = new ErrorService();
-export const spinnerService = new SpinnerService();
+const errorService = new ErrorService();
+const spinnerService = new SpinnerService();
 
 const confirmDialogService= new ConfirmDialogService();
 
