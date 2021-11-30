@@ -3,7 +3,7 @@ import {IconButton, Menu, MenuItem} from '@mui/material';
 import {default as React, FC} from 'react';
 
 
-export const BackupMenuComponent: FC<IBackupMenuComponent> = ({backupID, onLoad}) => {
+export const BackupMenuComponent: FC<IBackupMenuComponent> = ({backupID, onLoad, onDelete}) => {
 
     const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -20,6 +20,11 @@ export const BackupMenuComponent: FC<IBackupMenuComponent> = ({backupID, onLoad}
         onLoad(backupID);
     };
 
+    const onDeleteBackup = () => {
+        setAnchorEl(null);
+        onDelete(backupID);
+    };
+
     return (
         <>
             <Menu
@@ -30,7 +35,7 @@ export const BackupMenuComponent: FC<IBackupMenuComponent> = ({backupID, onLoad}
                 onClose={handleClose}
             >
                 <MenuItem onClick={onLoadBackup}>Load</MenuItem>
-                <MenuItem onClick={handleClose}>Delete</MenuItem>
+                <MenuItem onClick={onDeleteBackup}>Delete</MenuItem>
             </Menu>
             <IconButton aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
                 <MoreVertIcon/>
@@ -42,4 +47,5 @@ export const BackupMenuComponent: FC<IBackupMenuComponent> = ({backupID, onLoad}
 interface IBackupMenuComponent {
     backupID: string;
     onLoad: (backupID: string)=>void;
+    onDelete: (backupID: string)=>void;
 }
