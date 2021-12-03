@@ -1,19 +1,21 @@
 import {useHistory, useLocation} from 'react-router';
-import React, {FC, useState} from 'react';
+import React, {FC, useContext, useState} from 'react';
 
 import {useChannel} from '../../common/hooks/useChannel';
 import {ICard} from '../../types/ICard';
 import {useConstructor} from '../../common/hooks/useConstructor';
 import {CardsRepeaterService} from './CardsRepeaterService';
-import {CardsRepeaterComponent} from './CardsRepeterComponent';
-import {Button} from '@mui/material';
+import {CardsRepeaterComponent} from './CardsRepeaterComponent';
 import {Routs} from '../../common/Routs';
 import {IRepeatingArgs} from '../../types/IRepeatingArgs';
 import {ICardsGroup} from '../../types/ICardsGroup';
 import {IStatistic} from '../../types/IStatistic';
 import {INavigationState} from '../../types/INavigationState';
+import {AppContext} from '../../../App';
+import {IAppContext} from '../../types/IAppContext';
+import {CardsEditorService} from '../cards-editor/CardsEditorService';
 
-export const CardRepeaterContainer: FC<ICardRepeaterContainer> = ({cardsRepeaterService}) => {
+export const CardRepeaterContainer: FC<ICardRepeaterContainer> = ({cardsRepeaterService, cardsEditorService}) => {
 
     const location = useLocation<INavigationState>();
 
@@ -32,27 +34,44 @@ export const CardRepeaterContainer: FC<ICardRepeaterContainer> = ({cardsRepeater
 
     const [statistic, setStatistic] = useState<IStatistic>(defaultStatisticValue);
 
-    useChannel<{cardsGroupID: number, cardID: number}, ICard | undefined>(cardsRepeaterService.cardChannel, (card: ICard | undefined) => {
+    useChannel<{ cardsGroupID: number, cardID: number }, ICard | undefined>(cardsRepeaterService.cardChannel, (card: ICard | undefined) => {
         setState({
             card: card,
             isQuestionSide: true
         });
+        cardsRepeaterService.statisticChannel.next('');
     });
 
-    useChannel<number, IStatistic>(cardsRepeaterService.statisticChannel, (statistic: IStatistic) => {
-        setStatistic(statistic)
+    useChannel<{ card: ICard, cardsGroupID: number }, ICard>(cardsEditorService.cardEditingChannel, (card: ICard) => {
+        setStatistic((prevState) => {
+            return {
+                ...prevState,
+                card
+            }
+        } );
+    });
+
+    useChannel<string, IStatistic>(cardsRepeaterService.statisticChannel, (statistic: IStatistic) => {
+        setStatistic(() => statistic)
     });
 
     useChannel<IRepeatingArgs, ICardsGroup[]>(cardsRepeaterService.repeatingResultChannel, () => {
 
-        cardsRepeaterService.cardChannel.next({cardsGroupID: location.state.cardsGroupID, cardID: location.state.cardID});
-        cardsRepeaterService.statisticChannel.next(location.state.cardsGroupID);
+        cardsRepeaterService.cardChannel.next({
+            cardsGroupID: location.state.cardsGroupID,
+            cardID: location.state.cardID
+        });
     });
 
     useConstructor(() => {
-        cardsRepeaterService.cardChannel.next({cardsGroupID: location.state.cardsGroupID, cardID: location.state.cardID});
-        cardsRepeaterService.statisticChannel.next(location.state.cardsGroupID);
+        cardsRepeaterService.cardChannel.next({
+            cardsGroupID: location.state.cardsGroupID,
+            cardID: location.state.cardID
+        });
+        cardsRepeaterService.statisticChannel.next('');
     });
+
+    const value = useContext<IAppContext>(AppContext);
 
     const onClick = (isKnown: boolean) => {
 
@@ -77,20 +96,32 @@ export const CardRepeaterContainer: FC<ICardRepeaterContainer> = ({cardsRepeater
         })
     };
 
-    return state.card ?
-        <CardsRepeaterComponent
-            isQuestionSide={state.isQuestionSide}
-            onClickCard={onClickCard}
-            onClick={onClick}
-            card={state.card}
-            statistic={statistic}
-        /> :
-        <>
-            <span>All cards repeated</span>
-            <Button size="small" color="primary" onClick={() => history.replace(Routs.cardsGroups.path)}>
-                Go back
-            </Button>
-        </>
+    const onEditCard = () => {
+        if(state.card) {
+            history.push({
+                pathname: Routs.cardsEditor.path,
+                state: {
+                    cardsGroupID: location.state.cardsGroupID,
+                    cardID: state.card.id
+                }
+            })
+        }
+    };
+
+    const onBackClick = () => {
+        history.replace(Routs.cardsGroups.path);
+    };
+
+    return <CardsRepeaterComponent
+        answerCardHeight={value.height - 220}
+        isQuestionSide={state.isQuestionSide}
+        onClickCard={onClickCard}
+        onClick={onClick}
+        card={state.card}
+        statistic={statistic}
+        onEditCard={onEditCard}
+        onBackClick={onBackClick}
+    />
 };
 
 interface CardRepeaterContainerState {
@@ -99,5 +130,6 @@ interface CardRepeaterContainerState {
 }
 
 interface ICardRepeaterContainer {
-    cardsRepeaterService: CardsRepeaterService
+    cardsRepeaterService: CardsRepeaterService;
+    cardsEditorService: CardsEditorService;
 }

@@ -4,7 +4,8 @@ export class Channel<A, D> {
 
     private readonly outputSubject: Subject<D>;
     private observableCreator: (arg: A) => Observable<D>;
-    private subscriptions: Subscription[] = [];
+    private channelSubscriptions: { token: string, subscription: Subscription }[] = [];
+    private defaultToken = '';
 
     constructor(observableCreator: (arg: A) => Observable<D>) {
         this.outputSubject = new Subject<D>();
@@ -12,12 +13,16 @@ export class Channel<A, D> {
     }
 
     next(value: A) {
-        this.subscriptions.push(this.observableCreator(value).subscribe((value) => {
+        const subscription = this.observableCreator(value).subscribe((value) => {
             this.outputSubject.next(value);
-        }));
+        });
+        this.channelSubscriptions.push({
+            token: this.defaultToken,
+            subscription: subscription
+        });
     }
 
-    subscribe(next?: (data: D) => void, errorHandler?: (error: Error) => void): Subscription {
+    subscribe(next?: (data: D) => void, errorHandler?: (error: Error) => void, subscriptionToken?: string): Subscription {
 
 
         const outputSubjectSubscription = this.outputSubject.subscribe(
@@ -33,16 +38,31 @@ export class Channel<A, D> {
                 console.error(error)
             }
         );
-        this.subscriptions.push(outputSubjectSubscription);
+        this.channelSubscriptions.push({
+            token: subscriptionToken || this.defaultToken,
+            subscription: outputSubjectSubscription
+        });
         return outputSubjectSubscription;
     }
 
-    unsubscribe() {
-        this.subscriptions.forEach((subscribtion: Subscription) => {
-            if(!subscribtion.closed) {
-                subscribtion.unsubscribe();
+    unsubscribe(subscriptionToken?: string) {
+        this.channelSubscriptions.forEach(({ subscription, token}) => {
+            if(subscriptionToken && token === subscriptionToken ) {
+                this.softUnsubscribe(subscription);
+            } else if( !subscriptionToken && token === this.defaultToken ) {
+                this.softUnsubscribe(subscription)
             }
         });
-        this.subscriptions = [];
+
+        if(!subscriptionToken && this.channelSubscriptions.length !== 0) {
+            console.error('You have unsubscribed by token subscriptions')
+        }
+        this.channelSubscriptions = [];
+    }
+
+    private softUnsubscribe(subscription: Subscription) {
+        if(!subscription.closed) {
+            subscription.unsubscribe();
+        }
     }
 }

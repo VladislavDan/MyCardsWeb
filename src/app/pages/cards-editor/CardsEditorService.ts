@@ -9,7 +9,7 @@ import {ISimplifiedCardsGroup} from '../../types/ISimplifiedCardsGroup';
 
 export class CardsEditorService {
 
-    public cardEditingChannel: Channel<{ card: ICard, cardsGroupID: number }, ICardsGroup[]>;
+    public cardEditingChannel: Channel<{ card: ICard, cardsGroupID: number }, ICard>;
     public simplifiedCardsGroupsChannel: Channel<number, {currentCardsGroup: ISimplifiedCardsGroup | undefined, cardsGroups: ISimplifiedCardsGroup[]}>;
     public cardChannel: Channel<{ cardID: number, cardsGroupID: number }, ICard | undefined>;
 
@@ -33,7 +33,8 @@ export class CardsEditorService {
             }),
             tap((cardsGroups: ICardsGroup[]) => {
                 localStorageService.setBackupToStorage(cardsGroups);
-            })
+            }),
+            map(() => card)
         ));
 
         this.cardChannel = new Channel(({cardID, cardsGroupID}) => localStorageService.getBackupFromStorage().pipe(

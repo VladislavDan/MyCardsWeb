@@ -9,7 +9,6 @@ import {INavigationState} from '../../types/INavigationState';
 import {useConstructor} from '../../common/hooks/useConstructor';
 import {ICard} from '../../types/ICard';
 import {IRangeOfKnowledge} from '../../types/IRangeOfKnowledge';
-import {ICardsGroup} from '../../types/ICardsGroup';
 import {ISimplifiedCardsGroup} from '../../types/ISimplifiedCardsGroup';
 
 export const CardsEditorContainer: FC<ICardsGroupsEditorContainer> = ({cardsEditorService}) => {
@@ -33,14 +32,14 @@ export const CardsEditorContainer: FC<ICardsGroupsEditorContainer> = ({cardsEdit
         cardsGroups: []
     });
 
-    useChannel<{ card: ICard, cardsGroupID: number }, ICardsGroup[]>(cardsEditorService.cardEditingChannel);
+    useChannel<{ card: ICard, cardsGroupID: number }, ICard>(cardsEditorService.cardEditingChannel);
 
     useChannel<number, { currentCardsGroup: ISimplifiedCardsGroup | undefined, cardsGroups: ISimplifiedCardsGroup[] }>(
         cardsEditorService.simplifiedCardsGroupsChannel,
         ({currentCardsGroup, cardsGroups}) => {
             if (currentCardsGroup) {
-                setState((newState) => { return  {
-                    ...newState,
+                setState((prevState) => { return  {
+                    ...prevState,
                     cardsGroups,
                     currentCardsGroup
                 }})

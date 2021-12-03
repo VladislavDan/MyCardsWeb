@@ -2,7 +2,6 @@ import {FC, MouseEventHandler} from 'react';
 import {AppBar, IconButton, Toolbar, Typography} from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import EditIcon from '@mui/icons-material/Edit';
 
 import './ToolbarComponent.css'
 import {useHistory, useLocation} from 'react-router';
@@ -29,13 +28,6 @@ export const ToolbarComponent: FC<IToolbarComponent> = ({pageLabel, onClick}) =>
 
     };
 
-    const onOpenEditor = () => {
-        history.push({
-            pathname: Routs.cardsEditor.path,
-            state: location.state
-        })
-    };
-
     return (
         <AppBar position="fixed">
             <Toolbar className="toolbar">
@@ -50,9 +42,6 @@ export const ToolbarComponent: FC<IToolbarComponent> = ({pageLabel, onClick}) =>
                     <IconButton color="inherit" onClick={onOpenRepeater}>
                         <PlayArrowIcon/>
                     </IconButton> : null}
-                {pageLabel === Routs.cardsRepeater.name ? <IconButton color="inherit" onClick={onOpenEditor}>
-                    <EditIcon/>
-                </IconButton> : null}
             </Toolbar>
         </AppBar>
     )

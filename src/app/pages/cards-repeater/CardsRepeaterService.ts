@@ -1,4 +1,4 @@
-import {Observable, of} from 'rxjs';
+import {of} from 'rxjs';
 import {map, switchMap} from 'rxjs/operators';
 
 import {ICard} from '../../types/ICard';
@@ -10,9 +10,15 @@ import {Channel} from '../../common/Channel';
 import {IStatistic} from '../../types/IStatistic';
 
 export class CardsRepeaterService {
-    public cardChannel: Channel<{cardsGroupID: number, cardID: number}, ICard | undefined>;
+    public cardChannel: Channel<{ cardsGroupID: number, cardID: number }, ICard | undefined>;
     public repeatingResultChannel: Channel<IRepeatingArgs, ICardsGroup[]>;
-    public statisticChannel: Channel<number, IStatistic>;
+    public statisticChannel: Channel<string, IStatistic>;
+
+    private statisticValue = {
+        inProgress: 0,
+        todo: 0,
+        done: 0
+    };
 
     constructor(private localStorageService: LocalStorageService) {
         this.cardChannel = new Channel(({cardsGroupID, cardID}) => of('').pipe(
@@ -24,9 +30,7 @@ export class CardsRepeaterService {
             return this.writeRangeOfKnowledge(args);
         });
 
-        this.statisticChannel = new Channel((cardsGroupID: number) => {
-            return this.getStatistic(cardsGroupID);
-        });
+        this.statisticChannel = new Channel(() => of(this.statisticValue));
     }
 
     getCards(cardsGroupID: number, cardID: number) {
@@ -39,16 +43,16 @@ export class CardsRepeaterService {
 
                 let foundCards: Array<ICard> = [];
 
-                if(foundCardsGroup) {
+                if (foundCardsGroup) {
                     foundCards = foundCardsGroup.cards;
 
-                    if(cardID) {
+                    if (cardID) {
 
                         const foundCard = foundCards.find((card: ICard) => {
                             return card.id === cardID;
                         });
 
-                        if(foundCard) {
+                        if (foundCard) {
                             foundCards = [];
                             foundCards.push(foundCard)
                         }
@@ -98,39 +102,32 @@ export class CardsRepeaterService {
             });
         }
 
+        if (cards.length === 1) {
+            foundCard = cards[0]
+        }
+
+        this.updateStatistic(cards);
+
         return foundCard
     }
 
-    getStatistic(cardsGroupID: number): Observable<IStatistic> {
-        return of('').pipe(
-            switchMap(() => this.localStorageService.getBackupFromStorage()),
-            map((cardsGroups: ICardsGroup[]) => {
+    updateStatistic(cards: ICard[]): void {
 
-                const statistic: IStatistic = {
-                    inProgress: 0,
-                    todo: 0,
-                    done: 0
-                };
+        this.statisticValue = {
+            inProgress: 0,
+            todo: 0,
+            done: 0
+        };
 
-                const foundCardsGroup = cardsGroups.find((cardsGroup: ICardsGroup) => {
-                    return !cardsGroupID || cardsGroup.id === cardsGroupID;
-                });
-
-                if(foundCardsGroup) {
-                    foundCardsGroup.cards.forEach((card: ICard) => {
-                        if(card.rangeOfKnowledge === IRangeOfKnowledge.IN_PROGRESS) {
-                            statistic.inProgress = statistic.inProgress + 1
-                        } else if(card.rangeOfKnowledge === IRangeOfKnowledge.TO_DO) {
-                            statistic.todo = statistic.todo + 1
-                        } else {
-                            statistic.done = statistic.done + 1
-                        }
-                    });
-                }
-
-                return statistic;
-            })
-        )
+        cards.forEach((card: ICard) => {
+            if (card.rangeOfKnowledge === IRangeOfKnowledge.IN_PROGRESS) {
+                this.statisticValue.inProgress = this.statisticValue.inProgress + 1
+            } else if (card.rangeOfKnowledge === IRangeOfKnowledge.TO_DO) {
+                this.statisticValue.todo = this.statisticValue.todo + 1
+            } else {
+                this.statisticValue.done = this.statisticValue.done + 1
+            }
+        });
     }
 
 }
