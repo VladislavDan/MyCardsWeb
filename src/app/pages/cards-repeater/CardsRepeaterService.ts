@@ -10,6 +10,7 @@ import {Channel} from '../../common/Channel';
 import {IStatistic} from '../../types/IStatistic';
 
 export class CardsRepeaterService {
+    public currentCardChannel: Channel<string, ICard | null | undefined>;
     public cardChannel: Channel<{ cardsGroupID: number, cardID: number }, ICard | undefined>;
     public repeatingResultChannel: Channel<IRepeatingArgs, ICardsGroup[]>;
     public statisticChannel: Channel<string, IStatistic>;
@@ -20,6 +21,8 @@ export class CardsRepeaterService {
         done: 0
     };
 
+    private currentCard: ICard | null | undefined = null;
+
     constructor(private localStorageService: LocalStorageService) {
         this.cardChannel = new Channel(({cardsGroupID, cardID}) => of('').pipe(
             switchMap(() => this.getCards(cardsGroupID, cardID)),
@@ -29,6 +32,8 @@ export class CardsRepeaterService {
         this.repeatingResultChannel = new Channel((args: IRepeatingArgs) => {
             return this.writeRangeOfKnowledge(args);
         });
+
+        this.currentCardChannel = new Channel(() => of(this.currentCard));
 
         this.statisticChannel = new Channel(() => of(this.statisticValue));
     }
@@ -107,6 +112,8 @@ export class CardsRepeaterService {
         }
 
         this.updateStatistic(cards);
+
+        this.currentCard = foundCard;
 
         return foundCard
     }

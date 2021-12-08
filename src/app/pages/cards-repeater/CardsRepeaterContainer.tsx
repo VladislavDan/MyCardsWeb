@@ -13,9 +13,8 @@ import {IStatistic} from '../../types/IStatistic';
 import {INavigationState} from '../../types/INavigationState';
 import {AppContext} from '../../../App';
 import {IAppContext} from '../../types/IAppContext';
-import {CardsEditorService} from '../cards-editor/CardsEditorService';
 
-export const CardRepeaterContainer: FC<ICardRepeaterContainer> = ({cardsRepeaterService, cardsEditorService}) => {
+export const CardRepeaterContainer: FC<ICardRepeaterContainer> = ({cardsRepeaterService}) => {
 
     const location = useLocation<INavigationState>();
 
@@ -42,13 +41,19 @@ export const CardRepeaterContainer: FC<ICardRepeaterContainer> = ({cardsRepeater
         cardsRepeaterService.statisticChannel.next('');
     });
 
-    useChannel<{ card: ICard, cardsGroupID: number }, ICard>(cardsEditorService.cardEditingChannel, (card: ICard) => {
-        setStatistic((prevState) => {
-            return {
-                ...prevState,
-                card
-            }
-        } );
+    useChannel<string, ICard | undefined | null>(cardsRepeaterService.currentCardChannel, (card: ICard | undefined | null) => {
+
+        if(card) {
+            setState({
+                card: card,
+                isQuestionSide: true
+            });
+        }
+
+        cardsRepeaterService.cardChannel.next({
+            cardsGroupID: location.state.cardsGroupID,
+            cardID: location.state.cardID
+        });
     });
 
     useChannel<string, IStatistic>(cardsRepeaterService.statisticChannel, (statistic: IStatistic) => {
@@ -64,10 +69,7 @@ export const CardRepeaterContainer: FC<ICardRepeaterContainer> = ({cardsRepeater
     });
 
     useConstructor(() => {
-        cardsRepeaterService.cardChannel.next({
-            cardsGroupID: location.state.cardsGroupID,
-            cardID: location.state.cardID
-        });
+        cardsRepeaterService.currentCardChannel.next('');
         cardsRepeaterService.statisticChannel.next('');
     });
 
@@ -131,5 +133,4 @@ interface CardRepeaterContainerState {
 
 interface ICardRepeaterContainer {
     cardsRepeaterService: CardsRepeaterService;
-    cardsEditorService: CardsEditorService;
 }

@@ -1,17 +1,17 @@
-import {useEffect, useState} from 'react';
+import {useEffect, useRef} from 'react';
 
 export const useConstructor = (callback: () => void) => {
 
-    const [state, setState] = useState(false);
+    const value = useRef({isFirstRun: false});
 
     useEffect(() => {
-        if (!state) {
+        if (!value.current.isFirstRun) {
             callback();
-            setState(true);
+            value.current.isFirstRun = true;
         }
 
         return () => {
-            setState(false);
+            value.current.isFirstRun = false;
         }
     }, []);
 };
