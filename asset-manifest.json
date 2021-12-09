@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/MyCardsWeb/static/css/main.0e1ddfb5.chunk.css",
+    "main.js": "/MyCardsWeb/static/js/main.986eba47.chunk.js",
+    "main.js.map": "/MyCardsWeb/static/js/main.986eba47.chunk.js.map",
+    "runtime-main.js": "/MyCardsWeb/static/js/runtime-main.b3b20b80.js",
+    "runtime-main.js.map": "/MyCardsWeb/static/js/runtime-main.b3b20b80.js.map",
+    "static/js/2.1aa70763.chunk.js": "/MyCardsWeb/static/js/2.1aa70763.chunk.js",
+    "static/js/2.1aa70763.chunk.js.map": "/MyCardsWeb/static/js/2.1aa70763.chunk.js.map",
+    "static/js/3.862eec8c.chunk.js": "/MyCardsWeb/static/js/3.862eec8c.chunk.js",
+    "static/js/3.862eec8c.chunk.js.map": "/MyCardsWeb/static/js/3.862eec8c.chunk.js.map",
+    "index.html": "/MyCardsWeb/index.html",
+    "static/css/main.0e1ddfb5.chunk.css.map": "/MyCardsWeb/static/css/main.0e1ddfb5.chunk.css.map",
+    "static/js/2.1aa70763.chunk.js.LICENSE.txt": "/MyCardsWeb/static/js/2.1aa70763.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.b3b20b80.js",
+    "static/js/2.1aa70763.chunk.js",
+    "static/css/main.0e1ddfb5.chunk.css",
+    "static/js/main.986eba47.chunk.js"
+  ]
+}
