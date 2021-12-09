@@ -48,12 +48,12 @@ export const CardRepeaterContainer: FC<ICardRepeaterContainer> = ({cardsRepeater
                 card: card,
                 isQuestionSide: true
             });
+        } else {
+            cardsRepeaterService.cardChannel.next({
+                cardsGroupID: location.state.cardsGroupID,
+                cardID: location.state.cardID
+            });
         }
-
-        cardsRepeaterService.cardChannel.next({
-            cardsGroupID: location.state.cardsGroupID,
-            cardID: location.state.cardID
-        });
     });
 
     useChannel<string, IStatistic>(cardsRepeaterService.statisticChannel, (statistic: IStatistic) => {
