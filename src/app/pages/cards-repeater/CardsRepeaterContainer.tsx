@@ -41,7 +41,7 @@ export const CardRepeaterContainer: FC<ICardRepeaterContainer> = ({cardsRepeater
         cardsRepeaterService.statisticChannel.next('');
     });
 
-    useChannel<string, ICard | undefined | null>(cardsRepeaterService.currentCardChannel, (card: ICard | undefined | null) => {
+    useChannel<number, ICard | null>(cardsRepeaterService.currentCardChannel, (card: ICard | null) => {
 
         if(card) {
             setState({
@@ -69,7 +69,7 @@ export const CardRepeaterContainer: FC<ICardRepeaterContainer> = ({cardsRepeater
     });
 
     useConstructor(() => {
-        cardsRepeaterService.currentCardChannel.next('');
+        cardsRepeaterService.currentCardChannel.next(location.state.cardsGroupID);
         cardsRepeaterService.statisticChannel.next('');
     });
 

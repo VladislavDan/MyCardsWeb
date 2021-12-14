@@ -33,6 +33,7 @@ export const CardsEditorComponent: FC<ICardsGroupsEditorComponent> = ({
             required
             id="outlined-required"
             label="Question"
+            multiline
             onChange={changeQuestion}
             value={question}
             variant="filled"
@@ -42,6 +43,7 @@ export const CardsEditorComponent: FC<ICardsGroupsEditorComponent> = ({
             required
             id="outlined-required"
             label="Answer"
+            multiline
             onChange={changeAnswer}
             value={answer}
             variant="filled"
