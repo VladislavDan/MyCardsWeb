@@ -19,7 +19,6 @@ import {SpinnerService} from '../spinner-container/SpinnerService';
 import {ConfirmDialogService} from '../confirm-dialog/ConfirmDialogService';
 import {CardsEditorContainer} from '../../pages/cards-editor/CardsEditorContainer';
 import {CardsEditorService} from '../../pages/cards-editor/CardsEditorService';
-import {LocalStorageService} from '../../common/services/LocalStoragService';
 import {CardsListService} from '../../pages/cards-list/CardsListService';
 import {CardsRepeaterService} from '../../pages/cards-repeater/CardsRepeaterService';
 import {LocalBackupsService} from '../../pages/local-backup/LocalBackupsService';
@@ -78,7 +77,6 @@ interface INavigationContainer {
     spinnerService: SpinnerService;
     confirmDialogService: ConfirmDialogService;
     cardsEditorService: CardsEditorService;
-    localStorageService: LocalStorageService;
     cardsListService: CardsListService;
     cardsRepeaterService: CardsRepeaterService;
     localBackupsService: LocalBackupsService;

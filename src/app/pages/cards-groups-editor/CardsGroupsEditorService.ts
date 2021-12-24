@@ -1,6 +1,6 @@
 import {map, tap} from 'rxjs/operators';
 
-import {LocalStorageService} from '../../common/services/LocalStoragService';
+import {StorageService} from '../../common/services/StorageService';
 import {ICardsGroup} from '../../types/ICardsGroup';
 import {Channel} from '../../common/Channel';
 
@@ -9,8 +9,8 @@ export class CardsGroupsEditorService {
     public groupEditingChannel: Channel<ICardsGroup, ICardsGroup[]>;
     public groupChannel: Channel<number, ICardsGroup>;
 
-    constructor(localStorageService: LocalStorageService) {
-        this.groupEditingChannel = new Channel((editedCardGroup: ICardsGroup) => localStorageService.getBackupFromStorage().pipe(
+    constructor(storageService: StorageService) {
+        this.groupEditingChannel = new Channel((editedCardGroup: ICardsGroup) => storageService.getBackupFromStorage().pipe(
             map((cardsGroups: ICardsGroup[]) => {
                 const cardGroupIndex = cardsGroups.findIndex((cardGroup: ICardsGroup) => editedCardGroup.id === cardGroup.id);
 
@@ -23,11 +23,11 @@ export class CardsGroupsEditorService {
                 return cardsGroups;
             }),
             tap((cardsGroups: ICardsGroup[]) => {
-                localStorageService.setBackupToStorage(cardsGroups);
+                storageService.setBackupToStorage(cardsGroups);
             })
         ));
 
-        this.groupChannel = new Channel((cardGroupID: number) => localStorageService.getBackupFromStorage().pipe(
+        this.groupChannel = new Channel((cardGroupID: number) => storageService.getBackupFromStorage().pipe(
             map((cardsGroups: ICardsGroup[]) => {
 
                 let cardsGroup = cardsGroups.find((cardGroup: ICardsGroup) => cardGroupID === cardGroup.id);

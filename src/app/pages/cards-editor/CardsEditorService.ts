@@ -1,6 +1,6 @@
 import {map, tap} from 'rxjs/operators';
 
-import {LocalStorageService} from '../../common/services/LocalStoragService';
+import {StorageService} from '../../common/services/StorageService';
 import {ICardsGroup} from '../../types/ICardsGroup';
 import {Channel} from '../../common/Channel';
 import {ICard} from '../../types/ICard';
@@ -13,8 +13,8 @@ export class CardsEditorService {
     public simplifiedCardsGroupsChannel: Channel<number, {currentCardsGroup: ISimplifiedCardsGroup | undefined, cardsGroups: ISimplifiedCardsGroup[]}>;
     public cardChannel: Channel<{ cardID: number, cardsGroupID: number }, ICard | undefined>;
 
-    constructor(localStorageService: LocalStorageService) {
-        this.cardEditingChannel = new Channel(({card, cardsGroupID}) => localStorageService.getBackupFromStorage().pipe(
+    constructor(storageService: StorageService) {
+        this.cardEditingChannel = new Channel(({card, cardsGroupID}) => storageService.getBackupFromStorage().pipe(
             map((cardsGroups: ICardsGroup[]) => {
                 const cardGroupIndex = cardsGroups.findIndex((cardGroup: ICardsGroup) => cardsGroupID === cardGroup.id);
                 let cardIndex = -1;
@@ -32,12 +32,12 @@ export class CardsEditorService {
                 return cardsGroups;
             }),
             tap((cardsGroups: ICardsGroup[]) => {
-                localStorageService.setBackupToStorage(cardsGroups);
+                storageService.setBackupToStorage(cardsGroups);
             }),
             map(() => card)
         ));
 
-        this.cardChannel = new Channel(({cardID, cardsGroupID}) => localStorageService.getBackupFromStorage().pipe(
+        this.cardChannel = new Channel(({cardID, cardsGroupID}) => storageService.getBackupFromStorage().pipe(
             map((cardsGroups: ICardsGroup[]) => {
 
                 let cardsGroup = cardsGroups.find((cardGroup: ICardsGroup) => cardsGroupID === cardGroup.id);
@@ -57,7 +57,7 @@ export class CardsEditorService {
             })
         ));
 
-        this.simplifiedCardsGroupsChannel = new Channel((cardsGroupID: number) => localStorageService.getBackupFromStorage().pipe(
+        this.simplifiedCardsGroupsChannel = new Channel((cardsGroupID: number) => storageService.getBackupFromStorage().pipe(
             map((cardsGroups: ICardsGroup[]) => {
 
                 return cardsGroups.map((cardsGroup: ICardsGroup): ISimplifiedCardsGroup => {

@@ -2,7 +2,7 @@ import {of} from 'rxjs';
 import {map, switchMap} from 'rxjs/operators';
 
 import {ICard} from '../../types/ICard';
-import {LocalStorageService} from '../../common/services/LocalStoragService';
+import {StorageService} from '../../common/services/StorageService';
 import {ICardsGroup} from '../../types/ICardsGroup';
 import {IRangeOfKnowledge} from '../../types/IRangeOfKnowledge';
 import {IRepeatingArgs} from '../../types/IRepeatingArgs';
@@ -23,7 +23,7 @@ export class CardsRepeaterService {
 
     private currentCardID: number = 0;
 
-    constructor(private localStorageService: LocalStorageService) {
+    constructor(private storageService: StorageService) {
         this.cardChannel = new Channel(({cardsGroupID, cardID}) => of('').pipe(
             switchMap(() => this.getCards(cardsGroupID, cardID)),
             map((cards: ICard[]) => this.getCardForRepeating(cards))
@@ -48,7 +48,7 @@ export class CardsRepeaterService {
     }
 
     getCards(cardsGroupID: number, cardID: number) {
-        return this.localStorageService.getBackupFromStorage().pipe(
+        return this.storageService.getBackupFromStorage().pipe(
             map((cardsGroups: ICardsGroup[]) => {
 
                 const foundCardsGroup = cardsGroups.find((cardsGroup: ICardsGroup) => {
@@ -80,7 +80,7 @@ export class CardsRepeaterService {
 
     writeRangeOfKnowledge = (args: IRepeatingArgs) => {
         return of('').pipe(
-            switchMap(() => this.localStorageService.getBackupFromStorage()),
+            switchMap(() => this.storageService.getBackupFromStorage()),
             map((cardsGroups: ICardsGroup[]) => {
                 cardsGroups.forEach((cardsGroup: ICardsGroup) => {
                     if (!args.cardsGroupID || cardsGroup.id === args.cardsGroupID) {
@@ -101,7 +101,7 @@ export class CardsRepeaterService {
 
                 return cardsGroups;
             }),
-            switchMap((cardsGroups: ICardsGroup[]) => this.localStorageService.setBackupToStorage(cardsGroups))
+            switchMap((cardsGroups: ICardsGroup[]) => this.storageService.setBackupToStorage(cardsGroups))
         )
     };
 

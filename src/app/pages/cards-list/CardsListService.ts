@@ -2,7 +2,7 @@ import {Observable, of} from 'rxjs';
 import {map, switchMap, tap} from 'rxjs/operators';
 
 import {ICard} from '../../types/ICard';
-import {LocalStorageService} from '../../common/services/LocalStoragService';
+import {StorageService} from '../../common/services/StorageService';
 import {ICardsGroup} from '../../types/ICardsGroup';
 import {Channel} from '../../common/Channel';
 import {IRangeOfKnowledge} from '../../types/IRangeOfKnowledge';
@@ -12,12 +12,12 @@ export class CardsListService {
     public resetCardProgressChannel: Channel<{cardID: number, cardsGroupID: number}, ICardsGroup[]>;
     public deleteCardChannel: Channel<{cardID: number, cardsGroupID: number}, ICardsGroup[]>;
 
-    constructor(private localStorageService: LocalStorageService) {
+    constructor(private storageService: StorageService) {
         this.cardsChannel = new Channel((cardsGroupID: number) => of('').pipe(
             switchMap(() => this.getCards(cardsGroupID))
         ));
 
-        this.resetCardProgressChannel = new Channel(({cardID, cardsGroupID}) => localStorageService.getBackupFromStorage().pipe(
+        this.resetCardProgressChannel = new Channel(({cardID, cardsGroupID}) => storageService.getBackupFromStorage().pipe(
             map((cardsGroups: ICardsGroup[]) => {
                 const cardGroupIndex = cardsGroups.findIndex((cardGroup: ICardsGroup) => cardsGroupID === cardGroup.id);
                 let cardIndex = -1;
@@ -33,11 +33,11 @@ export class CardsListService {
                 return cardsGroups;
             }),
             tap((cardsGroups: ICardsGroup[]) => {
-                localStorageService.setBackupToStorage(cardsGroups);
+                storageService.setBackupToStorage(cardsGroups);
             })
         ));
 
-        this.deleteCardChannel = new Channel(({cardID, cardsGroupID}) => localStorageService.getBackupFromStorage().pipe(
+        this.deleteCardChannel = new Channel(({cardID, cardsGroupID}) => storageService.getBackupFromStorage().pipe(
             map((cardsGroups: ICardsGroup[]) => {
                 const cardGroupIndex = cardsGroups.findIndex((cardGroup: ICardsGroup) => cardsGroupID === cardGroup.id);
                 let cardIndex = -1;
@@ -53,14 +53,14 @@ export class CardsListService {
                 return cardsGroups;
             }),
             tap((cardsGroups: ICardsGroup[]) => {
-                localStorageService.setBackupToStorage(cardsGroups);
+                storageService.setBackupToStorage(cardsGroups);
             })
         ));
     }
 
     getCards(cardsGroupID: number): Observable<ICard[]> {
         return of('').pipe(
-            switchMap(() => this.localStorageService.getBackupFromStorage()),
+            switchMap(() => this.storageService.getBackupFromStorage()),
             map((cardsGroups: ICardsGroup[]) => {
                 const foundCardsGroup = cardsGroups.find((cardsGroup: ICardsGroup) => {
                     return cardsGroup.id === cardsGroupID;

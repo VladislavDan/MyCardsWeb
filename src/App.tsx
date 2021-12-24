@@ -7,7 +7,7 @@ import {ToolbarContainer} from './app/parts/toolbar-container/ToolbarContainer';
 import {NavigationPanelContainer} from './app/parts/navigation-panel-container/NavigationPanelContainer';
 import {ErrorContainer} from './app/parts/error-container/ErrorContainer';
 import {SpinnerContainer} from './app/parts/spinner-container/SpinnerContainer';
-import {defaultAppState} from './app/common/Constants';
+import {defaultAppState, STORE_NAME} from './app/common/Constants';
 import {ConfirmDialogContainer} from './app/parts/confirm-dialog/ConfirmDialogContainer';
 import {SpinnerService} from './app/parts/spinner-container/SpinnerService';
 import {ErrorService} from './app/parts/error-container/ErrorService';
@@ -18,10 +18,11 @@ import {ConfirmDialogService} from './app/parts/confirm-dialog/ConfirmDialogServ
 import {GoogleAuthService} from './app/pages/google-auth/GoogleAuthService';
 import {GoogleBackupsService} from './app/pages/google-backups/GoogleBackupsService';
 import {CardsEditorService} from './app/pages/cards-editor/CardsEditorService';
-import {LocalStorageService} from './app/common/services/LocalStoragService';
+import {StorageService} from './app/common/services/StorageService';
 import {CardsListService} from './app/pages/cards-list/CardsListService';
 import {CardsRepeaterService} from './app/pages/cards-repeater/CardsRepeaterService';
 import {LocalBackupsService} from './app/pages/local-backup/LocalBackupsService';
+import {DataBaseService} from './app/data-base/DataBaseService';
 
 export const AppContext = React.createContext<IAppContext>(defaultAppState);
 
@@ -30,15 +31,16 @@ const spinnerService = new SpinnerService();
 
 const confirmDialogService= new ConfirmDialogService();
 
-const localStorageService = new LocalStorageService();
-const cardsGroupsEditorService = new CardsGroupsEditorService(localStorageService);
-const cardsGroupsListService = new CardsGroupsListService(localStorageService);
-const googleAuthService = new GoogleAuthService(localStorageService);
-const googleBackupsService = new GoogleBackupsService(localStorageService);
-const cardsEditorService = new CardsEditorService(localStorageService);
-const cardsListService = new CardsListService(localStorageService);
-const cardsRepeaterService = new CardsRepeaterService(localStorageService);
-const localBackupsService = new  LocalBackupsService(localStorageService);
+const dataBaseService = new DataBaseService(STORE_NAME);
+const storageService = new StorageService(dataBaseService);
+const cardsGroupsEditorService = new CardsGroupsEditorService(storageService);
+const cardsGroupsListService = new CardsGroupsListService(storageService);
+const googleAuthService = new GoogleAuthService(storageService);
+const googleBackupsService = new GoogleBackupsService(storageService);
+const cardsEditorService = new CardsEditorService(storageService);
+const cardsListService = new CardsListService(storageService);
+const cardsRepeaterService = new CardsRepeaterService(storageService);
+const localBackupsService = new  LocalBackupsService(storageService);
 
 function App() {
 
@@ -77,7 +79,6 @@ function App() {
                                 spinnerService={spinnerService}
                                 confirmDialogService={confirmDialogService}
                                 cardsEditorService={cardsEditorService}
-                                localStorageService={localStorageService}
                                 cardsListService={cardsListService}
                                 cardsRepeaterService={cardsRepeaterService}
                                 localBackupsService={localBackupsService}

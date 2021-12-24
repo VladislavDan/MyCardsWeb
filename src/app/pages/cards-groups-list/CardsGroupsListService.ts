@@ -1,6 +1,6 @@
 import {map, tap} from 'rxjs/operators';
 
-import {LocalStorageService} from '../../common/services/LocalStoragService';
+import {StorageService} from '../../common/services/StorageService';
 import {ICardsGroup} from '../../types/ICardsGroup';
 import {ICard} from '../../types/ICard';
 import {IRangeOfKnowledge} from '../../types/IRangeOfKnowledge';
@@ -12,8 +12,8 @@ export class CardsGroupsListService {
     public resetProgressChannel: Channel<number, ICardsGroup[]>;
 
 
-    constructor(localStorageService: LocalStorageService) {
-        this.groupsListChannel = new Channel(() => localStorageService.getBackupFromStorage().pipe(
+    constructor(storageService: StorageService) {
+        this.groupsListChannel = new Channel(() => storageService.getBackupFromStorage().pipe(
             map((cardsGroups: ICardsGroup[]) => {
                 cardsGroups.map((cardsGroup: ICardsGroup) => {
                     let dateRepeating = 0;
@@ -51,16 +51,16 @@ export class CardsGroupsListService {
             })
         ));
 
-        this.groupDeleteChannel = new Channel((groupID: number) => localStorageService.getBackupFromStorage().pipe(
+        this.groupDeleteChannel = new Channel((groupID: number) => storageService.getBackupFromStorage().pipe(
             map((cardsGroups: ICardsGroup[]) => {
                 return cardsGroups.filter((cardGroup) => {
                     return cardGroup.id !== groupID;
                 });
             }),
-            tap((cardsGroups: ICardsGroup[]) => localStorageService.setBackupToStorage(cardsGroups))
+            tap((cardsGroups: ICardsGroup[]) => storageService.setBackupToStorage(cardsGroups))
         ));
 
-        this.resetProgressChannel = new Channel((cardsGroupID: number) => localStorageService.getBackupFromStorage().pipe(
+        this.resetProgressChannel = new Channel((cardsGroupID: number) => storageService.getBackupFromStorage().pipe(
             map((cardsGroups: ICardsGroup[]) => {
 
                 const cardGroupIndex = cardsGroups.findIndex((cardGroup: ICardsGroup) => cardsGroupID === cardGroup.id);
@@ -78,7 +78,7 @@ export class CardsGroupsListService {
 
                 return cardsGroups;
             }),
-            tap((cardsGroups: ICardsGroup[]) => localStorageService.setBackupToStorage(cardsGroups))
+            tap((cardsGroups: ICardsGroup[]) => storageService.setBackupToStorage(cardsGroups))
         ))
     }
 }
