@@ -42,6 +42,7 @@ export const NavigationContainer: FC<INavigationContainer> = ({
                                                               }) => {
 
     return <Switch>
+        <Redirect exact from="/MyCardsWeb" to={Routs.cardsGroups.path}/>
         <Redirect exact from="/" to={Routs.cardsGroups.path}/>
         <Route path={Routs.cardsGroups.path}>
             <CardsGroupsListContainer cardsGroupsListService={cardsGroupsListService}
