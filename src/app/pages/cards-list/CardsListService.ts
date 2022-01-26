@@ -17,7 +17,7 @@ export class CardsListService {
             switchMap(() => this.getCards(cardsGroupID))
         ));
 
-        this.resetCardProgressChannel = new Channel(({cardID, cardsGroupID}) => storageService.getBackupFromStorage().pipe(
+        this.resetCardProgressChannel = new Channel(({cardID, cardsGroupID}) => storageService.getBackup().pipe(
             map((cardsGroups: ICardsGroup[]) => {
                 const cardGroupIndex = cardsGroups.findIndex((cardGroup: ICardsGroup) => cardsGroupID === cardGroup.id);
                 let cardIndex = -1;
@@ -33,11 +33,11 @@ export class CardsListService {
                 return cardsGroups;
             }),
             tap((cardsGroups: ICardsGroup[]) => {
-                storageService.setBackupToStorage(cardsGroups);
+                storageService.setBackup(cardsGroups);
             })
         ));
 
-        this.deleteCardChannel = new Channel(({cardID, cardsGroupID}) => storageService.getBackupFromStorage().pipe(
+        this.deleteCardChannel = new Channel(({cardID, cardsGroupID}) => storageService.getBackup().pipe(
             map((cardsGroups: ICardsGroup[]) => {
                 const cardGroupIndex = cardsGroups.findIndex((cardGroup: ICardsGroup) => cardsGroupID === cardGroup.id);
                 let cardIndex = -1;
@@ -53,14 +53,14 @@ export class CardsListService {
                 return cardsGroups;
             }),
             tap((cardsGroups: ICardsGroup[]) => {
-                storageService.setBackupToStorage(cardsGroups);
+                storageService.setBackup(cardsGroups);
             })
         ));
     }
 
     getCards(cardsGroupID: number): Observable<ICard[]> {
         return of('').pipe(
-            switchMap(() => this.storageService.getBackupFromStorage()),
+            switchMap(() => this.storageService.getBackup()),
             map((cardsGroups: ICardsGroup[]) => {
                 const foundCardsGroup = cardsGroups.find((cardsGroup: ICardsGroup) => {
                     return cardsGroup.id === cardsGroupID;

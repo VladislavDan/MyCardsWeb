@@ -8,7 +8,7 @@ import {BackupsListComponent} from './BackupsListComponent';
 import {useHistory} from 'react-router';
 import {Routs} from '../../common/Routs';
 import {useConstructor} from '../../common/hooks/useConstructor';
-import {SpinnerService} from '../../parts/spinner-container/SpinnerService';
+import {SpinnerService} from '../../parts/spinner/SpinnerService';
 import {useUnsubscribe} from '../../common/hooks/useUnsubscribe';
 import {ConfirmDialogService} from '../../parts/confirm-dialog/ConfirmDialogService';
 

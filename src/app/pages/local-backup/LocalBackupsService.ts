@@ -17,13 +17,13 @@ export class LocalBackupsService {
 
         this.loadBackupChannel = new Channel((backupFile: string) => of('').pipe(
             switchMap(() => {
-                return this.storageService.setBackupToStorage(JSON.parse(backupFile));
+                return this.storageService.setBackup(JSON.parse(backupFile));
             })
         ));
     }
 
     saveFile() {
-        return this.storageService.getBackupFromStorage().pipe(
+        return this.storageService.getBackup().pipe(
             tap((backup: ICardsGroup[]) => {
                 const fileData: string = JSON.stringify(backup, null, 4);
                 const blob = new Blob([fileData], {type: "octet/stream"});

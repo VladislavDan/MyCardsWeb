@@ -14,7 +14,7 @@ export class CardsEditorService {
     public cardChannel: Channel<{ cardID: number, cardsGroupID: number }, ICard | undefined>;
 
     constructor(storageService: StorageService) {
-        this.cardEditingChannel = new Channel(({card, cardsGroupID}) => storageService.getBackupFromStorage().pipe(
+        this.cardEditingChannel = new Channel(({card, cardsGroupID}) => storageService.getBackup().pipe(
             map((cardsGroups: ICardsGroup[]) => {
                 const cardGroupIndex = cardsGroups.findIndex((cardGroup: ICardsGroup) => cardsGroupID === cardGroup.id);
                 let cardIndex = -1;
@@ -32,12 +32,12 @@ export class CardsEditorService {
                 return cardsGroups;
             }),
             tap((cardsGroups: ICardsGroup[]) => {
-                storageService.setBackupToStorage(cardsGroups);
+                storageService.setBackup(cardsGroups);
             }),
             map(() => card)
         ));
 
-        this.cardChannel = new Channel(({cardID, cardsGroupID}) => storageService.getBackupFromStorage().pipe(
+        this.cardChannel = new Channel(({cardID, cardsGroupID}) => storageService.getBackup().pipe(
             map((cardsGroups: ICardsGroup[]) => {
 
                 let cardsGroup = cardsGroups.find((cardGroup: ICardsGroup) => cardsGroupID === cardGroup.id);
@@ -57,7 +57,7 @@ export class CardsEditorService {
             })
         ));
 
-        this.simplifiedCardsGroupsChannel = new Channel((cardsGroupID: number) => storageService.getBackupFromStorage().pipe(
+        this.simplifiedCardsGroupsChannel = new Channel((cardsGroupID: number) => storageService.getBackup().pipe(
             map((cardsGroups: ICardsGroup[]) => {
 
                 return cardsGroups.map((cardsGroup: ICardsGroup): ISimplifiedCardsGroup => {

@@ -1,16 +1,18 @@
 import {from, Observable} from 'rxjs';
 import {ICardsGroup} from '../../types/ICardsGroup';
-import {DataBaseService} from '../../data-base/DataBaseService';
+import {DataBaseService} from './DataBaseService';
+import {ISettings} from '../../types/ISettings';
 
 export class StorageService {
 
     private cardsStorageID = 'cards-local-storage';
     private authTokenLocalStorageID = 'auth-token';
+    private settingsID = 'settings';
 
     constructor(private dataBaseService: DataBaseService) {
     }
 
-    public getBackupFromStorage = () : Observable<ICardsGroup[]> => {
+    public getBackup = () : Observable<ICardsGroup[]> => {
         return from(this.getBackupFromDataBase());
     };
 
@@ -30,7 +32,7 @@ export class StorageService {
         }
     };
 
-    public setBackupToStorage(cardsGroups: ICardsGroup[]): Observable<ICardsGroup[]> {
+    public setBackup(cardsGroups: ICardsGroup[]): Observable<ICardsGroup[]> {
         return from(this.setBackupToDataBase(cardsGroups));
     }
 
@@ -58,6 +60,26 @@ export class StorageService {
         return from(new Promise<string>((resolve) => {
             localStorage.setItem(this.authTokenLocalStorageID, authToken);
             resolve(authToken);
+        }));
+    }
+
+    public getSettings(): Observable<ISettings> {
+        return from(new Promise<ISettings>((resolve, reject) => {
+            const settings = localStorage.getItem(this.settingsID);
+            if(settings) {
+                resolve(JSON.parse(settings) as ISettings);
+            } else {
+                reject({
+                    isRandomRepeating: false
+                })
+            }
+        }));
+    }
+
+    public setSettings(settings: ISettings): Observable<ISettings> {
+        return from(new Promise<ISettings>((resolve) => {
+            localStorage.setItem(this.settingsID, JSON.stringify(settings));
+            resolve(settings);
         }));
     }
 }

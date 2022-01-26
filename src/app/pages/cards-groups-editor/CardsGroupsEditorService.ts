@@ -10,7 +10,7 @@ export class CardsGroupsEditorService {
     public groupChannel: Channel<number, ICardsGroup>;
 
     constructor(storageService: StorageService) {
-        this.groupEditingChannel = new Channel((editedCardGroup: ICardsGroup) => storageService.getBackupFromStorage().pipe(
+        this.groupEditingChannel = new Channel((editedCardGroup: ICardsGroup) => storageService.getBackup().pipe(
             map((cardsGroups: ICardsGroup[]) => {
                 const cardGroupIndex = cardsGroups.findIndex((cardGroup: ICardsGroup) => editedCardGroup.id === cardGroup.id);
 
@@ -23,11 +23,11 @@ export class CardsGroupsEditorService {
                 return cardsGroups;
             }),
             tap((cardsGroups: ICardsGroup[]) => {
-                storageService.setBackupToStorage(cardsGroups);
+                storageService.setBackup(cardsGroups);
             })
         ));
 
-        this.groupChannel = new Channel((cardGroupID: number) => storageService.getBackupFromStorage().pipe(
+        this.groupChannel = new Channel((cardGroupID: number) => storageService.getBackup().pipe(
             map((cardsGroups: ICardsGroup[]) => {
 
                 let cardsGroup = cardsGroups.find((cardGroup: ICardsGroup) => cardGroupID === cardGroup.id);

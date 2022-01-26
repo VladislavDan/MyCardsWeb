@@ -37,5 +37,10 @@ export const Routs = {
     cardsGroupEditor: {
         path: '/cards-group-editor',
         name: 'Edit Group'
+    },
+
+    settings: {
+        path: '/settings',
+        name: 'Settings'
     }
 };

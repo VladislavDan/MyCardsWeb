@@ -27,6 +27,10 @@ class ToolbarService {
             return Routs.localBackups.name;
         }
 
+        if(path === Routs.settings.path) {
+            return Routs.settings.name;
+        }
+
         return 'My Cards'
     }
 }

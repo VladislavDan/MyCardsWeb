@@ -6,7 +6,7 @@ import {LocalBackupsService} from './LocalBackupsService';
 import {Button} from '@mui/material';
 import {useUnsubscribe} from '../../common/hooks/useUnsubscribe';
 import {ConfirmDialogService} from '../../parts/confirm-dialog/ConfirmDialogService';
-import {SpinnerService} from '../../parts/spinner-container/SpinnerService';
+import {SpinnerService} from '../../parts/spinner/SpinnerService';
 
 export const LocalBackupsContainer: FC<ILocalBackupsContainer> = ({localBackupsService, confirmDialogService, spinnerService}) => {
 

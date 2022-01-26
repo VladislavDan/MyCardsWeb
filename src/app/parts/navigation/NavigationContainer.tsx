@@ -15,13 +15,15 @@ import {CardsGroupsEditorService} from '../../pages/cards-groups-editor/CardsGro
 import {ErrorService} from '../error-container/ErrorService';
 import {GoogleAuthService} from '../../pages/google-auth/GoogleAuthService';
 import {GoogleBackupsService} from '../../pages/google-backups/GoogleBackupsService';
-import {SpinnerService} from '../spinner-container/SpinnerService';
+import {SpinnerService} from '../spinner/SpinnerService';
 import {ConfirmDialogService} from '../confirm-dialog/ConfirmDialogService';
 import {CardsEditorContainer} from '../../pages/cards-editor/CardsEditorContainer';
 import {CardsEditorService} from '../../pages/cards-editor/CardsEditorService';
 import {CardsListService} from '../../pages/cards-list/CardsListService';
 import {CardsRepeaterService} from '../../pages/cards-repeater/CardsRepeaterService';
 import {LocalBackupsService} from '../../pages/local-backup/LocalBackupsService';
+import {SettingsContainer} from '../../pages/settings/SettingsContainer';
+import {SettingsService} from '../../pages/settings/SettingsService';
 
 
 export const NavigationContainer: FC<INavigationContainer> = ({
@@ -33,8 +35,9 @@ export const NavigationContainer: FC<INavigationContainer> = ({
                                                                   spinnerService,
                                                                   confirmDialogService,
                                                                   cardsEditorService,
-    cardsListService,
-    cardsRepeaterService,
+                                                                  cardsListService,
+                                                                  cardsRepeaterService,
+                                                                  settingsService,
                                                                   localBackupsService
                                                               }) => {
 
@@ -48,7 +51,8 @@ export const NavigationContainer: FC<INavigationContainer> = ({
             <GoogleAuthContainer googleAuthService={googleAuthService} errorService={errorService}/>
         </Route>
         <Route path={Routs.googleBackups.path}>
-            <GoogleBackupsContainer googleBackupsService={googleBackupsService} spinnerService={spinnerService} confirmDialogService={confirmDialogService}/>
+            <GoogleBackupsContainer googleBackupsService={googleBackupsService} spinnerService={spinnerService}
+                                    confirmDialogService={confirmDialogService}/>
         </Route>
         <Route path={Routs.cards.path}>
             <CardsListContainer cardsListService={cardsListService} confirmDialogService={confirmDialogService}/>
@@ -57,13 +61,17 @@ export const NavigationContainer: FC<INavigationContainer> = ({
             <CardRepeaterContainer cardsRepeaterService={cardsRepeaterService}/>
         </Route>
         <Route path={Routs.localBackups.path}>
-            <LocalBackupsContainer localBackupsService={localBackupsService} confirmDialogService={confirmDialogService} spinnerService={spinnerService}/>
+            <LocalBackupsContainer localBackupsService={localBackupsService} confirmDialogService={confirmDialogService}
+                                   spinnerService={spinnerService}/>
         </Route>
         <Route path={Routs.cardsGroupEditor.path}>
             <CardsGroupsEditorContainer cardsGroupsEditorService={cardsGroupsEditorService}/>
         </Route>
         <Route path={Routs.cardsEditor.path}>
             <CardsEditorContainer cardsEditorService={cardsEditorService}/>
+        </Route>
+        <Route path={Routs.settings.path}>
+            <SettingsContainer settingsService={settingsService}/>
         </Route>
     </Switch>
 };
@@ -80,4 +88,5 @@ interface INavigationContainer {
     cardsListService: CardsListService;
     cardsRepeaterService: CardsRepeaterService;
     localBackupsService: LocalBackupsService;
+    settingsService: SettingsService
 }

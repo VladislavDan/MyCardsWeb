@@ -4,7 +4,7 @@ import {useLocation} from 'react-router-dom';
 
 import {toolbarManager} from './ToolbarService';
 import {ToolbarComponent} from './ToolbarComponent';
-import {navigationPanelService} from '../navigation-panel-container/NavigationPanelService';
+import {navigationPanelService} from '../navigation-panel/NavigationPanelService';
 
 export const ToolbarContainer = (): ReactElement => {
 

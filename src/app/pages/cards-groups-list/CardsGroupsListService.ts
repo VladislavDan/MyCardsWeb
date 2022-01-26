@@ -13,7 +13,7 @@ export class CardsGroupsListService {
 
 
     constructor(storageService: StorageService) {
-        this.groupsListChannel = new Channel(() => storageService.getBackupFromStorage().pipe(
+        this.groupsListChannel = new Channel(() => storageService.getBackup().pipe(
             map((cardsGroups: ICardsGroup[]) => {
                 cardsGroups.map((cardsGroup: ICardsGroup) => {
                     let dateRepeating = 0;
@@ -51,16 +51,16 @@ export class CardsGroupsListService {
             })
         ));
 
-        this.groupDeleteChannel = new Channel((groupID: number) => storageService.getBackupFromStorage().pipe(
+        this.groupDeleteChannel = new Channel((groupID: number) => storageService.getBackup().pipe(
             map((cardsGroups: ICardsGroup[]) => {
                 return cardsGroups.filter((cardGroup) => {
                     return cardGroup.id !== groupID;
                 });
             }),
-            tap((cardsGroups: ICardsGroup[]) => storageService.setBackupToStorage(cardsGroups))
+            tap((cardsGroups: ICardsGroup[]) => storageService.setBackup(cardsGroups))
         ));
 
-        this.resetProgressChannel = new Channel((cardsGroupID: number) => storageService.getBackupFromStorage().pipe(
+        this.resetProgressChannel = new Channel((cardsGroupID: number) => storageService.getBackup().pipe(
             map((cardsGroups: ICardsGroup[]) => {
 
                 const cardGroupIndex = cardsGroups.findIndex((cardGroup: ICardsGroup) => cardsGroupID === cardGroup.id);
@@ -78,7 +78,7 @@ export class CardsGroupsListService {
 
                 return cardsGroups;
             }),
-            tap((cardsGroups: ICardsGroup[]) => storageService.setBackupToStorage(cardsGroups))
+            tap((cardsGroups: ICardsGroup[]) => storageService.setBackup(cardsGroups))
         ))
     }
 }

@@ -118,7 +118,7 @@ export class GoogleBackupsService {
                 }
             )),
             map((result: AjaxResponse<ICardsGroup[]>) => {
-                this.storageService.setBackupToStorage(result.response);
+                this.storageService.setBackup(result.response);
                 return result.response;
             })
         );
@@ -201,7 +201,7 @@ export class GoogleBackupsService {
 
     public uploadBackupFile(token: string, fileId: string): Observable<string> {
         return of('').pipe(
-            switchMap(() => this.storageService.getBackupFromStorage()),
+            switchMap(() => this.storageService.getBackup()),
             switchMap((cardsGroups: ICardsGroup[]) => ajax(
                 {
                     url: this.googleDriveUploadAPI + fileId,

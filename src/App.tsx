@@ -3,13 +3,13 @@ import {BrowserRouter as Router} from "react-router-dom";
 
 import './App.css';
 import {IAppContext} from './app/types/IAppContext';
-import {ToolbarContainer} from './app/parts/toolbar-container/ToolbarContainer';
-import {NavigationPanelContainer} from './app/parts/navigation-panel-container/NavigationPanelContainer';
+import {ToolbarContainer} from './app/parts/toolbar/ToolbarContainer';
+import {NavigationPanelContainer} from './app/parts/navigation-panel/NavigationPanelContainer';
 import {ErrorContainer} from './app/parts/error-container/ErrorContainer';
-import {SpinnerContainer} from './app/parts/spinner-container/SpinnerContainer';
+import {SpinnerContainer} from './app/parts/spinner/SpinnerContainer';
 import {defaultAppState, STORE_NAME} from './app/common/Constants';
 import {ConfirmDialogContainer} from './app/parts/confirm-dialog/ConfirmDialogContainer';
-import {SpinnerService} from './app/parts/spinner-container/SpinnerService';
+import {SpinnerService} from './app/parts/spinner/SpinnerService';
 import {ErrorService} from './app/parts/error-container/ErrorService';
 import {NavigationContainer} from './app/parts/navigation/NavigationContainer';
 import {CardsGroupsEditorService} from './app/pages/cards-groups-editor/CardsGroupsEditorService';
@@ -22,7 +22,8 @@ import {StorageService} from './app/common/services/StorageService';
 import {CardsListService} from './app/pages/cards-list/CardsListService';
 import {CardsRepeaterService} from './app/pages/cards-repeater/CardsRepeaterService';
 import {LocalBackupsService} from './app/pages/local-backup/LocalBackupsService';
-import {DataBaseService} from './app/data-base/DataBaseService';
+import {DataBaseService} from './app/common/services/DataBaseService';
+import {SettingsService} from './app/pages/settings/SettingsService';
 
 export const AppContext = React.createContext<IAppContext>(defaultAppState);
 
@@ -41,6 +42,7 @@ const cardsEditorService = new CardsEditorService(storageService);
 const cardsListService = new CardsListService(storageService);
 const cardsRepeaterService = new CardsRepeaterService(storageService);
 const localBackupsService = new  LocalBackupsService(storageService);
+const settingService = new SettingsService(storageService);
 
 function App() {
 
@@ -82,6 +84,7 @@ function App() {
                                 cardsListService={cardsListService}
                                 cardsRepeaterService={cardsRepeaterService}
                                 localBackupsService={localBackupsService}
+                                settingsService={settingService}
                             />
                         </div>
                     </div>
