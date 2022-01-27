@@ -32,7 +32,9 @@ export const CardsEditorContainer: FC<ICardsGroupsEditorContainer> = ({cardsEdit
         cardsGroups: []
     });
 
-    useChannel<{ card: ICard, cardsGroupID: number }, ICard>(cardsEditorService.cardEditingChannel);
+    useChannel<{ card: ICard, cardsGroupID: number }, ICard>(cardsEditorService.cardEditingChannel, () => {
+        history.goBack();
+    });
 
     useChannel<number, { currentCardsGroup: ISimplifiedCardsGroup | undefined, cardsGroups: ISimplifiedCardsGroup[] }>(
         cardsEditorService.simplifiedCardsGroupsChannel,
@@ -98,7 +100,6 @@ export const CardsEditorContainer: FC<ICardsGroupsEditorContainer> = ({cardsEdit
 
     const onSaveCard = () => {
         cardsEditorService.cardEditingChannel.next({card: state.card, cardsGroupID: state.currentCardsGroup.id});
-        history.goBack();
     };
 
     return <CardsEditorComponent

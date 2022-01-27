@@ -11,8 +11,8 @@ import {IStatistic} from '../../types/IStatistic';
 import {ISettings} from '../../types/ISettings';
 
 export class CardsRepeaterService {
-    public currentCardChannel: Channel<number, ICard | null>;
-    public cardChannel: Channel<{ cardsGroupID: number, cardID: number }, ICard | undefined>;
+    public currentCardChannel: Channel<number | null, ICard | null>;
+    public cardChannel: Channel<{ cardsGroupID: number | null, cardID: number | null }, ICard | undefined>;
     public repeatingResultChannel: Channel<IRepeatingArgs, ICardsGroup[]>;
     public statisticChannel: Channel<string, IStatistic>;
 
@@ -21,8 +21,6 @@ export class CardsRepeaterService {
         todo: 0,
         done: 0
     };
-
-    private currentCardID: number = 0;
 
     constructor(private storageService: StorageService) {
         this.cardChannel = new Channel(({cardsGroupID, cardID}) => of('').pipe(
@@ -34,9 +32,8 @@ export class CardsRepeaterService {
             return this.writeRangeOfKnowledge(args);
         });
 
-        this.currentCardChannel = new Channel((cardsGroupID: number) => of('').pipe(
-            switchMap(() => storageService.getSettings()),
-            switchMap((settings: ISettings) => this.getCards(cardsGroupID, this.currentCardID)),
+        this.currentCardChannel = new Channel((cardsGroupID: number | null) => of('').pipe(
+            switchMap(() => this.getCards(cardsGroupID)),
             map((cards: ICard[]) => {
                 if (cards.length === 1) {
                     return cards[0];
@@ -49,7 +46,7 @@ export class CardsRepeaterService {
         this.statisticChannel = new Channel(() => of(this.statisticValue));
     }
 
-    private getCards(cardsGroupID: number, cardID: number) {
+    private getCards(cardsGroupID?: number | null, cardID?: number | null) {
         return this.storageService.getBackup().pipe(
             map((cardsGroups: ICardsGroup[]) => {
 
@@ -130,10 +127,6 @@ export class CardsRepeaterService {
                 }
 
                 this.updateStatistic(cards);
-
-                if (foundCard) {
-                    this.currentCardID = foundCard.id;
-                }
 
                 return foundCard
             })

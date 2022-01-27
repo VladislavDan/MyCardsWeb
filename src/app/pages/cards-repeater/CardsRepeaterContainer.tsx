@@ -50,8 +50,8 @@ export const CardRepeaterContainer: FC<ICardRepeaterContainer> = ({cardsRepeater
             });
         } else {
             cardsRepeaterService.cardChannel.next({
-                cardsGroupID: location.state.cardsGroupID,
-                cardID: location.state.cardID
+                cardsGroupID: location.state ? location.state.cardsGroupID : null,
+                cardID: location.state ? location.state.cardID : null
             });
         }
     });
@@ -69,7 +69,11 @@ export const CardRepeaterContainer: FC<ICardRepeaterContainer> = ({cardsRepeater
     });
 
     useConstructor(() => {
-        cardsRepeaterService.currentCardChannel.next(location.state.cardsGroupID);
+        if(location.state) {
+            cardsRepeaterService.currentCardChannel.next(location.state.cardsGroupID);
+        } else {
+            cardsRepeaterService.currentCardChannel.next(null);
+        }
         cardsRepeaterService.statisticChannel.next('');
     });
 
