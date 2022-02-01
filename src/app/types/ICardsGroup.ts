@@ -4,6 +4,6 @@ export interface ICardsGroup {
     nameCardsGroup: string;
     id: number;
     percentRepeatedCards?: number;
-    dateRepeating?: number
+    repeatingDate?: number
     cards: ICard[]
 }

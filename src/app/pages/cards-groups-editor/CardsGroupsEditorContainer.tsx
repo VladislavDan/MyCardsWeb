@@ -19,7 +19,7 @@ export const CardsGroupsEditorContainer: FC<ICardsGroupsEditorContainer> = ({car
         cardsGroup: {
             cards: [],
             nameCardsGroup: '',
-            dateRepeating: new Date().getTime(),
+            repeatingDate: new Date().getTime(),
             id: new Date().getTime(),
             percentRepeatedCards: 0
         }

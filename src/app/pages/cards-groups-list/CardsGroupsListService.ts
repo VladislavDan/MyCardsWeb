@@ -5,6 +5,8 @@ import {ICardsGroup} from '../../types/ICardsGroup';
 import {ICard} from '../../types/ICard';
 import {IRangeOfKnowledge} from '../../types/IRangeOfKnowledge';
 import {Channel} from '../../common/Channel';
+import {updateRepeatingDate} from './logic/updateRepeatingDate';
+
 
 export class CardsGroupsListService {
     public groupsListChannel: Channel<string, ICardsGroup[]>;
@@ -14,23 +16,11 @@ export class CardsGroupsListService {
 
     constructor(storageService: StorageService) {
         this.groupsListChannel = new Channel(() => storageService.getBackup().pipe(
-            map((cardsGroups: ICardsGroup[]) => {
-                cardsGroups.map((cardsGroup: ICardsGroup) => {
-                    let dateRepeating = 0;
-                    cardsGroup.cards.forEach((card: ICard) => {
-                        if(card.dateRepeating > dateRepeating) {
-                            dateRepeating = card.dateRepeating
-                        }
-                    });
-                    cardsGroup.dateRepeating = dateRepeating;
-                    return cardsGroup;
-                });
-                return cardsGroups;
-            }),
+            map(updateRepeatingDate()),
             map((cardsGroups: ICardsGroup[]) => {
                 return cardsGroups.sort((firstCardGroup: ICardsGroup, secondCardsGroup: ICardsGroup) => {
-                    if(firstCardGroup.dateRepeating && secondCardsGroup.dateRepeating) {
-                        return secondCardsGroup.dateRepeating - firstCardGroup.dateRepeating;
+                    if(firstCardGroup.repeatingDate && secondCardsGroup.repeatingDate) {
+                        return secondCardsGroup.repeatingDate - firstCardGroup.repeatingDate;
                     } else {
                         return 0;
                     }

@@ -19,7 +19,7 @@ export const CardsGroupsListItemComponent: FC<ICardsGroupsListItemComponent> = (
             <ListItemText
                 onClick={() => onClickItem(cardsGroup.id)}
                 primary={cardsGroup.nameCardsGroup}
-                secondary={'Last repeating date: ' + format(cardsGroup.dateRepeating ? cardsGroup.dateRepeating : new Date(), DATE_FORMAT)}
+                secondary={'Last repeating date: ' + format(cardsGroup.repeatingDate ? cardsGroup.repeatingDate : new Date(), DATE_FORMAT)}
             />
             <ListItemIcon>
                 <ListItemMenuComponent
