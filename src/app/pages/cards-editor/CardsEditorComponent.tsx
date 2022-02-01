@@ -4,16 +4,18 @@ import {Button, MenuItem, Select, SelectChangeEvent, TextField} from '@mui/mater
 import './CardsEditorComponent.css'
 import {ISimplifiedCardsGroup} from '../../types/ISimplifiedCardsGroup';
 
-export const CardsEditorComponent: FC<ICardsGroupsEditorComponent> = ({
-                                                                          answer,
-                                                                          question,
-                                                                          onChangeAnswer,
-                                                                          onChangeQuestion,
-                                                                          onSaveCard,
-                                                                          cardsGroups,
-                                                                          currentCardsGroup,
-    onChangeCardsGroup
-}) => {
+export const CardsEditorComponent: FC<ICardsGroupsEditorComponent> = (
+    {
+        answer,
+        question,
+        onChangeAnswer,
+        onChangeQuestion,
+        onSaveCard,
+        cardsGroups,
+        currentCardsGroup,
+        onChangeCardsGroup
+    }
+) => {
 
     const changeAnswer = (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
         onChangeAnswer(event.target.value);
