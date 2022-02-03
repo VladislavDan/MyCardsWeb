@@ -2,8 +2,7 @@ import {ICardsGroup} from '../../../types/ICardsGroup';
 import {ICard} from '../../../types/ICard';
 import {IRangeOfKnowledge} from '../../../types/IRangeOfKnowledge';
 
-export const getEditingCard = (cardsGroupID: number, cardID: number) => {
-    return (cardsGroups: ICardsGroup[]) => {
+export const getEditingCard = (cardsGroupID: number, cardID: number, cardsGroups: ICardsGroup[]) => {
 
         let cardsGroup = cardsGroups.find((cardGroup: ICardsGroup) => cardsGroupID === cardGroup.id);
         let card: ICard | undefined = {
@@ -19,5 +18,4 @@ export const getEditingCard = (cardsGroupID: number, cardID: number) => {
         }
 
         return card;
-    };
 };

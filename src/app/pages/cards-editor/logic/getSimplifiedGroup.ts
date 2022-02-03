@@ -1,8 +1,7 @@
 import {ICardsGroup} from '../../../types/ICardsGroup';
 import {ISimplifiedCardsGroup} from '../../../types/ISimplifiedCardsGroup';
 
-export const getSimplifiedGroup = () => {
-    return (cardsGroups: ICardsGroup[]) => {
+export const getSimplifiedGroup = (cardsGroups: ICardsGroup[]): ISimplifiedCardsGroup[] => {
 
         return cardsGroups.map((cardsGroup: ICardsGroup): ISimplifiedCardsGroup => {
             return {
@@ -10,5 +9,4 @@ export const getSimplifiedGroup = () => {
                 nameCardsGroup: cardsGroup.nameCardsGroup
             }
         });
-    };
 };

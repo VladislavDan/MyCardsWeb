@@ -1,8 +1,7 @@
 import {ICard} from '../../../types/ICard';
 import {ICardsGroup} from '../../../types/ICardsGroup';
 
-export const saveCard = (cardsGroupID: number, card: ICard) => {
-    return (cardsGroups: ICardsGroup[]) => {
+export const saveCard = (cardsGroupID: number, card: ICard, cardsGroups: ICardsGroup[]) => {
         const cardGroupIndex = cardsGroups.findIndex((cardGroup: ICardsGroup) => cardsGroupID === cardGroup.id);
         let cardIndex = -1;
 
@@ -17,5 +16,4 @@ export const saveCard = (cardsGroupID: number, card: ICard) => {
         }
 
         return cardsGroups;
-    };
 };

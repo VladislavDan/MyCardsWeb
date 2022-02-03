@@ -1,13 +1,10 @@
 import {ISimplifiedCardsGroup} from '../../../types/ISimplifiedCardsGroup';
 
-export const addCurrentGroupToSimplifiedGroup = (cardsGroupID: number) => {
-    return (cardsGroups: ISimplifiedCardsGroup[]) => {
+export const addCurrentGroupToSimplifiedGroup = (cardsGroupID: number, cardsGroups: ISimplifiedCardsGroup[]) => {
+    let currentCardsGroup = cardsGroups.find((cardGroup: ISimplifiedCardsGroup) => cardsGroupID === cardGroup.id);
 
-        let currentCardsGroup = cardsGroups.find((cardGroup: ISimplifiedCardsGroup) => cardsGroupID === cardGroup.id);
-
-        return {
-            currentCardsGroup,
-            cardsGroups
-        }
-    };
+    return {
+        currentCardsGroup,
+        cardsGroups
+    }
 };

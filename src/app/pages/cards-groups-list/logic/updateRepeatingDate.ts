@@ -1,8 +1,7 @@
 import {ICardsGroup} from '../../../types/ICardsGroup';
 import {ICard} from '../../../types/ICard';
 
-export const updateRepeatingDate = () => {
-    return (cardsGroups: ICardsGroup[]) => {
+export const updateRepeatingDate = (cardsGroups: ICardsGroup[]) => {
         cardsGroups.map((cardsGroup: ICardsGroup) => {
             let dateRepeating = 0;
             cardsGroup.cards.forEach((card: ICard) => {
@@ -14,5 +13,4 @@ export const updateRepeatingDate = () => {
             return cardsGroup;
         });
         return cardsGroups;
-    };
 };

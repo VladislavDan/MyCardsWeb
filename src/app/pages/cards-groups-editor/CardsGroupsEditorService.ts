@@ -13,14 +13,14 @@ export class CardsGroupsEditorService {
 
     constructor(storageService: StorageService) {
         this.groupEditingChannel = new Channel((editedCardGroup: ICardsGroup) => storageService.getBackup().pipe(
-            map(saveCardsGroup(editedCardGroup)),
+            map((cardsGroups: ICardsGroup[]) => saveCardsGroup(editedCardGroup, cardsGroups)),
             tap((cardsGroups: ICardsGroup[]) => {
                 storageService.setBackup(cardsGroups);
             })
         ));
 
         this.groupChannel = new Channel((cardGroupID: number) => storageService.getBackup().pipe(
-            map(getEditingCardsGroup(cardGroupID))
+            map((cardsGroups: ICardsGroup[]) => getEditingCardsGroup(cardGroupID, cardsGroups))
         ))
     }
 }

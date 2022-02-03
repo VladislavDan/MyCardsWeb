@@ -1,7 +1,6 @@
 import {ICardsGroup} from '../../../types/ICardsGroup';
 
-export const getEditingCardsGroup = (cardGroupID: number) => {
-    return (cardsGroups: ICardsGroup[]) => {
+export const getEditingCardsGroup = (cardGroupID: number, cardsGroups: ICardsGroup[]): ICardsGroup => {
 
         let cardsGroup = cardsGroups.find((cardGroup: ICardsGroup) => cardGroupID === cardGroup.id);
 
@@ -15,5 +14,4 @@ export const getEditingCardsGroup = (cardGroupID: number) => {
             }
         }
         return cardsGroup;
-    };
 };
