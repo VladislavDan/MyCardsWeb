@@ -59,7 +59,7 @@ export const NavigationContainer: FC<INavigationContainer> = ({
             <CardsListContainer cardsListService={cardsListService} confirmDialogService={confirmDialogService}/>
         </Route>
         <Route path={Routs.cardsRepeater.path}>
-            <CardRepeaterContainer cardsRepeaterService={cardsRepeaterService}/>
+            <CardRepeaterContainer cardsRepeaterService={cardsRepeaterService} cardsEditorService={cardsEditorService}/>
         </Route>
         <Route path={Routs.localBackups.path}>
             <LocalBackupsContainer localBackupsService={localBackupsService} confirmDialogService={confirmDialogService}

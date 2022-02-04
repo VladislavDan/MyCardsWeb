@@ -1,8 +1,9 @@
 import * as React from 'react';
-import {ChangeEvent, FC} from 'react';
-import {Button, MenuItem, Select, SelectChangeEvent, TextField} from '@mui/material';
+import {FC} from 'react';
+import {Button, MenuItem, Select, SelectChangeEvent} from '@mui/material';
 import './CardsEditorComponent.css'
 import {ISimplifiedCardsGroup} from '../../types/ISimplifiedCardsGroup';
+import {TextEditorComponent} from '../../common/elements/text-editor/TextEditorComponent';
 
 export const CardsEditorComponent: FC<ICardsGroupsEditorComponent> = (
     {
@@ -17,39 +18,13 @@ export const CardsEditorComponent: FC<ICardsGroupsEditorComponent> = (
     }
 ) => {
 
-    const changeAnswer = (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-        onChangeAnswer(event.target.value);
-    };
-
-    const changeQuestion = (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-        onChangeQuestion(event.target.value);
-    };
-
     const changeGroup = (event: SelectChangeEvent) => {
         onChangeCardsGroup(Number(event.target.value));
     };
 
     return <div className="cards-editor">
-        <TextField
-            className="cards-editor_text"
-            required
-            id="outlined-required"
-            label="Question"
-            multiline
-            onChange={changeQuestion}
-            value={question}
-            variant="filled"
-        />
-        <TextField
-            className="cards-editor_text"
-            required
-            id="outlined-required"
-            label="Answer"
-            multiline
-            onChange={changeAnswer}
-            value={answer}
-            variant="filled"
-        />
+        <TextEditorComponent onChangeText={onChangeQuestion} changeableText={question} label="Question"/>
+        <TextEditorComponent onChangeText={onChangeAnswer} changeableText={answer} label="Answer"/>
         <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"

@@ -1,68 +1,59 @@
 import React, {FC} from 'react';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import Typography from '@mui/material/Typography';
-import {Button, CardActions, IconButton} from '@mui/material';
-import EditIcon from '@mui/icons-material/Edit';
 
 import {ICard} from '../../types/ICard';
 import {StatisticComponent} from './elements/statistic/StatisticComponent';
-import {AnswerComponent} from './elements/answer/AnswerComponent';
+import {AnswerCardComponent} from './elements/answer-card/AnswerCardComponent';
 import "./CardsRepeaterComponent.css"
 import {IStatistic} from '../../types/IStatistic';
-import {IRangeOfKnowledge} from '../../types/IRangeOfKnowledge';
+import {CardsRepeaterHeaderComponent} from './elements/cards-repeater-header/CardsRepeaterHeaderComponent';
+import {AllCardsRepeatedComponent} from './elements/all-cards-repeated/AllCardsRepeatedComponent';
+import {QuestionCardComponent} from './elements/question-card/QuestionCardComponent';
 
 export const CardsRepeaterComponent: FC<ICardsRepeaterComponent> = (
     {
         card,
-        answerCardHeight,
+        cardHeight,
         isQuestionSide,
         onClickCard,
         onClick,
         statistic,
-        onEditCard,
-        onBackClick
+        onBackClick,
+        onSwitchEditing,
+        isEditable,
+        onChangeAnswer,
+        onChangeQuestion
     }
 ) => {
 
-    return card ? <div className="cards-repeater">
+    return card ?
+        <div className="cards-repeater">
             <StatisticComponent statistic={statistic}/>
-
-            <div className="cards-repeater_title">
-                <Typography gutterBottom variant="h5" component="h2">
-                    {isQuestionSide ? 'Question' : 'Answer'}
-                </Typography>
-                <IconButton color="inherit" onClick={onEditCard}>
-                    <EditIcon/>
-                </IconButton>
-            </div>
-
-            {isQuestionSide ? <Card>
-                <CardContent onClick={onClickCard} style={{height: answerCardHeight}}>
-                    <Typography color="textSecondary" gutterBottom>
-                        {card.question}
-                    </Typography>
-                </CardContent>
-            </Card> : <Card className="cards-repeater">
-                <CardContent style={{height: answerCardHeight}}>
-                    <AnswerComponent height={answerCardHeight - 20} text={card.answer} onClickText={() => onClickCard()}/>
-                    { card.rangeOfKnowledge !== IRangeOfKnowledge.DONE ? <CardActions className="cards-repeater_buttons-container">
-                        <Button size="small" color="primary" onClick={() => onClick(true)}>
-                            Yes
-                        </Button>
-                        <Button size="small" color="primary" onClick={() => onClick(false)}>
-                            No
-                        </Button>
-                    </CardActions> : <div>Repeated</div> }
-                </CardContent>
-            </Card>}
+            <CardsRepeaterHeaderComponent
+                isQuestionSide={isQuestionSide}
+                isEditable={isEditable}
+                onSwitchEditing={onSwitchEditing}
+            />
+            {
+                isQuestionSide ?
+                    <QuestionCardComponent
+                        card={card}
+                        onClickCard={onClickCard}
+                        cardHeight={cardHeight}
+                        isEditable={isEditable}
+                        onChangeQuestion={onChangeQuestion}
+                    /> :
+                    <AnswerCardComponent
+                        card={card}
+                        onClickText={onClickCard}
+                        height={cardHeight}
+                        onClick={onClick}
+                        onChangeAnswer={onChangeAnswer}
+                        isEditable={isEditable}
+                    />
+            }
         </div> :
-        <>
-            <span>All cards repeated</span>
-            <Button size="small" color="primary" onClick={onBackClick}>
-                Go back
-            </Button>
-        </>
+        <AllCardsRepeatedComponent onBackClick={onBackClick}/>
+
 };
 
 interface ICardsRepeaterComponent {
@@ -71,7 +62,10 @@ interface ICardsRepeaterComponent {
     isQuestionSide: boolean;
     onClickCard: () => void;
     statistic: IStatistic;
-    answerCardHeight: number;
-    onEditCard: () => void;
+    cardHeight: number;
     onBackClick: () => void;
+    onSwitchEditing: () => void;
+    isEditable: boolean;
+    onChangeQuestion: (question: string) => void;
+    onChangeAnswer: (answer: string) => void;
 }

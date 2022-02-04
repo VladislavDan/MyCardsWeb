@@ -8,8 +8,8 @@ import {CardsEditorComponent} from './CardsEditorComponent';
 import {INavigationState} from '../../types/INavigationState';
 import {useConstructor} from '../../common/hooks/useConstructor';
 import {ICard} from '../../types/ICard';
-import {IRangeOfKnowledge} from '../../types/IRangeOfKnowledge';
 import {ISimplifiedCardsGroup} from '../../types/ISimplifiedCardsGroup';
+import {initialCard} from '../../common/Constants';
 
 export const CardsEditorContainer: FC<ICardsGroupsEditorContainer> = ({cardsEditorService}) => {
 
@@ -18,13 +18,7 @@ export const CardsEditorContainer: FC<ICardsGroupsEditorContainer> = ({cardsEdit
     const history = useHistory();
 
     const [state, setState] = useState<CardsGroupsEditorState>({
-        card: {
-            rangeOfKnowledge: IRangeOfKnowledge.IN_PROGRESS,
-            answer: '',
-            question: '',
-            dateRepeating: 0,
-            id: new Date().getTime()
-        },
+        card: initialCard,
         currentCardsGroup: {
             id: 0,
             nameCardsGroup: ''

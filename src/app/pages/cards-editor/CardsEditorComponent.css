@@ -1,10 +1,7 @@
 .cards-editor {
     display: flex;
     flex-direction: column;
-}
-
-.cards-editor_text {
-    margin: 10px !important;
+    margin: 10px;
 }
 
 .cards-editor_button {
