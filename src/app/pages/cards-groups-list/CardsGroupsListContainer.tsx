@@ -1,4 +1,4 @@
-import React, {FC, useState} from "react";
+import React, {FC, useContext, useState} from "react";
 
 import {CardsGroupsListComponent} from './CardsGroupsListComponent';
 import {useChannel} from '../../common/hooks/useChannel';
@@ -9,12 +9,16 @@ import {Routs} from '../../common/Routs';
 import {useHistory} from 'react-router';
 import {ConfirmDialogService} from '../../parts/confirm-dialog/ConfirmDialogService';
 import {useUnsubscribe} from '../../common/hooks/useUnsubscribe';
+import {IAppContext} from '../../types/IAppContext';
+import {AppContext} from '../../../App';
 
 export const CardsGroupsListContainer: FC<ICardsGroupsListContainer> = ({cardsGroupsListService, confirmDialogService}) => {
 
     const [state, setState] = useState<CardsGroupsListContainerState>({cardsGroups: []});
 
     const history = useHistory();
+
+    const context = useContext<IAppContext>(AppContext);
 
     useChannel<string, ICardsGroup[]>(cardsGroupsListService.groupsListChannel, (cardsGroups: ICardsGroup[]) => {
         setState({cardsGroups: cardsGroups})
@@ -105,6 +109,8 @@ export const CardsGroupsListContainer: FC<ICardsGroupsListContainer> = ({cardsGr
         onDeleteItem={onDeleteItem}
         onEditItem={onEditItem}
         onResetProgress={onResetProgress}
+        height={context.height}
+        width={context.width}
         cardsGroups={state.cardsGroups}/>
 };
 

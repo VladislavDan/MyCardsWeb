@@ -8,15 +8,25 @@ import {DATE_FORMAT} from '../../../../common/Constants';
 import {ICardsGroup} from '../../../../types/ICardsGroup';
 import {CircularProgressComponent} from '../circular-progress/CircularProgressComponent';
 import {ListItemMenuComponent} from '../../../../common/elements/list-item-menu/ListItemMenuComponent';
+import './CardsGroupsListItemComponent.css'
 
-export const CardsGroupsListItemComponent: FC<ICardsGroupsListItemComponent> = ({cardsGroup, onClickItem, onEditItem, onDeleteItem, onResetProgress}) => {
+export const CardsGroupsListItemComponent: FC<ICardsGroupsListItemComponent> = (
+    {
+        cardsGroup,
+        onClickItem,
+        onEditItem,
+        onDeleteItem,
+        onResetProgress
+    }
+) => {
 
     return <>
-        <ListItem key={cardsGroup.id} button>
+        <ListItem key={cardsGroup.id} button component="div">
             <ListItemIcon onClick={() => onClickItem(cardsGroup.id)}>
                 <CircularProgressComponent percent={cardsGroup.percentRepeatedCards || 0}/>
             </ListItemIcon>
             <ListItemText
+                className="cards-groups-list-item_card-name"
                 onClick={() => onClickItem(cardsGroup.id)}
                 primary={cardsGroup.nameCardsGroup}
                 secondary={'Last repeating date: ' + format(cardsGroup.repeatingDate ? cardsGroup.repeatingDate : new Date(), DATE_FORMAT)}

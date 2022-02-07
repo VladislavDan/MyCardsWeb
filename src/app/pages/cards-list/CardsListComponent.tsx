@@ -1,4 +1,4 @@
-import {List} from '@mui/material';
+import {FixedSizeList as List} from 'react-window';
 import * as React from 'react';
 import {FC} from 'react';
 
@@ -7,21 +7,41 @@ import {ICard} from '../../types/ICard';
 import {AddButton} from '../../common/elements/add-button/AddButton';
 import './CardsListComponent.css'
 
-export const CardsListComponent: FC<ICardsListComponent> = ({cards, onOpenEditor, onEditItem, onDeleteItem, onResetProgress, onClickItem}) => {
+
+export const CardsListComponent: FC<ICardsListComponent> = (
+    {
+        cards,
+        onOpenEditor,
+        onEditItem,
+        onDeleteItem,
+        onResetProgress,
+        onClickItem,
+        height,
+        width
+    }
+) => {
     return (
         <>
-            <List className="cards">
-                {
-                    cards.map((card: ICard) => {
-                        return <CardsListItemComponent
-                            key={card.id}
-                            card={card}
-                            onEditItem={onEditItem}
-                            onDeleteItem={onDeleteItem}
-                            onResetProgress={onResetProgress}
-                            onClickItem={onClickItem}
-                        />
-                    })
+            <List
+                className="cards"
+                itemData={cards}
+                itemSize={55}
+                itemCount={cards.length}
+                overscanCount={5}
+                height={height}
+                width={width}
+            >
+                {({index, style}: any) => {
+                    const card = cards[index];
+                    return <div style={style}><CardsListItemComponent
+                        key={card.id}
+                        card={card}
+                        onEditItem={onEditItem}
+                        onDeleteItem={onDeleteItem}
+                        onResetProgress={onResetProgress}
+                        onClickItem={onClickItem}
+                    /></div>
+                }
                 }
             </List>
             <AddButton onClick={onOpenEditor}/>
@@ -36,4 +56,6 @@ interface ICardsListComponent {
     onDeleteItem: (id: number) => void;
     onResetProgress: (id: number) => void;
     onClickItem: (id: number) => void;
+    height: number;
+    width: number
 }

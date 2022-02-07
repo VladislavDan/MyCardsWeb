@@ -25,7 +25,9 @@ export const CardsGroupsEditorContainer: FC<ICardsGroupsEditorContainer> = ({car
         }
     });
 
-    useChannel<ICardsGroup, ICardsGroup[]>(cardsGroupsEditorService.groupEditingChannel);
+    useChannel<ICardsGroup, ICardsGroup[]>(cardsGroupsEditorService.groupEditingChannel, () => {
+        history.goBack();
+    });
 
     useChannel<number, ICardsGroup>(cardsGroupsEditorService.groupChannel, (cardsGroup: ICardsGroup) => {
         setState({
@@ -49,7 +51,6 @@ export const CardsGroupsEditorContainer: FC<ICardsGroupsEditorContainer> = ({car
 
     const onSaveGroup = () => {
         cardsGroupsEditorService.groupEditingChannel.next(state.cardsGroup);
-        history.goBack();
     };
 
     return <CardsGroupsEditorComponent

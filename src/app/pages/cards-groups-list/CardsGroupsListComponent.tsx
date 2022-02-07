@@ -1,25 +1,45 @@
 import React, {FC} from "react";
-import List from '@mui/material/List';
+import {FixedSizeList as List} from 'react-window';
 
 import {ICardsGroup} from '../../types/ICardsGroup';
-import {CardsGroupsListItemComponent} from './elements/cards-groups-list-item/CardsGroupsListItemComponent';
 import './CardsGroupsListComponent.css'
 import {AddButton} from '../../common/elements/add-button/AddButton';
+import {CardsGroupsListItemComponent} from './elements/cards-groups-list-item/CardsGroupsListItemComponent';
 
-export const CardsGroupsListComponent: FC<ICardsGroupsListComponent> = ({cardsGroups, onClickItem, onEditItem, onDeleteItem, onOpenEditor, onResetProgress}) => {
+export const CardsGroupsListComponent: FC<ICardsGroupsListComponent> = (
+    {
+        cardsGroups,
+        onClickItem,
+        onEditItem,
+        onDeleteItem,
+        onOpenEditor,
+        onResetProgress,
+        height,
+        width
+    }
+) => {
 
     return <>
-        <List component="nav" aria-label="contacts" className="cards-groups">
-            {cardsGroups.map((cardsGroup: ICardsGroup) => {
-                return <CardsGroupsListItemComponent
-                    key={cardsGroup.id}
-                    cardsGroup={cardsGroup}
+        <List
+            className="cards-groups"
+            itemData={cardsGroups}
+            itemSize={55}
+            itemCount={cardsGroups.length}
+            overscanCount={5}
+            height={height}
+            width={width}
+        >
+            {({index, style}: any) => {
+                const cardGroup = cardsGroups[index];
+                return <div style={style}><CardsGroupsListItemComponent
+                    key={cardGroup.id}
+                    cardsGroup={cardGroup}
                     onClickItem={onClickItem}
                     onEditItem={onEditItem}
                     onDeleteItem={onDeleteItem}
                     onResetProgress={onResetProgress}
-                />
-            })}
+                /></div>
+            }}
         </List>
         <AddButton onClick={onOpenEditor}/>
     </>
@@ -32,4 +52,6 @@ interface ICardsGroupsListComponent {
     onDeleteItem: (id: number) => void;
     onOpenEditor: () => void;
     onResetProgress: (id: number) => void;
+    height: number;
+    width: number
 }

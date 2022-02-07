@@ -9,6 +9,7 @@ import {DATE_FORMAT} from '../../../../common/Constants';
 import {ICard} from '../../../../types/ICard';
 import {IRangeOfKnowledge} from '../../../../types/IRangeOfKnowledge';
 import {ListItemMenuComponent} from '../../../../common/elements/list-item-menu/ListItemMenuComponent';
+import "./CardsListItemComponent.css";
 
 export const CardsListItemComponent: FC<ICardListItemComponent> = ({card, onEditItem, onDeleteItem, onResetProgress, onClickItem}) => {
 
@@ -27,6 +28,7 @@ export const CardsListItemComponent: FC<ICardListItemComponent> = ({card, onEdit
              <FlagIcon style={{color: getIconColor(card)}}/>
         </ListItemIcon>
         <ListItemText
+            className="cards-list-item_card-name"
             onClick={() => onClickItem(card.id)}
             primary={card.question}
             secondary={'Last repeating date: ' + format(card.dateRepeating ? card.dateRepeating : new Date(), DATE_FORMAT)}
