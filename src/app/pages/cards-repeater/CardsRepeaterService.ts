@@ -11,7 +11,7 @@ import {ISettings} from '../../types/ISettings';
 import {getCards} from './logic/getCards';
 import {changeRangeOfKnowledge} from './logic/changeRangeOfKnowledge';
 import {getCardForRepeating} from './logic/getCardForRepeating';
-import {updateStatistic} from './logic/updateStatistic';
+import {getStatistic} from './logic/getStatistic';
 import {shuffleCards} from './logic/shuffleCards';
 import {getFirstCard} from './logic/getFirstCard';
 
@@ -39,7 +39,7 @@ export class CardsRepeaterService {
                 })
             )),
             tap((cards: ICard[]) => {
-                updateStatistic(cards, this.statisticValue);
+                this.statisticValue = getStatistic(cards);
             }),
             map((cards: ICard[]) => getCardForRepeating(cards))
         ));

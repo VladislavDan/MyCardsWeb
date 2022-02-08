@@ -45,7 +45,7 @@ export const CardsRepeaterComponent: FC<ICardsRepeaterComponent> = (
                     <AnswerCardComponent
                         card={card}
                         onClickText={onClickCard}
-                        height={cardHeight}
+                        cardHeight={cardHeight}
                         onClick={onClick}
                         onChangeAnswer={onChangeAnswer}
                         isEditable={isEditable}

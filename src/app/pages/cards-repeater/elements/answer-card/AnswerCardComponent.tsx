@@ -10,7 +10,7 @@ import {TextEditorComponent} from '../../../../common/elements/text-editor/TextE
 export const AnswerCardComponent: FC<IAnswerCardComponent> = (
     {
         card,
-        height,
+        cardHeight,
         onClickText,
         onClick,
         isEditable,
@@ -23,17 +23,17 @@ export const AnswerCardComponent: FC<IAnswerCardComponent> = (
     };
 
     return <Card className="cards-repeater">
-        <CardContent style={{height: height}}>
+        <CardContent style={{height: cardHeight}}>
 
             {
                 isEditable ?
-                    <div style={{paddingTop: 0, height: height, overflow: 'auto', whiteSpace: 'pre-wrap'}}>
+                    <div style={{paddingTop: 0, height: cardHeight * 0.5, overflow: 'auto', whiteSpace: 'pre-wrap'}}>
                         <List style={{paddingTop: 0}}>
                             <TextEditorComponent onChangeText={onChangeAnswer} changeableText={getText()}/>
                         </List>
                     </div> :
                     <Typography color="textSecondary" gutterBottom onClick={onClickText}
-                                style={{paddingTop: 0, height: height, overflow: 'auto', whiteSpace: 'pre-wrap'}}>
+                                style={{paddingTop: 0, height: cardHeight, overflow: 'auto', whiteSpace: 'pre-wrap'}}>
                         <List style={{paddingTop: 0}}>
                             {getText()}
                         </List>
@@ -47,7 +47,7 @@ export const AnswerCardComponent: FC<IAnswerCardComponent> = (
 interface IAnswerCardComponent {
     card: ICard | undefined;
     onClickText: () => void
-    height: number
+    cardHeight: number
     onClick: (isUnderstandable: boolean) => void;
     isEditable: boolean;
     onChangeAnswer: (answer: string) => void;

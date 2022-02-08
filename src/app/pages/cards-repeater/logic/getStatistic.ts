@@ -2,9 +2,9 @@ import {ICard} from '../../../types/ICard';
 import {IRangeOfKnowledge} from '../../../types/IRangeOfKnowledge';
 import {IStatistic} from '../../../types/IStatistic';
 
-export const updateStatistic = (cards: ICard[], statisticValue: IStatistic): IStatistic => {
+export const getStatistic = (cards: ICard[]): IStatistic => {
 
-    statisticValue = {
+    const statisticValue = {
         inProgress: 0,
         todo: 0,
         done: 0

@@ -160,7 +160,7 @@ export const CardRepeaterContainer: FC<ICardRepeaterContainer> = ({cardsRepeater
     };
 
     return <CardsRepeaterComponent
-        cardHeight={value.height - 220}
+        cardHeight={value.height * 0.55}
         isQuestionSide={state.isQuestionSide}
         onClickCard={onClickCard}
         onClick={onClick}

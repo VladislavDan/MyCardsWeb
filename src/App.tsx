@@ -52,7 +52,7 @@ function App() {
         const height = window.screen.height;
         const width = window.screen.width;
         if (appState.height !== height || appState.width !== width) {
-            setAppState({...appState, height: window.screen.height, width: window.screen.width});
+            setAppState({...appState, height: height, width: width});
         }
     });
 
@@ -70,7 +70,7 @@ function App() {
 
                         <ConfirmDialogContainer confirmDialogService={confirmDialogService}/>
 
-                        <div className="page-container" style={{height: appState.height, width: appState.width}}>
+                        <div className="page-container" style={{height: appState.height - 110, width: appState.width}}>
                             <SpinnerContainer spinnerService={spinnerService}/>
                             <NavigationContainer
                                 cardsGroupsListService={cardsGroupsListService}
