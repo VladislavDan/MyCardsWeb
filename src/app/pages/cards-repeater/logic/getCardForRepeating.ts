@@ -1,20 +1,29 @@
 import {ICard} from '../../../types/ICard';
 import {IRangeOfKnowledge} from '../../../types/IRangeOfKnowledge';
 
-export const getCardForRepeating = (cards: ICard[]) => {
+export const getCardForRepeating = (cards: ICard[], isRandomRepeating: boolean) => {
 
-    let foundCard = cards.find((card: ICard) => {
-        return card.rangeOfKnowledge === IRangeOfKnowledge.TO_DO;
-    });
+    let foundCard
 
-    if (!foundCard) {
+    if(!isRandomRepeating) {
         foundCard = cards.find((card: ICard) => {
-            return card.rangeOfKnowledge === IRangeOfKnowledge.IN_PROGRESS;
+            return card.rangeOfKnowledge === IRangeOfKnowledge.TO_DO;
         });
-    }
 
-    if (cards.length === 1) {
-        foundCard = cards[0]
+        if (!foundCard) {
+            foundCard = cards.find((card: ICard) => {
+                return card.rangeOfKnowledge === IRangeOfKnowledge.IN_PROGRESS;
+            });
+        }
+
+        if (cards.length === 1) {
+            foundCard = cards[0]
+        }
+    } else {
+        const cardsWithoutDone = cards.filter((card: ICard) => {
+            return card.rangeOfKnowledge !== IRangeOfKnowledge.DONE
+        })
+        foundCard = cardsWithoutDone[0];
     }
 
     return foundCard
