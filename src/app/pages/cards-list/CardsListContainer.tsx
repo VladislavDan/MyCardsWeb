@@ -38,6 +38,10 @@ export const CardsListContainer: FC<ICardsListContainer> = ({cardsListService, c
         cardsListService.cardsChannel.next(location.state.cardsGroupID)
     });
 
+    useChannel(cardsListService.filterChannel, () => {
+        cardsListService.cardsChannel.next(location.state.cardsGroupID)
+    });
+
     useConstructor(() => {
         cardsListService.cardsChannel.next(location.state.cardsGroupID)
     });
@@ -97,7 +101,14 @@ export const CardsListContainer: FC<ICardsListContainer> = ({cardsListService, c
         })
     };
 
+    const onChangeSearchableText = (searchableText: string) => {
+        cardsListService.filterChannel.next({
+            searchableText
+        })
+    };
+
     return <CardsListComponent
+        onChangeSearchableText={onChangeSearchableText}
         cards={state.cards}
         onOpenEditor={onOpenEditor}
         onEditItem={onEditItem}

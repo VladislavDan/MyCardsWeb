@@ -6,6 +6,7 @@ import {CardsListItemComponent} from './elements/cards-list-item/CardsListItemCo
 import {ICard} from '../../types/ICard';
 import {AddButton} from '../../common/elements/add-button/AddButton';
 import './CardsListComponent.css'
+import {FilterComponent} from "./elements/filter/FilterComponent";
 
 
 export const CardsListComponent: FC<ICardsListComponent> = (
@@ -16,12 +17,14 @@ export const CardsListComponent: FC<ICardsListComponent> = (
         onDeleteItem,
         onResetProgress,
         onClickItem,
+        onChangeSearchableText,
         height,
         width
     }
 ) => {
     return (
         <>
+            <FilterComponent onChangeSearchableText={onChangeSearchableText}/>
             <List
                 className="cards"
                 itemData={cards}
@@ -56,6 +59,7 @@ interface ICardsListComponent {
     onDeleteItem: (id: number) => void;
     onResetProgress: (id: number) => void;
     onClickItem: (id: number) => void;
+    onChangeSearchableText: (answer: string) => void;
     height: number;
     width: number
 }
