@@ -42,5 +42,10 @@ export const Routs = {
     settings: {
         path: '/settings',
         name: 'Settings'
+    },
+
+    cardViewer: {
+        path: '/card-viewer',
+        name: 'Card Preview'
     }
 };

@@ -3,9 +3,9 @@ import React, {FC} from 'react';
 import {List} from '@mui/material';
 import CardContent from '@mui/material/CardContent';
 import Card from '@mui/material/Card';
-import {ICard} from '../../../../types/ICard';
+import {ICard} from '../../../types/ICard';
 import {AnswerCardFooterComponent} from '../answer-card-footer/AnswerCardFooterComponent';
-import {TextEditorComponent} from '../../../../common/elements/text-editor/TextEditorComponent';
+import {TextEditorComponent} from '../text-editor/TextEditorComponent';
 
 export const AnswerCardComponent: FC<IAnswerCardComponent> = (
     {

@@ -36,7 +36,7 @@ export const CardRepeaterContainer: FC<ICardRepeaterContainer> = ({cardsRepeater
 
     const [statistic, setStatistic] = useState<IStatistic>(defaultStatisticValue);
 
-    useChannel<{ cardsGroupID: number, cardID: number }, ICard | undefined>(cardsRepeaterService.cardChannel, (card: ICard | undefined) => {
+    useChannel<number, ICard | undefined>(cardsRepeaterService.cardChannel, (card: ICard | undefined) => {
         setState({
             card: card,
             isQuestionSide: true,
@@ -63,10 +63,7 @@ export const CardRepeaterContainer: FC<ICardRepeaterContainer> = ({cardsRepeater
                 isEditable: false
             });
         } else {
-            cardsRepeaterService.cardChannel.next({
-                cardsGroupID: location.state ? location.state.cardsGroupID : null,
-                cardID: location.state ? location.state.cardID : null
-            });
+            cardsRepeaterService.cardChannel.next(location.state ? location.state.cardsGroupID : -1);
         }
     });
 
@@ -76,10 +73,7 @@ export const CardRepeaterContainer: FC<ICardRepeaterContainer> = ({cardsRepeater
 
     useChannel<IRepeatingArgs, ICardsGroup[]>(cardsRepeaterService.repeatingResultChannel, () => {
 
-        cardsRepeaterService.cardChannel.next({
-            cardsGroupID: location.state.cardsGroupID,
-            cardID: location.state.cardID
-        });
+        cardsRepeaterService.cardChannel.next(location.state.cardsGroupID);
     });
 
     useConstructor(() => {

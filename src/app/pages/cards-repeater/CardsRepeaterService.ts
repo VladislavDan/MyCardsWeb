@@ -9,16 +9,15 @@ import {Channel} from '../../common/Channel';
 import {IStatistic} from '../../types/IStatistic';
 import {ISettings} from '../../types/ISettings';
 import {getCardsByGroupID} from './logic/getCardsByGroupID';
-import {changeRangeOfKnowledge} from './logic/changeRangeOfKnowledge';
+import {changeRangeOfKnowledge} from '../../common/logic/changeRangeOfKnowledge';
 import {getCardForRepeating} from './logic/getCardForRepeating';
 import {getStatistic} from './logic/getStatistic';
 import {shuffleCards} from './logic/shuffleCards';
 import {getFirstCard} from './logic/getFirstCard';
-import {settings} from "cluster";
 
 export class CardsRepeaterService {
     public currentCardChannel: Channel<number | null, ICard | null>;
-    public cardChannel: Channel<{ cardsGroupID: number | null, cardID: number | null }, ICard | undefined>;
+    public cardChannel: Channel<number, ICard | undefined>;
     public repeatingResultChannel: Channel<IRepeatingArgs, ICardsGroup[]>;
     public statisticChannel: Channel<string, IStatistic>;
 
@@ -29,8 +28,8 @@ export class CardsRepeaterService {
     };
 
     constructor(private storageService: StorageService) {
-        this.cardChannel = new Channel(({cardsGroupID = null, cardID = null}) => this.storageService.getBackup().pipe(
-            map((cardsGroups: ICardsGroup[]) => getCardsByGroupID(cardsGroups, cardsGroupID, cardID)),
+        this.cardChannel = new Channel((cardsGroupID = -1) => this.storageService.getBackup().pipe(
+            map((cardsGroups: ICardsGroup[]) => getCardsByGroupID(cardsGroups, cardsGroupID)),
             switchMap((cards: ICard[]) => this.storageService.getSettings().pipe(
                 map((settings: ISettings) => {
                     if (settings.isRandomRepeating) {

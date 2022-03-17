@@ -24,6 +24,7 @@ import {CardsRepeaterService} from './app/pages/cards-repeater/CardsRepeaterServ
 import {LocalBackupsService} from './app/pages/local-backup/LocalBackupsService';
 import {DataBaseService} from './app/common/services/DataBaseService';
 import {SettingsService} from './app/pages/settings/SettingsService';
+import {CardViewerService} from "./app/pages/card-viewer/CardViewerService";
 
 export const AppContext = React.createContext<IAppContext>(defaultAppState);
 
@@ -43,6 +44,7 @@ const cardsListService = new CardsListService(storageService);
 const cardsRepeaterService = new CardsRepeaterService(storageService);
 const localBackupsService = new  LocalBackupsService(storageService);
 const settingService = new SettingsService(storageService);
+const cardViewerService = new CardViewerService(storageService);
 
 function App() {
 
@@ -85,6 +87,7 @@ function App() {
                                 cardsRepeaterService={cardsRepeaterService}
                                 localBackupsService={localBackupsService}
                                 settingsService={settingService}
+                                cardViewerService={cardViewerService}
                             />
                         </div>
                     </div>

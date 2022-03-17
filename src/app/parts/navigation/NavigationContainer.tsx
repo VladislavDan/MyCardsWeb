@@ -24,22 +24,27 @@ import {CardsRepeaterService} from '../../pages/cards-repeater/CardsRepeaterServ
 import {LocalBackupsService} from '../../pages/local-backup/LocalBackupsService';
 import {SettingsContainer} from '../../pages/settings/SettingsContainer';
 import {SettingsService} from '../../pages/settings/SettingsService';
+import {CardViewerContainer} from "../../pages/card-viewer/CardViewerContainer";
+import {CardViewerService} from "../../pages/card-viewer/CardViewerService";
 
 
-export const NavigationContainer: FC<INavigationContainer> = ({
-                                                                  cardsGroupsListService,
-                                                                  cardsGroupsEditorService,
-                                                                  errorService,
-                                                                  googleAuthService,
-                                                                  googleBackupsService,
-                                                                  spinnerService,
-                                                                  confirmDialogService,
-                                                                  cardsEditorService,
-                                                                  cardsListService,
-                                                                  cardsRepeaterService,
-                                                                  settingsService,
-                                                                  localBackupsService
-                                                              }) => {
+export const NavigationContainer: FC<INavigationContainer> = (
+    {
+        cardsGroupsListService,
+        cardsGroupsEditorService,
+        errorService,
+        googleAuthService,
+        googleBackupsService,
+        spinnerService,
+        confirmDialogService,
+        cardsEditorService,
+        cardsListService,
+        cardsRepeaterService,
+        settingsService,
+        localBackupsService,
+        cardViewerService
+    }
+) => {
 
     return <Switch>
         <Redirect exact from="/MyCardsWeb" to={Routs.cardsGroups.path}/>
@@ -74,6 +79,12 @@ export const NavigationContainer: FC<INavigationContainer> = ({
         <Route path={Routs.settings.path}>
             <SettingsContainer settingsService={settingsService}/>
         </Route>
+        <Route path={Routs.cardViewer.path}>
+            <CardViewerContainer
+                cardViewerService={cardViewerService}
+                cardsEditorService={cardsEditorService}
+            />
+        </Route>
     </Switch>
 };
 
@@ -89,5 +100,6 @@ interface INavigationContainer {
     cardsListService: CardsListService;
     cardsRepeaterService: CardsRepeaterService;
     localBackupsService: LocalBackupsService;
-    settingsService: SettingsService
+    settingsService: SettingsService;
+    cardViewerService: CardViewerService;
 }

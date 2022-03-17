@@ -4,8 +4,8 @@ import {List} from '@mui/material';
 import Typography from '@mui/material/Typography';
 import CardContent from '@mui/material/CardContent';
 import Card from '@mui/material/Card';
-import {ICard} from '../../../../types/ICard';
-import {TextEditorComponent} from '../../../../common/elements/text-editor/TextEditorComponent';
+import {ICard} from '../../../types/ICard';
+import {TextEditorComponent} from '../text-editor/TextEditorComponent';
 
 export const QuestionCardComponent: FC<IQuestionCard> = (
     {

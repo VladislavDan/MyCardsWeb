@@ -31,6 +31,10 @@ class ToolbarService {
             return Routs.settings.name;
         }
 
+        if(path === Routs.cardViewer.path) {
+            return Routs.settings.name;
+        }
+
         return 'My Cards'
     }
 }

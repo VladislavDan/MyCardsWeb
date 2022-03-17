@@ -93,7 +93,7 @@ export const CardsListContainer: FC<ICardsListContainer> = ({cardsListService, c
 
     const onClickItem = (cardID: number) => {
         history.push({
-            pathname: Routs.cardsRepeater.path,
+            pathname: Routs.cardViewer.path,
             state: {
                 cardsGroupID: location.state.cardsGroupID,
                 cardID: cardID

@@ -1,7 +1,7 @@
-import {IRepeatingArgs} from '../../../types/IRepeatingArgs';
-import {ICardsGroup} from '../../../types/ICardsGroup';
-import {ICard} from '../../../types/ICard';
-import {IRangeOfKnowledge} from '../../../types/IRangeOfKnowledge';
+import {IRepeatingArgs} from '../../types/IRepeatingArgs';
+import {ICardsGroup} from '../../types/ICardsGroup';
+import {ICard} from '../../types/ICard';
+import {IRangeOfKnowledge} from '../../types/IRangeOfKnowledge';
 
 export const changeRangeOfKnowledge = (args: IRepeatingArgs, cardsGroups: ICardsGroup[]) => {
     cardsGroups.forEach((cardsGroup: ICardsGroup) => {

@@ -2,12 +2,12 @@ import React, {FC} from 'react';
 
 import {ICard} from '../../types/ICard';
 import {StatisticComponent} from './elements/statistic/StatisticComponent';
-import {AnswerCardComponent} from './elements/answer-card/AnswerCardComponent';
+import {AnswerCardComponent} from '../../common/elements/answer-card/AnswerCardComponent';
 import "./CardsRepeaterComponent.css"
 import {IStatistic} from '../../types/IStatistic';
-import {CardsRepeaterHeaderComponent} from './elements/cards-repeater-header/CardsRepeaterHeaderComponent';
+import {CardsHeaderComponent} from '../../common/elements/cards-header/CardsHeaderComponent';
 import {AllCardsRepeatedComponent} from './elements/all-cards-repeated/AllCardsRepeatedComponent';
-import {QuestionCardComponent} from './elements/question-card/QuestionCardComponent';
+import {QuestionCardComponent} from '../../common/elements/question-card/QuestionCardComponent';
 
 export const CardsRepeaterComponent: FC<ICardsRepeaterComponent> = (
     {
@@ -28,7 +28,7 @@ export const CardsRepeaterComponent: FC<ICardsRepeaterComponent> = (
     return card ?
         <div className="cards-repeater">
             <StatisticComponent statistic={statistic}/>
-            <CardsRepeaterHeaderComponent
+            <CardsHeaderComponent
                 isQuestionSide={isQuestionSide}
                 isEditable={isEditable}
                 onSwitchEditing={onSwitchEditing}

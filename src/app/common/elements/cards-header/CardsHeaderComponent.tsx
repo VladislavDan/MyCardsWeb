@@ -3,7 +3,7 @@ import {IconButton} from '@mui/material';
 import Typography from '@mui/material/Typography';
 import {Check, Edit} from '@mui/icons-material';
 
-export const CardsRepeaterHeaderComponent: FC<ICardsRepeaterHeaderComponent> = (
+export const CardsHeaderComponent: FC<ICardsRepeaterHeaderComponent> = (
     {
         isQuestionSide,
         onSwitchEditing,

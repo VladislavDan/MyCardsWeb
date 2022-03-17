@@ -1,8 +1,8 @@
 import React, {FC} from 'react';
 import {Button, CardActions} from '@mui/material';
 
-import {IRangeOfKnowledge} from '../../../../types/IRangeOfKnowledge';
-import {ICard} from '../../../../types/ICard';
+import {IRangeOfKnowledge} from '../../../types/IRangeOfKnowledge';
+import {ICard} from '../../../types/ICard';
 
 export const AnswerCardFooterComponent: FC<IAnswerCardFooterComponent> = ({card, onClick}) => {
 
