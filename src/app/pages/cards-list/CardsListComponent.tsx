@@ -7,24 +7,32 @@ import {ICard} from '../../types/ICard';
 import {AddButton} from '../../common/elements/add-button/AddButton';
 import './CardsListComponent.css'
 import {FilterComponent} from "./elements/filter/FilterComponent";
+import {ISortVariants} from "../../types/ISortVariants";
+import {IFilter} from "../../types/IFilter";
 
 
 export const CardsListComponent: FC<ICardsListComponent> = (
     {
         cards,
+        filter,
         onOpenEditor,
         onEditItem,
         onDeleteItem,
         onResetProgress,
         onClickItem,
         onChangeSearchableText,
+        onChangeSorting,
         height,
         width
     }
 ) => {
     return (
         <>
-            <FilterComponent onChangeSearchableText={onChangeSearchableText}/>
+            <FilterComponent
+                onChangeSearchableText={onChangeSearchableText}
+                onChangeSorting={onChangeSorting}
+                filter={filter}
+            />
             <List
                 className="cards"
                 itemData={cards}
@@ -62,4 +70,6 @@ interface ICardsListComponent {
     onChangeSearchableText: (answer: string) => void;
     height: number;
     width: number
+    onChangeSorting: (sortVariant: ISortVariants) => void;
+    filter: IFilter
 }

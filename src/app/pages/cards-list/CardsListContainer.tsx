@@ -13,6 +13,8 @@ import {ConfirmDialogService} from '../../parts/confirm-dialog/ConfirmDialogServ
 import {useUnsubscribe} from '../../common/hooks/useUnsubscribe';
 import {IAppContext} from '../../types/IAppContext';
 import {AppContext} from '../../../App';
+import {IFilter} from "../../types/IFilter";
+import {ISortVariants} from "../../types/ISortVariants";
 
 export const CardsListContainer: FC<ICardsListContainer> = ({cardsListService, confirmDialogService}) => {
 
@@ -20,30 +22,48 @@ export const CardsListContainer: FC<ICardsListContainer> = ({cardsListService, c
 
     const history = useHistory();
 
-    const [state, setState] = useState<CardsListContainerState>({cards: []});
+    const [state, setState] = useState<CardsListContainerState>(
+        {
+            cards: [],
+            filter: {
+                searchableText: '',
+                sort: ISortVariants.NONE
+            }
+        }
+    );
 
     const context = useContext<IAppContext>(AppContext);
 
     useChannel(cardsListService.cardsChannel, (cards: ICard[]) => {
-        setState({
-            cards: cards
+        setState((prevState) => {
+            return {
+                ...prevState,
+                cards
+            }
         });
     });
 
     useChannel(cardsListService.resetCardProgressChannel, (cards: ICardsGroup[]) => {
-        cardsListService.cardsChannel.next(location.state.cardsGroupID)
+        cardsListService.cardsChannel.next(
+            {
+                cardsGroupID: location.state.cardsGroupID,
+                filter: state.filter
+            }
+        )
     });
 
     useChannel(cardsListService.deleteCardChannel, (cards: ICardsGroup[]) => {
-        cardsListService.cardsChannel.next(location.state.cardsGroupID)
-    });
-
-    useChannel(cardsListService.filterChannel, () => {
-        cardsListService.cardsChannel.next(location.state.cardsGroupID)
+        cardsListService.cardsChannel.next({
+            cardsGroupID: location.state.cardsGroupID,
+            filter: state.filter
+        })
     });
 
     useConstructor(() => {
-        cardsListService.cardsChannel.next(location.state.cardsGroupID)
+        cardsListService.cardsChannel.next({
+            cardsGroupID: location.state.cardsGroupID,
+            filter: state.filter
+        })
     });
 
     const onOpenEditor = () => {
@@ -65,7 +85,7 @@ export const CardsListContainer: FC<ICardsListContainer> = ({cardsListService, c
         })
     };
 
-    const { setSubscription } = useUnsubscribe();
+    const {setSubscription} = useUnsubscribe();
 
     const onDeleteItem = (cardID: number) => {
         const subscription = confirmDialogService.confirmationChannel.subscribe((isConfirm) => {
@@ -88,7 +108,12 @@ export const CardsListContainer: FC<ICardsListContainer> = ({cardsListService, c
     };
 
     const onResetProgress = (cardID: number) => {
-        cardsListService.resetCardProgressChannel.next({cardID, cardsGroupID: location.state.cardsGroupID})
+        cardsListService.resetCardProgressChannel.next(
+            {
+                cardID,
+                cardsGroupID: location.state.cardsGroupID
+            }
+        )
     };
 
     const onClickItem = (cardID: number) => {
@@ -102,12 +127,44 @@ export const CardsListContainer: FC<ICardsListContainer> = ({cardsListService, c
     };
 
     const onChangeSearchableText = (searchableText: string) => {
-        cardsListService.filterChannel.next({
-            searchableText
+
+        const newFilter = {
+            ...state.filter,
+            searchableText: searchableText
+        }
+
+        setState({
+            ...state,
+            filter: newFilter
+        })
+
+        cardsListService.cardsChannel.next({
+            cardsGroupID: location.state.cardsGroupID,
+            filter: newFilter
+        })
+    };
+
+    const onChangeSorting = (sortVariant: ISortVariants) => {
+
+        const newFilter = {
+            ...state.filter,
+            sort: sortVariant
+        }
+
+        setState({
+            ...state,
+            filter: newFilter
+        })
+
+        cardsListService.cardsChannel.next({
+            cardsGroupID: location.state.cardsGroupID,
+            filter: newFilter
         })
     };
 
     return <CardsListComponent
+        filter={state.filter}
+        onChangeSorting={onChangeSorting}
         onChangeSearchableText={onChangeSearchableText}
         cards={state.cards}
         onOpenEditor={onOpenEditor}
@@ -122,6 +179,7 @@ export const CardsListContainer: FC<ICardsListContainer> = ({cardsListService, c
 
 interface CardsListContainerState {
     cards: ICard[];
+    filter: IFilter
 }
 
 interface ICardsListContainer {

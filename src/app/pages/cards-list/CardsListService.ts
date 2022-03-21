@@ -8,26 +8,19 @@ import {Channel} from '../../common/Channel';
 import {getCardsByGroup} from './logic/getCardsByGroup';
 import {resetCardProgress} from './logic/resetCardProgress';
 import {deleteCard} from './logic/deleteCard';
+import {filterCards} from "./logic/filterCards";
 import {IFilter} from "../../types/IFilter";
 
 export class CardsListService {
-    public cardsChannel: Channel<number, ICard[]>;
+    public cardsChannel: Channel<{cardsGroupID: number, filter: IFilter}, ICard[]>;
     public resetCardProgressChannel: Channel<{cardID: number, cardsGroupID: number}, ICardsGroup[]>;
     public deleteCardChannel: Channel<{cardID: number, cardsGroupID: number}, ICardsGroup[]>;
-    public filterChannel: Channel<IFilter, IFilter>;
-
-    private filter: IFilter = {
-        searchableText: ''
-    }
 
     constructor(private storageService: StorageService) {
-        this.cardsChannel = new Channel((cardsGroupID: number) => this.storageService.getBackup().pipe(
+        this.cardsChannel = new Channel(({ cardsGroupID, filter}) => this.storageService.getBackup().pipe(
             map((cardsGroups: ICardsGroup[]) => getCardsByGroup(cardsGroupID, cardsGroups)),
-            map((cards: ICard[]) => cards.filter((card: ICard) => {
-                return card.question.toLowerCase().indexOf(this.filter.searchableText.toLowerCase()) > -1 ||
-                    card.answer.toLowerCase().indexOf(this.filter.searchableText.toLowerCase()) > -1
-            }))
-        ));
+            map((cards: ICard[]) => filterCards(cards, filter)))
+        );
 
         this.resetCardProgressChannel = new Channel(({cardID, cardsGroupID}) => storageService.getBackup().pipe(
             map((cardsGroups: ICardsGroup[]) => resetCardProgress(cardsGroupID, cardID, cardsGroups)),
@@ -42,11 +35,5 @@ export class CardsListService {
                 storageService.setBackup(cardsGroups);
             })
         ));
-
-        this.filterChannel = new Channel<IFilter, IFilter>((filter) => of(filter).pipe(
-            tap((filter) => {
-                this.filter = filter
-            })
-        ))
     }
 }

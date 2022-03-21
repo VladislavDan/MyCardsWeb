@@ -1,17 +1,32 @@
 import {
     Accordion,
     AccordionDetails,
-    AccordionSummary, TextField,
-    Typography
+    AccordionSummary,
+    MenuItem,
+    Select,
+    SelectChangeEvent,
+    TextField,
 } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {ChangeEvent, default as React, FC} from "react";
+import {IFilter} from "../../../../types/IFilter";
+import {ISortVariants} from "../../../../types/ISortVariants";
 
-export const FilterComponent: FC<IFilterComponent> = ({onChangeSearchableText}) => {
+export const FilterComponent: FC<IFilterComponent> = (
+    {
+        onChangeSearchableText,
+        filter,
+        onChangeSorting
+    }
+) => {
 
-    const onChange = (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+    const handleChangingSearchableText = (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
         onChangeSearchableText(event.target.value);
     };
+
+    const handleChangingSortingVariant = (event: SelectChangeEvent<ISortVariants>) => {
+        onChangeSorting(event.target.value as ISortVariants)
+    }
 
     return <Accordion>
         <AccordionSummary
@@ -24,7 +39,7 @@ export const FilterComponent: FC<IFilterComponent> = ({onChangeSearchableText}) 
                 required
                 id="outlined-required"
                 placeholder="Search card"
-                onChange={onChange}
+                onChange={handleChangingSearchableText}
                 style={{
                     marginRight: '20px',
                 }}
@@ -35,14 +50,23 @@ export const FilterComponent: FC<IFilterComponent> = ({onChangeSearchableText}) 
             />
         </AccordionSummary>
         <AccordionDetails>
-            <Typography>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-                malesuada lacus ex, sit amet blandit leo lobortis eget.
-            </Typography>
+            <Select
+                value={filter.sort}
+                label="Sorting"
+                onChange={handleChangingSortingVariant}
+            >
+                <MenuItem value={ISortVariants.NONE}>{ISortVariants.NONE}</MenuItem>
+                <MenuItem value={ISortVariants.QUESTION_ASK}>{ISortVariants.QUESTION_ASK}</MenuItem>
+                <MenuItem value={ISortVariants.QUESTION_DESK}>{ISortVariants.QUESTION_DESK}</MenuItem>
+                <MenuItem value={ISortVariants.STATUS_ASK}>{ISortVariants.STATUS_ASK}</MenuItem>
+                <MenuItem value={ISortVariants.STATUS_DESK}>{ISortVariants.STATUS_DESK}</MenuItem>
+            </Select>
         </AccordionDetails>
     </Accordion>
 }
 
 interface IFilterComponent {
     onChangeSearchableText: (answer: string) => void;
+    onChangeSorting: (sortVariant: ISortVariants) => void;
+    filter: IFilter;
 }
