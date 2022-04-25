@@ -55,7 +55,7 @@ export const CardsListComponent: FC<ICardsListComponent> = (
                                 onClickItem={onClickItem}
                                 onSelect={() => {
                                 }}
-                                isEnabledSelecting={true}
+                                isEnabledSelecting={false}
                                 isSelected={false}
                             />
                         </div>

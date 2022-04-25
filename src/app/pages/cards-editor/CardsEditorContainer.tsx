@@ -9,7 +9,7 @@ import {INavigationState} from '../../types/INavigationState';
 import {useConstructor} from '../../common/hooks/useConstructor';
 import {ICard} from '../../types/ICard';
 import {ISimplifiedCardsGroup} from '../../types/ISimplifiedCardsGroup';
-import {initialCard} from '../../common/Constants';
+import {initDefaultCard} from "../../common/logic/initDefaultCard";
 
 export const CardsEditorContainer: FC<ICardsGroupsEditorContainer> = ({cardsEditorService}) => {
 
@@ -18,7 +18,7 @@ export const CardsEditorContainer: FC<ICardsGroupsEditorContainer> = ({cardsEdit
     const history = useHistory();
 
     const [state, setState] = useState<CardsGroupsEditorState>({
-        card: initialCard,
+        card: initDefaultCard(),
         currentCardsGroup: {
             id: 0,
             nameCardsGroup: ''

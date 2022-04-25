@@ -14,7 +14,7 @@ import {INavigationState} from '../../types/INavigationState';
 import {AppContext} from '../../../App';
 import {IAppContext} from '../../types/IAppContext';
 import {CardsEditorService} from '../cards-editor/CardsEditorService';
-import {initialCard} from '../../common/Constants';
+import {initDefaultCard} from "../../common/logic/initDefaultCard";
 
 export const CardRepeaterContainer: FC<ICardRepeaterContainer> = ({cardsRepeaterService, cardsEditorService}) => {
 
@@ -125,7 +125,7 @@ export const CardRepeaterContainer: FC<ICardRepeaterContainer> = ({cardsRepeater
 
         if (state.isEditable) {
             cardsEditorService.cardEditingChannel.next({
-                card: state.card || initialCard,
+                card: state.card || initDefaultCard(),
                 cardsGroupID: location.state.cardsGroupID
             })
         }

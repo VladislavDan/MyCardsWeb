@@ -10,10 +10,10 @@ import {ICardsGroup} from "../../types/ICardsGroup";
 import {IAppContext} from "../../types/IAppContext";
 import {AppContext} from "../../../App";
 import {Routs} from "../../common/Routs";
-import {initialCard} from "../../common/Constants";
 import {CardsEditorService} from "../cards-editor/CardsEditorService";
 import {CardViewerComponent} from "./CardViewerComponent";
 import {useConstructor} from "../../common/hooks/useConstructor";
+import {initDefaultCard} from "../../common/logic/initDefaultCard";
 
 export const CardViewerContainer: FC<ICardViewerContainer> = (
     {
@@ -98,7 +98,7 @@ export const CardViewerContainer: FC<ICardViewerContainer> = (
 
         if (state.isEditable) {
             cardsEditorService.cardEditingChannel.next({
-                card: state.card || initialCard,
+                card: state.card || initDefaultCard(),
                 cardsGroupID: location.state.cardsGroupID
             })
         }
