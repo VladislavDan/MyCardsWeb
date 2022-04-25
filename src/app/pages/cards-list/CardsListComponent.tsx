@@ -4,11 +4,11 @@ import {FC} from 'react';
 
 import {CardsListItemComponent} from './elements/cards-list-item/CardsListItemComponent';
 import {ICard} from '../../types/ICard';
-import {AddButton} from '../../common/elements/add-button/AddButton';
 import './CardsListComponent.css'
 import {FilterComponent} from "./elements/filter/FilterComponent";
 import {ISortVariants} from "../../types/ISortVariants";
 import {IFilter} from "../../types/IFilter";
+import {CardsListActions} from "./elements/cards-list-actions/CardsListActions";
 
 
 export const CardsListComponent: FC<ICardsListComponent> = (
@@ -39,23 +39,30 @@ export const CardsListComponent: FC<ICardsListComponent> = (
                 itemSize={55}
                 itemCount={cards.length}
                 overscanCount={5}
-                height={height}
+                height={55 * cards.length}
                 width={width}
             >
-                {({index, style}: any) => {
-                    const card = cards[index];
-                    return <div style={style}><CardsListItemComponent
-                        key={card.id}
-                        card={card}
-                        onEditItem={onEditItem}
-                        onDeleteItem={onDeleteItem}
-                        onResetProgress={onResetProgress}
-                        onClickItem={onClickItem}
-                    /></div>
-                }
+                {
+                    ({index, style}: any) => {
+                        const card = cards[index];
+                        return <div style={style}>
+                            <CardsListItemComponent
+                                key={card.id}
+                                card={card}
+                                onEditItem={onEditItem}
+                                onDeleteItem={onDeleteItem}
+                                onResetProgress={onResetProgress}
+                                onClickItem={onClickItem}
+                                onSelect={() => {
+                                }}
+                                isEnabledSelecting={true}
+                                isSelected={false}
+                            />
+                        </div>
+                    }
                 }
             </List>
-            <AddButton onClick={onOpenEditor}/>
+            <CardsListActions onOpenEditor={onOpenEditor}/>
         </>
     )
 };

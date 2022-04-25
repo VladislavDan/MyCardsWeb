@@ -27,19 +27,28 @@ export const AnswerCardComponent: FC<IAnswerCardComponent> = (
 
             {
                 isEditable ?
-                    <div style={{paddingTop: 0, height: cardHeight * 0.5, overflow: 'auto', whiteSpace: 'pre-wrap'}}>
+                    <div
+                        style={{paddingTop: 0, height: cardHeight, overflow: 'auto', whiteSpace: 'pre-wrap'}}>
                         <List style={{paddingTop: 0}}>
                             <TextEditorComponent onChangeText={onChangeAnswer} changeableText={getText()}/>
                         </List>
-                    </div> :
-                    <Typography color="textSecondary" gutterBottom onClick={onClickText}
-                                style={{paddingTop: 0, height: cardHeight, overflow: 'auto', whiteSpace: 'pre-wrap'}}>
-                        <List style={{paddingTop: 0}}>
-                            {getText()}
-                        </List>
-                    </Typography>
+                    </div>
+                    :
+                    <>
+                        <Typography color="textSecondary" gutterBottom onClick={onClickText}
+                                    style={{
+                                        paddingTop: 0,
+                                        height: cardHeight,
+                                        overflow: 'auto',
+                                        whiteSpace: 'pre-wrap'
+                                    }}>
+                            <List style={{paddingTop: 0}}>
+                                {getText()}
+                            </List>
+                        </Typography>
+                        <AnswerCardFooterComponent onClick={onClick} card={card}/>
+                    </>
             }
-            <AnswerCardFooterComponent onClick={onClick} card={card}/>
         </CardContent>
     </Card>
 };

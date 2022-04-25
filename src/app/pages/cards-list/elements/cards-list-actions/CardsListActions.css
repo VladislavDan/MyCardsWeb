@@ -1,0 +1,10 @@
+.cards-list-actions {
+    width: 50%;
+    padding-bottom: 20px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    position: sticky;
+    bottom: 0;
+    left: 25%;
+}
