@@ -5,6 +5,7 @@ export class Channel<A, D> {
     private readonly outputSubject: Subject<D>;
     private observableCreator: (arg: A) => Observable<D>;
     private subscriptions: Subscription[] = [];
+    private observableError: Error | null = null
 
     constructor(observableCreator: (arg: A) => Observable<D>) {
         this.outputSubject = new Subject<D>();
@@ -12,23 +13,27 @@ export class Channel<A, D> {
     }
 
     next(value: A) {
-        this.subscriptions.push(this.observableCreator(value).subscribe((value) => {
-            this.outputSubject.next(value);
-        }));
+        this.subscriptions.push(this.observableCreator(value).subscribe(
+            (value) => {
+                this.outputSubject.next(value);
+            },
+            (error) => {
+                this.outputSubject.error(error);
+            }
+        ));
     }
 
-    subscribe(next?: (data: D) => void, errorHandler?: (error: Error) => void): Subscription {
-
+    subscribe(next?: (data: D) => void, customErrorHandler?: (error: Error) => void): Subscription {
 
         const outputSubjectSubscription = this.outputSubject.subscribe(
             (data: D) => {
-                if(next) {
+                if (next) {
                     next(data)
                 }
             },
             (error: Error) => {
-                if(errorHandler) {
-                    errorHandler(error);
+                if (customErrorHandler) {
+                    customErrorHandler(error);
                 }
                 console.error(error)
             }
@@ -39,7 +44,7 @@ export class Channel<A, D> {
 
     unsubscribe() {
         this.subscriptions.forEach((subscribtion: Subscription) => {
-            if(!subscribtion.closed) {
+            if (!subscribtion.closed) {
                 subscribtion.unsubscribe();
             }
         });

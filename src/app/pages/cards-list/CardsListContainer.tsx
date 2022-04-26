@@ -27,8 +27,9 @@ export const CardsListContainer: FC<ICardsListContainer> = ({cardsListService, c
             cards: [],
             filter: {
                 searchableText: '',
-                sort: ISortVariants.NONE
-            }
+                sort: ISortVariants.NONE,
+            },
+            isEnabledSelecting: false
         }
     );
 
@@ -162,6 +163,20 @@ export const CardsListContainer: FC<ICardsListContainer> = ({cardsListService, c
         })
     };
 
+    const onOpenRepeater = () => {
+        history.push({
+            pathname: Routs.cardsRepeater.path,
+            state: location.state
+        })
+    };
+
+    const onStartSelecting = () => {
+        setState({
+            ...state,
+            isEnabledSelecting: !state.isEnabledSelecting
+        })
+    }
+
     return <CardsListComponent
         filter={state.filter}
         onChangeSorting={onChangeSorting}
@@ -174,12 +189,16 @@ export const CardsListContainer: FC<ICardsListContainer> = ({cardsListService, c
         onClickItem={onClickItem}
         width={context.width}
         height={context.height}
+        onOpenRepeater={onOpenRepeater}
+        onStartSelecting={onStartSelecting}
+        isEnabledSelecting={state.isEnabledSelecting}
     />
 };
 
 interface CardsListContainerState {
     cards: ICard[];
-    filter: IFilter
+    filter: IFilter;
+    isEnabledSelecting: boolean;
 }
 
 interface ICardsListContainer {

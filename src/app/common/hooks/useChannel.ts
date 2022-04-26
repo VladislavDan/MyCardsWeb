@@ -1,21 +1,24 @@
-import {useEffect, useState} from 'react';
+import {useEffect, useRef} from 'react';
 import {Subscription} from 'rxjs';
 
 import {Channel} from '../Channel';
+import {useConstructor} from "./useConstructor";
 
 export const useChannel = <A, D>(channel: Channel<A, D>, next?: (value: D) => void, additionalErrorHandler?: (error: Error) => void) => {
-    const [state, setState] = useState<{ subscription: Subscription | null }>({
+
+    const value = useRef<{ subscription: Subscription | null }>({
         subscription: null
     });
 
-    useEffect(() => {
-
-        if (!state.subscription || state.subscription.closed) {
+    useConstructor(() => {
+        if (!value.current.subscription || value.current.subscription.closed) {
             const subscription = channel.subscribe(next, additionalErrorHandler);
 
-            setState({...state, subscription});
+            value.current.subscription = subscription;
         }
+    })
 
+    useEffect(() => {
         return () => {
             channel.unsubscribe();
         }

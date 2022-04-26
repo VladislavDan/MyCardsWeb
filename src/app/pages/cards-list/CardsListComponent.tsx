@@ -22,8 +22,10 @@ export const CardsListComponent: FC<ICardsListComponent> = (
         onClickItem,
         onChangeSearchableText,
         onChangeSorting,
-        height,
-        width
+        width,
+        onOpenRepeater,
+        onStartSelecting,
+        isEnabledSelecting
     }
 ) => {
     return (
@@ -55,14 +57,18 @@ export const CardsListComponent: FC<ICardsListComponent> = (
                                 onClickItem={onClickItem}
                                 onSelect={() => {
                                 }}
-                                isEnabledSelecting={false}
+                                isEnabledSelecting={isEnabledSelecting}
                                 isSelected={false}
                             />
                         </div>
                     }
                 }
             </List>
-            <CardsListActions onOpenEditor={onOpenEditor}/>
+            <CardsListActions
+                onOpenRepeater={onOpenRepeater}
+                onOpenEditor={onOpenEditor}
+                onStartSelecting={onStartSelecting}
+            />
         </>
     )
 };
@@ -79,4 +85,7 @@ interface ICardsListComponent {
     width: number
     onChangeSorting: (sortVariant: ISortVariants) => void;
     filter: IFilter
+    onOpenRepeater: () => void;
+    onStartSelecting: () => void;
+    isEnabledSelecting: boolean
 }

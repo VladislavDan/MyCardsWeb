@@ -69,7 +69,7 @@ export class StorageService {
             if(settings) {
                 resolve(JSON.parse(settings) as ISettings);
             } else {
-                reject({
+                resolve({
                     isRandomRepeating: false
                 })
             }
