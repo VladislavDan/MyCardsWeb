@@ -1,1 +1,0 @@
-export type ISelector<S, O> = (store: S) => O

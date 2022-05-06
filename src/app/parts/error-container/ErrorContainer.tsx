@@ -1,6 +1,6 @@
 import React, {FC, useState} from 'react';
 
-import {useChannel} from '../../common/hooks/useChannel';
+import {useChannel} from '../../../../MyTools/channel-conception/react-hooks/useChannel';
 import {ErrorComponent} from './ErrorComponent';
 import {ErrorService} from './ErrorService';
 

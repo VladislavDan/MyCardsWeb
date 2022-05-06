@@ -2,12 +2,12 @@ import * as React from 'react';
 import {FC, useState} from 'react';
 import {useHistory, useLocation} from 'react-router';
 
-import {useChannel} from '../../common/hooks/useChannel';
+import {useChannel} from '../../../../MyTools/channel-conception/react-hooks/useChannel';
 import {ICardsGroup} from '../../types/ICardsGroup';
 import {CardsGroupsEditorService} from './CardsGroupsEditorService';
 import {CardsGroupsEditorComponent} from './CardsGroupsEditorComponent';
 import {INavigationState} from '../../types/INavigationState';
-import {useConstructor} from '../../common/hooks/useConstructor';
+import {useConstructor} from '../../../../MyTools/react-hooks/useConstructor';
 
 export const CardsGroupsEditorContainer: FC<ICardsGroupsEditorContainer> = ({cardsGroupsEditorService}) => {
 

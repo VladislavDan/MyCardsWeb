@@ -1,1 +1,0 @@
-export type IChanger<S> = (store: S) => S

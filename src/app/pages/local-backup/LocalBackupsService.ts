@@ -2,7 +2,7 @@ import {of} from 'rxjs';
 
 import {StorageService} from '../../common/services/StorageService';
 import {ICardsGroup} from '../../types/ICardsGroup';
-import {Channel} from '../../common/Channel';
+import {Channel} from '../../../../MyTools/channel-conception/Channel';
 import {switchMap, tap} from 'rxjs/operators';
 import {saveBackupFile} from './logic/saveBackupFile';
 

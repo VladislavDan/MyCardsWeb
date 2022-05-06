@@ -1,14 +1,14 @@
 import React, {FC, useContext, useState} from "react";
 
 import {CardsGroupsListComponent} from './CardsGroupsListComponent';
-import {useChannel} from '../../common/hooks/useChannel';
+import {useChannel} from '../../../../MyTools/channel-conception/react-hooks/useChannel';
 import {ICardsGroup} from '../../types/ICardsGroup';
-import {useConstructor} from '../../common/hooks/useConstructor';
+import {useConstructor} from '../../../../MyTools/react-hooks/useConstructor';
 import {CardsGroupsListService} from './CardsGroupsListService';
 import {Routs} from '../../common/Routs';
 import {useHistory} from 'react-router';
 import {ConfirmDialogService} from '../../parts/confirm-dialog/ConfirmDialogService';
-import {useUnsubscribe} from '../../common/hooks/useUnsubscribe';
+import {useUnsubscribe} from '../../../../MyTools/react-hooks/useUnsubscribe';
 import {IAppContext} from '../../types/IAppContext';
 import {AppContext} from '../../../App';
 

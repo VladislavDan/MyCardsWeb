@@ -2,7 +2,7 @@ import {map, tap} from 'rxjs/operators';
 
 import {StorageService} from '../../common/services/StorageService';
 import {ICardsGroup} from '../../types/ICardsGroup';
-import {Channel} from '../../common/Channel';
+import {Channel} from '../../../../MyTools/channel-conception/Channel';
 import {ICard} from '../../types/ICard';
 import {ISimplifiedCardsGroup} from '../../types/ISimplifiedCardsGroup';
 import {saveCard} from './logic/saveCard';

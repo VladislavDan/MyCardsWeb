@@ -1,5 +1,5 @@
 import {StorageService} from '../../common/services/StorageService';
-import {Channel} from '../../common/Channel';
+import {Channel} from '../../../../MyTools/channel-conception/Channel';
 import {ISettings} from '../../types/ISettings';
 
 export class SettingsService {

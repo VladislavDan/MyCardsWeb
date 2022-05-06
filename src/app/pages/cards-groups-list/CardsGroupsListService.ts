@@ -2,7 +2,7 @@ import {map, tap} from 'rxjs/operators';
 
 import {StorageService} from '../../common/services/StorageService';
 import {ICardsGroup} from '../../types/ICardsGroup';
-import {Channel} from '../../common/Channel';
+import {Channel} from '../../../../MyTools/channel-conception/Channel';
 import {updateRepeatingDate} from './logic/updateRepeatingDate';
 import {sortByRepeatingDate} from './logic/sortByRepeatingDate';
 import {countRepeatedCardsPercent} from './logic/countRepeatedCardsPercent';

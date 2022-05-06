@@ -1,6 +1,6 @@
 import {of} from 'rxjs';
 
-import {Channel} from '../../common/Channel';
+import {Channel} from '../../../../MyTools/channel-conception/Channel';
 
 class NavigationPanelService {
 

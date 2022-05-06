@@ -1,10 +1,9 @@
 import {map, tap} from 'rxjs/operators';
-import {of} from "rxjs";
 
 import {ICard} from '../../types/ICard';
 import {StorageService} from '../../common/services/StorageService';
 import {ICardsGroup} from '../../types/ICardsGroup';
-import {Channel} from '../../common/Channel';
+import {Channel} from '../../../../MyTools/channel-conception/Channel';
 import {getCardsByGroup} from './logic/getCardsByGroup';
 import {resetCardProgress} from './logic/resetCardProgress';
 import {deleteCard} from './logic/deleteCard';

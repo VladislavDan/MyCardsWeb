@@ -2,7 +2,7 @@ import * as React from 'react';
 import {FC, useState} from 'react';
 
 import {SpinnerComponent} from './SpinnerComponent';
-import {useChannel} from '../../common/hooks/useChannel';
+import {useChannel} from '../../../../MyTools/channel-conception/react-hooks/useChannel';
 import {SpinnerService} from './SpinnerService';
 
 export const SpinnerContainer: FC<ISpinnerContainer> = ({spinnerService}) => {

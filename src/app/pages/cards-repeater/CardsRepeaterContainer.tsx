@@ -1,9 +1,9 @@
 import {useHistory, useLocation} from 'react-router';
 import React, {FC, useContext, useState} from 'react';
 
-import {useChannel} from '../../common/hooks/useChannel';
+import {useChannel} from '../../../../MyTools/channel-conception/react-hooks/useChannel';
 import {ICard} from '../../types/ICard';
-import {useConstructor} from '../../common/hooks/useConstructor';
+import {useConstructor} from '../../../../MyTools/react-hooks/useConstructor';
 import {CardsRepeaterService} from './CardsRepeaterService';
 import {CardsRepeaterComponent} from './CardsRepeaterComponent';
 import {Routs} from '../../common/Routs';
