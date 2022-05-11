@@ -56,7 +56,7 @@ function App() {
         if (appState.height !== height || appState.width !== width) {
             setAppState({...appState, height: height, width: width});
         }
-    });
+    }, [appState]);
 
     return (
         <>

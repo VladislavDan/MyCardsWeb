@@ -2,15 +2,15 @@ import React, {FC, useContext, useState} from 'react';
 
 import {ICard} from '../../types/ICard';
 import {CardsListComponent} from './CardsListComponent';
-import {useChannel} from '../../../../MyTools/channel-conception/react-hooks/useChannel';
+import {useChannel} from '../../../MyTools/channel-conception/react-hooks/useChannel';
 import {CardsListService} from './CardsListService';
 import {useHistory, useLocation} from 'react-router';
-import {useConstructor} from '../../../../MyTools/react-hooks/useConstructor';
+import {useConstructor} from '../../../MyTools/react-hooks/useConstructor';
 import {INavigationState} from '../../types/INavigationState';
 import {Routs} from '../../common/Routs';
 import {ICardsGroup} from '../../types/ICardsGroup';
 import {ConfirmDialogService} from '../../parts/confirm-dialog/ConfirmDialogService';
-import {useUnsubscribe} from '../../../../MyTools/react-hooks/useUnsubscribe';
+import {useUnsubscribe} from '../../../MyTools/react-hooks/useUnsubscribe';
 import {IAppContext} from '../../types/IAppContext';
 import {AppContext} from '../../../App';
 import {IFilter} from "../../types/IFilter";

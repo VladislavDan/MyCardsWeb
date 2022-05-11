@@ -4,7 +4,7 @@ import {CardViewerService} from "./CardViewerService";
 import {ICard} from "../../types/ICard";
 import {useHistory, useLocation} from "react-router";
 import {INavigationState} from "../../types/INavigationState";
-import {useChannel} from "../../../../MyTools/channel-conception/react-hooks/useChannel";
+import {useChannel} from "../../../MyTools/channel-conception/react-hooks/useChannel";
 import {IRepeatingArgs} from "../../types/IRepeatingArgs";
 import {ICardsGroup} from "../../types/ICardsGroup";
 import {IAppContext} from "../../types/IAppContext";
@@ -12,7 +12,7 @@ import {AppContext} from "../../../App";
 import {Routs} from "../../common/Routs";
 import {CardsEditorService} from "../cards-editor/CardsEditorService";
 import {CardViewerComponent} from "./CardViewerComponent";
-import {useConstructor} from "../../../../MyTools/react-hooks/useConstructor";
+import {useConstructor} from "../../../MyTools/react-hooks/useConstructor";
 import {initDefaultCard} from "../../common/logic/initDefaultCard";
 
 export const CardViewerContainer: FC<ICardViewerContainer> = (

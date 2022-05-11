@@ -2,7 +2,7 @@ import {of} from 'rxjs';
 import {tap} from 'rxjs/operators';
 
 import {StorageService} from '../../common/services/StorageService';
-import {Channel} from '../../../../MyTools/channel-conception/Channel';
+import {Channel} from '../../../MyTools/channel-conception/Channel';
 
 export class GoogleAuthService {
     public loginChannel: Channel<string, string>;

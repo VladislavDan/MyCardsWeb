@@ -1,6 +1,6 @@
 import {of} from 'rxjs';
 
-import {Channel} from '../../../../MyTools/channel-conception/Channel';
+import {Channel} from '../../../MyTools/channel-conception/Channel';
 
 export class ErrorService {
     public errorChannel: Channel<string, string>;

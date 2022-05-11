@@ -4,7 +4,7 @@ import {ICard} from '../../types/ICard';
 import {StorageService} from '../../common/services/StorageService';
 import {ICardsGroup} from '../../types/ICardsGroup';
 import {IRepeatingArgs} from '../../types/IRepeatingArgs';
-import {Channel} from '../../../../MyTools/channel-conception/Channel';
+import {Channel} from '../../../MyTools/channel-conception/Channel';
 import {changeRangeOfKnowledge} from '../../common/logic/changeRangeOfKnowledge';
 import {getCardForViewing} from "./logic/getCardForViewing";
 

@@ -4,7 +4,7 @@ import {GoogleLoginResponse, GoogleLoginResponseOffline} from 'react-google-logi
 import {useHistory} from 'react-router';
 
 import {Routs} from '../../common/Routs';
-import {useChannel} from '../../../../MyTools/channel-conception/react-hooks/useChannel';
+import {useChannel} from '../../../MyTools/channel-conception/react-hooks/useChannel';
 import {GoogleAuthService} from './GoogleAuthService';
 import {GoogleAuthComponent} from './GoogleAuthComponent';
 import {IAppContext} from '../../types/IAppContext';

@@ -1,10 +1,10 @@
 import * as React from 'react';
 import {FC, useRef} from 'react';
 
-import {useChannel} from '../../../../MyTools/channel-conception/react-hooks/useChannel';
+import {useChannel} from '../../../MyTools/channel-conception/react-hooks/useChannel';
 import {LocalBackupsService} from './LocalBackupsService';
 import {Button} from '@mui/material';
-import {useUnsubscribe} from '../../../../MyTools/react-hooks/useUnsubscribe';
+import {useUnsubscribe} from '../../../MyTools/react-hooks/useUnsubscribe';
 import {ConfirmDialogService} from '../../parts/confirm-dialog/ConfirmDialogService';
 import {SpinnerService} from '../../parts/spinner/SpinnerService';
 

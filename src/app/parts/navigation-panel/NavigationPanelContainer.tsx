@@ -3,7 +3,7 @@ import {ReactEventHandler, SyntheticEvent, useState} from 'react';
 
 import {navigationPanelService} from './NavigationPanelService';
 import {NavigationPanelComponent} from './NavigationPanelComponent';
-import {useChannel} from '../../../../MyTools/channel-conception/react-hooks/useChannel';
+import {useChannel} from '../../../MyTools/channel-conception/react-hooks/useChannel';
 
 export const NavigationPanelContainer = () => {
 

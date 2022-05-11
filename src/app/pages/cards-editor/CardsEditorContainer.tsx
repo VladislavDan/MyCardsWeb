@@ -2,11 +2,11 @@ import * as React from 'react';
 import {FC, useState} from 'react';
 import {useHistory, useLocation} from 'react-router';
 
-import {useChannel} from '../../../../MyTools/channel-conception/react-hooks/useChannel';
+import {useChannel} from '../../../MyTools/channel-conception/react-hooks/useChannel';
 import {CardsEditorService} from './CardsEditorService';
 import {CardsEditorComponent} from './CardsEditorComponent';
 import {INavigationState} from '../../types/INavigationState';
-import {useConstructor} from '../../../../MyTools/react-hooks/useConstructor';
+import {useConstructor} from '../../../MyTools/react-hooks/useConstructor';
 import {ICard} from '../../types/ICard';
 import {ISimplifiedCardsGroup} from '../../types/ISimplifiedCardsGroup';
 import {initDefaultCard} from "../../common/logic/initDefaultCard";

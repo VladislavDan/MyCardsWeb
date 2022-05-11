@@ -1,7 +1,7 @@
 import {of} from 'rxjs';
 import {map} from 'rxjs/operators';
 
-import {Channel} from '../../../../MyTools/channel-conception/Channel';
+import {Channel} from '../../../MyTools/channel-conception/Channel';
 
 export class SpinnerService {
 
