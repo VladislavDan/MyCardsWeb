@@ -4,7 +4,7 @@ export class DataBaseService {
 
     private dataBase: Promise<IDBPDatabase>;
 
-    private DATA_BASE_NAME = "app-data-base";
+    private DATA_BASE_NAME = "my-cards-data-base";
 
     constructor(private storeName: string) {
         this.dataBase = openDB(this.DATA_BASE_NAME, 1, {
