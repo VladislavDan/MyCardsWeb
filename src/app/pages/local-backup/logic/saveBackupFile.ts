@@ -1,4 +1,4 @@
-import {ICardsGroup} from '../../../types/ICardsGroup';
+import {ICardsGroup} from '../../../common/types/ICardsGroup';
 
 export const saveBackupFile = (backup: ICardsGroup[]) => {
     const fileData: string = JSON.stringify(backup, null, 4);

@@ -2,17 +2,17 @@ import {useHistory, useLocation} from 'react-router';
 import React, {FC, useContext, useState} from 'react';
 
 import {useChannel} from '../../../MyTools/channel-conception/react-hooks/useChannel';
-import {ICard} from '../../types/ICard';
+import {ICard} from '../../common/types/ICard';
 import {useConstructor} from '../../../MyTools/react-hooks/useConstructor';
 import {CardsRepeaterService} from './CardsRepeaterService';
 import {CardsRepeaterComponent} from './CardsRepeaterComponent';
 import {Routs} from '../../common/Routs';
-import {IRepeatingArgs} from '../../types/IRepeatingArgs';
-import {ICardsGroup} from '../../types/ICardsGroup';
-import {IStatistic} from '../../types/IStatistic';
-import {INavigationState} from '../../types/INavigationState';
+import {IRepeatingArgs} from '../../common/types/IRepeatingArgs';
+import {ICardsGroup} from '../../common/types/ICardsGroup';
+import {IStatistic} from '../../common/types/IStatistic';
+import {INavigationState} from '../../common/types/INavigationState';
 import {AppContext} from '../../../App';
-import {IAppContext} from '../../types/IAppContext';
+import {IAppContext} from '../../common/types/IAppContext';
 import {CardsEditorService} from '../cards-editor/CardsEditorService';
 import {initDefaultCard} from "../../common/logic/initDefaultCard";
 

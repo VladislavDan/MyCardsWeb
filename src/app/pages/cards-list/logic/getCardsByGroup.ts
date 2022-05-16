@@ -1,4 +1,4 @@
-import {ICardsGroup} from '../../../types/ICardsGroup';
+import {ICardsGroup} from '../../../common/types/ICardsGroup';
 
 export const getCardsByGroup = (cardsGroupID: number, cardsGroups: ICardsGroup[]) => {
     const foundCardsGroup = cardsGroups.find((cardsGroup: ICardsGroup) => {

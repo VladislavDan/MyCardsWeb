@@ -1,7 +1,7 @@
 import {from, Observable} from 'rxjs';
-import {ICardsGroup} from '../../types/ICardsGroup';
+import {ICardsGroup} from '../types/ICardsGroup';
 import {DataBaseService} from './DataBaseService';
-import {ISettings} from '../../types/ISettings';
+import {ISettings} from '../types/ISettings';
 
 export class StorageService {
 

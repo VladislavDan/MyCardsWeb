@@ -1,9 +1,9 @@
 import React, {FC} from "react";
 import {FixedSizeList as List} from 'react-window';
 
-import {ICardsGroup} from '../../types/ICardsGroup';
+import {ICardsGroup} from '../../common/types/ICardsGroup';
 import './CardsGroupsListComponent.css'
-import {AddButton} from '../../common/elements/add-button/AddButton';
+import {AddButtonComponent} from '../../common/elements/add-button/AddButtonComponent';
 import {CardsGroupsListItemComponent} from './elements/cards-groups-list-item/CardsGroupsListItemComponent';
 
 export const CardsGroupsListComponent: FC<ICardsGroupsListComponent> = (
@@ -41,7 +41,7 @@ export const CardsGroupsListComponent: FC<ICardsGroupsListComponent> = (
                 /></div>
             }}
         </List>
-        <AddButton onClick={onOpenEditor}/>
+        <AddButtonComponent onClick={onOpenEditor}/>
     </>
 };
 

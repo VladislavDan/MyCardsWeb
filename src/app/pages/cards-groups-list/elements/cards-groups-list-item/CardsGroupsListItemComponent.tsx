@@ -5,7 +5,7 @@ import ListItemIcon from '@mui/material/ListItemIcon/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText/ListItemText';
 
 import {DATE_FORMAT} from '../../../../common/Constants';
-import {ICardsGroup} from '../../../../types/ICardsGroup';
+import {ICardsGroup} from '../../../../common/types/ICardsGroup';
 import {CircularProgressComponent} from '../circular-progress/CircularProgressComponent';
 import {ListItemMenuComponent} from '../../../../common/elements/list-item-menu/ListItemMenuComponent';
 import './CardsGroupsListItemComponent.css'

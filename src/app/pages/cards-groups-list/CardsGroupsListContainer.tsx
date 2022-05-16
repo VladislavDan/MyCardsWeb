@@ -2,14 +2,14 @@ import React, {FC, useContext, useState} from "react";
 
 import {CardsGroupsListComponent} from './CardsGroupsListComponent';
 import {useChannel} from '../../../MyTools/channel-conception/react-hooks/useChannel';
-import {ICardsGroup} from '../../types/ICardsGroup';
+import {ICardsGroup} from '../../common/types/ICardsGroup';
 import {useConstructor} from '../../../MyTools/react-hooks/useConstructor';
 import {CardsGroupsListService} from './CardsGroupsListService';
 import {Routs} from '../../common/Routs';
 import {useHistory} from 'react-router';
 import {ConfirmDialogService} from '../../parts/confirm-dialog/ConfirmDialogService';
 import {useUnsubscribe} from '../../../MyTools/react-hooks/useUnsubscribe';
-import {IAppContext} from '../../types/IAppContext';
+import {IAppContext} from '../../common/types/IAppContext';
 import {AppContext} from '../../../App';
 
 export const CardsGroupsListContainer: FC<ICardsGroupsListContainer> = ({cardsGroupsListService, confirmDialogService}) => {

@@ -1,6 +1,6 @@
-import {ICardsGroup} from '../../../types/ICardsGroup';
-import {ICard} from '../../../types/ICard';
-import {IRangeOfKnowledge} from '../../../types/IRangeOfKnowledge';
+import {ICardsGroup} from '../../../common/types/ICardsGroup';
+import {ICard} from '../../../common/types/ICard';
+import {IRangeOfKnowledge} from '../../../common/types/IRangeOfKnowledge';
 
 export const resetRepeatingProgress = (cardsGroupID: number, cardsGroups: ICardsGroup[]) => {
 

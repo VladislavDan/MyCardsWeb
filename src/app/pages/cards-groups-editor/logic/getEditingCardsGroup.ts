@@ -1,4 +1,4 @@
-import {ICardsGroup} from '../../../types/ICardsGroup';
+import {ICardsGroup} from '../../../common/types/ICardsGroup';
 
 export const getEditingCardsGroup = (cardGroupID: number, cardsGroups: ICardsGroup[]): ICardsGroup => {
 

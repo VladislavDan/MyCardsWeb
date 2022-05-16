@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {BrowserRouter as Router} from "react-router-dom";
 
 import './App.css';
-import {IAppContext} from './app/types/IAppContext';
+import {IAppContext} from './app/common/types/IAppContext';
 import {ToolbarContainer} from './app/parts/toolbar/ToolbarContainer';
 import {NavigationPanelContainer} from './app/parts/navigation-panel/NavigationPanelContainer';
 import {ErrorContainer} from './app/parts/error-container/ErrorContainer';

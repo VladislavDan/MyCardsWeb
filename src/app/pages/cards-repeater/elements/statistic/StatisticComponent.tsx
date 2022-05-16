@@ -1,7 +1,7 @@
 import React, {FC} from 'react';
 
 import {Button} from '@mui/material';
-import {IStatistic} from '../../../../types/IStatistic';
+import {IStatistic} from '../../../../common/types/IStatistic';
 
 export const StatisticComponent: FC<IRepeatingStatisticComponent> = ({statistic}) => {
 

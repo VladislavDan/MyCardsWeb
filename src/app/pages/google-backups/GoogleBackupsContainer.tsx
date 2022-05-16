@@ -3,7 +3,7 @@ import {FC, useState} from 'react';
 
 import {useChannel} from '../../../MyTools/channel-conception/react-hooks/useChannel';
 import {GoogleBackupsService} from './GoogleBackupsService';
-import {IGoogleDriveFile} from '../../types/IGoogleDriveFile';
+import {IGoogleDriveFile} from '../../common/types/IGoogleDriveFile';
 import {BackupsListComponent} from './BackupsListComponent';
 import {useHistory} from 'react-router';
 import {Routs} from '../../common/Routs';

@@ -3,8 +3,8 @@ import {map, switchMap, tap} from 'rxjs/operators';
 import {ajax, AjaxResponse} from 'rxjs/ajax';
 
 import {StorageService} from '../../common/services/StorageService';
-import {IGoogleDriveFile} from '../../types/IGoogleDriveFile';
-import {ICardsGroup} from '../../types/ICardsGroup';
+import {IGoogleDriveFile} from '../../common/types/IGoogleDriveFile';
+import {ICardsGroup} from '../../common/types/ICardsGroup';
 import {Channel} from '../../../MyTools/channel-conception/Channel';
 import {formatCreatedDate} from './logic/formatCreatedDate';
 

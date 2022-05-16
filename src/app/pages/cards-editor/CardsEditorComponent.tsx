@@ -2,7 +2,7 @@ import * as React from 'react';
 import {FC} from 'react';
 import {Button, MenuItem, Select, SelectChangeEvent} from '@mui/material';
 import './CardsEditorComponent.css'
-import {ISimplifiedCardsGroup} from '../../types/ISimplifiedCardsGroup';
+import {ISimplifiedCardsGroup} from '../../common/types/ISimplifiedCardsGroup';
 import {TextEditorComponent} from '../../common/elements/text-editor/TextEditorComponent';
 
 export const CardsEditorComponent: FC<ICardsGroupsEditorComponent> = (

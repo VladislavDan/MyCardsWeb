@@ -3,11 +3,11 @@ import * as React from 'react';
 import {FC} from 'react';
 
 import {CardsListItemComponent} from './elements/cards-list-item/CardsListItemComponent';
-import {ICard} from '../../types/ICard';
+import {ICard} from '../../common/types/ICard';
 import './CardsListComponent.css'
 import {FilterComponent} from "./elements/filter/FilterComponent";
-import {ISortVariants} from "../../types/ISortVariants";
-import {IFilter} from "../../types/IFilter";
+import {ISortVariants} from "../../common/types/ISortVariants";
+import {IFilter} from "../../common/types/IFilter";
 import {CardsListActions} from "./elements/cards-list-actions/CardsListActions";
 
 

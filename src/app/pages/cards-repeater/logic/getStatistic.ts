@@ -1,6 +1,6 @@
-import {ICard} from '../../../types/ICard';
-import {IRangeOfKnowledge} from '../../../types/IRangeOfKnowledge';
-import {IStatistic} from '../../../types/IStatistic';
+import {ICard} from '../../../common/types/ICard';
+import {IRangeOfKnowledge} from '../../../common/types/IRangeOfKnowledge';
+import {IStatistic} from '../../../common/types/IStatistic';
 
 export const getStatistic = (cards: ICard[]): IStatistic => {
 

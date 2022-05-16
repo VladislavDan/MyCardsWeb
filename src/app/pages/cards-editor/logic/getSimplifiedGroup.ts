@@ -1,5 +1,5 @@
-import {ICardsGroup} from '../../../types/ICardsGroup';
-import {ISimplifiedCardsGroup} from '../../../types/ISimplifiedCardsGroup';
+import {ICardsGroup} from '../../../common/types/ICardsGroup';
+import {ISimplifiedCardsGroup} from '../../../common/types/ISimplifiedCardsGroup';
 
 export const getSimplifiedGroup = (cardsGroups: ICardsGroup[]): ISimplifiedCardsGroup[] => {
 

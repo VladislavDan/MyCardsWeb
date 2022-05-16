@@ -5,7 +5,7 @@ import {useChannel} from '../../../MyTools/channel-conception/react-hooks/useCha
 import {SettingsService} from './SettingsService';
 import {SettingsComponent} from './SettingsComponent';
 import {useConstructor} from '../../../MyTools/react-hooks/useConstructor';
-import {ISettings} from '../../types/ISettings';
+import {ISettings} from '../../common/types/ISettings';
 
 export const SettingsContainer: FC<ISettingsContainer> = ({settingsService}) => {
 

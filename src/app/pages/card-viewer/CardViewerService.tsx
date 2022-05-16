@@ -1,9 +1,9 @@
 import {map, switchMap} from 'rxjs/operators';
 
-import {ICard} from '../../types/ICard';
+import {ICard} from '../../common/types/ICard';
 import {StorageService} from '../../common/services/StorageService';
-import {ICardsGroup} from '../../types/ICardsGroup';
-import {IRepeatingArgs} from '../../types/IRepeatingArgs';
+import {ICardsGroup} from '../../common/types/ICardsGroup';
+import {IRepeatingArgs} from '../../common/types/IRepeatingArgs';
 import {Channel} from '../../../MyTools/channel-conception/Channel';
 import {changeRangeOfKnowledge} from '../../common/logic/changeRangeOfKnowledge';
 import {getCardForViewing} from "./logic/getCardForViewing";

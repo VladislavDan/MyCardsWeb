@@ -1,20 +1,20 @@
 import React, {FC, useContext, useState} from 'react';
 
-import {ICard} from '../../types/ICard';
+import {ICard} from '../../common/types/ICard';
 import {CardsListComponent} from './CardsListComponent';
 import {useChannel} from '../../../MyTools/channel-conception/react-hooks/useChannel';
 import {CardsListService} from './CardsListService';
 import {useHistory, useLocation} from 'react-router';
 import {useConstructor} from '../../../MyTools/react-hooks/useConstructor';
-import {INavigationState} from '../../types/INavigationState';
+import {INavigationState} from '../../common/types/INavigationState';
 import {Routs} from '../../common/Routs';
-import {ICardsGroup} from '../../types/ICardsGroup';
+import {ICardsGroup} from '../../common/types/ICardsGroup';
 import {ConfirmDialogService} from '../../parts/confirm-dialog/ConfirmDialogService';
 import {useUnsubscribe} from '../../../MyTools/react-hooks/useUnsubscribe';
-import {IAppContext} from '../../types/IAppContext';
+import {IAppContext} from '../../common/types/IAppContext';
 import {AppContext} from '../../../App';
-import {IFilter} from "../../types/IFilter";
-import {ISortVariants} from "../../types/ISortVariants";
+import {IFilter} from "../../common/types/IFilter";
+import {ISortVariants} from "../../common/types/ISortVariants";
 
 export const CardsListContainer: FC<ICardsListContainer> = ({cardsListService, confirmDialogService}) => {
 

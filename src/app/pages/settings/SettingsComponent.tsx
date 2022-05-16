@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {ChangeEvent, FC} from 'react';
 import './SettingsComponent.css'
-import {ISettings} from '../../types/ISettings';
+import {ISettings} from '../../common/types/ISettings';
 import {FormControlLabel, FormGroup, Switch} from '@mui/material';
 
 export const SettingsComponent: FC<ISettingsComponent> = ({settings, onChange}) => {

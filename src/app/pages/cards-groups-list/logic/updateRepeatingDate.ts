@@ -1,5 +1,5 @@
-import {ICardsGroup} from '../../../types/ICardsGroup';
-import {ICard} from '../../../types/ICard';
+import {ICardsGroup} from '../../../common/types/ICardsGroup';
+import {ICard} from '../../../common/types/ICard';
 
 export const updateRepeatingDate = (cardsGroups: ICardsGroup[]) => {
         cardsGroups.map((cardsGroup: ICardsGroup) => {

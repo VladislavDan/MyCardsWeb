@@ -6,11 +6,11 @@ import ListItemText from '@mui/material/ListItemText/ListItemText';
 import FlagIcon from '@mui/icons-material/Flag';
 
 import {DATE_FORMAT} from '../../../../common/Constants';
-import {ICard} from '../../../../types/ICard';
-import {IRangeOfKnowledge} from '../../../../types/IRangeOfKnowledge';
+import {ICard} from '../../../../common/types/ICard';
+import {IRangeOfKnowledge} from '../../../../common/types/IRangeOfKnowledge';
 import {ListItemMenuComponent} from '../../../../common/elements/list-item-menu/ListItemMenuComponent';
 import "./CardsListItemComponent.css";
-import {Checkbox, ListItemButton} from "@mui/material";
+import {Checkbox} from "@mui/material";
 
 export const CardsListItemComponent: FC<ICardListItemComponent> = (
     {

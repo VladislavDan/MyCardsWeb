@@ -5,10 +5,10 @@ import {useHistory, useLocation} from 'react-router';
 import {useChannel} from '../../../MyTools/channel-conception/react-hooks/useChannel';
 import {CardsEditorService} from './CardsEditorService';
 import {CardsEditorComponent} from './CardsEditorComponent';
-import {INavigationState} from '../../types/INavigationState';
+import {INavigationState} from '../../common/types/INavigationState';
 import {useConstructor} from '../../../MyTools/react-hooks/useConstructor';
-import {ICard} from '../../types/ICard';
-import {ISimplifiedCardsGroup} from '../../types/ISimplifiedCardsGroup';
+import {ICard} from '../../common/types/ICard';
+import {ISimplifiedCardsGroup} from '../../common/types/ISimplifiedCardsGroup';
 import {initDefaultCard} from "../../common/logic/initDefaultCard";
 
 export const CardsEditorContainer: FC<ICardsGroupsEditorContainer> = ({cardsEditorService}) => {

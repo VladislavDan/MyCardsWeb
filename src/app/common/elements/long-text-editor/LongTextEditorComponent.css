@@ -1,0 +1,5 @@
+.long-text-editor {
+    padding-top: 0;
+    overflow: auto;
+    white-space: pre-wrap;
+}

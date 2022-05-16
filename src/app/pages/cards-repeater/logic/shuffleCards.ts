@@ -1,4 +1,4 @@
-import {ICard} from '../../../types/ICard';
+import {ICard} from '../../../common/types/ICard';
 
 export const shuffleCards = (array: ICard[]) => {
     const copy = [];

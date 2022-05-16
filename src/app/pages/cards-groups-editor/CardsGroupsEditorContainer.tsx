@@ -3,10 +3,10 @@ import {FC, useState} from 'react';
 import {useHistory, useLocation} from 'react-router';
 
 import {useChannel} from '../../../MyTools/channel-conception/react-hooks/useChannel';
-import {ICardsGroup} from '../../types/ICardsGroup';
+import {ICardsGroup} from '../../common/types/ICardsGroup';
 import {CardsGroupsEditorService} from './CardsGroupsEditorService';
 import {CardsGroupsEditorComponent} from './CardsGroupsEditorComponent';
-import {INavigationState} from '../../types/INavigationState';
+import {INavigationState} from '../../common/types/INavigationState';
 import {useConstructor} from '../../../MyTools/react-hooks/useConstructor';
 
 export const CardsGroupsEditorContainer: FC<ICardsGroupsEditorContainer> = ({cardsGroupsEditorService}) => {

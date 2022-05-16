@@ -1,4 +1,4 @@
-import {ICardsGroup} from '../../../types/ICardsGroup';
+import {ICardsGroup} from '../../../common/types/ICardsGroup';
 
 export const saveCardsGroup = (editedCardGroup: ICardsGroup, cardsGroups: ICardsGroup[]) => {
         const cardGroupIndex = cardsGroups.findIndex((cardGroup: ICardsGroup) => editedCardGroup.id === cardGroup.id);

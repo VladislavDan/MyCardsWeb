@@ -1,9 +1,9 @@
-import {IGoogleDriveFile} from '../../types/IGoogleDriveFile';
+import {IGoogleDriveFile} from '../../common/types/IGoogleDriveFile';
 import {BackupsListItemComponent} from './elements/backups-list-item-component/BackupsListItemComponent';
 import {List} from '@mui/material';
 import * as React from 'react';
 import {FC} from 'react';
-import {AddButton} from '../../common/elements/add-button/AddButton';
+import {AddButtonComponent} from '../../common/elements/add-button/AddButtonComponent';
 
 
 export const BackupsListComponent: FC<IBackupsListComponent> = ({backupsFiles, onLoad, onCreate, onDelete}) => {
@@ -21,7 +21,7 @@ export const BackupsListComponent: FC<IBackupsListComponent> = ({backupsFiles, o
                     })
                 }
             </List>
-            <AddButton onClick={onCreate}/>
+            <AddButtonComponent onClick={onCreate}/>
         </>
     )
 };

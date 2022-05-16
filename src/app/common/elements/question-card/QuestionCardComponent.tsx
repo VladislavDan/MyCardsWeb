@@ -1,11 +1,10 @@
 import React, {FC} from 'react';
 
-import {List} from '@mui/material';
-import Typography from '@mui/material/Typography';
 import CardContent from '@mui/material/CardContent';
 import Card from '@mui/material/Card';
-import {ICard} from '../../../types/ICard';
-import {TextEditorComponent} from '../text-editor/TextEditorComponent';
+import {LongTextViewerComponent} from "../long-text-viewer/LongTextViewerComponent";
+import {IQuestionCard} from "./types/IQuestionCard";
+import {LongTextEditorComponent} from "../long-text-editor/LongTextEditorComponent";
 
 export const QuestionCardComponent: FC<IQuestionCard> = (
     {
@@ -23,23 +22,14 @@ export const QuestionCardComponent: FC<IQuestionCard> = (
         <CardContent onClick={onClickCard} style={{height: cardHeight}}>
             {
                 isEditable ?
-                    <div style={{paddingTop: 0, height: cardHeight, overflow: 'auto', whiteSpace: 'pre-wrap'}}>
-                        <List style={{paddingTop: 0}}>
-                            <TextEditorComponent onChangeText={onChangeQuestion} changeableText={question}/>
-                        </List>
-                    </div> :
-                    <Typography color="textSecondary" gutterBottom>
-                        {question}
-                    </Typography>
+                    <LongTextEditorComponent
+                        text={question}
+                        viewHeight={cardHeight}
+                        onChangeText={onChangeQuestion}
+                    />
+                    :
+                    <LongTextViewerComponent viewHeight={cardHeight} text={question}/>
             }
         </CardContent>
     </Card>
 };
-
-interface IQuestionCard {
-    card: ICard | undefined;
-    onClickCard: () => void;
-    cardHeight: number;
-    isEditable: boolean;
-    onChangeQuestion: (question: string) => void;
-}

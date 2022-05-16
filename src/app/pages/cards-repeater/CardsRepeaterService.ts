@@ -1,13 +1,13 @@
 import {of} from 'rxjs';
 import {map, switchMap, tap} from 'rxjs/operators';
 
-import {ICard} from '../../types/ICard';
+import {ICard} from '../../common/types/ICard';
 import {StorageService} from '../../common/services/StorageService';
-import {ICardsGroup} from '../../types/ICardsGroup';
-import {IRepeatingArgs} from '../../types/IRepeatingArgs';
+import {ICardsGroup} from '../../common/types/ICardsGroup';
+import {IRepeatingArgs} from '../../common/types/IRepeatingArgs';
 import {Channel} from '../../../MyTools/channel-conception/Channel';
-import {IStatistic} from '../../types/IStatistic';
-import {ISettings} from '../../types/ISettings';
+import {IStatistic} from '../../common/types/IStatistic';
+import {ISettings} from '../../common/types/ISettings';
 import {getCardsByGroupID} from './logic/getCardsByGroupID';
 import {changeRangeOfKnowledge} from '../../common/logic/changeRangeOfKnowledge';
 import {getCardForRepeating} from './logic/getCardForRepeating';

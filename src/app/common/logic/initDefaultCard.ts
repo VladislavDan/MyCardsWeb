@@ -1,4 +1,4 @@
-import {IRangeOfKnowledge} from "../../types/IRangeOfKnowledge";
+import {IRangeOfKnowledge} from "../types/IRangeOfKnowledge";
 
 export const initDefaultCard = () => {
     return {

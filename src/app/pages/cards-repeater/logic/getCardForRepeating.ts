@@ -1,5 +1,5 @@
-import {ICard} from '../../../types/ICard';
-import {IRangeOfKnowledge} from '../../../types/IRangeOfKnowledge';
+import {ICard} from '../../../common/types/ICard';
+import {IRangeOfKnowledge} from '../../../common/types/IRangeOfKnowledge';
 
 export const getCardForRepeating = (cards: ICard[], isRandomRepeating: boolean) => {
 

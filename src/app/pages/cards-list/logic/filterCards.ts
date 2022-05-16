@@ -1,6 +1,6 @@
-import {ICard} from "../../../types/ICard";
-import {IFilter} from "../../../types/IFilter";
-import {ISortVariants} from "../../../types/ISortVariants";
+import {ICard} from "../../../common/types/ICard";
+import {IFilter} from "../../../common/types/IFilter";
+import {ISortVariants} from "../../../common/types/ISortVariants";
 
 export const filterCards = (cards: ICard[], filter: IFilter) => {
     const foundByTextCards = cards.filter((card: ICard) => {

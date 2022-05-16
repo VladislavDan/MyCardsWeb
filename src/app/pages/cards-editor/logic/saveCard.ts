@@ -1,5 +1,5 @@
-import {ICard} from '../../../types/ICard';
-import {ICardsGroup} from '../../../types/ICardsGroup';
+import {ICard} from '../../../common/types/ICard';
+import {ICardsGroup} from '../../../common/types/ICardsGroup';
 
 export const saveCard = (cardsGroupID: number, card: ICard, cardsGroups: ICardsGroup[]) => {
         const cardGroupIndex = cardsGroups.findIndex((cardGroup: ICardsGroup) => cardsGroupID === cardGroup.id);

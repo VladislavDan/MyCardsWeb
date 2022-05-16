@@ -1,14 +1,14 @@
 import {map, tap} from 'rxjs/operators';
 
-import {ICard} from '../../types/ICard';
+import {ICard} from '../../common/types/ICard';
 import {StorageService} from '../../common/services/StorageService';
-import {ICardsGroup} from '../../types/ICardsGroup';
+import {ICardsGroup} from '../../common/types/ICardsGroup';
 import {Channel} from '../../../MyTools/channel-conception/Channel';
 import {getCardsByGroup} from './logic/getCardsByGroup';
 import {resetCardProgress} from './logic/resetCardProgress';
 import {deleteCard} from './logic/deleteCard';
 import {filterCards} from "./logic/filterCards";
-import {IFilter} from "../../types/IFilter";
+import {IFilter} from "../../common/types/IFilter";
 
 export class CardsListService {
     public cardsChannel: Channel<{cardsGroupID: number, filter: IFilter}, ICard[]>;

@@ -7,7 +7,7 @@ import {Routs} from '../../common/Routs';
 import {useChannel} from '../../../MyTools/channel-conception/react-hooks/useChannel';
 import {GoogleAuthService} from './GoogleAuthService';
 import {GoogleAuthComponent} from './GoogleAuthComponent';
-import {IAppContext} from '../../types/IAppContext';
+import {IAppContext} from '../../common/types/IAppContext';
 import {AppContext} from '../../../App';
 import {ErrorService} from '../../parts/error-container/ErrorService';
 

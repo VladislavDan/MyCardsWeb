@@ -1,4 +1,4 @@
-import {ICardsGroup} from '../../../types/ICardsGroup';
+import {ICardsGroup} from '../../../common/types/ICardsGroup';
 
 export const sortByRepeatingDate = (cardsGroups: ICardsGroup[]) => {
     return cardsGroups.sort((firstCardGroup: ICardsGroup, secondCardsGroup: ICardsGroup) => {

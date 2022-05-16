@@ -1,19 +1,19 @@
 import React, {FC, useContext, useState} from "react";
 
-import {CardViewerService} from "./CardViewerService";
-import {ICard} from "../../types/ICard";
+import {ICard} from "../../common/types/ICard";
 import {useHistory, useLocation} from "react-router";
-import {INavigationState} from "../../types/INavigationState";
+import {INavigationState} from "../../common/types/INavigationState";
 import {useChannel} from "../../../MyTools/channel-conception/react-hooks/useChannel";
-import {IRepeatingArgs} from "../../types/IRepeatingArgs";
-import {ICardsGroup} from "../../types/ICardsGroup";
-import {IAppContext} from "../../types/IAppContext";
+import {IRepeatingArgs} from "../../common/types/IRepeatingArgs";
+import {ICardsGroup} from "../../common/types/ICardsGroup";
+import {IAppContext} from "../../common/types/IAppContext";
 import {AppContext} from "../../../App";
 import {Routs} from "../../common/Routs";
-import {CardsEditorService} from "../cards-editor/CardsEditorService";
 import {CardViewerComponent} from "./CardViewerComponent";
 import {useConstructor} from "../../../MyTools/react-hooks/useConstructor";
 import {initDefaultCard} from "../../common/logic/initDefaultCard";
+import {ICardViewerContainer} from "./types/ICardViewerContainer";
+import {CardViewerContainerState} from "./types/CardViewerContainerState";
 
 export const CardViewerContainer: FC<ICardViewerContainer> = (
     {
@@ -132,21 +132,9 @@ export const CardViewerContainer: FC<ICardViewerContainer> = (
         onClickCard={onClickCard}
         onClick={onClick}
         card={state.card}
-        onBackClick={onBackClick}
         onSwitchEditing={onSwitchEditing}
         isEditable={state.isEditable}
         onChangeQuestion={onChangeQuestion}
         onChangeAnswer={onChangeAnswer}
     />
-}
-
-interface ICardViewerContainer {
-    cardViewerService: CardViewerService;
-    cardsEditorService: CardsEditorService;
-}
-
-interface CardViewerContainerState {
-    card: ICard | undefined,
-    isQuestionSide: boolean,
-    isEditable: boolean,
 }

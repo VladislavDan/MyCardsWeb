@@ -1,10 +1,10 @@
 import {map, tap} from 'rxjs/operators';
 
 import {StorageService} from '../../common/services/StorageService';
-import {ICardsGroup} from '../../types/ICardsGroup';
+import {ICardsGroup} from '../../common/types/ICardsGroup';
 import {Channel} from '../../../MyTools/channel-conception/Channel';
-import {ICard} from '../../types/ICard';
-import {ISimplifiedCardsGroup} from '../../types/ISimplifiedCardsGroup';
+import {ICard} from '../../common/types/ICard';
+import {ISimplifiedCardsGroup} from '../../common/types/ISimplifiedCardsGroup';
 import {saveCard} from './logic/saveCard';
 import {getEditingCard} from './logic/getEditingCard';
 import {getSimplifiedGroup} from './logic/getSimplifiedGroup';

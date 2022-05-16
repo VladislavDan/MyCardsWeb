@@ -2,6 +2,7 @@ import React, {FC} from 'react';
 import {IconButton} from '@mui/material';
 import Typography from '@mui/material/Typography';
 import {Check, Edit} from '@mui/icons-material';
+import {ICardsRepeaterHeaderComponent} from "./types/ICardsRepeaterHeaderComponent";
 
 export const CardsHeaderComponent: FC<ICardsRepeaterHeaderComponent> = (
     {
@@ -19,9 +20,3 @@ export const CardsHeaderComponent: FC<ICardsRepeaterHeaderComponent> = (
         </IconButton>
     </div>
 };
-
-interface ICardsRepeaterHeaderComponent {
-    isQuestionSide: boolean
-    onSwitchEditing: () => void;
-    isEditable: boolean
-}

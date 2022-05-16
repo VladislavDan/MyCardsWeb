@@ -1,8 +1,8 @@
 import React, {FC} from 'react';
 import {Button, CardActions} from '@mui/material';
 
-import {IRangeOfKnowledge} from '../../../types/IRangeOfKnowledge';
-import {ICard} from '../../../types/ICard';
+import {IRangeOfKnowledge} from '../../types/IRangeOfKnowledge';
+import {IAnswerCardFooterComponent} from "./types/IAnswerCardFooterComponent";
 
 export const AnswerCardFooterComponent: FC<IAnswerCardFooterComponent> = ({card, onClick}) => {
 
@@ -21,8 +21,3 @@ export const AnswerCardFooterComponent: FC<IAnswerCardFooterComponent> = ({card,
         }
     </>
 };
-
-interface IAnswerCardFooterComponent {
-    onClick: (isUnderstandable: boolean) => void;
-    card: ICard | undefined;
-}

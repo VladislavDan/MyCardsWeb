@@ -9,8 +9,8 @@ import {
 } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {ChangeEvent, default as React, FC} from "react";
-import {IFilter} from "../../../../types/IFilter";
-import {ISortVariants} from "../../../../types/ISortVariants";
+import {IFilter} from "../../../../common/types/IFilter";
+import {ISortVariants} from "../../../../common/types/ISortVariants";
 
 export const FilterComponent: FC<IFilterComponent> = (
     {
