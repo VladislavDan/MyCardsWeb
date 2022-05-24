@@ -70,7 +70,12 @@ export class StorageService {
                 resolve(JSON.parse(settings) as ISettings);
             } else {
                 resolve({
-                    isRandomRepeating: false
+                    isRandomRepeating: false,
+                    autoObsolete: {
+                        isEnable: false,
+                        timeInProgress: 7,
+                        timeInDone: 7
+                    }
                 })
             }
         }));

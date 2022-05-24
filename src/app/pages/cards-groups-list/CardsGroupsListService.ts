@@ -1,4 +1,4 @@
-import {map, tap} from 'rxjs/operators';
+import {map, switchMap, tap} from 'rxjs/operators';
 
 import {StorageService} from '../../common/services/StorageService';
 import {ICardsGroup} from '../../common/types/ICardsGroup';
@@ -8,6 +8,9 @@ import {sortByRepeatingDate} from './logic/sortByRepeatingDate';
 import {countRepeatedCardsPercent} from './logic/countRepeatedCardsPercent';
 import {deleteGroup} from './logic/deleteGroup';
 import {resetRepeatingProgress} from './logic/resetRepeatingProgress';
+import {defer, of} from "rxjs";
+import {ISettings} from "../../common/types/ISettings";
+import {updateObsoleteStatus} from "./logic/updateObsoleteStatus";
 
 export class CardsGroupsListService {
     public groupsListChannel: Channel<string, ICardsGroup[]>;
@@ -17,6 +20,17 @@ export class CardsGroupsListService {
 
     constructor(storageService: StorageService) {
         this.groupsListChannel = new Channel(() => storageService.getBackup().pipe(
+            switchMap((backup) => {
+                return storageService.getSettings().pipe(
+                    switchMap((settings: ISettings) => {
+                        return defer(() => {
+                            return settings.autoObsolete && settings.autoObsolete.isEnable ?
+                                of(updateObsoleteStatus(backup, settings.autoObsolete.timeInProgress, settings.autoObsolete.timeInDone)) :
+                                of(backup)
+                        })
+                    })
+                )
+            }),
             map((cardsGroups: ICardsGroup[]) => updateRepeatingDate(cardsGroups)),
             map((cardsGroups: ICardsGroup[]) => sortByRepeatingDate(cardsGroups)),
             map((cardsGroups: ICardsGroup[]) => countRepeatedCardsPercent(cardsGroups))
