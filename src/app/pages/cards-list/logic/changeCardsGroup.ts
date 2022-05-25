@@ -24,7 +24,7 @@ export const changeCardsGroup = (
                 return cardID === card.id;
             });
 
-            return foundCardIndex > -1;
+            return foundCardIndex < 0;
         })
     })
 
