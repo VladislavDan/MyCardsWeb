@@ -3,13 +3,10 @@ import * as React from 'react';
 import {FC} from 'react';
 
 import {CardsListItemComponent} from './elements/cards-list-item/CardsListItemComponent';
-import {ICard} from '../../common/types/ICard';
-import './CardsListComponent.css'
 import {FilterComponent} from "./elements/filter/FilterComponent";
-import {ISortVariants} from "../../common/types/ISortVariants";
-import {IFilter} from "../../common/types/IFilter";
 import {CardsListActions} from "./elements/cards-list-actions/CardsListActions";
-
+import {ICardsListComponent} from "./types/ICardsListComponent";
+import './CardsListComponent.css';
 
 export const CardsListComponent: FC<ICardsListComponent> = (
     {
@@ -25,7 +22,11 @@ export const CardsListComponent: FC<ICardsListComponent> = (
         width,
         onOpenRepeater,
         onStartSelecting,
-        isEnabledSelecting
+        onSelectItem,
+        onDeleteSelectedCards,
+        onMovingSelectedCards,
+        isEnabledSelecting,
+        selectedItems
     }
 ) => {
     return (
@@ -55,10 +56,9 @@ export const CardsListComponent: FC<ICardsListComponent> = (
                                 onDeleteItem={onDeleteItem}
                                 onResetProgress={onResetProgress}
                                 onClickItem={onClickItem}
-                                onSelect={() => {
-                                }}
+                                onSelect={onSelectItem}
                                 isEnabledSelecting={isEnabledSelecting}
-                                isSelected={false}
+                                isSelected={selectedItems[card.id]}
                             />
                         </div>
                     }
@@ -68,24 +68,13 @@ export const CardsListComponent: FC<ICardsListComponent> = (
                 onOpenRepeater={onOpenRepeater}
                 onOpenEditor={onOpenEditor}
                 onStartSelecting={onStartSelecting}
+                hideOpenEditorButton={isEnabledSelecting}
+                hideOpenRepeaterButton={isEnabledSelecting}
+                hideDeleteSelectedCardsButton={!isEnabledSelecting}
+                hideMovingSelectedCardsButton={!isEnabledSelecting}
+                onDeleteSelectedCards={onDeleteSelectedCards}
+                onMovingSelectedCards={onMovingSelectedCards}
             />
         </>
     )
 };
-
-interface ICardsListComponent {
-    cards: ICard[];
-    onOpenEditor: () => void;
-    onEditItem: (id: number) => void;
-    onDeleteItem: (id: number) => void;
-    onResetProgress: (id: number) => void;
-    onClickItem: (id: number) => void;
-    onChangeSearchableText: (answer: string) => void;
-    height: number;
-    width: number
-    onChangeSorting: (sortVariant: ISortVariants) => void;
-    filter: IFilter
-    onOpenRepeater: () => void;
-    onStartSelecting: () => void;
-    isEnabledSelecting: boolean
-}

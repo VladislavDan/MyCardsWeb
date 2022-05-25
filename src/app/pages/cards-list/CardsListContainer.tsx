@@ -3,20 +3,25 @@ import React, {FC, useContext, useState} from 'react';
 import {ICard} from '../../common/types/ICard';
 import {CardsListComponent} from './CardsListComponent';
 import {useChannel} from '../../../MyTools/channel-conception/react-hooks/useChannel';
-import {CardsListService} from './CardsListService';
 import {useHistory, useLocation} from 'react-router';
 import {useConstructor} from '../../../MyTools/react-hooks/useConstructor';
 import {INavigationState} from '../../common/types/INavigationState';
 import {Routs} from '../../common/Routs';
 import {ICardsGroup} from '../../common/types/ICardsGroup';
-import {ConfirmDialogService} from '../../parts/confirm-dialog/ConfirmDialogService';
 import {useUnsubscribe} from '../../../MyTools/react-hooks/useUnsubscribe';
 import {IAppContext} from '../../common/types/IAppContext';
 import {AppContext} from '../../../App';
-import {IFilter} from "../../common/types/IFilter";
 import {ISortVariants} from "../../common/types/ISortVariants";
+import {ICardsListContainer} from "./types/ICardsListContainer";
+import {CardsListContainerState} from "./types/CardsListContainerState";
 
-export const CardsListContainer: FC<ICardsListContainer> = ({cardsListService, confirmDialogService}) => {
+export const CardsListContainer: FC<ICardsListContainer> = (
+    {
+        cardsListService,
+        confirmDialogService,
+        selectionDialogService
+    }
+) => {
 
     const location = useLocation<INavigationState>();
 
@@ -29,7 +34,9 @@ export const CardsListContainer: FC<ICardsListContainer> = ({cardsListService, c
                 searchableText: '',
                 sort: ISortVariants.NONE,
             },
-            isEnabledSelecting: false
+            isEnabledSelecting: false,
+            selectedItems: {},
+            existedGroupsIDs: []
         }
     );
 
@@ -60,11 +67,28 @@ export const CardsListContainer: FC<ICardsListContainer> = ({cardsListService, c
         })
     });
 
+    useChannel(cardsListService.movingCardsChannel, () => {
+        cardsListService.cardsChannel.next({
+            cardsGroupID: location.state.cardsGroupID,
+            filter: state.filter
+        })
+    })
+
+    useChannel(cardsListService.existedGroupsIDsChannel, (existedGroupsIDs) => {
+        setState((prevState) => {
+            return {
+                ...prevState,
+                existedGroupsIDs
+            }
+        })
+    })
+
     useConstructor(() => {
         cardsListService.cardsChannel.next({
             cardsGroupID: location.state.cardsGroupID,
             filter: state.filter
         })
+        cardsListService.existedGroupsIDsChannel.next('')
     });
 
     const onOpenEditor = () => {
@@ -173,8 +197,70 @@ export const CardsListContainer: FC<ICardsListContainer> = ({cardsListService, c
     const onStartSelecting = () => {
         setState({
             ...state,
-            isEnabledSelecting: !state.isEnabledSelecting
+            isEnabledSelecting: !state.isEnabledSelecting,
+            selectedItems: !state.isEnabledSelecting ? {} : state.selectedItems
         })
+    }
+
+    const onSelectItem = (cardID: number) => {
+        const selectedItems = {
+            ...state.selectedItems
+        };
+
+        if (selectedItems[cardID]) {
+            selectedItems[cardID] = !selectedItems[cardID]
+        } else {
+            selectedItems[cardID] = true
+        }
+
+        setState({
+            ...state,
+            selectedItems
+        })
+    }
+
+    const onMovingSelectedCards = () => {
+        const subscription = selectionDialogService.selectionChannel.subscribe((groupID) => {
+
+            const subscription = confirmDialogService.confirmationChannel.subscribe((isConfirm) => {
+                if (isConfirm) {
+                    cardsListService.movingCardsChannel.next({
+                        selectedItems: state.selectedItems,
+                        destinationGroupID: groupID
+                    });
+
+                    selectionDialogService.openDialogChannel.next({
+                        isOpen: false,
+                        title: '',
+                        selectionItems: []
+                    });
+                }
+
+                confirmDialogService.openDialogChannel.next({
+                    isOpen: false,
+                    message: ''
+                })
+            });
+
+            setSubscription(subscription);
+
+            confirmDialogService.openDialogChannel.next({
+                isOpen: true,
+                message: 'Do you want to move this cards?'
+            });
+        });
+
+        setSubscription(subscription);
+
+        selectionDialogService.openDialogChannel.next({
+            isOpen: true,
+            title: 'Select cards group',
+            selectionItems: state.existedGroupsIDs
+        })
+    }
+
+    const onDeleteSelectedCards = () => {
+
     }
 
     return <CardsListComponent
@@ -192,16 +278,9 @@ export const CardsListContainer: FC<ICardsListContainer> = ({cardsListService, c
         onOpenRepeater={onOpenRepeater}
         onStartSelecting={onStartSelecting}
         isEnabledSelecting={state.isEnabledSelecting}
+        onSelectItem={onSelectItem}
+        selectedItems={state.selectedItems}
+        onMovingSelectedCards={onMovingSelectedCards}
+        onDeleteSelectedCards={onDeleteSelectedCards}
     />
 };
-
-interface CardsListContainerState {
-    cards: ICard[];
-    filter: IFilter;
-    isEnabledSelecting: boolean;
-}
-
-interface ICardsListContainer {
-    cardsListService: CardsListService;
-    confirmDialogService: ConfirmDialogService;
-}

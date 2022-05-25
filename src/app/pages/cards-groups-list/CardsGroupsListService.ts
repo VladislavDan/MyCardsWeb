@@ -19,13 +19,20 @@ export class CardsGroupsListService {
 
 
     constructor(storageService: StorageService) {
+
         this.groupsListChannel = new Channel(() => storageService.getBackup().pipe(
             switchMap((backup) => {
                 return storageService.getSettings().pipe(
                     switchMap((settings: ISettings) => {
                         return defer(() => {
                             return settings.autoObsolete && settings.autoObsolete.isEnable ?
-                                of(updateObsoleteStatus(backup, settings.autoObsolete.timeInProgress, settings.autoObsolete.timeInDone)) :
+                                of(
+                                    updateObsoleteStatus(
+                                        backup,
+                                        settings.autoObsolete.timeInProgress,
+                                        settings.autoObsolete.timeInDone
+                                    )
+                                ).pipe(tap((cardsGroups) => storageService.setBackup(cardsGroups))) :
                                 of(backup)
                         })
                     })

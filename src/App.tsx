@@ -25,6 +25,8 @@ import {LocalBackupsService} from './app/pages/local-backup/LocalBackupsService'
 import {DataBaseService} from './app/common/services/DataBaseService';
 import {SettingsService} from './app/pages/settings/SettingsService';
 import {CardViewerService} from "./app/pages/card-viewer/CardViewerService";
+import {SelectionDialogContainer} from "./app/parts/selection-dialog/SelectionDialogContainer";
+import {SelectionDialogService} from "./app/parts/selection-dialog/SelectionDialogService";
 
 export const AppContext = React.createContext<IAppContext>(defaultAppState);
 
@@ -32,6 +34,7 @@ const errorService = new ErrorService();
 const spinnerService = new SpinnerService();
 
 const confirmDialogService= new ConfirmDialogService();
+const selectionDialogService = new SelectionDialogService();
 
 const dataBaseService = new DataBaseService(STORE_NAME);
 const storageService = new StorageService(dataBaseService);
@@ -72,6 +75,8 @@ function App() {
 
                         <ConfirmDialogContainer confirmDialogService={confirmDialogService}/>
 
+                        <SelectionDialogContainer selectionDialogService={selectionDialogService}/>
+
                         <div className="page-container" style={{height: appState.height - 110, width: appState.width}}>
                             <SpinnerContainer spinnerService={spinnerService}/>
                             <NavigationContainer
@@ -88,6 +93,7 @@ function App() {
                                 localBackupsService={localBackupsService}
                                 settingsService={settingService}
                                 cardViewerService={cardViewerService}
+                                selectionDialogService={selectionDialogService}
                             />
                         </div>
                     </div>

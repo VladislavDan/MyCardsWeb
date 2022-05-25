@@ -26,6 +26,7 @@ import {SettingsContainer} from '../../pages/settings/SettingsContainer';
 import {SettingsService} from '../../pages/settings/SettingsService';
 import {CardViewerContainer} from "../../pages/card-viewer/CardViewerContainer";
 import {CardViewerService} from "../../pages/card-viewer/CardViewerService";
+import {SelectionDialogService} from "../selection-dialog/SelectionDialogService";
 
 
 export const NavigationContainer: FC<INavigationContainer> = (
@@ -42,7 +43,8 @@ export const NavigationContainer: FC<INavigationContainer> = (
         cardsRepeaterService,
         settingsService,
         localBackupsService,
-        cardViewerService
+        cardViewerService,
+        selectionDialogService
     }
 ) => {
 
@@ -61,7 +63,11 @@ export const NavigationContainer: FC<INavigationContainer> = (
                                     confirmDialogService={confirmDialogService}/>
         </Route>
         <Route path={Routs.cards.path}>
-            <CardsListContainer cardsListService={cardsListService} confirmDialogService={confirmDialogService}/>
+            <CardsListContainer
+                cardsListService={cardsListService}
+                confirmDialogService={confirmDialogService}
+                selectionDialogService={selectionDialogService}
+            />
         </Route>
         <Route path={Routs.cardsRepeater.path}>
             <CardRepeaterContainer cardsRepeaterService={cardsRepeaterService} cardsEditorService={cardsEditorService}/>
@@ -102,4 +108,5 @@ interface INavigationContainer {
     localBackupsService: LocalBackupsService;
     settingsService: SettingsService;
     cardViewerService: CardViewerService;
+    selectionDialogService: SelectionDialogService;
 }

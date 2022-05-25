@@ -4,13 +4,14 @@ import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText/ListItemText';
 import FlagIcon from '@mui/icons-material/Flag';
+import {Checkbox} from "@mui/material";
 
 import {DATE_FORMAT} from '../../../../common/Constants';
 import {ICard} from '../../../../common/types/ICard';
 import {IRangeOfKnowledge} from '../../../../common/types/IRangeOfKnowledge';
 import {ListItemMenuComponent} from '../../../../common/elements/list-item-menu/ListItemMenuComponent';
+import {ICardListItemComponent} from "./types/ICardListItemComponent";
 import "./CardsListItemComponent.css";
-import {Checkbox} from "@mui/material";
 
 export const CardsListItemComponent: FC<ICardListItemComponent> = (
     {
@@ -41,8 +42,7 @@ export const CardsListItemComponent: FC<ICardListItemComponent> = (
         </ListItemIcon>
         <ListItemText
             className="cards-list-item_card-name"
-            onClick={() => isEnabledSelecting ? () => {
-            } : onClickItem(card.id)}
+            onClick={() => isEnabledSelecting ? onSelect(card.id) : onClickItem(card.id)}
             primary={card.question}
             secondary={'Last repeating date: ' + format(card.dateRepeating ? card.dateRepeating : new Date(), DATE_FORMAT)}
         />
@@ -55,7 +55,7 @@ export const CardsListItemComponent: FC<ICardListItemComponent> = (
                         onResetProgress={() => onResetProgress(card.id)}
                     />
                 </ListItemIcon> :
-                <ListItemIcon>
+                <ListItemIcon onClick={() => isEnabledSelecting && onSelect(card.id)}>
                     <Checkbox
                         edge="start"
                         checked={isSelected}
@@ -66,14 +66,3 @@ export const CardsListItemComponent: FC<ICardListItemComponent> = (
         }
     </ListItem>
 };
-
-interface ICardListItemComponent {
-    card: ICard;
-    onEditItem: (id: number) => void;
-    onDeleteItem: (id: number) => void;
-    onResetProgress: (id: number) => void;
-    onClickItem: (id: number) => void;
-    onSelect: (id: number) => void;
-    isEnabledSelecting: boolean;
-    isSelected: boolean
-}
