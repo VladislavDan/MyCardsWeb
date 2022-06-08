@@ -1,7 +1,7 @@
 import {ICard} from "../../../common/types/ICard";
 import {IFilter} from "../../../common/types/IFilter";
 
-export interface CardsListContainerState {
+export interface CardsContainerState {
     cards: ICard[];
     filter: IFilter;
     isEnabledSelecting: boolean;

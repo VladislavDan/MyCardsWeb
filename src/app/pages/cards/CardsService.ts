@@ -14,7 +14,7 @@ import {of} from "rxjs";
 import {selectedItemsObjectToArray} from "./logic/selectedItemsObjectToArray";
 import {getExistedCardsGroups} from "./logic/getExistedCardsGroups";
 
-export class CardsListService {
+export class CardsService {
     public cardsChannel: Channel<{ cardsGroupID: number, filter: IFilter }, ICard[]>;
     public resetCardProgressChannel: Channel<{ cardID: number, cardsGroupID: number }, ICardsGroup[]>;
     public deleteCardChannel: Channel<{ cardID: number, cardsGroupID: number }, ICardsGroup[]>;

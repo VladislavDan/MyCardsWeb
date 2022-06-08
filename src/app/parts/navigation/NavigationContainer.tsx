@@ -6,7 +6,7 @@ import {Routs} from '../../common/Routs';
 import {CardsGroupsListContainer} from '../../pages/cards-groups-list/CardsGroupsListContainer';
 import {GoogleAuthContainer} from '../../pages/google-auth/GoogleAuthContainer';
 import {GoogleBackupsContainer} from '../../pages/google-backups/GoogleBackupsContainer';
-import {CardsListContainer} from '../../pages/cards-list/CardsListContainer';
+import {CardsContainer} from '../../pages/cards/CardsContainer';
 import {CardRepeaterContainer} from '../../pages/cards-repeater/CardsRepeaterContainer';
 import {LocalBackupsContainer} from '../../pages/local-backup/LocalBackupsContainer';
 import {CardsGroupsEditorContainer} from '../../pages/cards-groups-editor/CardsGroupsEditorContainer';
@@ -19,7 +19,7 @@ import {SpinnerService} from '../spinner/SpinnerService';
 import {ConfirmDialogService} from '../confirm-dialog/ConfirmDialogService';
 import {CardsEditorContainer} from '../../pages/cards-editor/CardsEditorContainer';
 import {CardsEditorService} from '../../pages/cards-editor/CardsEditorService';
-import {CardsListService} from '../../pages/cards-list/CardsListService';
+import {CardsService} from '../../pages/cards/CardsService';
 import {CardsRepeaterService} from '../../pages/cards-repeater/CardsRepeaterService';
 import {LocalBackupsService} from '../../pages/local-backup/LocalBackupsService';
 import {SettingsContainer} from '../../pages/settings/SettingsContainer';
@@ -63,7 +63,7 @@ export const NavigationContainer: FC<INavigationContainer> = (
                                     confirmDialogService={confirmDialogService}/>
         </Route>
         <Route path={Routs.cards.path}>
-            <CardsListContainer
+            <CardsContainer
                 cardsListService={cardsListService}
                 confirmDialogService={confirmDialogService}
                 selectionDialogService={selectionDialogService}
@@ -103,7 +103,7 @@ interface INavigationContainer {
     spinnerService: SpinnerService;
     confirmDialogService: ConfirmDialogService;
     cardsEditorService: CardsEditorService;
-    cardsListService: CardsListService;
+    cardsListService: CardsService;
     cardsRepeaterService: CardsRepeaterService;
     localBackupsService: LocalBackupsService;
     settingsService: SettingsService;

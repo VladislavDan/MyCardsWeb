@@ -1,14 +1,12 @@
-import {FixedSizeList as List} from 'react-window';
 import * as React from 'react';
 import {FC} from 'react';
-
-import {CardsListItemComponent} from './elements/cards-list-item/CardsListItemComponent';
 import {FilterComponent} from "./elements/filter/FilterComponent";
 import {CardsListActions} from "./elements/cards-list-actions/CardsListActions";
-import {ICardsListComponent} from "./types/ICardsListComponent";
-import './CardsListComponent.css';
+import {ICardsComponent} from "./types/ICardsComponent";
+import './CardsComponent.css';
+import {CardsListComponent} from "./elements/cards-list/CardsListComponent";
 
-export const CardsListComponent: FC<ICardsListComponent> = (
+export const CardsComponent: FC<ICardsComponent> = (
     {
         cards,
         filter,
@@ -20,6 +18,7 @@ export const CardsListComponent: FC<ICardsListComponent> = (
         onChangeSearchableText,
         onChangeSorting,
         width,
+        height,
         onOpenRepeater,
         onStartSelecting,
         onSelectItem,
@@ -36,34 +35,18 @@ export const CardsListComponent: FC<ICardsListComponent> = (
                 onChangeSorting={onChangeSorting}
                 filter={filter}
             />
-            <List
-                className="cards"
-                itemData={cards}
-                itemSize={55}
-                itemCount={cards.length}
-                overscanCount={5}
-                height={55 * cards.length}
+            <CardsListComponent
+                cards={cards}
                 width={width}
-            >
-                {
-                    ({index, style}: any) => {
-                        const card = cards[index];
-                        return <div style={style}>
-                            <CardsListItemComponent
-                                key={card.id}
-                                card={card}
-                                onEditItem={onEditItem}
-                                onDeleteItem={onDeleteItem}
-                                onResetProgress={onResetProgress}
-                                onClickItem={onClickItem}
-                                onSelect={onSelectItem}
-                                isEnabledSelecting={isEnabledSelecting}
-                                isSelected={selectedItems[card.id]}
-                            />
-                        </div>
-                    }
-                }
-            </List>
+                height={height}
+                onEditItem={onEditItem}
+                onDeleteItem={onDeleteItem}
+                onResetProgress={onResetProgress}
+                onClickItem={onClickItem}
+                onSelectItem={onSelectItem}
+                isEnabledSelecting={isEnabledSelecting}
+                selectedItems={selectedItems}
+            />
             <CardsListActions
                 onOpenRepeater={onOpenRepeater}
                 onOpenEditor={onOpenEditor}

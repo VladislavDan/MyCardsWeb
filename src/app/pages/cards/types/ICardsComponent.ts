@@ -2,7 +2,7 @@ import {ICard} from "../../../common/types/ICard";
 import {ISortVariants} from "../../../common/types/ISortVariants";
 import {IFilter} from "../../../common/types/IFilter";
 
-export interface ICardsListComponent {
+export interface ICardsComponent {
     cards: ICard[];
     onOpenEditor: () => void;
     onEditItem: (id: number) => void;

@@ -1,7 +1,7 @@
 import React, {FC, useContext, useState} from 'react';
 
 import {ICard} from '../../common/types/ICard';
-import {CardsListComponent} from './CardsListComponent';
+import {CardsComponent} from './CardsComponent';
 import {useChannel} from '../../../MyTools/channel-conception/react-hooks/useChannel';
 import {useHistory, useLocation} from 'react-router';
 import {useConstructor} from '../../../MyTools/react-hooks/useConstructor';
@@ -12,10 +12,10 @@ import {useUnsubscribe} from '../../../MyTools/react-hooks/useUnsubscribe';
 import {IAppContext} from '../../common/types/IAppContext';
 import {AppContext} from '../../../App';
 import {ISortVariants} from "../../common/types/ISortVariants";
-import {ICardsListContainer} from "./types/ICardsListContainer";
-import {CardsListContainerState} from "./types/CardsListContainerState";
+import {ICardsContainer} from "./types/ICardsContainer";
+import {CardsContainerState} from "./types/CardsContainerState";
 
-export const CardsListContainer: FC<ICardsListContainer> = (
+export const CardsContainer: FC<ICardsContainer> = (
     {
         cardsListService,
         confirmDialogService,
@@ -27,7 +27,7 @@ export const CardsListContainer: FC<ICardsListContainer> = (
 
     const history = useHistory();
 
-    const [state, setState] = useState<CardsListContainerState>(
+    const [state, setState] = useState<CardsContainerState>(
         {
             cards: [],
             filter: {
@@ -263,7 +263,7 @@ export const CardsListContainer: FC<ICardsListContainer> = (
 
     }
 
-    return <CardsListComponent
+    return <CardsComponent
         filter={state.filter}
         onChangeSorting={onChangeSorting}
         onChangeSearchableText={onChangeSearchableText}
