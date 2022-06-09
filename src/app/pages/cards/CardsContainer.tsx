@@ -60,7 +60,7 @@ export const CardsContainer: FC<ICardsContainer> = (
         )
     });
 
-    useChannel(cardsListService.deleteCardChannel, (cards: ICardsGroup[]) => {
+    useChannel(cardsListService.deleteSingleCardChannel, (cards: ICardsGroup[]) => {
         cardsListService.cardsChannel.next({
             cardsGroupID: location.state.cardsGroupID,
             filter: state.filter
@@ -68,6 +68,20 @@ export const CardsContainer: FC<ICardsContainer> = (
     });
 
     useChannel(cardsListService.movingCardsChannel, () => {
+        cardsListService.cardsChannel.next({
+            cardsGroupID: location.state.cardsGroupID,
+            filter: state.filter
+        })
+    })
+
+    useChannel(cardsListService.copyCardsChannel, () => {
+        cardsListService.cardsChannel.next({
+            cardsGroupID: location.state.cardsGroupID,
+            filter: state.filter
+        })
+    })
+
+    useChannel(cardsListService.deleteCardsChannel, () => {
         cardsListService.cardsChannel.next({
             cardsGroupID: location.state.cardsGroupID,
             filter: state.filter
@@ -115,7 +129,7 @@ export const CardsContainer: FC<ICardsContainer> = (
     const onDeleteItem = (cardID: number) => {
         const subscription = confirmDialogService.confirmationChannel.subscribe((isConfirm) => {
             if (isConfirm) {
-                cardsListService.deleteCardChannel.next({cardID, cardsGroupID: location.state.cardsGroupID});
+                cardsListService.deleteSingleCardChannel.next({cardID, cardsGroupID: location.state.cardsGroupID});
             }
 
             confirmDialogService.openDialogChannel.next({
@@ -259,8 +273,64 @@ export const CardsContainer: FC<ICardsContainer> = (
         })
     }
 
-    const onDeleteSelectedCards = () => {
+    const onCopySelectedCards = () => {
+        const subscription = selectionDialogService.selectionChannel.subscribe((groupID) => {
 
+            const subscription = confirmDialogService.confirmationChannel.subscribe((isConfirm) => {
+                if (isConfirm) {
+                    cardsListService.copyCardsChannel.next({
+                        selectedItems: state.selectedItems,
+                        destinationGroupID: groupID
+                    });
+
+                    selectionDialogService.openDialogChannel.next({
+                        isOpen: false,
+                        title: '',
+                        selectionItems: []
+                    });
+                }
+
+                confirmDialogService.openDialogChannel.next({
+                    isOpen: false,
+                    message: ''
+                })
+            });
+
+            setSubscription(subscription);
+
+            confirmDialogService.openDialogChannel.next({
+                isOpen: true,
+                message: 'Do you want to copy this cards?'
+            });
+        });
+
+        setSubscription(subscription);
+
+        selectionDialogService.openDialogChannel.next({
+            isOpen: true,
+            title: 'Select cards group',
+            selectionItems: state.existedGroupsIDs
+        })
+    }
+
+    const onDeleteSelectedCards = () => {
+        const subscription = confirmDialogService.confirmationChannel.subscribe((isConfirm) => {
+            if (isConfirm) {
+                cardsListService.deleteCardsChannel.next(state.selectedItems);
+            }
+
+            confirmDialogService.openDialogChannel.next({
+                isOpen: false,
+                message: ''
+            })
+        });
+
+        setSubscription(subscription);
+
+        confirmDialogService.openDialogChannel.next({
+            isOpen: true,
+            message: 'Do you want to delete this cards?'
+        });
     }
 
     return <CardsComponent
@@ -282,5 +352,6 @@ export const CardsContainer: FC<ICardsContainer> = (
         selectedItems={state.selectedItems}
         onMovingSelectedCards={onMovingSelectedCards}
         onDeleteSelectedCards={onDeleteSelectedCards}
+        onCopySelectedCards={onCopySelectedCards}
     />
 };

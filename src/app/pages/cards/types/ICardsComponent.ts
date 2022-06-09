@@ -23,4 +23,5 @@ export interface ICardsComponent {
     };
     onMovingSelectedCards: () => void;
     onDeleteSelectedCards: () => void;
+    onCopySelectedCards: () => void;
 }

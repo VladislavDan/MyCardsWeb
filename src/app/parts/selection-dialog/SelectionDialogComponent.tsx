@@ -28,7 +28,7 @@ export const SelectionDialogComponent: FC<ISelectionDialogComponent> = (
                     <List>
                         {
                             selectionItems.map((item) => {
-                                return <ListItem onClick={() => onClickItem(item.id)}>
+                                return <ListItem key={item.id} onClick={() => onClickItem(item.id)}>
                                     <ListItemText primary={item.label}/>
                                 </ListItem>
                             })

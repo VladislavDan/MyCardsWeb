@@ -24,6 +24,7 @@ export const CardsComponent: FC<ICardsComponent> = (
         onSelectItem,
         onDeleteSelectedCards,
         onMovingSelectedCards,
+        onCopySelectedCards,
         isEnabledSelecting,
         selectedItems
     }
@@ -51,10 +52,12 @@ export const CardsComponent: FC<ICardsComponent> = (
                 onOpenRepeater={onOpenRepeater}
                 onOpenEditor={onOpenEditor}
                 onStartSelecting={onStartSelecting}
+                onCopySelectedCards={onCopySelectedCards}
                 hideOpenEditorButton={isEnabledSelecting}
                 hideOpenRepeaterButton={isEnabledSelecting}
                 hideDeleteSelectedCardsButton={!isEnabledSelecting}
                 hideMovingSelectedCardsButton={!isEnabledSelecting}
+                hideCopySelectedCardButton={!isEnabledSelecting}
                 onDeleteSelectedCards={onDeleteSelectedCards}
                 onMovingSelectedCards={onMovingSelectedCards}
             />

@@ -1,7 +1,7 @@
 import {ICardsGroup} from '../../../common/types/ICardsGroup';
 import {ICard} from '../../../common/types/ICard';
 
-export const deleteCard = (cardsGroupID: number, cardID: number, cardsGroups: ICardsGroup[]) => {
+export const deleteSingleCard = (cardsGroupID: number, cardID: number, cardsGroups: ICardsGroup[]) => {
     const cardGroupIndex = cardsGroups.findIndex((cardGroup: ICardsGroup) => cardsGroupID === cardGroup.id);
     let cardIndex = -1;
 

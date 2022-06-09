@@ -1,6 +1,7 @@
 import * as React from "react";
 import {FC} from "react";
 import AddIcon from "@mui/icons-material/Add";
+import CopyIcon from "@mui/icons-material/CopyAll";
 import Fab from "@mui/material/Fab";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import SelectAllIcon from "@mui/icons-material/SelectAll";
@@ -17,10 +18,12 @@ export const CardsListActions: FC<ICardsListActions> = (
         onStartSelecting,
         onMovingSelectedCards,
         onDeleteSelectedCards,
+        onCopySelectedCards,
         hideOpenRepeaterButton = false,
         hideOpenEditorButton = false,
         hideMovingSelectedCardsButton = false,
-        hideDeleteSelectedCardsButton = false
+        hideDeleteSelectedCardsButton = false,
+        hideCopySelectedCardButton= false
     }
 ) => {
     return <div className="cards-list-actions">
@@ -40,6 +43,11 @@ export const CardsListActions: FC<ICardsListActions> = (
         {
             !hideMovingSelectedCardsButton && <Fab size="medium" color="primary" onClick={onMovingSelectedCards}>
                 <DriveFileMoveIcon/>
+            </Fab>
+        }
+        {
+            !hideCopySelectedCardButton && <Fab size="medium" color="secondary" onClick={onCopySelectedCards}>
+                <CopyIcon/>
             </Fab>
         }
         {
