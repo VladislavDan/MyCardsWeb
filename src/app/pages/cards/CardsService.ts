@@ -32,24 +32,27 @@ export class CardsService {
     public existedGroupsIDsChannel: Channel<string, Array<{ id: number; label: string }>>
 
     constructor(private storageService: StorageService) {
-        this.cardsChannel = new Channel(({cardsGroupID, filter}) => this.storageService.getBackup().pipe(
+        this.cardsChannel = new Channel(
+            ({cardsGroupID, filter}) => this.storageService.getBackup().pipe(
             map((cardsGroups: ICardsGroup[]) => getCardsByGroup(cardsGroupID, cardsGroups)),
             map((cards: ICard[]) => filterCards(cards, filter)))
         );
 
-        this.resetCardProgressChannel = new Channel(({cardID, cardsGroupID}) => storageService.getBackup().pipe(
+        this.resetCardProgressChannel = new Channel(
+            ({cardID, cardsGroupID}) => storageService.getBackup().pipe(
             map((cardsGroups: ICardsGroup[]) => resetCardProgress(cardsGroupID, cardID, cardsGroups)),
             tap((cardsGroups: ICardsGroup[]) => {
                 storageService.setBackup(cardsGroups);
-            })
-        ));
+            }))
+        );
 
-        this.deleteSingleCardChannel = new Channel(({cardID, cardsGroupID}) => storageService.getBackup().pipe(
+        this.deleteSingleCardChannel = new Channel(
+            ({cardID, cardsGroupID}) => storageService.getBackup().pipe(
             map((cardsGroups: ICardsGroup[]) => deleteSingleCard(cardsGroupID, cardID, cardsGroups)),
             tap((cardsGroups: ICardsGroup[]) => {
                 storageService.setBackup(cardsGroups);
-            })
-        ));
+            }))
+        );
 
         this.movingCardsChannel = new Channel((
             {

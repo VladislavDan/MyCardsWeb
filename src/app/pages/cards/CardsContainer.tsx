@@ -14,6 +14,8 @@ import {AppContext} from '../../../App';
 import {ISortVariants} from "../../common/types/ISortVariants";
 import {ICardsContainer} from "./types/ICardsContainer";
 import {CardsContainerState} from "./types/CardsContainerState";
+import {onDeleteSelectedCards} from "./callbacks/onDeleteSelectedCards";
+import {onCopySelectedCards} from "./callbacks/onCopySelectedCards";
 
 export const CardsContainer: FC<ICardsContainer> = (
     {
@@ -273,65 +275,20 @@ export const CardsContainer: FC<ICardsContainer> = (
         })
     }
 
-    const onCopySelectedCards = () => {
-        const subscription = selectionDialogService.selectionChannel.subscribe((groupID) => {
+    const copySelectedCards = () => onCopySelectedCards(
+        selectionDialogService,
+        confirmDialogService,
+        cardsListService,
+        state,
+        setSubscription
+    );
 
-            const subscription = confirmDialogService.confirmationChannel.subscribe((isConfirm) => {
-                if (isConfirm) {
-                    cardsListService.copyCardsChannel.next({
-                        selectedItems: state.selectedItems,
-                        destinationGroupID: groupID
-                    });
-
-                    selectionDialogService.openDialogChannel.next({
-                        isOpen: false,
-                        title: '',
-                        selectionItems: []
-                    });
-                }
-
-                confirmDialogService.openDialogChannel.next({
-                    isOpen: false,
-                    message: ''
-                })
-            });
-
-            setSubscription(subscription);
-
-            confirmDialogService.openDialogChannel.next({
-                isOpen: true,
-                message: 'Do you want to copy this cards?'
-            });
-        });
-
-        setSubscription(subscription);
-
-        selectionDialogService.openDialogChannel.next({
-            isOpen: true,
-            title: 'Select cards group',
-            selectionItems: state.existedGroupsIDs
-        })
-    }
-
-    const onDeleteSelectedCards = () => {
-        const subscription = confirmDialogService.confirmationChannel.subscribe((isConfirm) => {
-            if (isConfirm) {
-                cardsListService.deleteCardsChannel.next(state.selectedItems);
-            }
-
-            confirmDialogService.openDialogChannel.next({
-                isOpen: false,
-                message: ''
-            })
-        });
-
-        setSubscription(subscription);
-
-        confirmDialogService.openDialogChannel.next({
-            isOpen: true,
-            message: 'Do you want to delete this cards?'
-        });
-    }
+    const deleteSelectedCards = () => onDeleteSelectedCards(
+        confirmDialogService,
+        cardsListService,
+        state,
+        setSubscription
+    );
 
     return <CardsComponent
         filter={state.filter}
@@ -351,7 +308,7 @@ export const CardsContainer: FC<ICardsContainer> = (
         onSelectItem={onSelectItem}
         selectedItems={state.selectedItems}
         onMovingSelectedCards={onMovingSelectedCards}
-        onDeleteSelectedCards={onDeleteSelectedCards}
-        onCopySelectedCards={onCopySelectedCards}
+        onDeleteSelectedCards={deleteSelectedCards}
+        onCopySelectedCards={copySelectedCards}
     />
 };
