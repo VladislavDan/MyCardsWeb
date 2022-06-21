@@ -3,6 +3,7 @@ import {ConfirmDialogService} from "../../../parts/confirm-dialog/ConfirmDialogS
 import {CardsService} from "../CardsService";
 import {Subscription} from "rxjs";
 
+//TODO services needs to be added throw decorator without passing throw arguments
 export const onDeleteSelectedCards = (
     confirmDialogService: ConfirmDialogService,
     cardsListService: CardsService,
