@@ -5,6 +5,7 @@ export interface IAnswerCardComponent {
     onClickText: () => void
     cardHeight: number
     onClick: (isUnderstandable: boolean) => void;
+    onDeleteCard: () => void;
     isEditable: boolean;
     onChangeAnswer: (answer: string) => void;
 }

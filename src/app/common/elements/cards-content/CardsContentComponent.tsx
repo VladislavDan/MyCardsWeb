@@ -15,6 +15,7 @@ export const CardsContentComponent: FC<ICardsContentComponent> = (
         onClickCard,
         onChangeAnswer,
         onChangeQuestion,
+        onDeleteCard,
         onClick
     }
 ) => {
@@ -32,6 +33,7 @@ export const CardsContentComponent: FC<ICardsContentComponent> = (
                     cardHeight={cardHeight}
                     isEditable={isEditable}
                     onChangeQuestion={onChangeQuestion}
+                    onDeleteCard={onDeleteCard}
                 /> :
                 <AnswerCardComponent
                     card={card}
@@ -40,6 +42,7 @@ export const CardsContentComponent: FC<ICardsContentComponent> = (
                     onClick={onClick}
                     onChangeAnswer={onChangeAnswer}
                     isEditable={isEditable}
+                    onDeleteCard={onDeleteCard}
                 />
         }
     </>

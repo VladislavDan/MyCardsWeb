@@ -1,4 +1,4 @@
-import React, {FC, useContext, useState} from "react";
+import React, {FC, useCallback, useContext, useState} from "react";
 
 import {ICard} from "../../common/types/ICard";
 import {useHistory, useLocation} from "react-router";
@@ -14,25 +14,41 @@ import {useConstructor} from "../../../MyTools/react-hooks/useConstructor";
 import {initDefaultCard} from "../../common/logic/initDefaultCard";
 import {ICardViewerContainer} from "./types/ICardViewerContainer";
 import {CardViewerContainerState} from "./types/CardViewerContainerState";
+import {CallbackFactory} from "../../../MyTools/react-utils/CallbackFactory";
+import {onDeleteCard} from "./ui-callbacks/onDeleteCard";
+import {useUnsubscribe} from "../../../MyTools/react-hooks/useUnsubscribe";
+import {IRangeOfKnowledge} from "../../common/types/IRangeOfKnowledge";
+import {onDeleteSingleCardChannel} from "./channels-callbacks/onDeleteSingleCardChannel";
 
-export const CardViewerContainer: FC<ICardViewerContainer> = (
-    {
-        cardViewerService,
-        cardsEditorService
-    }
-) => {
+export const CardViewerContainer: FC<ICardViewerContainer> = (services) => {
 
     const location = useLocation<INavigationState>();
 
     const history = useHistory();
 
+    const {cardViewerService, cardsEditorService} = services
+
     const [state, setState] = useState<CardViewerContainerState>({
-        card: undefined,
+        card: {
+            id: -1,
+            question: '',
+            answer: '',
+            rangeOfKnowledge: IRangeOfKnowledge.IN_PROGRESS,
+            dateRepeating: 0
+        },
         isQuestionSide: true,
         isEditable: false
     });
 
-    useChannel<number, ICard | undefined>(cardViewerService.cardChannel, (card: ICard | undefined) => {
+    const {setSubscription} = useUnsubscribe();
+
+    const callbackSettings = {location, history, services, state, setState, context: {}, setSubscription}
+
+    const callbackFactory = CallbackFactory(callbackSettings)
+
+    useChannel(cardViewerService.deleteSingleCardChannel, callbackFactory(onDeleteSingleCardChannel))
+
+    useChannel<number, ICard>(cardViewerService.cardChannel, (card: ICard) => {
         setState((prevState) => {
             return {
                 ...prevState,
@@ -70,7 +86,13 @@ export const CardViewerContainer: FC<ICardViewerContainer> = (
             });
         } else {
             setState({
-                card: undefined,
+                card: {
+                    id: -1,
+                    question: '',
+                    answer: '',
+                    rangeOfKnowledge: IRangeOfKnowledge.IN_PROGRESS,
+                    dateRepeating: 0
+                },
                 isQuestionSide: false,
                 isEditable: false
             });
@@ -126,6 +148,8 @@ export const CardViewerContainer: FC<ICardViewerContainer> = (
         }
     };
 
+    const deleteCard = useCallback(callbackFactory(onDeleteCard), [state.card])
+
     return <CardViewerComponent
         cardHeight={value.height * 0.55}
         isQuestionSide={state.isQuestionSide}
@@ -136,5 +160,6 @@ export const CardViewerContainer: FC<ICardViewerContainer> = (
         isEditable={state.isEditable}
         onChangeQuestion={onChangeQuestion}
         onChangeAnswer={onChangeAnswer}
+        onDeleteCard={deleteCard}
     />
 }

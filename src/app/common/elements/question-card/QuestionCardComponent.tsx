@@ -5,6 +5,7 @@ import Card from '@mui/material/Card';
 import {LongTextViewerComponent} from "../long-text-viewer/LongTextViewerComponent";
 import {IQuestionCard} from "./types/IQuestionCard";
 import {LongTextEditorComponent} from "../long-text-editor/LongTextEditorComponent";
+import {DeleteButtonFooterComponent} from "../delete-button-footer/DeleteButtonFooterComponent";
 
 export const QuestionCardComponent: FC<IQuestionCard> = (
     {
@@ -12,6 +13,7 @@ export const QuestionCardComponent: FC<IQuestionCard> = (
         onClickCard,
         cardHeight,
         isEditable,
+        onDeleteCard,
         onChangeQuestion
     }
 ) => {
@@ -22,11 +24,14 @@ export const QuestionCardComponent: FC<IQuestionCard> = (
         <CardContent onClick={onClickCard} style={{height: cardHeight}}>
             {
                 isEditable ?
-                    <LongTextEditorComponent
-                        text={question}
-                        viewHeight={cardHeight}
-                        onChangeText={onChangeQuestion}
-                    />
+                    <>
+                        <LongTextEditorComponent
+                            text={question}
+                            viewHeight={cardHeight}
+                            onChangeText={onChangeQuestion}
+                        />
+                        <DeleteButtonFooterComponent onClick={onDeleteCard}/>
+                    </>
                     :
                     <LongTextViewerComponent viewHeight={cardHeight} text={question}/>
             }

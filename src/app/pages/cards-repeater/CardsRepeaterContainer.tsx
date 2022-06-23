@@ -1,10 +1,9 @@
 import {useHistory, useLocation} from 'react-router';
-import React, {FC, useContext, useState} from 'react';
+import React, {FC, useCallback, useContext, useState} from 'react';
 
 import {useChannel} from '../../../MyTools/channel-conception/react-hooks/useChannel';
 import {ICard} from '../../common/types/ICard';
 import {useConstructor} from '../../../MyTools/react-hooks/useConstructor';
-import {CardsRepeaterService} from './CardsRepeaterService';
 import {CardsRepeaterComponent} from './CardsRepeaterComponent';
 import {Routs} from '../../common/Routs';
 import {IRepeatingArgs} from '../../common/types/IRepeatingArgs';
@@ -13,10 +12,20 @@ import {IStatistic} from '../../common/types/IStatistic';
 import {INavigationState} from '../../common/types/INavigationState';
 import {AppContext} from '../../../App';
 import {IAppContext} from '../../common/types/IAppContext';
-import {CardsEditorService} from '../cards-editor/CardsEditorService';
 import {initDefaultCard} from "../../common/logic/initDefaultCard";
+import {useUnsubscribe} from "../../../MyTools/react-hooks/useUnsubscribe";
+import {CallbackFactory} from "../../../MyTools/react-utils/CallbackFactory";
+import {IRangeOfKnowledge} from "../../common/types/IRangeOfKnowledge";
+import {ICardRepeaterContainer} from "./types/ICardRepeaterContainer";
+import {CardRepeaterContainerState} from "./types/CardRepeaterContainerState";
+import {onDeleteCard} from "./ui-callbacks/onDeleteCard";
+import {onDeleteSingleCardChannel} from "./channels-callbacks/onDeleteSingleCardChannel";
 
-export const CardRepeaterContainer: FC<ICardRepeaterContainer> = ({cardsRepeaterService, cardsEditorService}) => {
+export const CardRepeaterContainer: FC<ICardRepeaterContainer> = (
+    services
+) => {
+
+    const {cardsRepeaterService, cardsEditorService} = services
 
     const location = useLocation<INavigationState>();
 
@@ -29,14 +38,28 @@ export const CardRepeaterContainer: FC<ICardRepeaterContainer> = ({cardsRepeater
     };
 
     const [state, setState] = useState<CardRepeaterContainerState>({
-        card: undefined,
+        card: {
+            id: -1,
+            question: '',
+            answer: '',
+            rangeOfKnowledge: IRangeOfKnowledge.IN_PROGRESS,
+            dateRepeating: 0
+        },
         isQuestionSide: true,
         isEditable: false
     });
 
     const [statistic, setStatistic] = useState<IStatistic>(defaultStatisticValue);
 
-    useChannel<number, ICard | undefined>(cardsRepeaterService.cardChannel, (card: ICard | undefined) => {
+    const {setSubscription} = useUnsubscribe();
+
+    const callbackSettings = {location, history, services, state, setState, context: {}, setSubscription}
+
+    const callbackFactory = CallbackFactory(callbackSettings)
+
+    useChannel(cardsRepeaterService.deleteSingleCardChannel, callbackFactory(onDeleteSingleCardChannel))
+
+    useChannel<number, ICard>(cardsRepeaterService.cardChannel, (card: ICard) => {
         setState({
             card: card,
             isQuestionSide: true,
@@ -97,7 +120,13 @@ export const CardRepeaterContainer: FC<ICardRepeaterContainer> = ({cardsRepeater
             });
         } else {
             setState({
-                card: undefined,
+                card: {
+                    id: -1,
+                    question: '',
+                    answer: '',
+                    rangeOfKnowledge: IRangeOfKnowledge.IN_PROGRESS,
+                    dateRepeating: 0
+                },
                 isQuestionSide: false,
                 isEditable: false
             });
@@ -153,7 +182,10 @@ export const CardRepeaterContainer: FC<ICardRepeaterContainer> = ({cardsRepeater
         }
     };
 
+    const deleteCard = useCallback(callbackFactory(onDeleteCard), [state.card])
+
     return <CardsRepeaterComponent
+        onDeleteCard={deleteCard}
         cardHeight={value.height * 0.55}
         isQuestionSide={state.isQuestionSide}
         onClickCard={onClickCard}
@@ -167,14 +199,3 @@ export const CardRepeaterContainer: FC<ICardRepeaterContainer> = ({cardsRepeater
         onChangeAnswer={onChangeAnswer}
     />
 };
-
-interface CardRepeaterContainerState {
-    card: ICard | undefined,
-    isQuestionSide: boolean,
-    isEditable: boolean,
-}
-
-interface ICardRepeaterContainer {
-    cardsRepeaterService: CardsRepeaterService;
-    cardsEditorService: CardsEditorService;
-}

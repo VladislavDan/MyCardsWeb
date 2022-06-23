@@ -4,4 +4,5 @@ import {ICardsContentComponent} from "../../../common/elements/cards-content/typ
 export interface ICardsRepeaterComponent extends ICardsContentComponent {
     statistic: IStatistic;
     onBackClick: () => void;
+    onDeleteCard: () => void;
 }

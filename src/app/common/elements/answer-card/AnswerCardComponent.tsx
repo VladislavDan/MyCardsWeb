@@ -6,6 +6,7 @@ import {AnswerCardFooterComponent} from '../answer-card-footer/AnswerCardFooterC
 import {IAnswerCardComponent} from "./types/IAnswerCardComponent";
 import {LongTextViewerComponent} from "../long-text-viewer/LongTextViewerComponent";
 import {LongTextEditorComponent} from "../long-text-editor/LongTextEditorComponent";
+import {DeleteButtonFooterComponent} from "../delete-button-footer/DeleteButtonFooterComponent";
 
 export const AnswerCardComponent: FC<IAnswerCardComponent> = (
     {
@@ -14,7 +15,8 @@ export const AnswerCardComponent: FC<IAnswerCardComponent> = (
         onClickText,
         onClick,
         isEditable,
-        onChangeAnswer
+        onChangeAnswer,
+        onDeleteCard
     }
 ) => {
 
@@ -26,11 +28,14 @@ export const AnswerCardComponent: FC<IAnswerCardComponent> = (
         <CardContent style={{height: cardHeight}}>
             {
                 isEditable ?
-                    <LongTextEditorComponent
-                        text={getText()}
-                        viewHeight={cardHeight}
-                        onChangeText={onChangeAnswer}
-                    />
+                    <>
+                        <LongTextEditorComponent
+                            text={getText()}
+                            viewHeight={cardHeight}
+                            onChangeText={onChangeAnswer}
+                        />
+                        <DeleteButtonFooterComponent onClick={onDeleteCard}/>
+                    </>
                     :
                     <>
                         <LongTextViewerComponent

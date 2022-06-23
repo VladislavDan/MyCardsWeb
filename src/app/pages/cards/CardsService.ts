@@ -6,7 +6,7 @@ import {ICardsGroup} from '../../common/types/ICardsGroup';
 import {Channel} from '../../../MyTools/channel-conception/Channel';
 import {getCardsByGroup} from './logic/getCardsByGroup';
 import {resetCardProgress} from './logic/resetCardProgress';
-import {deleteSingleCard} from './logic/deleteSingleCard';
+import {deleteSingleCard} from '../../common/logic/deleteSingleCard';
 import {filterCards} from "./logic/filterCards";
 import {IFilter} from "../../common/types/IFilter";
 import {changeCardsGroup} from "./logic/changeCardsGroup";
@@ -19,7 +19,7 @@ import {deleteCards} from "./logic/deleteCards";
 export class CardsService {
     public cardsChannel: Channel<{ cardsGroupID: number, filter: IFilter }, ICard[]>;
     public resetCardProgressChannel: Channel<{ cardID: number, cardsGroupID: number }, ICardsGroup[]>;
-    public deleteSingleCardChannel: Channel<{ cardID: number, cardsGroupID: number }, ICardsGroup[]>;
+    public deleteSingleCardChannel: Channel<number, ICardsGroup[]>;
     public movingCardsChannel: Channel<{
         selectedItems: { [key: number]: boolean };
         destinationGroupID: number;
@@ -47,11 +47,11 @@ export class CardsService {
         );
 
         this.deleteSingleCardChannel = new Channel(
-            ({cardID, cardsGroupID}) => storageService.getBackup().pipe(
-            map((cardsGroups: ICardsGroup[]) => deleteSingleCard(cardsGroupID, cardID, cardsGroups)),
-            tap((cardsGroups: ICardsGroup[]) => {
-                storageService.setBackup(cardsGroups);
-            }))
+            (cardID) => storageService.getBackup().pipe(
+                map((cardsGroups: ICardsGroup[]) => deleteSingleCard(cardID, cardsGroups)),
+                tap((cardsGroups: ICardsGroup[]) => {
+                    storageService.setBackup(cardsGroups);
+                }))
         );
 
         this.movingCardsChannel = new Channel((

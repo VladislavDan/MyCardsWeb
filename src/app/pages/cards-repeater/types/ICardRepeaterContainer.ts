@@ -1,9 +1,9 @@
-import {CardViewerService} from "../CardViewerService";
+import {CardsRepeaterService} from "../CardsRepeaterService";
 import {CardsEditorService} from "../../cards-editor/CardsEditorService";
 import {ConfirmDialogService} from "../../../parts/confirm-dialog/ConfirmDialogService";
 
-export interface ICardViewerContainer {
-    cardViewerService: CardViewerService;
+export interface ICardRepeaterContainer {
+    cardsRepeaterService: CardsRepeaterService;
     cardsEditorService: CardsEditorService;
-    confirmDialogService: ConfirmDialogService;
+    confirmDialogService: ConfirmDialogService
 }

@@ -13,16 +13,16 @@ import {AppContext} from '../../../App';
 import {ISortVariants} from "../../common/types/ISortVariants";
 import {ICardsContainer} from "./types/ICardsContainer";
 import {CardsContainerState} from "./types/CardsContainerState";
-import {onDeleteSelectedCards} from "./uiCallbacks/onDeleteSelectedCards";
-import {onCopySelectedCards} from "./uiCallbacks/onCopySelectedCards";
-import {onMovingSelectedCards} from "./uiCallbacks/onMovingSelectedCards";
-import {onSelectItem} from "./uiCallbacks/onSelectItem";
-import {onStartSelecting} from "./uiCallbacks/onStartSelecting";
-import {onOpenRepeater} from "./uiCallbacks/onOpenRepeater";
-import {onChangeSorting} from "./uiCallbacks/onChangeSorting";
+import {onDeleteSelectedCards} from "./ui-callbacks/onDeleteSelectedCards";
+import {onCopySelectedCards} from "./ui-callbacks/onCopySelectedCards";
+import {onMovingSelectedCards} from "./ui-callbacks/onMovingSelectedCards";
+import {onSelectItem} from "./ui-callbacks/onSelectItem";
+import {onStartSelecting} from "./ui-callbacks/onStartSelecting";
+import {onOpenRepeater} from "./ui-callbacks/onOpenRepeater";
+import {onChangeSorting} from "./ui-callbacks/onChangeSorting";
 import {CallbackFactory} from "../../../MyTools/react-utils/CallbackFactory";
-import {onChangeSearchableText} from "./uiCallbacks/onChangeSearchableText";
-import {onCardsChannel} from "./channelsCallbacks/onCardsChannel";
+import {onChangeSearchableText} from "./ui-callbacks/onChangeSearchableText";
+import {onCardsChannel} from "./channels-callbacks/onCardsChannel";
 
 export const CardsContainer: FC<ICardsContainer> = (services) => {
 
@@ -131,7 +131,7 @@ export const CardsContainer: FC<ICardsContainer> = (services) => {
     const onDeleteItem = (cardID: number) => {
         const subscription = confirmDialogService.confirmationChannel.subscribe((isConfirm) => {
             if (isConfirm) {
-                cardsListService.deleteSingleCardChannel.next({cardID, cardsGroupID: location.state.cardsGroupID});
+                cardsListService.deleteSingleCardChannel.next(cardID);
             }
 
             confirmDialogService.openDialogChannel.next({
