@@ -1,6 +1,5 @@
-import React, {FC, useContext, useState} from 'react';
+import React, {FC, useCallback, useContext, useState} from 'react';
 
-import {ICard} from '../../common/types/ICard';
 import {CardsComponent} from './CardsComponent';
 import {useChannel} from '../../../MyTools/channel-conception/react-hooks/useChannel';
 import {useHistory, useLocation} from 'react-router';
@@ -14,20 +13,26 @@ import {AppContext} from '../../../App';
 import {ISortVariants} from "../../common/types/ISortVariants";
 import {ICardsContainer} from "./types/ICardsContainer";
 import {CardsContainerState} from "./types/CardsContainerState";
-import {onDeleteSelectedCards} from "./callbacks/onDeleteSelectedCards";
-import {onCopySelectedCards} from "./callbacks/onCopySelectedCards";
+import {onDeleteSelectedCards} from "./uiCallbacks/onDeleteSelectedCards";
+import {onCopySelectedCards} from "./uiCallbacks/onCopySelectedCards";
+import {onMovingSelectedCards} from "./uiCallbacks/onMovingSelectedCards";
+import {onSelectItem} from "./uiCallbacks/onSelectItem";
+import {onStartSelecting} from "./uiCallbacks/onStartSelecting";
+import {onOpenRepeater} from "./uiCallbacks/onOpenRepeater";
+import {onChangeSorting} from "./uiCallbacks/onChangeSorting";
+import {CallbackFactory} from "../../../MyTools/react-utils/CallbackFactory";
+import {onChangeSearchableText} from "./uiCallbacks/onChangeSearchableText";
+import {onCardsChannel} from "./channelsCallbacks/onCardsChannel";
 
-export const CardsContainer: FC<ICardsContainer> = (
-    {
-        cardsListService,
-        confirmDialogService,
-        selectionDialogService
-    }
-) => {
+export const CardsContainer: FC<ICardsContainer> = (services) => {
+
+    const {cardsListService, confirmDialogService} = services;
 
     const location = useLocation<INavigationState>();
 
     const history = useHistory();
+
+    const {setSubscription} = useUnsubscribe();
 
     const [state, setState] = useState<CardsContainerState>(
         {
@@ -44,14 +49,11 @@ export const CardsContainer: FC<ICardsContainer> = (
 
     const context = useContext<IAppContext>(AppContext);
 
-    useChannel(cardsListService.cardsChannel, (cards: ICard[]) => {
-        setState((prevState) => {
-            return {
-                ...prevState,
-                cards
-            }
-        });
-    });
+    const callbackSettings = {location, history, services, state, setState, context, setSubscription}
+
+    const callbackFactory = CallbackFactory(callbackSettings)
+
+    useChannel(cardsListService.cardsChannel, callbackFactory(onCardsChannel));
 
     useChannel(cardsListService.resetCardProgressChannel, (cards: ICardsGroup[]) => {
         cardsListService.cardsChannel.next(
@@ -126,8 +128,6 @@ export const CardsContainer: FC<ICardsContainer> = (
         })
     };
 
-    const {setSubscription} = useUnsubscribe();
-
     const onDeleteItem = (cardID: number) => {
         const subscription = confirmDialogService.confirmationChannel.subscribe((isConfirm) => {
             if (isConfirm) {
@@ -167,133 +167,21 @@ export const CardsContainer: FC<ICardsContainer> = (
         })
     };
 
-    const onChangeSearchableText = (searchableText: string) => {
+    const changeSearchableText = useCallback(callbackFactory(onChangeSearchableText), [state.filter]);
+    const changeSorting = useCallback(callbackFactory(onChangeSorting), [state.filter]);
+    const openRepeater = useCallback(callbackFactory(onOpenRepeater), []);
 
-        const newFilter = {
-            ...state.filter,
-            searchableText: searchableText
-        }
-
-        setState({
-            ...state,
-            filter: newFilter
-        })
-
-        cardsListService.cardsChannel.next({
-            cardsGroupID: location.state.cardsGroupID,
-            filter: newFilter
-        })
-    };
-
-    const onChangeSorting = (sortVariant: ISortVariants) => {
-
-        const newFilter = {
-            ...state.filter,
-            sort: sortVariant
-        }
-
-        setState({
-            ...state,
-            filter: newFilter
-        })
-
-        cardsListService.cardsChannel.next({
-            cardsGroupID: location.state.cardsGroupID,
-            filter: newFilter
-        })
-    };
-
-    const onOpenRepeater = () => {
-        history.push({
-            pathname: Routs.cardsRepeater.path,
-            state: location.state
-        })
-    };
-
-    const onStartSelecting = () => {
-        setState({
-            ...state,
-            isEnabledSelecting: !state.isEnabledSelecting,
-            selectedItems: !state.isEnabledSelecting ? {} : state.selectedItems
-        })
-    }
-
-    const onSelectItem = (cardID: number) => {
-        const selectedItems = {
-            ...state.selectedItems
-        };
-
-        if (selectedItems[cardID]) {
-            selectedItems[cardID] = !selectedItems[cardID]
-        } else {
-            selectedItems[cardID] = true
-        }
-
-        setState({
-            ...state,
-            selectedItems
-        })
-    }
-
-    const onMovingSelectedCards = () => {
-        const subscription = selectionDialogService.selectionChannel.subscribe((groupID) => {
-
-            const subscription = confirmDialogService.confirmationChannel.subscribe((isConfirm) => {
-                if (isConfirm) {
-                    cardsListService.movingCardsChannel.next({
-                        selectedItems: state.selectedItems,
-                        destinationGroupID: groupID
-                    });
-
-                    selectionDialogService.openDialogChannel.next({
-                        isOpen: false,
-                        title: '',
-                        selectionItems: []
-                    });
-                }
-
-                confirmDialogService.openDialogChannel.next({
-                    isOpen: false,
-                    message: ''
-                })
-            });
-
-            setSubscription(subscription);
-
-            confirmDialogService.openDialogChannel.next({
-                isOpen: true,
-                message: 'Do you want to move this cards?'
-            });
-        });
-
-        setSubscription(subscription);
-
-        selectionDialogService.openDialogChannel.next({
-            isOpen: true,
-            title: 'Select cards group',
-            selectionItems: state.existedGroupsIDs
-        })
-    }
-
-    const copySelectedCards = () => onCopySelectedCards(
-        selectionDialogService,
-        confirmDialogService,
-        cardsListService,
-        state,
-        setSubscription
-    );
-
-    const deleteSelectedCards = () => onDeleteSelectedCards(
-        confirmDialogService,
-        cardsListService,
-        state,
-        setSubscription
-    );
+    const startSelecting = callbackFactory(onStartSelecting);
+    const multiSelectingDependencies = [state.isEnabledSelecting, state.selectedItems]
+    const selectItem = useCallback(callbackFactory(onSelectItem), multiSelectingDependencies);
+    const movingSelectedCards = useCallback(callbackFactory(onMovingSelectedCards), multiSelectingDependencies);
+    const copySelectedCards = useCallback(callbackFactory(onCopySelectedCards), multiSelectingDependencies);
+    const deleteSelectedCards = useCallback(callbackFactory(onDeleteSelectedCards), multiSelectingDependencies)
 
     return <CardsComponent
         filter={state.filter}
-        onChangeSorting={onChangeSorting}
-        onChangeSearchableText={onChangeSearchableText}
+        onChangeSorting={changeSorting}
+        onChangeSearchableText={changeSearchableText}
         cards={state.cards}
         onOpenEditor={onOpenEditor}
         onEditItem={onEditItem}
@@ -302,12 +190,12 @@ export const CardsContainer: FC<ICardsContainer> = (
         onClickItem={onClickItem}
         width={context.width}
         height={context.height}
-        onOpenRepeater={onOpenRepeater}
-        onStartSelecting={onStartSelecting}
+        onOpenRepeater={openRepeater}
+        onStartSelecting={startSelecting}
         isEnabledSelecting={state.isEnabledSelecting}
-        onSelectItem={onSelectItem}
+        onSelectItem={selectItem}
         selectedItems={state.selectedItems}
-        onMovingSelectedCards={onMovingSelectedCards}
+        onMovingSelectedCards={movingSelectedCards}
         onDeleteSelectedCards={deleteSelectedCards}
         onCopySelectedCards={copySelectedCards}
     />
