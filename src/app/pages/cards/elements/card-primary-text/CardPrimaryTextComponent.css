@@ -1,0 +1,14 @@
+.card-primary-text_title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-weight: bold;
+    margin: 0;
+}
+
+.card-primary-text_content {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin: 0;
+}

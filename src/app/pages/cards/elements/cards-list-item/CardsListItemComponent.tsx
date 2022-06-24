@@ -11,7 +11,7 @@ import {ICard} from '../../../../common/types/ICard';
 import {IRangeOfKnowledge} from '../../../../common/types/IRangeOfKnowledge';
 import {ListItemMenuComponent} from '../../../../common/elements/list-item-menu/ListItemMenuComponent';
 import {ICardListItemComponent} from "./types/ICardListItemComponent";
-import "./CardsListItemComponent.css";
+import {CardPrimaryTextComponent} from "../card-primary-text/CardPrimaryTextComponent";
 
 export const CardsListItemComponent: FC<ICardListItemComponent> = (
     {
@@ -25,6 +25,8 @@ export const CardsListItemComponent: FC<ICardListItemComponent> = (
         isSelected
     }
 ) => {
+
+    const dateText = 'Last repeating date: ' + format(card.dateRepeating ? card.dateRepeating : new Date(), DATE_FORMAT)
 
     const getIconColor = (card: ICard): string => {
         if (card.rangeOfKnowledge === IRangeOfKnowledge.DONE) {
@@ -41,10 +43,8 @@ export const CardsListItemComponent: FC<ICardListItemComponent> = (
             <FlagIcon style={{color: getIconColor(card)}}/>
         </ListItemIcon>
         <ListItemText
-            className="cards-list-item_card-name"
-            onClick={() => isEnabledSelecting ? onSelect(card.id) : onClickItem(card.id)}
-            primary={card.question}
-            secondary={'Last repeating date: ' + format(card.dateRepeating ? card.dateRepeating : new Date(), DATE_FORMAT)}
+            primary={<CardPrimaryTextComponent card={card}/>}
+            secondary={dateText}
         />
         {
             !isEnabledSelecting ?

@@ -1,5 +1,0 @@
-.cards-list-item_card-name span {
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-}

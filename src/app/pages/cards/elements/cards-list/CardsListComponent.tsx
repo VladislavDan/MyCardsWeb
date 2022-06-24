@@ -22,7 +22,7 @@ export const CardsListComponent: FC<ICardsListComponent> = (
     return <List
         className="cards"
         itemData={cards}
-        itemSize={55}
+        itemSize={75}
         itemCount={cards.length}
         overscanCount={5}
         height={height}
