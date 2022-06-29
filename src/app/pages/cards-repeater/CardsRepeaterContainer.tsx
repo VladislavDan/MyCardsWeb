@@ -20,6 +20,7 @@ import {ICardRepeaterContainer} from "./types/ICardRepeaterContainer";
 import {CardRepeaterContainerState} from "./types/CardRepeaterContainerState";
 import {onDeleteCard} from "./ui-callbacks/onDeleteCard";
 import {onDeleteSingleCardChannel} from "./channels-callbacks/onDeleteSingleCardChannel";
+import {onCardGroupNameChannel} from "./channels-callbacks/onCardGroupNameChannel";
 
 export const CardRepeaterContainer: FC<ICardRepeaterContainer> = (
     services
@@ -58,8 +59,10 @@ export const CardRepeaterContainer: FC<ICardRepeaterContainer> = (
     const callbackFactory = CallbackFactory(callbackSettings)
 
     useChannel(cardsRepeaterService.deleteSingleCardChannel, callbackFactory(onDeleteSingleCardChannel))
+    useChannel(cardsRepeaterService.cardGroupNameChannel, callbackFactory(onCardGroupNameChannel))
 
     useChannel<number, ICard>(cardsRepeaterService.cardChannel, (card: ICard) => {
+        cardsRepeaterService.cardGroupNameChannel.next(card.id)
         setState({
             card: card,
             isQuestionSide: true,

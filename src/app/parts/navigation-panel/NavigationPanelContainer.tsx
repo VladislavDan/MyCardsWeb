@@ -1,13 +1,18 @@
 import * as React from 'react';
-import {ReactEventHandler, SyntheticEvent, useState} from 'react';
+import {FC, ReactEventHandler, SyntheticEvent, useState} from 'react';
 
-import {navigationPanelService} from './NavigationPanelService';
 import {NavigationPanelComponent} from './NavigationPanelComponent';
 import {useChannel} from '../../../MyTools/channel-conception/react-hooks/useChannel';
+import {INavigationPanelContainer} from "./types/INavigationPanelContainer";
+import {NavigationPanelState} from "./types/NavigationPanelState";
 
-export const NavigationPanelContainer = () => {
+export const NavigationPanelContainer: FC<INavigationPanelContainer> = (
+    {
+        navigationPanelService
+    }
+) => {
 
-    const [state, setState] = useState<INavigationPanelState>({
+    const [state, setState] = useState<NavigationPanelState>({
         isOpen: false
     });
 
@@ -27,7 +32,3 @@ export const NavigationPanelContainer = () => {
         <NavigationPanelComponent isOpen={state.isOpen} toggleDrawer={toggleDrawer}/>
     )
 };
-
-interface INavigationPanelState {
-    isOpen: boolean;
-}

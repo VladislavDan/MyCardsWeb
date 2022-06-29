@@ -19,6 +19,7 @@ import {onDeleteCard} from "./ui-callbacks/onDeleteCard";
 import {useUnsubscribe} from "../../../MyTools/react-hooks/useUnsubscribe";
 import {IRangeOfKnowledge} from "../../common/types/IRangeOfKnowledge";
 import {onDeleteSingleCardChannel} from "./channels-callbacks/onDeleteSingleCardChannel";
+import {onCardGroupNameChannel} from "./channels-callbacks/onCardGroupNameChannel";
 
 export const CardViewerContainer: FC<ICardViewerContainer> = (services) => {
 
@@ -47,8 +48,10 @@ export const CardViewerContainer: FC<ICardViewerContainer> = (services) => {
     const callbackFactory = CallbackFactory(callbackSettings)
 
     useChannel(cardViewerService.deleteSingleCardChannel, callbackFactory(onDeleteSingleCardChannel))
+    useChannel(cardViewerService.cardGroupNameChannel, callbackFactory(onCardGroupNameChannel))
 
     useChannel<number, ICard>(cardViewerService.cardChannel, (card: ICard) => {
+        cardViewerService.cardGroupNameChannel.next(card.id)
         setState((prevState) => {
             return {
                 ...prevState,

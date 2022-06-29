@@ -1,13 +1,20 @@
-import {Routs} from '../../common/Routs';
+import {of} from "rxjs";
 
-class ToolbarService {
+import {Routs} from '../../common/Routs';
+import {Channel} from "../../../MyTools/channel-conception/Channel";
+
+export class ToolbarService {
+
+    public toolbarExternalLabelChannel: Channel<string, string> = new Channel(
+        (name: string) => of(name)
+    )
 
     public getPageLabel(path: string) {
-        if(path === Routs.googleAuth.path) {
+        if (path === Routs.googleAuth.path) {
             return Routs.googleAuth.name;
         }
 
-        if(path === Routs.googleBackups.path) {
+        if (path === Routs.googleBackups.path) {
             return Routs.googleBackups.name;
         }
 
@@ -32,11 +39,9 @@ class ToolbarService {
         }
 
         if(path === Routs.cardViewer.path) {
-            return Routs.settings.name;
+            return Routs.cardViewer.name;
         }
 
         return 'My Cards'
     }
 }
-
-export const toolbarManager = new ToolbarService();

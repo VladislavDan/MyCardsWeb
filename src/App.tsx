@@ -27,14 +27,18 @@ import {SettingsService} from './app/pages/settings/SettingsService';
 import {CardViewerService} from "./app/pages/card-viewer/CardViewerService";
 import {SelectionDialogContainer} from "./app/parts/selection-dialog/SelectionDialogContainer";
 import {SelectionDialogService} from "./app/parts/selection-dialog/SelectionDialogService";
+import {NavigationPanelService} from "./app/parts/navigation-panel/NavigationPanelService";
+import {ToolbarService} from "./app/parts/toolbar/ToolbarService";
 
 export const AppContext = React.createContext<IAppContext>(defaultAppState);
 
 const errorService = new ErrorService();
 const spinnerService = new SpinnerService();
 
-const confirmDialogService= new ConfirmDialogService();
+const confirmDialogService = new ConfirmDialogService();
 const selectionDialogService = new SelectionDialogService();
+const navigationPanelService = new NavigationPanelService();
+const toolbarService = new ToolbarService();
 
 const dataBaseService = new DataBaseService(STORE_NAME);
 const storageService = new StorageService(dataBaseService);
@@ -69,9 +73,12 @@ function App() {
 
                         <ErrorContainer errorService={errorService}/>
 
-                        <ToolbarContainer/>
+                        <ToolbarContainer
+                            toolbarService={toolbarService}
+                            navigationPanelService={navigationPanelService}
+                        />
 
-                        <NavigationPanelContainer/>
+                        <NavigationPanelContainer navigationPanelService={navigationPanelService}/>
 
                         <ConfirmDialogContainer confirmDialogService={confirmDialogService}/>
 
@@ -80,6 +87,7 @@ function App() {
                         <div className="page-container" style={{height: appState.height - 110, width: appState.width}}>
                             <SpinnerContainer spinnerService={spinnerService}/>
                             <NavigationContainer
+                                toolbarService={toolbarService}
                                 cardsGroupsListService={cardsGroupsListService}
                                 cardsGroupsEditorService={cardsGroupsEditorService}
                                 googleAuthService={googleAuthService}

@@ -9,9 +9,11 @@ import {changeRangeOfKnowledge} from '../../common/logic/changeRangeOfKnowledge'
 import {getCardForViewing} from "./logic/getCardForViewing";
 import {refreshCardRepeatingDate} from "../../common/logic/refreshCardRepeatingDate";
 import {deleteSingleCard} from "../../common/logic/deleteSingleCard";
+import {getCardGroupName} from "./logic/getCardGroupName";
 
 export class CardViewerService {
     public cardChannel: Channel<number, ICard>;
+    public cardGroupNameChannel: Channel<number, string>;
     public repeatingResultChannel: Channel<IRepeatingArgs, ICardsGroup[]>;
     public deleteSingleCardChannel: Channel<number, ICardsGroup[]>;
 
@@ -34,5 +36,12 @@ export class CardViewerService {
                     storageService.setBackup(cardsGroups);
                 }))
         );
+        this.cardGroupNameChannel = new Channel<number, string>(
+            (cardID) => storageService.getBackup().pipe(
+                map((cardsGroups: ICardsGroup[]) => {
+                    return getCardGroupName(cardsGroups, cardID);
+                })
+            )
+        )
     }
 }

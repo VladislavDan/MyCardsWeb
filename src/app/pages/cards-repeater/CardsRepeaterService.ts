@@ -16,6 +16,7 @@ import {shuffleCards} from './logic/shuffleCards';
 import {getFirstCard} from './logic/getFirstCard';
 import {refreshCardRepeatingDate} from "../../common/logic/refreshCardRepeatingDate";
 import {deleteSingleCard} from "../../common/logic/deleteSingleCard";
+import {getCardGroupName} from "../card-viewer/logic/getCardGroupName";
 
 export class CardsRepeaterService {
     public currentCardChannel: Channel<number | null, ICard | null>;
@@ -23,6 +24,7 @@ export class CardsRepeaterService {
     public repeatingResultChannel: Channel<IRepeatingArgs, ICardsGroup[]>;
     public statisticChannel: Channel<string, IStatistic>;
     public deleteSingleCardChannel: Channel<number, ICardsGroup[]>;
+    public cardGroupNameChannel: Channel<number, string>;
 
     private statisticValue = {
         inProgress: 0,
@@ -74,5 +76,12 @@ export class CardsRepeaterService {
                     storageService.setBackup(cardsGroups);
                 }))
         );
+        this.cardGroupNameChannel = new Channel<number, string>(
+            (cardID) => storageService.getBackup().pipe(
+                map((cardsGroups: ICardsGroup[]) => {
+                    return getCardGroupName(cardsGroups, cardID);
+                })
+            )
+        )
     }
 }

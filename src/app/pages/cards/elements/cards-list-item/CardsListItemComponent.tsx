@@ -43,6 +43,7 @@ export const CardsListItemComponent: FC<ICardListItemComponent> = (
             <FlagIcon style={{color: getIconColor(card)}}/>
         </ListItemIcon>
         <ListItemText
+            onClick={() => onClickItem(card.id)}
             primary={<CardPrimaryTextComponent card={card}/>}
             secondary={dateText}
         />
