@@ -1,4 +1,4 @@
-import {Observable, of} from 'rxjs';
+import {from, mergeMap, Observable, of} from 'rxjs';
 import {map, switchMap, tap} from 'rxjs/operators';
 import {ajax, AjaxResponse} from 'rxjs/ajax';
 
@@ -7,6 +7,7 @@ import {IGoogleDriveFile} from '../../common/types/IGoogleDriveFile';
 import {ICardsGroup} from '../../common/types/ICardsGroup';
 import {Channel} from '../../../MyTools/channel-conception/Channel';
 import {formatCreatedDate} from './logic/formatCreatedDate';
+import {getBackupFolder} from "./logic/getBackupFolder";
 
 export class GoogleBackupsService {
 
@@ -19,19 +20,18 @@ export class GoogleBackupsService {
     private backupFolderName = 'my-cards';
     private googleDriveFilesAPI = 'https://www.googleapis.com/drive/v3/files/';
     private googleDriveUploadAPI = "https://www.googleapis.com/upload/drive/v3/files/";
-    private searchFilesURI = this.googleDriveFilesAPI + '?fields=files(id,createdTime)&q=name%20contains%20';
-    private searchFolderURI = this.googleDriveFilesAPI + '?q=name%20contains%20';
     private getFilesAdditionalPartURI = '?alt=media';
-    private googleDriveFolderType = 'application/vnd.google-apps.folder';
 
     constructor(private storageService: StorageService) {
 
-        this.backupsNameLoadChannel = new Channel(() => of('').pipe(
-            switchMap(() => storageService.getAuthToken()),
-            switchMap(
-                (authToken: string): Observable<IGoogleDriveFile[]> => this.getBackupFiles(authToken)
-            ),
-            map((googleDriveFiles: IGoogleDriveFile[]) => formatCreatedDate(googleDriveFiles))
+        this.backupsNameLoadChannel = new Channel(() => storageService.getAuthToken().pipe(
+            mergeMap((authToken: string) => of(authToken).pipe(
+                switchMap(() => from(getBackupFolder(authToken))),
+                switchMap(
+                    (folder: IGoogleDriveFile | null) => this.getBackupFiles(authToken, folder)
+                ),
+                map((googleDriveFiles: IGoogleDriveFile[]) => formatCreatedDate(googleDriveFiles))
+            ))
         ));
 
         this.backupLoadChannel = new Channel((backupID: string) => of('').pipe(
@@ -52,18 +52,11 @@ export class GoogleBackupsService {
     }
 
     public createNewBackup(authToken: string): Observable<string> {
-        return this.getBackupFolder(authToken)
+        return from(getBackupFolder(authToken))
             .pipe(
-                switchMap((folders: IGoogleDriveFile[]) => {
-                    if (folders) {
-                        let foundedFolder = folders.find((file) => {
-                            return file.mimeType === this.googleDriveFolderType
-                        });
-                        if (foundedFolder) {
-                            return of(foundedFolder.id);
-                        } else {
-                            return this.createBackupFolder(authToken);
-                        }
+                switchMap((folder: IGoogleDriveFile | null) => {
+                    if (folder) {
+                        return of(folder.id);
                     } else {
                         return this.createBackupFolder(authToken);
                     }
@@ -86,17 +79,18 @@ export class GoogleBackupsService {
             );
     }
 
-    public getBackupFiles(token: string): Observable<IGoogleDriveFile[]> {
-        return ajax<{files: IGoogleDriveFile[]}>(
+    public getBackupFiles(token: string, folder: IGoogleDriveFile | null): Observable<IGoogleDriveFile[]> {
+        return ajax<{ files: IGoogleDriveFile[] }>(
             {
-                url: `${this.searchFilesURI}'${this.backupFileName}'`,
+                url: `${this.googleDriveFilesAPI}?q="${folder ? folder.id : -1}"+in+parents&fields=files(id,createdTime,name)`,
                 headers: {
                     'Authorization': 'Bearer ' + token
                 },
                 method: 'GET'
             }
         ).pipe(
-            map((result: AjaxResponse<{files: IGoogleDriveFile[]}>) => {
+            map((result: AjaxResponse<{ files: IGoogleDriveFile[] }>) => {
+                console.log(result)
                 return result.response.files;
             })
         );
@@ -120,23 +114,6 @@ export class GoogleBackupsService {
         );
     }
 
-
-    public getBackupFolder(token: string): Observable<IGoogleDriveFile[]> {
-        return ajax<{files:IGoogleDriveFile[]}>(
-            {
-                url: `${this.searchFolderURI}'${this.backupFolderName}'`,
-                headers: {
-                    'Authorization': 'Bearer ' + token
-                },
-                method: 'GET'
-            }
-        ).pipe(
-            map((result: AjaxResponse<{files:IGoogleDriveFile[]}>) => {
-                return result.response.files;
-            })
-        );
-    }
-
     public deleteBackupFile(fileId: string): Observable<AjaxResponse<string>> {
         return this.storageService.getAuthToken().pipe(
             switchMap((authToken: string) => ajax<string>(
@@ -153,7 +130,7 @@ export class GoogleBackupsService {
     }
 
     public createNewBackupFile(token: string, id: string): Observable<string> {
-        return ajax<{id:string}>(
+        return ajax<{ id: string }>(
             {
                 url: this.googleDriveFilesAPI,
                 headers: {
@@ -167,14 +144,14 @@ export class GoogleBackupsService {
                 method: 'POST'
             }
         ).pipe(
-            map((result: AjaxResponse<{id:string}>) => {
+            map((result: AjaxResponse<{ id: string }>) => {
                 return result.response.id;
             })
         );
     }
 
     public createBackupFolder(token: string): Observable<string> {
-        return ajax<{id:string}>(
+        return ajax<{ id: string }>(
             {
                 url: this.googleDriveFilesAPI,
                 headers: {
@@ -188,7 +165,7 @@ export class GoogleBackupsService {
                 method: 'POST'
             }
         ).pipe(
-            map((result: AjaxResponse<{id:string}>) => {
+            map((result: AjaxResponse<{ id: string }>) => {
                 return result.response.id;
             })
         );

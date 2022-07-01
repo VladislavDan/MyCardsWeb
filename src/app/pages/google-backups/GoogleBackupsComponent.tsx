@@ -16,7 +16,8 @@ export const GoogleBackupsComponent: FC<IBackupsListComponent> = ({backupsFiles,
                     backupsFiles.map((backup: IGoogleDriveFile) => {
                         return <BackupsListItemComponent
                             key={backup.id}
-                            backupName={backup.createdTime}
+                            backupName={backup.name}
+                            backupDate={backup.createdTime}
                             onLoad={onLoad}
                             onDelete={onDelete}
                             backupID={backup.id}/>

@@ -29,6 +29,7 @@ import {SelectionDialogContainer} from "./app/parts/selection-dialog/SelectionDi
 import {SelectionDialogService} from "./app/parts/selection-dialog/SelectionDialogService";
 import {NavigationPanelService} from "./app/parts/navigation-panel/NavigationPanelService";
 import {ToolbarService} from "./app/parts/toolbar/ToolbarService";
+import {Channel} from "./MyTools/channel-conception/Channel";
 
 export const AppContext = React.createContext<IAppContext>(defaultAppState);
 
@@ -49,9 +50,13 @@ const googleBackupsService = new GoogleBackupsService(storageService);
 const cardsEditorService = new CardsEditorService(storageService);
 const cardsListService = new CardsService(storageService);
 const cardsRepeaterService = new CardsRepeaterService(storageService);
-const localBackupsService = new  LocalBackupsService(storageService);
+const localBackupsService = new LocalBackupsService(storageService);
 const settingService = new SettingsService(storageService);
 const cardViewerService = new CardViewerService(storageService);
+
+Channel.setGlobalErrorHandler((error) => {
+    console.error(error);
+})
 
 function App() {
 

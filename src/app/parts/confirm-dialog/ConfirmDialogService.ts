@@ -1,8 +1,8 @@
 import {of} from 'rxjs';
 import {tap} from 'rxjs/operators';
 
-import {ConfirmDialogContainerState} from './ConfirmDialogContainer';
 import {Channel} from '../../../MyTools/channel-conception/Channel';
+import {ConfirmDialogContainerState} from "./types/ConfirmDialogContainerState";
 
 export class ConfirmDialogService {
 
