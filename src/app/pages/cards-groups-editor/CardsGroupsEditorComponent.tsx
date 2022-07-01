@@ -1,9 +1,13 @@
 import * as React from 'react';
 import {ChangeEvent, FC} from 'react';
 import {Button, TextField} from '@mui/material';
-import './CardsGroupsEditorComponent.css'
 
-export const CardsGroupsEditorComponent: FC<ICardsGroupsEditorComponent> = ({groupName, onChangeGroupName, onSaveGroup}) => {
+import './CardsGroupsEditorComponent.css'
+import {ICardsGroupsEditorComponent} from "./types/ICardsGroupsEditorComponent";
+
+export const CardsGroupsEditorComponent: FC<ICardsGroupsEditorComponent> = (
+    {groupName, onChangeGroupName, onSaveGroup}
+) => {
 
     const onChange = (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
         onChangeGroupName(event.target.value);
@@ -24,9 +28,3 @@ export const CardsGroupsEditorComponent: FC<ICardsGroupsEditorComponent> = ({gro
         </Button>
     </div>
 };
-
-interface ICardsGroupsEditorComponent {
-    groupName: string;
-    onChangeGroupName: (groupName: string) => void;
-    onSaveGroup: () => void;
-}

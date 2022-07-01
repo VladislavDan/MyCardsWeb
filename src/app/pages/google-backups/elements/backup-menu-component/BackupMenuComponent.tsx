@@ -2,6 +2,8 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import {IconButton, Menu, MenuItem} from '@mui/material';
 import {default as React, FC} from 'react';
 
+import {IBackupMenuComponent} from "./types/IBackupMenuComponent";
+
 
 export const BackupMenuComponent: FC<IBackupMenuComponent> = ({backupID, onLoad, onDelete}) => {
 
@@ -43,9 +45,3 @@ export const BackupMenuComponent: FC<IBackupMenuComponent> = ({backupID, onLoad,
         </>
     )
 };
-
-interface IBackupMenuComponent {
-    backupID: string;
-    onLoad: (backupID: string)=>void;
-    onDelete: (backupID: string)=>void;
-}

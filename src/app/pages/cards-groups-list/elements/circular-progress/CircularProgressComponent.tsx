@@ -3,6 +3,8 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 
+import {ICircularProgressComponent} from "./types/ICircularProgressComponent";
+
 export const CircularProgressComponent: FC<ICircularProgressComponent> = ({percent}) => {
     return (
         <Box position="relative" display="inline-flex">
@@ -24,7 +26,3 @@ export const CircularProgressComponent: FC<ICircularProgressComponent> = ({perce
         </Box>
     );
 };
-
-interface ICircularProgressComponent {
-    percent: number
-}

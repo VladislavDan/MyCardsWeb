@@ -1,11 +1,13 @@
 import * as React from 'react';
 import {FC} from 'react';
 import {Button, MenuItem, Select, SelectChangeEvent} from '@mui/material';
+
 import './CardsEditorComponent.css'
 import {ISimplifiedCardsGroup} from '../../common/types/ISimplifiedCardsGroup';
 import {TextEditorComponent} from '../../common/elements/text-editor/TextEditorComponent';
+import {ICardsEditorComponent} from "./types/ICardsEditorComponent";
 
-export const CardsEditorComponent: FC<ICardsGroupsEditorComponent> = (
+export const CardsEditorComponent: FC<ICardsEditorComponent> = (
     {
         answer,
         question,
@@ -48,14 +50,3 @@ export const CardsEditorComponent: FC<ICardsGroupsEditorComponent> = (
         </Button>
     </div>
 };
-
-interface ICardsGroupsEditorComponent {
-    answer: string;
-    question: string;
-    onChangeAnswer: (answer: string) => void;
-    onChangeQuestion: (question: string) => void;
-    onSaveCard: () => void;
-    currentCardsGroup: ISimplifiedCardsGroup;
-    cardsGroups: ISimplifiedCardsGroup[];
-    onChangeCardsGroup: (cardsGroupID: number) => void;
-}

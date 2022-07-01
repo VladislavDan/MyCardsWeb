@@ -3,21 +3,22 @@ import {FC, useState} from 'react';
 import {useHistory, useLocation} from 'react-router';
 
 import {useChannel} from '../../../MyTools/channel-conception/react-hooks/useChannel';
-import {CardsEditorService} from './CardsEditorService';
 import {CardsEditorComponent} from './CardsEditorComponent';
 import {INavigationState} from '../../common/types/INavigationState';
 import {useConstructor} from '../../../MyTools/react-hooks/useConstructor';
 import {ICard} from '../../common/types/ICard';
 import {ISimplifiedCardsGroup} from '../../common/types/ISimplifiedCardsGroup';
 import {initDefaultCard} from "../../common/logic/initDefaultCard";
+import {ICardsEditorContainer} from "./types/ICardsEditorContainer";
+import {CardsEditorState} from "./types/CardsEditorState";
 
-export const CardsEditorContainer: FC<ICardsGroupsEditorContainer> = ({cardsEditorService}) => {
+export const CardsEditorContainer: FC<ICardsEditorContainer> = ({cardsEditorService}) => {
 
     const location = useLocation<INavigationState>();
 
     const history = useHistory();
 
-    const [state, setState] = useState<CardsGroupsEditorState>({
+    const [state, setState] = useState<CardsEditorState>({
         card: initDefaultCard(),
         currentCardsGroup: {
             id: 0,
@@ -107,13 +108,3 @@ export const CardsEditorContainer: FC<ICardsGroupsEditorContainer> = ({cardsEdit
         onChangeCardsGroup={onChangeCardsGroup}
     />
 };
-
-interface CardsGroupsEditorState {
-    card: ICard;
-    currentCardsGroup: ISimplifiedCardsGroup;
-    cardsGroups: ISimplifiedCardsGroup[];
-}
-
-interface ICardsGroupsEditorContainer {
-    cardsEditorService: CardsEditorService
-}

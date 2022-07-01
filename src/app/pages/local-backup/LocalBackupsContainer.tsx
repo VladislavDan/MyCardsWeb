@@ -2,11 +2,9 @@ import * as React from 'react';
 import {FC, useRef} from 'react';
 
 import {useChannel} from '../../../MyTools/channel-conception/react-hooks/useChannel';
-import {LocalBackupsService} from './LocalBackupsService';
 import {Button} from '@mui/material';
 import {useUnsubscribe} from '../../../MyTools/react-hooks/useUnsubscribe';
-import {ConfirmDialogService} from '../../parts/confirm-dialog/ConfirmDialogService';
-import {SpinnerService} from '../../parts/spinner/SpinnerService';
+import {ILocalBackupsContainer} from "./types/ILocalBackupsContainer";
 
 export const LocalBackupsContainer: FC<ILocalBackupsContainer> = ({localBackupsService, confirmDialogService, spinnerService}) => {
 
@@ -63,9 +61,3 @@ export const LocalBackupsContainer: FC<ILocalBackupsContainer> = ({localBackupsS
         </Button>
     </>
 };
-
-interface ILocalBackupsContainer {
-    localBackupsService: LocalBackupsService;
-    confirmDialogService: ConfirmDialogService;
-    spinnerService: SpinnerService;
-}

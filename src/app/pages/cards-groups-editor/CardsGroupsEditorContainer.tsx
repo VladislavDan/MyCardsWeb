@@ -4,12 +4,15 @@ import {useHistory, useLocation} from 'react-router';
 
 import {useChannel} from '../../../MyTools/channel-conception/react-hooks/useChannel';
 import {ICardsGroup} from '../../common/types/ICardsGroup';
-import {CardsGroupsEditorService} from './CardsGroupsEditorService';
 import {CardsGroupsEditorComponent} from './CardsGroupsEditorComponent';
 import {INavigationState} from '../../common/types/INavigationState';
 import {useConstructor} from '../../../MyTools/react-hooks/useConstructor';
+import {ICardsGroupsEditorContainer} from "./types/ICardsGroupsEditorContainer";
+import {CardsGroupsEditorState} from "./types/CardsGroupsEditorState";
 
-export const CardsGroupsEditorContainer: FC<ICardsGroupsEditorContainer> = ({cardsGroupsEditorService}) => {
+export const CardsGroupsEditorContainer: FC<ICardsGroupsEditorContainer> = (
+    {cardsGroupsEditorService}
+) => {
 
     const location = useLocation<INavigationState>();
 
@@ -59,11 +62,3 @@ export const CardsGroupsEditorContainer: FC<ICardsGroupsEditorContainer> = ({car
         onSaveGroup={onSaveGroup}
     />
 };
-
-interface CardsGroupsEditorState {
-    cardsGroup: ICardsGroup
-}
-
-interface ICardsGroupsEditorContainer {
-    cardsGroupsEditorService: CardsGroupsEditorService
-}

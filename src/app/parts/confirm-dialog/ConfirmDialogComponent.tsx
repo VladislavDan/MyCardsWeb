@@ -6,7 +6,15 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
-export const ConfirmDialogComponent: FC<IConfirmDialogComponent> = ({onClickAgree, onClickDisagree, isOpen, message, onClose}) => {
+import {IConfirmDialogComponent} from "./types/IConfirmDialogComponent";
+
+export const ConfirmDialogComponent: FC<IConfirmDialogComponent> = ({
+                                                                        onClickAgree,
+                                                                        onClickDisagree,
+                                                                        isOpen,
+                                                                        message,
+                                                                        onClose
+                                                                    }) => {
 
     return (
         <div>
@@ -34,11 +42,3 @@ export const ConfirmDialogComponent: FC<IConfirmDialogComponent> = ({onClickAgre
         </div>
     );
 };
-
-interface IConfirmDialogComponent {
-    onClickAgree: () => void;
-    onClickDisagree: () => void;
-    onClose: () => void;
-    isOpen: boolean;
-    message: string;
-}

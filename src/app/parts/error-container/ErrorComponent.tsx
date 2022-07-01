@@ -1,6 +1,7 @@
 import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} from '@mui/material';
 import * as React from 'react';
 import {FC} from 'react';
+import {IErrorComponent} from "./types/IErrorComponent";
 
 export const ErrorComponent: FC<IErrorComponent> = ({isOpen, errorMessage, handleClose}) => {
 
@@ -25,9 +26,3 @@ export const ErrorComponent: FC<IErrorComponent> = ({isOpen, errorMessage, handl
         </Dialog>
     );
 };
-
-interface IErrorComponent {
-    isOpen: boolean;
-    errorMessage: string;
-    handleClose: () => void;
-}

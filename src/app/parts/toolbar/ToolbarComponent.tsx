@@ -1,8 +1,9 @@
-import {FC, MouseEventHandler} from 'react';
+import {FC} from 'react';
 import {AppBar, IconButton, Toolbar, Typography} from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 
 import './ToolbarComponent.css'
+import {IToolbarComponent} from "./types/IToolbarComponent";
 
 export const ToolbarComponent: FC<IToolbarComponent> = ({pageLabel, onClick}) => {
 
@@ -20,8 +21,3 @@ export const ToolbarComponent: FC<IToolbarComponent> = ({pageLabel, onClick}) =>
         </AppBar>
     )
 };
-
-interface IToolbarComponent {
-    pageLabel: string;
-    onClick: MouseEventHandler
-}

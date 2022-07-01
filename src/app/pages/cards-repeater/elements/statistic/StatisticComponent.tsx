@@ -1,7 +1,7 @@
 import React, {FC} from 'react';
 
 import {Button} from '@mui/material';
-import {IStatistic} from '../../../../common/types/IStatistic';
+import {IRepeatingStatisticComponent} from "./types/IRepeatingStatisticComponent";
 
 export const StatisticComponent: FC<IRepeatingStatisticComponent> = ({statistic}) => {
 
@@ -17,7 +17,3 @@ export const StatisticComponent: FC<IRepeatingStatisticComponent> = ({statistic}
         </Button>
     </div>
 };
-
-interface IRepeatingStatisticComponent {
-    statistic: IStatistic
-}

@@ -1,7 +1,8 @@
-import GoogleLogin, {GoogleLoginResponse, GoogleLoginResponseOffline} from 'react-google-login';
+import GoogleLogin from 'react-google-login';
 import * as React from 'react';
 import {FC} from 'react';
 import './GoogleAuthComponent.css'
+import {IGoogleAuthComponent} from "./types/IGoogleAuthComponent";
 
 export const GoogleAuthComponent: FC<IGoogleAuthComponent> = ({onSuccess, onFailure, height, width}) => {
     return (
@@ -17,10 +18,3 @@ export const GoogleAuthComponent: FC<IGoogleAuthComponent> = ({onSuccess, onFail
         </div>
     )
 };
-
-interface IGoogleAuthComponent {
-    onSuccess: (response: GoogleLoginResponse | GoogleLoginResponseOffline) => void
-    onFailure: (response: GoogleLoginResponse | GoogleLoginResponseOffline) => void
-    height: number,
-    width: number
-}

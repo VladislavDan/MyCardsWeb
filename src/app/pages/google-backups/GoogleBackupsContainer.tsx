@@ -2,17 +2,20 @@ import * as React from 'react';
 import {FC, useState} from 'react';
 
 import {useChannel} from '../../../MyTools/channel-conception/react-hooks/useChannel';
-import {GoogleBackupsService} from './GoogleBackupsService';
 import {IGoogleDriveFile} from '../../common/types/IGoogleDriveFile';
-import {BackupsListComponent} from './BackupsListComponent';
+import {GoogleBackupsComponent} from './GoogleBackupsComponent';
 import {useHistory} from 'react-router';
 import {Routs} from '../../common/Routs';
 import {useConstructor} from '../../../MyTools/react-hooks/useConstructor';
-import {SpinnerService} from '../../parts/spinner/SpinnerService';
 import {useUnsubscribe} from '../../../MyTools/react-hooks/useUnsubscribe';
-import {ConfirmDialogService} from '../../parts/confirm-dialog/ConfirmDialogService';
+import {IGoogleBackupsContainer} from "./types/IGoogleBackupsContainer";
+import {GoogleAuthComponentState} from "./types/GoogleAuthComponentState";
 
-export const GoogleBackupsContainer: FC<IGoogleBackupsContainer> = ({spinnerService, googleBackupsService, confirmDialogService}) => {
+export const GoogleBackupsContainer: FC<IGoogleBackupsContainer> = ({
+                                                                        spinnerService,
+                                                                        googleBackupsService,
+                                                                        confirmDialogService
+                                                                    }) => {
 
     const history = useHistory();
 
@@ -90,15 +93,10 @@ export const GoogleBackupsContainer: FC<IGoogleBackupsContainer> = ({spinnerServ
         googleBackupsService.backupUploadChannel.next();
     };
 
-    return <BackupsListComponent backupsFiles={state.backupsFiles} onLoad={onLoad} onDelete={onDelete} onCreate={onCreate}/>;
+    return <GoogleBackupsComponent
+        backupsFiles={state.backupsFiles}
+        onLoad={onLoad}
+        onDelete={onDelete}
+        onCreate={onCreate}
+    />;
 };
-
-interface IGoogleBackupsContainer {
-    spinnerService: SpinnerService;
-    googleBackupsService: GoogleBackupsService;
-    confirmDialogService: ConfirmDialogService;
-}
-
-interface GoogleAuthComponentState {
-    backupsFiles: IGoogleDriveFile[];
-}

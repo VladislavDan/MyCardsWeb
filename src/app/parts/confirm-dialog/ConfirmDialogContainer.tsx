@@ -3,7 +3,8 @@ import {FC} from 'react';
 
 import {ConfirmDialogComponent} from './ConfirmDialogComponent';
 import {useChannel} from '../../../MyTools/channel-conception/react-hooks/useChannel';
-import {ConfirmDialogService} from './ConfirmDialogService';
+import {IConfirmDialogContainer} from "./types/IConfirmDialogContainer";
+import {ConfirmDialogContainerState} from "./types/ConfirmDialogContainerState";
 
 export const ConfirmDialogContainer: FC<IConfirmDialogContainer> = ({confirmDialogService}) => {
 
@@ -40,12 +41,3 @@ export const ConfirmDialogContainer: FC<IConfirmDialogContainer> = ({confirmDial
         message={state.message}
     />
 };
-
-export interface IConfirmDialogContainer {
-    confirmDialogService: ConfirmDialogService;
-}
-
-export interface ConfirmDialogContainerState {
-    isOpen: boolean;
-    message: string;
-}

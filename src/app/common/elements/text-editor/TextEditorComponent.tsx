@@ -2,6 +2,7 @@ import {ChangeEvent, default as React, FC} from 'react';
 import {TextField} from '@mui/material';
 
 import './TextEditorComponent.css'
+import {ITextEditorComponent} from "./types/ITextEditorComponent";
 
 export const TextEditorComponent: FC<ITextEditorComponent> = ({onChangeText, changeableText, label}) => {
 
@@ -20,9 +21,3 @@ export const TextEditorComponent: FC<ITextEditorComponent> = ({onChangeText, cha
         variant="filled"
     />
 };
-
-interface ITextEditorComponent {
-    onChangeText: (answer: string) => void;
-    changeableText: string
-    label?: string
-}

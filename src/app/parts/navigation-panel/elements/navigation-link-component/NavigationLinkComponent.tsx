@@ -1,9 +1,15 @@
 import {Link} from 'react-router-dom';
 import {ListItem} from '@mui/material';
 import * as React from 'react';
-import {FC, ReactEventHandler} from 'react';
+import {FC} from 'react';
 
-export const NavigationLinkComponent: FC<INavigationLinkComponent> = ({path, name, toggleDrawer}: INavigationLinkComponent) => {
+import {INavigationLinkComponent} from "./types/INavigationLinkComponent";
+
+export const NavigationLinkComponent: FC<INavigationLinkComponent> = ({
+                                                                          path,
+                                                                          name,
+                                                                          toggleDrawer
+                                                                      }: INavigationLinkComponent) => {
 
     return (
         <ListItem button>
@@ -13,9 +19,3 @@ export const NavigationLinkComponent: FC<INavigationLinkComponent> = ({path, nam
         </ListItem>
     )
 };
-
-interface INavigationLinkComponent {
-    path: string;
-    name: string;
-    toggleDrawer: (isOpen: boolean) => ReactEventHandler
-}

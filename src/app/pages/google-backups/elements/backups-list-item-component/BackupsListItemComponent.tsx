@@ -2,6 +2,7 @@ import {default as React, FC} from 'react';
 import {ListItem, ListItemIcon, ListItemText} from '@mui/material';
 
 import {BackupMenuComponent} from '../backup-menu-component/BackupMenuComponent';
+import {IBackupsListItemComponent} from "./types/IBackupsListItemComponent";
 
 export const BackupsListItemComponent: FC<IBackupsListItemComponent> = ({backupName, backupID, onLoad, onDelete}) => {
 
@@ -16,10 +17,3 @@ export const BackupsListItemComponent: FC<IBackupsListItemComponent> = ({backupN
         </ListItem>
     );
 };
-
-interface IBackupsListItemComponent {
-    backupName: string;
-    backupID: string;
-    onLoad: (backupID: string)=>void;
-    onDelete: (backupID: string)=>void;
-}

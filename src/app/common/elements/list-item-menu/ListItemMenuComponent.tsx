@@ -2,6 +2,8 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import {IconButton, Menu, MenuItem} from '@mui/material';
 import {default as React, FC} from 'react';
 
+import {IListItemMenuComponent} from "./types/IListItemMenuComponent";
+
 export const ListItemMenuComponent: FC<IListItemMenuComponent> = ({onEdit, onDelete, onResetProgress}) => {
 
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -48,9 +50,3 @@ export const ListItemMenuComponent: FC<IListItemMenuComponent> = ({onEdit, onDel
         </>
     )
 };
-
-interface IListItemMenuComponent {
-    onEdit: () => void;
-    onDelete: () => void;
-    onResetProgress: () => void;
-}

@@ -9,8 +9,9 @@ import {
 } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {ChangeEvent, default as React, FC} from "react";
-import {IFilter} from "../../../../common/types/IFilter";
+
 import {ISortVariants} from "../../../../common/types/ISortVariants";
+import {IFilterComponent} from "./types/IFilterComponent";
 
 export const FilterComponent: FC<IFilterComponent> = (
     {
@@ -63,10 +64,4 @@ export const FilterComponent: FC<IFilterComponent> = (
             </Select>
         </AccordionDetails>
     </Accordion>
-}
-
-interface IFilterComponent {
-    onChangeSearchableText: (answer: string) => void;
-    onChangeSorting: (sortVariant: ISortVariants) => void;
-    filter: IFilter;
 }

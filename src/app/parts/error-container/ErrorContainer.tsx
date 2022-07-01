@@ -2,7 +2,8 @@ import React, {FC, useState} from 'react';
 
 import {useChannel} from '../../../MyTools/channel-conception/react-hooks/useChannel';
 import {ErrorComponent} from './ErrorComponent';
-import {ErrorService} from './ErrorService';
+import {IErrorContainer} from "./types/IErrorContainer";
+import {ErrorContainerState} from "./types/ErrorContainerState";
 
 export const ErrorContainer: FC<IErrorContainer> = ({errorService}) => {
 
@@ -24,12 +25,3 @@ export const ErrorContainer: FC<IErrorContainer> = ({errorService}) => {
 
     return <ErrorComponent isOpen={state.isOpen} errorMessage={state.errorMessage} handleClose={onClose}/>
 };
-
-interface IErrorContainer {
-    errorService: ErrorService;
-}
-
-interface ErrorContainerState {
-    isOpen: boolean;
-    errorMessage: string;
-}

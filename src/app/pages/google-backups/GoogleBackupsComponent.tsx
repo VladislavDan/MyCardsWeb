@@ -1,12 +1,14 @@
-import {IGoogleDriveFile} from '../../common/types/IGoogleDriveFile';
-import {BackupsListItemComponent} from './elements/backups-list-item-component/BackupsListItemComponent';
 import {List} from '@mui/material';
 import * as React from 'react';
 import {FC} from 'react';
+
+import {IGoogleDriveFile} from '../../common/types/IGoogleDriveFile';
+import {BackupsListItemComponent} from './elements/backups-list-item-component/BackupsListItemComponent';
 import {AddButtonComponent} from '../../common/elements/add-button/AddButtonComponent';
+import {IBackupsListComponent} from "../local-backup/types/IBackupsListComponent";
 
 
-export const BackupsListComponent: FC<IBackupsListComponent> = ({backupsFiles, onLoad, onCreate, onDelete}) => {
+export const GoogleBackupsComponent: FC<IBackupsListComponent> = ({backupsFiles, onLoad, onCreate, onDelete}) => {
     return (
         <>
             <List>
@@ -25,10 +27,3 @@ export const BackupsListComponent: FC<IBackupsListComponent> = ({backupsFiles, o
         </>
     )
 };
-
-interface IBackupsListComponent {
-    backupsFiles: IGoogleDriveFile[];
-    onLoad: (backupID: string) => void;
-    onCreate: () => void;
-    onDelete: (backupID: string) => void;
-}

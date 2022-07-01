@@ -5,11 +5,10 @@ import {useHistory} from 'react-router';
 
 import {Routs} from '../../common/Routs';
 import {useChannel} from '../../../MyTools/channel-conception/react-hooks/useChannel';
-import {GoogleAuthService} from './GoogleAuthService';
 import {GoogleAuthComponent} from './GoogleAuthComponent';
 import {IAppContext} from '../../common/types/IAppContext';
 import {AppContext} from '../../../App';
-import {ErrorService} from '../../parts/error-container/ErrorService';
+import {IGoogleAuthContainer} from "./types/IGoogleAuthContainer";
 
 export const GoogleAuthContainer: FC<IGoogleAuthContainer> = ({googleAuthService, errorService}) => {
 
@@ -36,8 +35,3 @@ export const GoogleAuthContainer: FC<IGoogleAuthContainer> = ({googleAuthService
         width={width}
     />;
 };
-
-interface IGoogleAuthContainer {
-    googleAuthService: GoogleAuthService;
-    errorService: ErrorService;
-}

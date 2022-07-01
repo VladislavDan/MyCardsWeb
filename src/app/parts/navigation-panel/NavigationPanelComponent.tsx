@@ -1,9 +1,10 @@
 import * as React from 'react';
-import {FC, ReactEventHandler} from 'react';
+import {FC} from 'react';
 import {List, SwipeableDrawer} from '@mui/material';
 
 import {Routs} from '../../common/Routs';
 import {NavigationLinkComponent} from './elements/navigation-link-component/NavigationLinkComponent';
+import {INavigationPanelComponent} from "./types/INavigationPanelComponent";
 
 export const NavigationPanelComponent: FC<INavigationPanelComponent> = ({isOpen, toggleDrawer}) => {
 
@@ -23,10 +24,5 @@ export const NavigationPanelComponent: FC<INavigationPanelComponent> = ({isOpen,
         </SwipeableDrawer>
     )
 };
-
-interface INavigationPanelComponent {
-    isOpen: boolean
-    toggleDrawer: (isOpen: boolean) => ReactEventHandler
-}
 
 

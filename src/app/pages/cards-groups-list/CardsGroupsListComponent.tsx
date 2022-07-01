@@ -1,10 +1,10 @@
 import React, {FC} from "react";
 import {FixedSizeList as List} from 'react-window';
 
-import {ICardsGroup} from '../../common/types/ICardsGroup';
 import './CardsGroupsListComponent.css'
 import {AddButtonComponent} from '../../common/elements/add-button/AddButtonComponent';
 import {CardsGroupsListItemComponent} from './elements/cards-groups-list-item/CardsGroupsListItemComponent';
+import {ICardsGroupsListComponent} from "./types/ICardsGroupsListComponent";
 
 export const CardsGroupsListComponent: FC<ICardsGroupsListComponent> = (
     {
@@ -44,14 +44,3 @@ export const CardsGroupsListComponent: FC<ICardsGroupsListComponent> = (
         <AddButtonComponent onClick={onOpenEditor}/>
     </>
 };
-
-interface ICardsGroupsListComponent {
-    cardsGroups: ICardsGroup[];
-    onClickItem: (id: number) => void;
-    onEditItem: (id: number) => void;
-    onDeleteItem: (id: number) => void;
-    onOpenEditor: () => void;
-    onResetProgress: (id: number) => void;
-    height: number;
-    width: number
-}

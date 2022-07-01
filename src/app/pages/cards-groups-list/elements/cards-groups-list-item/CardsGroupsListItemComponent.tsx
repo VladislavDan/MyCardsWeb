@@ -5,10 +5,10 @@ import ListItemIcon from '@mui/material/ListItemIcon/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText/ListItemText';
 
 import {DATE_FORMAT} from '../../../../common/Constants';
-import {ICardsGroup} from '../../../../common/types/ICardsGroup';
 import {CircularProgressComponent} from '../circular-progress/CircularProgressComponent';
 import {ListItemMenuComponent} from '../../../../common/elements/list-item-menu/ListItemMenuComponent';
 import './CardsGroupsListItemComponent.css'
+import {ICardsGroupsListItemComponent} from "./types/ICardsGroupsListItemComponent";
 
 export const CardsGroupsListItemComponent: FC<ICardsGroupsListItemComponent> = (
     {
@@ -41,11 +41,3 @@ export const CardsGroupsListItemComponent: FC<ICardsGroupsListItemComponent> = (
         </ListItem>
     </>
 };
-
-interface ICardsGroupsListItemComponent {
-    cardsGroup: ICardsGroup;
-    onClickItem: (id: number) => void;
-    onEditItem: (id: number) => void;
-    onDeleteItem: (id: number) => void;
-    onResetProgress: (id: number) => void;
-}

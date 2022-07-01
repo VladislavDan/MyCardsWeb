@@ -1,6 +1,7 @@
 import React, {FC} from 'react';
-
 import {Button} from '@mui/material';
+
+import {IAllCardsRepeatedComponent} from "./types/IAllCardsRepeatedComponent";
 
 export const AllCardsRepeatedComponent: FC<IAllCardsRepeatedComponent> = ({onBackClick}) => {
     return <>
@@ -10,7 +11,3 @@ export const AllCardsRepeatedComponent: FC<IAllCardsRepeatedComponent> = ({onBac
         </Button>
     </>
 };
-
-interface IAllCardsRepeatedComponent {
-    onBackClick: () => void;
-}

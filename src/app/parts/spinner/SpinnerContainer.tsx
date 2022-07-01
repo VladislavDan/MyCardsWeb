@@ -3,7 +3,7 @@ import {FC, useState} from 'react';
 
 import {SpinnerComponent} from './SpinnerComponent';
 import {useChannel} from '../../../MyTools/channel-conception/react-hooks/useChannel';
-import {SpinnerService} from './SpinnerService';
+import {ISpinnerContainer} from "./types/ISpinnerContainer";
 
 export const SpinnerContainer: FC<ISpinnerContainer> = ({spinnerService}) => {
 
@@ -15,7 +15,3 @@ export const SpinnerContainer: FC<ISpinnerContainer> = ({spinnerService}) => {
 
     return <SpinnerComponent isShow={isShow}/>
 };
-
-interface ISpinnerContainer {
-    spinnerService: SpinnerService;
-}
