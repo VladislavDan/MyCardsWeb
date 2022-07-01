@@ -1,4 +1,5 @@
 import {map, mergeMap, tap} from 'rxjs/operators';
+import {of} from "rxjs";
 
 import {ICard} from '../../common/types/ICard';
 import {StorageService} from '../../common/services/StorageService';
@@ -10,11 +11,11 @@ import {deleteSingleCard} from '../../common/logic/deleteSingleCard';
 import {filterCards} from "./logic/filterCards";
 import {IFilter} from "../../common/types/IFilter";
 import {changeCardsGroup} from "./logic/changeCardsGroup";
-import {of} from "rxjs";
 import {selectedItemsObjectToArray} from "./logic/selectedItemsObjectToArray";
 import {getExistedCardsGroups} from "./logic/getExistedCardsGroups";
 import {copyCardsInGroup} from "./logic/copyCardsInGroup";
 import {deleteCards} from "./logic/deleteCards";
+import {cardsToIDS} from "./logic/cardsToIDS";
 
 export class CardsService {
     public cardsChannel: Channel<{ cardsGroupID: number, filter: IFilter }, ICard[]>;
@@ -29,13 +30,14 @@ export class CardsService {
         destinationGroupID: number;
     }, ICardsGroup[]>;
     public deleteCardsChannel: Channel<{ [key: number]: boolean }, ICardsGroup[]>;
-    public existedGroupsIDsChannel: Channel<string, Array<{ id: number; label: string }>>
+    public existedGroupsIDsChannel: Channel<string, Array<{ id: number; label: string }>>;
+    public cardsIDsByGroupIDsChannel: Channel<number, number[]>;
 
     constructor(private storageService: StorageService) {
         this.cardsChannel = new Channel(
             ({cardsGroupID, filter}) => this.storageService.getBackup().pipe(
-            map((cardsGroups: ICardsGroup[]) => getCardsByGroup(cardsGroupID, cardsGroups)),
-            map((cards: ICard[]) => filterCards(cards, filter)))
+                map((cardsGroups: ICardsGroup[]) => getCardsByGroup(cardsGroupID, cardsGroups)),
+                map((cards: ICard[]) => filterCards(cards, filter)))
         );
 
         this.resetCardProgressChannel = new Channel(
@@ -122,5 +124,12 @@ export class CardsService {
                 )
             })
         ))
+
+        this.cardsIDsByGroupIDsChannel = new Channel<number, number[]>(
+            (groupID) => storageService.getBackup().pipe(
+                map((cardsGroups) => getCardsByGroup(groupID, cardsGroups)),
+                map((cards: ICard[]) => cardsToIDS(cards))
+            )
+        )
     }
 }

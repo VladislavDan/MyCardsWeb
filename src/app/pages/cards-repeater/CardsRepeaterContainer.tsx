@@ -30,7 +30,7 @@ export const CardRepeaterContainer: FC<ICardRepeaterContainer> = (
 
     const location = useLocation<INavigationState>();
 
-    const history = useHistory();
+    const history = useHistory<INavigationState>();
 
     const defaultStatisticValue = {
         inProgress: 0,
@@ -61,7 +61,7 @@ export const CardRepeaterContainer: FC<ICardRepeaterContainer> = (
     useChannel(cardsRepeaterService.deleteSingleCardChannel, callbackFactory(onDeleteSingleCardChannel))
     useChannel(cardsRepeaterService.cardGroupNameChannel, callbackFactory(onCardGroupNameChannel))
 
-    useChannel<number, ICard>(cardsRepeaterService.cardChannel, (card: ICard) => {
+    useChannel<number[], ICard>(cardsRepeaterService.cardChannel, (card: ICard) => {
         cardsRepeaterService.cardGroupNameChannel.next(card.id)
         setState({
             card: card,
@@ -80,33 +80,17 @@ export const CardRepeaterContainer: FC<ICardRepeaterContainer> = (
         });
     });
 
-    useChannel<number, ICard | null>(cardsRepeaterService.currentCardChannel, (card: ICard | null) => {
-
-        if(card) {
-            setState({
-                card: card,
-                isQuestionSide: true,
-                isEditable: false
-            });
-        } else {
-            cardsRepeaterService.cardChannel.next(location.state ? location.state.cardsGroupID : -1);
-        }
-    });
-
     useChannel<string, IStatistic>(cardsRepeaterService.statisticChannel, (statistic: IStatistic) => {
         setStatistic(() => statistic)
     });
 
     useChannel<IRepeatingArgs, ICardsGroup[]>(cardsRepeaterService.repeatingResultChannel, () => {
-
-        cardsRepeaterService.cardChannel.next(location.state.cardsGroupID);
+        cardsRepeaterService.cardChannel.next(location.state.cardsIDsForRepeating);
     });
 
     useConstructor(() => {
         if (location.state) {
-            cardsRepeaterService.currentCardChannel.next(location.state.cardsGroupID);
-        } else {
-            cardsRepeaterService.currentCardChannel.next(null);
+            cardsRepeaterService.cardChannel.next(location.state.cardsIDsForRepeating);
         }
         cardsRepeaterService.statisticChannel.next('');
     });

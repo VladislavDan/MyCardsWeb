@@ -5,5 +5,7 @@ import {CardRepeaterCallbackSettings} from "../types/CardRepeaterCallbackSetting
 export const onDeleteSingleCardChannel: ICallback<CardRepeaterCallbackSettings, ICardsGroup[]> = (
     {services, location}
 ) => {
-    services.cardsRepeaterService.cardChannel.next(location.state ? location.state.cardsGroupID : -1)
+    services.cardsRepeaterService.cardChannel.next(
+        location.state ? location.state.cardsIDsForRepeating : []
+    )
 }

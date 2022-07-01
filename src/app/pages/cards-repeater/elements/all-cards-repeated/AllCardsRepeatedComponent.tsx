@@ -4,7 +4,7 @@ import {Button} from '@mui/material';
 
 export const AllCardsRepeatedComponent: FC<IAllCardsRepeatedComponent> = ({onBackClick}) => {
     return <>
-        <span>All cards repeated</span>
+        <span>No cards for repeating</span>
         <Button size="small" color="primary" onClick={onBackClick}>
             Go back
         </Button>

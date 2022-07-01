@@ -23,6 +23,7 @@ import {onChangeSorting} from "./ui-callbacks/onChangeSorting";
 import {CallbackFactory} from "../../../MyTools/react-utils/CallbackFactory";
 import {onChangeSearchableText} from "./ui-callbacks/onChangeSearchableText";
 import {onCardsChannel} from "./channels-callbacks/onCardsChannel";
+import {onCardsIDsByGroupIDsChannel} from "./channels-callbacks/onCardsIDsByGroupIDsChannel";
 
 export const CardsContainer: FC<ICardsContainer> = (services) => {
 
@@ -30,7 +31,7 @@ export const CardsContainer: FC<ICardsContainer> = (services) => {
 
     const location = useLocation<INavigationState>();
 
-    const history = useHistory();
+    const history = useHistory<INavigationState>();
 
     const {setSubscription} = useUnsubscribe();
 
@@ -54,6 +55,7 @@ export const CardsContainer: FC<ICardsContainer> = (services) => {
     const callbackFactory = CallbackFactory(callbackSettings)
 
     useChannel(cardsListService.cardsChannel, callbackFactory(onCardsChannel));
+    useChannel(cardsListService.cardsIDsByGroupIDsChannel, callbackFactory(onCardsIDsByGroupIDsChannel))
 
     useChannel(cardsListService.resetCardProgressChannel, (cards: ICardsGroup[]) => {
         cardsListService.cardsChannel.next(
@@ -113,6 +115,7 @@ export const CardsContainer: FC<ICardsContainer> = (services) => {
         history.push({
             pathname: Routs.cardsEditor.path,
             state: {
+                ...location.state,
                 cardsGroupID: location.state.cardsGroupID
             }
         })
@@ -122,6 +125,7 @@ export const CardsContainer: FC<ICardsContainer> = (services) => {
         history.push({
             pathname: Routs.cardsEditor.path,
             state: {
+                ...location.state,
                 cardsGroupID: location.state.cardsGroupID,
                 cardID: cardID
             }
@@ -161,6 +165,7 @@ export const CardsContainer: FC<ICardsContainer> = (services) => {
         history.push({
             pathname: Routs.cardViewer.path,
             state: {
+                ...location.state,
                 cardsGroupID: location.state.cardsGroupID,
                 cardID: cardID
             }

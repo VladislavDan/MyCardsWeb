@@ -25,7 +25,7 @@ export const CardViewerContainer: FC<ICardViewerContainer> = (services) => {
 
     const location = useLocation<INavigationState>();
 
-    const history = useHistory();
+    const history = useHistory<INavigationState>();
 
     const {cardViewerService, cardsEditorService} = services
 
