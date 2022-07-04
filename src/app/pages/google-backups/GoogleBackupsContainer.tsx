@@ -47,10 +47,12 @@ export const GoogleBackupsContainer: FC<IGoogleBackupsContainer> = ({
     );
 
     useChannel(googleBackupsService.backupDeleteChannel, () => {
-       spinnerService.spinnerCounterChannel.next(-1);
+        spinnerService.spinnerCounterChannel.next(-1);
+        googleBackupsService.backupsNameLoadChannel.next('')
     });
 
     useChannel(googleBackupsService.backupUploadChannel, () => {
+        googleBackupsService.backupsNameLoadChannel.next('')
         spinnerService.spinnerCounterChannel.next(-1);
     });
 
@@ -58,15 +60,31 @@ export const GoogleBackupsContainer: FC<IGoogleBackupsContainer> = ({
         googleBackupsService.backupsNameLoadChannel.next('');
     });
 
-    const { setSubscription } = useUnsubscribe();
+    const {setSubscription} = useUnsubscribe();
 
     const onLoad = (backupID: string) => {
-        spinnerService.spinnerCounterChannel.next(1);
-        googleBackupsService.backupLoadChannel.next(backupID);
+
+        const subscription = confirmDialogService.confirmationChannel.subscribe((isConfirm) => {
+            if (isConfirm) {
+                spinnerService.spinnerCounterChannel.next(1);
+                googleBackupsService.backupLoadChannel.next(backupID);
+            }
+
+            confirmDialogService.openDialogChannel.next({
+                isOpen: false,
+                message: ''
+            })
+        });
+
+        setSubscription(subscription);
+
+        confirmDialogService.openDialogChannel.next({
+            isOpen: true,
+            message: 'Do you want to upload this backup?'
+        });
     };
 
     const onDelete = (backupID: string) => {
-        googleBackupsService.backupLoadChannel.next(backupID);
 
         const subscription = confirmDialogService.confirmationChannel.subscribe((isConfirm) => {
             if (isConfirm) {
