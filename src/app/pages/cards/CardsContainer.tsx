@@ -10,7 +10,6 @@ import {ICardsGroup} from '../../common/types/ICardsGroup';
 import {useUnsubscribe} from '../../../MyTools/react-hooks/useUnsubscribe';
 import {IAppContext} from '../../common/types/IAppContext';
 import {AppContext} from '../../../App';
-import {ISortVariants} from "../../common/types/ISortVariants";
 import {ICardsContainer} from "./types/ICardsContainer";
 import {CardsContainerState} from "./types/CardsContainerState";
 import {onDeleteSelectedCards} from "./ui-callbacks/onDeleteSelectedCards";
@@ -24,6 +23,8 @@ import {CallbackFactory} from "../../../MyTools/react-utils/CallbackFactory";
 import {onChangeSearchableText} from "./ui-callbacks/onChangeSearchableText";
 import {onCardsChannel} from "./channels-callbacks/onCardsChannel";
 import {onCardsIDsByGroupIDsChannel} from "./channels-callbacks/onCardsIDsByGroupIDsChannel";
+import {onCardsIDsBySelectedItemsChannel} from "./channels-callbacks/onCardsIDsBySelectedItemsChannel";
+import {initialState} from "./Constants";
 
 export const CardsContainer: FC<ICardsContainer> = (services) => {
 
@@ -35,18 +36,7 @@ export const CardsContainer: FC<ICardsContainer> = (services) => {
 
     const {setSubscription} = useUnsubscribe();
 
-    const [state, setState] = useState<CardsContainerState>(
-        {
-            cards: [],
-            filter: {
-                searchableText: '',
-                sort: ISortVariants.NONE,
-            },
-            isEnabledSelecting: false,
-            selectedItems: {},
-            existedGroupsIDs: []
-        }
-    );
+    const [state, setState] = useState<CardsContainerState>(initialState);
 
     const context = useContext<IAppContext>(AppContext);
 
@@ -56,6 +46,7 @@ export const CardsContainer: FC<ICardsContainer> = (services) => {
 
     useChannel(cardsListService.cardsChannel, callbackFactory(onCardsChannel));
     useChannel(cardsListService.cardsIDsByGroupIDsChannel, callbackFactory(onCardsIDsByGroupIDsChannel))
+    useChannel(cardsListService.cardsIDsBySelectedItemsChannel, callbackFactory(onCardsIDsBySelectedItemsChannel))
 
     useChannel(cardsListService.resetCardProgressChannel, (cards: ICardsGroup[]) => {
         cardsListService.cardsChannel.next(
@@ -174,7 +165,7 @@ export const CardsContainer: FC<ICardsContainer> = (services) => {
 
     const changeSearchableText = useCallback(callbackFactory(onChangeSearchableText), [state.filter]);
     const changeSorting = useCallback(callbackFactory(onChangeSorting), [state.filter]);
-    const openRepeater = useCallback(callbackFactory(onOpenRepeater), []);
+    const openRepeater = useCallback(callbackFactory(onOpenRepeater), [state.isEnabledSelecting, state.selectedItems]);
 
     const startSelecting = callbackFactory(onStartSelecting);
     const multiSelectingDependencies = [state.isEnabledSelecting, state.selectedItems]

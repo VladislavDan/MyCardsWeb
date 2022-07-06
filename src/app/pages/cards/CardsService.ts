@@ -16,6 +16,7 @@ import {getExistedCardsGroups} from "./logic/getExistedCardsGroups";
 import {copyCardsInGroup} from "./logic/copyCardsInGroup";
 import {deleteCards} from "./logic/deleteCards";
 import {cardsToIDS} from "./logic/cardsToIDS";
+import {selectedItemsToIDs} from "./logic/selectedItemsToIDs";
 
 export class CardsService {
     public cardsChannel: Channel<{ cardsGroupID: number, filter: IFilter }, ICard[]>;
@@ -32,6 +33,7 @@ export class CardsService {
     public deleteCardsChannel: Channel<{ [key: number]: boolean }, ICardsGroup[]>;
     public existedGroupsIDsChannel: Channel<string, Array<{ id: number; label: string }>>;
     public cardsIDsByGroupIDsChannel: Channel<number, number[]>;
+    public cardsIDsBySelectedItemsChannel: Channel<{ [key: number]: boolean }, number[]>;
 
     constructor(private storageService: StorageService) {
         this.cardsChannel = new Channel(
@@ -129,6 +131,12 @@ export class CardsService {
             (groupID) => storageService.getBackup().pipe(
                 map((cardsGroups) => getCardsByGroup(groupID, cardsGroups)),
                 map((cards: ICard[]) => cardsToIDS(cards))
+            )
+        )
+
+        this.cardsIDsBySelectedItemsChannel = new Channel<{ [p: number]: boolean }, number[]>(
+            (args) => of(args).pipe(
+                map(() => selectedItemsToIDs(args))
             )
         )
     }

@@ -23,18 +23,16 @@ export const CardsListActions: FC<ICardsListActions> = (
         hideOpenEditorButton = false,
         hideMovingSelectedCardsButton = false,
         hideDeleteSelectedCardsButton = false,
-        hideCopySelectedCardButton= false
+        hideCopySelectedCardButton = false
     }
 ) => {
     return <div className="cards-list-actions">
         <Fab size="medium" color="secondary" onClick={onStartSelecting}>
             <SelectAllIcon/>
         </Fab>
-        {
-            !hideOpenRepeaterButton && <Fab size="medium" color="primary" onClick={onOpenRepeater}>
-                <PlayArrowIcon/>
-            </Fab>
-        }
+        <Fab size="medium" color="primary" onClick={onOpenRepeater}>
+            <PlayArrowIcon/>
+        </Fab>
         {
             !hideOpenEditorButton && <Fab size="medium" color="secondary" onClick={onOpenEditor}>
                 <AddIcon/>
