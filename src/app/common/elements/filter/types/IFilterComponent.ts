@@ -1,5 +1,5 @@
-import {ISortVariants} from "../../../../../common/types/ISortVariants";
-import {IFilter} from "../../../../../common/types/IFilter";
+import {ISortVariants} from "../../../types/ISortVariants";
+import {IFilter} from "../../../types/IFilter";
 
 export interface IFilterComponent {
     onChangeSearchableText: (answer: string) => void;

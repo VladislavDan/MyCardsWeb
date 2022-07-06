@@ -25,6 +25,9 @@ import {onCardsChannel} from "./channels-callbacks/onCardsChannel";
 import {onCardsIDsByGroupIDsChannel} from "./channels-callbacks/onCardsIDsByGroupIDsChannel";
 import {onCardsIDsBySelectedItemsChannel} from "./channels-callbacks/onCardsIDsBySelectedItemsChannel";
 import {initialState} from "./Constants";
+import {onFilterChannel} from "./channels-callbacks/onFilterChannel";
+import {onConstructor} from "./ui-callbacks/onConstructor";
+import {onChangeFilter} from "./channels-callbacks/onChangeFilter";
 
 export const CardsContainer: FC<ICardsContainer> = (services) => {
 
@@ -45,8 +48,10 @@ export const CardsContainer: FC<ICardsContainer> = (services) => {
     const callbackFactory = CallbackFactory(callbackSettings)
 
     useChannel(cardsListService.cardsChannel, callbackFactory(onCardsChannel));
-    useChannel(cardsListService.cardsIDsByGroupIDsChannel, callbackFactory(onCardsIDsByGroupIDsChannel))
-    useChannel(cardsListService.cardsIDsBySelectedItemsChannel, callbackFactory(onCardsIDsBySelectedItemsChannel))
+    useChannel(cardsListService.cardsIDsByGroupIDsChannel, callbackFactory(onCardsIDsByGroupIDsChannel));
+    useChannel(cardsListService.cardsIDsBySelectedItemsChannel, callbackFactory(onCardsIDsBySelectedItemsChannel));
+    useChannel(cardsListService.filterChannel, callbackFactory(onFilterChannel));
+    useChannel(cardsListService.changeFilterChannel, callbackFactory(onChangeFilter))
 
     useChannel(cardsListService.resetCardProgressChannel, (cards: ICardsGroup[]) => {
         cardsListService.cardsChannel.next(
@@ -94,13 +99,7 @@ export const CardsContainer: FC<ICardsContainer> = (services) => {
         })
     })
 
-    useConstructor(() => {
-        cardsListService.cardsChannel.next({
-            cardsGroupID: location.state.cardsGroupID,
-            filter: state.filter
-        })
-        cardsListService.existedGroupsIDsChannel.next('')
-    });
+    useConstructor(callbackFactory(onConstructor));
 
     const onOpenEditor = () => {
         history.push({

@@ -17,6 +17,7 @@ import {copyCardsInGroup} from "./logic/copyCardsInGroup";
 import {deleteCards} from "./logic/deleteCards";
 import {cardsToIDS} from "./logic/cardsToIDS";
 import {selectedItemsToIDs} from "./logic/selectedItemsToIDs";
+import {IStoredFilters} from "../../common/types/IStoredFilters";
 
 export class CardsService {
     public cardsChannel: Channel<{ cardsGroupID: number, filter: IFilter }, ICard[]>;
@@ -34,6 +35,8 @@ export class CardsService {
     public existedGroupsIDsChannel: Channel<string, Array<{ id: number; label: string }>>;
     public cardsIDsByGroupIDsChannel: Channel<number, number[]>;
     public cardsIDsBySelectedItemsChannel: Channel<{ [key: number]: boolean }, number[]>;
+    public filterChannel: Channel<string, IFilter>;
+    public changeFilterChannel: Channel<IFilter, IStoredFilters>;
 
     constructor(private storageService: StorageService) {
         this.cardsChannel = new Channel(
@@ -44,10 +47,10 @@ export class CardsService {
 
         this.resetCardProgressChannel = new Channel(
             ({cardID, cardsGroupID}) => storageService.getBackup().pipe(
-            map((cardsGroups: ICardsGroup[]) => resetCardProgress(cardsGroupID, cardID, cardsGroups)),
-            tap((cardsGroups: ICardsGroup[]) => {
-                storageService.setBackup(cardsGroups);
-            }))
+                map((cardsGroups: ICardsGroup[]) => resetCardProgress(cardsGroupID, cardID, cardsGroups)),
+                tap((cardsGroups: ICardsGroup[]) => {
+                    storageService.setBackup(cardsGroups);
+                }))
         );
 
         this.deleteSingleCardChannel = new Channel(
@@ -109,8 +112,8 @@ export class CardsService {
         ))
 
         this.deleteCardsChannel = new Channel((
-                selectedItems
-            ) => storageService.getBackup().pipe(
+            selectedItems
+        ) => storageService.getBackup().pipe(
             mergeMap((cardsGroups) => {
                 return of(cardsGroups).pipe(
                     map(() => {
@@ -137,6 +140,24 @@ export class CardsService {
         this.cardsIDsBySelectedItemsChannel = new Channel<{ [p: number]: boolean }, number[]>(
             (args) => of(args).pipe(
                 map(() => selectedItemsToIDs(args))
+            )
+        )
+
+        this.filterChannel = new Channel<string, IFilter>(
+            () => storageService.getFilter().pipe(
+                map((storedFilters) => storedFilters.cards)
+            )
+        )
+
+        this.changeFilterChannel = new Channel<IFilter, IStoredFilters>(
+            (filter) => storageService.getFilter().pipe(
+                map((storedFilters) => {
+                        return {...storedFilters, cards: filter}
+                    }
+                ),
+                tap((storedFilters) => {
+                    storageService.setFilter(storedFilters);
+                })
             )
         )
     }

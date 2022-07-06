@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {FC} from 'react';
-import {FilterComponent} from "./elements/filter/FilterComponent";
+import {FilterComponent} from "../../common/elements/filter/FilterComponent";
 import {CardsListActions} from "./elements/cards-list-actions/CardsListActions";
 import {ICardsComponent} from "./types/ICardsComponent";
 import './CardsComponent.css';

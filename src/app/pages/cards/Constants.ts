@@ -1,11 +1,8 @@
-import {ISortVariants} from "../../common/types/ISortVariants";
+import {defaultFilterValue} from "../../common/Constants";
 
 export const initialState = {
     cards: [],
-    filter: {
-        searchableText: '',
-        sort: ISortVariants.NONE,
-    },
+    filter: defaultFilterValue,
     isEnabledSelecting: false,
     selectedItems: {},
     existedGroupsIDs: []

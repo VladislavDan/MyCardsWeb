@@ -2,12 +2,15 @@ import {from, Observable} from 'rxjs';
 import {ICardsGroup} from '../types/ICardsGroup';
 import {DataBaseService} from './DataBaseService';
 import {ISettings} from '../types/ISettings';
+import {IStoredFilters} from "../types/IStoredFilters";
+import {defaultFilterValue} from "../Constants";
 
 export class StorageService {
 
     private cardsStorageID = 'cards-local-storage';
     private authTokenLocalStorageID = 'auth-token';
     private settingsID = 'settings';
+    private filterID = 'filter'
 
     constructor(private dataBaseService: DataBaseService) {
     }
@@ -84,6 +87,27 @@ export class StorageService {
     public setSettings(settings: ISettings): Observable<ISettings> {
         return from(new Promise<ISettings>((resolve) => {
             localStorage.setItem(this.settingsID, JSON.stringify(settings));
+            resolve(settings);
+        }));
+    }
+
+    public getFilter(): Observable<IStoredFilters> {
+        return from(new Promise<IStoredFilters>((resolve) => {
+            const settings = localStorage.getItem(this.filterID);
+            if (settings) {
+                resolve(JSON.parse(settings) as IStoredFilters);
+            } else {
+                resolve({
+                    cards: defaultFilterValue,
+                    cardsGroups: defaultFilterValue
+                })
+            }
+        }));
+    }
+
+    public setFilter(settings: IStoredFilters): Observable<IStoredFilters> {
+        return from(new Promise<IStoredFilters>((resolve) => {
+            localStorage.setItem(this.filterID, JSON.stringify(settings));
             resolve(settings);
         }));
     }

@@ -10,15 +10,5 @@ export const onChangeSearchableText: ICallback<CardsContainerCallbackSettings, s
         searchableText: searchableText
     }
 
-    setState((prevState) => {
-        return {
-            ...prevState,
-            filter: newFilter
-        }
-    })
-
-    services.cardsListService.cardsChannel.next({
-        cardsGroupID: location.state.cardsGroupID,
-        filter: newFilter
-    })
+    services.cardsListService.changeFilterChannel.next(newFilter)
 }

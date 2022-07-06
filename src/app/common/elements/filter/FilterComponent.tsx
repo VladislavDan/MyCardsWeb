@@ -10,7 +10,7 @@ import {
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {ChangeEvent, default as React, FC} from "react";
 
-import {ISortVariants} from "../../../../common/types/ISortVariants";
+import {ISortVariants} from "../../types/ISortVariants";
 import {IFilterComponent} from "./types/IFilterComponent";
 
 export const FilterComponent: FC<IFilterComponent> = (
@@ -39,8 +39,9 @@ export const FilterComponent: FC<IFilterComponent> = (
                 className="text-editor"
                 required
                 id="outlined-required"
-                placeholder="Search card"
+                placeholder="Search text"
                 onChange={handleChangingSearchableText}
+                value={filter.searchableText}
                 style={{
                     marginRight: '20px',
                 }}
@@ -61,6 +62,8 @@ export const FilterComponent: FC<IFilterComponent> = (
                 <MenuItem value={ISortVariants.QUESTION_DESK}>{ISortVariants.QUESTION_DESK}</MenuItem>
                 <MenuItem value={ISortVariants.STATUS_ASK}>{ISortVariants.STATUS_ASK}</MenuItem>
                 <MenuItem value={ISortVariants.STATUS_DESK}>{ISortVariants.STATUS_DESK}</MenuItem>
+                <MenuItem value={ISortVariants.DATE_ASK}>{ISortVariants.DATE_ASK}</MenuItem>
+                <MenuItem value={ISortVariants.DATE_DESK}>{ISortVariants.DATE_DESK}</MenuItem>
             </Select>
         </AccordionDetails>
     </Accordion>

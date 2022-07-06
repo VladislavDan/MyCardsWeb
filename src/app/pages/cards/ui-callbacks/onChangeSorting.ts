@@ -10,16 +10,5 @@ export const onChangeSorting: ICallback<CardsContainerCallbackSettings, ISortVar
         ...state.filter,
         sort: sortVariant
     }
-
-    setState((prevState) => {
-        return {
-        ...prevState,
-            filter: newFilter
-        }
-    })
-
-    services.cardsListService.cardsChannel.next({
-        cardsGroupID: location.state.cardsGroupID,
-        filter: newFilter
-    })
+    services.cardsListService.changeFilterChannel.next(newFilter);
 }

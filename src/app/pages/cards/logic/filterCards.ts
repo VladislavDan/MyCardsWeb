@@ -46,9 +46,31 @@ export const filterCards = (cards: ICard[], filter: IFilter) => {
         return sortedCards;
     } else if(filter.sort === ISortVariants.STATUS_DESK) {
         sortedCards = foundByTextCards.sort((card1: ICard, card2: ICard) => {
-            if(card1.rangeOfKnowledge === card2.rangeOfKnowledge) {
+            if (card1.rangeOfKnowledge === card2.rangeOfKnowledge) {
                 return 0
-            } else if(card1.rangeOfKnowledge > card2.rangeOfKnowledge) {
+            } else if (card1.rangeOfKnowledge > card2.rangeOfKnowledge) {
+                return 1
+            } else {
+                return -1
+            }
+        })
+        return sortedCards;
+    } else if (filter.sort === ISortVariants.DATE_ASK) {
+        sortedCards = foundByTextCards.sort((card1: ICard, card2: ICard) => {
+            if (card1.dateRepeating === card2.dateRepeating) {
+                return 0
+            } else if (card1.dateRepeating > card2.dateRepeating) {
+                return 1
+            } else {
+                return -1
+            }
+        })
+        return sortedCards;
+    } else if (filter.sort === ISortVariants.DATE_DESK) {
+        sortedCards = foundByTextCards.sort((card1: ICard, card2: ICard) => {
+            if (card1.dateRepeating === card2.dateRepeating) {
+                return 0
+            } else if (card1.dateRepeating < card2.dateRepeating) {
                 return 1
             } else {
                 return -1

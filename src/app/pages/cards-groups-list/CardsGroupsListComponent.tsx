@@ -5,6 +5,7 @@ import './CardsGroupsListComponent.css'
 import {AddButtonComponent} from '../../common/elements/add-button/AddButtonComponent';
 import {CardsGroupsListItemComponent} from './elements/cards-groups-list-item/CardsGroupsListItemComponent';
 import {ICardsGroupsListComponent} from "./types/ICardsGroupsListComponent";
+import {FilterComponent} from "../../common/elements/filter/FilterComponent";
 
 export const CardsGroupsListComponent: FC<ICardsGroupsListComponent> = (
     {
@@ -14,12 +15,20 @@ export const CardsGroupsListComponent: FC<ICardsGroupsListComponent> = (
         onDeleteItem,
         onOpenEditor,
         onResetProgress,
+        onChangeSearchableText,
+        onChangeSorting,
+        filter,
         height,
         width
     }
 ) => {
 
     return <>
+        <FilterComponent
+            filter={filter}
+            onChangeSearchableText={onChangeSearchableText}
+            onChangeSorting={onChangeSorting}
+        />
         <List
             className="cards-groups"
             itemData={cardsGroups}

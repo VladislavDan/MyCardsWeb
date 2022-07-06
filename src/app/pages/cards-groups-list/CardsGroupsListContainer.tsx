@@ -11,20 +11,21 @@ import {IAppContext} from '../../common/types/IAppContext';
 import {AppContext} from '../../../App';
 import {ICardsGroupsListContainer} from "./types/ICardsGroupsListContainer";
 import {CardsGroupsListContainerState} from "./types/CardsGroupsListContainerState";
+import {initialState} from "./Constants";
 
 export const CardsGroupsListContainer: FC<ICardsGroupsListContainer> = ({
                                                                             cardsGroupsListService,
                                                                             confirmDialogService
                                                                         }) => {
 
-    const [state, setState] = useState<CardsGroupsListContainerState>({cardsGroups: []});
+    const [state, setState] = useState<CardsGroupsListContainerState>(initialState);
 
     const history = useHistory();
 
     const context = useContext<IAppContext>(AppContext);
 
     useChannel<string, ICardsGroup[]>(cardsGroupsListService.groupsListChannel, (cardsGroups: ICardsGroup[]) => {
-        setState({cardsGroups: cardsGroups})
+        setState({...state, cardsGroups: cardsGroups})
     });
 
     useChannel<number, ICardsGroup[]>(cardsGroupsListService.groupDeleteChannel, () => {
