@@ -13,7 +13,7 @@ import {addCurrentGroupToSimplifiedGroup} from './logic/addCurrentGroupToSimplif
 export class CardsEditorService {
 
     public cardEditingChannel: Channel<{ card: ICard, cardsGroupID: number }, ICard>;
-    public simplifiedCardsGroupsChannel: Channel<number, { currentCardsGroup: ISimplifiedCardsGroup | undefined, cardsGroups: ISimplifiedCardsGroup[] }>;
+    public simplifiedCardsGroupsChannel: Channel<number, { currentCardsGroup: ISimplifiedCardsGroup, cardsGroups: ISimplifiedCardsGroup[] }>;
     public cardChannel: Channel<{ cardID: number, cardsGroupID: number }, ICard | undefined>;
 
     constructor(storageService: StorageService) {

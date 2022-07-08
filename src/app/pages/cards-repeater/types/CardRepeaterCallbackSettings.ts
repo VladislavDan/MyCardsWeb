@@ -1,4 +1,4 @@
-import {ICallbackSettings} from "../../../common/types/ICallbackSettings";
+import {ICallbackSettings} from "../../../../MyTools/react-hooks/types/ICallbackSettings";
 import {CardRepeaterContainerState} from "./CardRepeaterContainerState";
 import {ICardRepeaterContainer} from "./ICardRepeaterContainer";
 

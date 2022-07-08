@@ -13,10 +13,12 @@ import {ICardsGroupsListContainer} from "./types/ICardsGroupsListContainer";
 import {CardsGroupsListContainerState} from "./types/CardsGroupsListContainerState";
 import {initialState} from "./Constants";
 
-export const CardsGroupsListContainer: FC<ICardsGroupsListContainer> = ({
-                                                                            cardsGroupsListService,
-                                                                            confirmDialogService
-                                                                        }) => {
+export const CardsGroupsListContainer: FC<ICardsGroupsListContainer> = (
+    {
+        cardsGroupsListService,
+        confirmDialogService
+    }
+) => {
 
     const [state, setState] = useState<CardsGroupsListContainerState>(initialState);
 
@@ -40,7 +42,7 @@ export const CardsGroupsListContainer: FC<ICardsGroupsListContainer> = ({
         cardsGroupsListService.groupsListChannel.next('');
     });
 
-    const { setSubscription } = useUnsubscribe();
+    const {setSubscription} = useUnsubscribe();
 
     const onClickItem = (cardsGroupID: number): void => {
         history.push({

@@ -1,4 +1,4 @@
-import {ICallbackSettings} from "../../../common/types/ICallbackSettings";
+import {ICallbackSettings} from "../../../../MyTools/react-hooks/types/ICallbackSettings";
 import {ICardsGroupsListContainer} from "./ICardsGroupsListContainer";
 import {CardsGroupsListContainerState} from "./CardsGroupsListContainerState";
 

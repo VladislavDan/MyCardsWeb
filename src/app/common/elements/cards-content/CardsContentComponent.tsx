@@ -16,7 +16,7 @@ export const CardsContentComponent: FC<ICardsContentComponent> = (
         onChangeAnswer,
         onChangeQuestion,
         onDeleteCard,
-        onClick
+        onClickYesNoButton
     }
 ) => {
     return <>
@@ -39,7 +39,7 @@ export const CardsContentComponent: FC<ICardsContentComponent> = (
                     card={card}
                     onClickText={onClickCard}
                     cardHeight={cardHeight}
-                    onClick={onClick}
+                    onClickYesNoButton={onClickYesNoButton}
                     onChangeAnswer={onChangeAnswer}
                     isEditable={isEditable}
                     onDeleteCard={onDeleteCard}

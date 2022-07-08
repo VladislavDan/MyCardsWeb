@@ -1,10 +1,10 @@
 import {ICallbackSettings} from "../../../../MyTools/react-hooks/types/ICallbackSettings";
-import {CardsContainerState} from "./CardsContainerState";
-import {ICardsContainer} from "./ICardsContainer";
 import {INavigationState} from "../../../common/types/INavigationState";
 import {IAppContext} from "../../../common/types/IAppContext";
+import {CardsEditorState} from "./CardsEditorState";
+import {ICardsEditorContainer} from "./ICardsEditorContainer";
 
-export type CardsContainerCallbackSettings = ICallbackSettings<CardsContainerState,
-    ICardsContainer,
+export type CardsEditorCallbackSettings = ICallbackSettings<CardsEditorState,
+    ICardsEditorContainer,
     INavigationState,
     IAppContext>

@@ -2,7 +2,7 @@ import {ICard} from "../../../types/ICard";
 
 export interface ICardsContentComponent {
     card: ICard;
-    onClick: (isUnderstandable: boolean) => void;
+    onClickYesNoButton: (isUnderstandable: boolean) => void;
     isQuestionSide: boolean;
     onClickCard: () => void;
     cardHeight: number;

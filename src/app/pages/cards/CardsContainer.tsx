@@ -1,13 +1,9 @@
-import React, {FC, useCallback, useContext, useState} from 'react';
+import React, {FC, useCallback} from 'react';
 
 import {CardsComponent} from './CardsComponent';
 import {useChannel} from '../../../MyTools/channel-conception/react-hooks/useChannel';
-import {useHistory, useLocation} from 'react-router';
 import {useConstructor} from '../../../MyTools/react-hooks/useConstructor';
 import {INavigationState} from '../../common/types/INavigationState';
-import {Routs} from '../../common/Routs';
-import {ICardsGroup} from '../../common/types/ICardsGroup';
-import {useUnsubscribe} from '../../../MyTools/react-hooks/useUnsubscribe';
 import {IAppContext} from '../../common/types/IAppContext';
 import {AppContext} from '../../../App';
 import {ICardsContainer} from "./types/ICardsContainer";
@@ -19,7 +15,6 @@ import {onSelectItem} from "./ui-callbacks/onSelectItem";
 import {onStartSelecting} from "./ui-callbacks/onStartSelecting";
 import {onOpenRepeater} from "./ui-callbacks/onOpenRepeater";
 import {onChangeSorting} from "./ui-callbacks/onChangeSorting";
-import {CallbackFactory} from "../../../MyTools/react-utils/CallbackFactory";
 import {onChangeSearchableText} from "./ui-callbacks/onChangeSearchableText";
 import {onCardsChannel} from "./channels-callbacks/onCardsChannel";
 import {onCardsIDsByGroupIDsChannel} from "./channels-callbacks/onCardsIDsByGroupIDsChannel";
@@ -28,146 +23,56 @@ import {initialState} from "./Constants";
 import {onFilterChannel} from "./channels-callbacks/onFilterChannel";
 import {onConstructor} from "./ui-callbacks/onConstructor";
 import {onChangeFilter} from "./channels-callbacks/onChangeFilter";
+import {useCallbackFactory} from "../../../MyTools/react-hooks/useCallbackFactory";
+import {onResetCardProgressChannel} from "./channels-callbacks/onResetCardProgressChannel";
+import {onDeleteSingleCardChannel} from "./channels-callbacks/onDeleteSingleCardChannel";
+import {onMovingCardsChannel} from "./channels-callbacks/onMovingCardsChannel";
+import {onCopyCardsChannel} from "./channels-callbacks/onCopyCardsChannel";
+import {onDeleteCardsChannel} from "./channels-callbacks/onDeleteCardsChannel";
+import {onExistedGroupsIDsChannel} from "./channels-callbacks/onExistedGroupsIDsChannel";
+import {onOpenEditor} from "./ui-callbacks/onOpenEditor";
+import {onEditItem} from "./ui-callbacks/onEditItem";
+import {onDeleteItem} from "./ui-callbacks/onDeleteItem";
+import {onResetProgress} from "./ui-callbacks/onResetProgress";
+import {onClickItem} from "./ui-callbacks/onClickItem";
 
 export const CardsContainer: FC<ICardsContainer> = (services) => {
+    const {
+        callbackFactory,
+        callbackSettings
+    } = useCallbackFactory<INavigationState, CardsContainerState, ICardsContainer, IAppContext>(
+        initialState,
+        services,
+        AppContext
+    );
 
-    const {cardsListService, confirmDialogService} = services;
-
-    const location = useLocation<INavigationState>();
-
-    const history = useHistory<INavigationState>();
-
-    const {setSubscription} = useUnsubscribe();
-
-    const [state, setState] = useState<CardsContainerState>(initialState);
-
-    const context = useContext<IAppContext>(AppContext);
-
-    const callbackSettings = {location, history, services, state, setState, context, setSubscription}
-
-    const callbackFactory = CallbackFactory(callbackSettings)
+    const {state, context, services: {cardsListService}} = callbackSettings
 
     useChannel(cardsListService.cardsChannel, callbackFactory(onCardsChannel));
     useChannel(cardsListService.cardsIDsByGroupIDsChannel, callbackFactory(onCardsIDsByGroupIDsChannel));
     useChannel(cardsListService.cardsIDsBySelectedItemsChannel, callbackFactory(onCardsIDsBySelectedItemsChannel));
     useChannel(cardsListService.filterChannel, callbackFactory(onFilterChannel));
     useChannel(cardsListService.changeFilterChannel, callbackFactory(onChangeFilter))
-
-    useChannel(cardsListService.resetCardProgressChannel, (cards: ICardsGroup[]) => {
-        cardsListService.cardsChannel.next(
-            {
-                cardsGroupID: location.state.cardsGroupID,
-                filter: state.filter
-            }
-        )
-    });
-
-    useChannel(cardsListService.deleteSingleCardChannel, (cards: ICardsGroup[]) => {
-        cardsListService.cardsChannel.next({
-            cardsGroupID: location.state.cardsGroupID,
-            filter: state.filter
-        })
-    });
-
-    useChannel(cardsListService.movingCardsChannel, () => {
-        cardsListService.cardsChannel.next({
-            cardsGroupID: location.state.cardsGroupID,
-            filter: state.filter
-        })
-    })
-
-    useChannel(cardsListService.copyCardsChannel, () => {
-        cardsListService.cardsChannel.next({
-            cardsGroupID: location.state.cardsGroupID,
-            filter: state.filter
-        })
-    })
-
-    useChannel(cardsListService.deleteCardsChannel, () => {
-        cardsListService.cardsChannel.next({
-            cardsGroupID: location.state.cardsGroupID,
-            filter: state.filter
-        })
-    })
-
-    useChannel(cardsListService.existedGroupsIDsChannel, (existedGroupsIDs) => {
-        setState((prevState) => {
-            return {
-                ...prevState,
-                existedGroupsIDs
-            }
-        })
-    })
+    useChannel(cardsListService.resetCardProgressChannel, callbackFactory(onResetCardProgressChannel));
+    useChannel(cardsListService.deleteSingleCardChannel, callbackFactory(onDeleteSingleCardChannel));
+    useChannel(cardsListService.movingCardsChannel, callbackFactory(onMovingCardsChannel));
+    useChannel(cardsListService.copyCardsChannel, callbackFactory(onCopyCardsChannel));
+    useChannel(cardsListService.deleteCardsChannel, callbackFactory(onDeleteCardsChannel))
+    useChannel(cardsListService.existedGroupsIDsChannel, callbackFactory(onExistedGroupsIDsChannel))
 
     useConstructor(callbackFactory(onConstructor));
 
-    const onOpenEditor = () => {
-        history.push({
-            pathname: Routs.cardsEditor.path,
-            state: {
-                ...location.state,
-                cardsGroupID: location.state.cardsGroupID
-            }
-        })
-    };
-
-    const onEditItem = (cardID: number) => {
-        history.push({
-            pathname: Routs.cardsEditor.path,
-            state: {
-                ...location.state,
-                cardsGroupID: location.state.cardsGroupID,
-                cardID: cardID
-            }
-        })
-    };
-
-    const onDeleteItem = (cardID: number) => {
-        const subscription = confirmDialogService.confirmationChannel.subscribe((isConfirm) => {
-            if (isConfirm) {
-                cardsListService.deleteSingleCardChannel.next(cardID);
-            }
-
-            confirmDialogService.openDialogChannel.next({
-                isOpen: false,
-                message: ''
-            })
-        });
-
-        setSubscription(subscription);
-
-        confirmDialogService.openDialogChannel.next({
-            isOpen: true,
-            message: 'Do you want to remove this card?'
-        })
-    };
-
-    const onResetProgress = (cardID: number) => {
-        cardsListService.resetCardProgressChannel.next(
-            {
-                cardID,
-                cardsGroupID: location.state.cardsGroupID
-            }
-        )
-    };
-
-    const onClickItem = (cardID: number) => {
-        history.push({
-            pathname: Routs.cardViewer.path,
-            state: {
-                ...location.state,
-                cardsGroupID: location.state.cardsGroupID,
-                cardID: cardID
-            }
-        })
-    };
-
+    const openEditor = useCallback(callbackFactory(onOpenEditor), []);
+    const editItem = useCallback(callbackFactory(onEditItem), []);
+    const deleteItem = useCallback(callbackFactory(onDeleteItem), []);
+    const resetProgress = useCallback(callbackFactory(onResetProgress), []);
+    const clickItem = useCallback(callbackFactory(onClickItem), []);
     const changeSearchableText = useCallback(callbackFactory(onChangeSearchableText), [state.filter]);
     const changeSorting = useCallback(callbackFactory(onChangeSorting), [state.filter]);
-    const openRepeater = useCallback(callbackFactory(onOpenRepeater), [state.isEnabledSelecting, state.selectedItems]);
 
     const startSelecting = callbackFactory(onStartSelecting);
     const multiSelectingDependencies = [state.isEnabledSelecting, state.selectedItems]
+    const openRepeater = useCallback(callbackFactory(onOpenRepeater), multiSelectingDependencies);
     const selectItem = useCallback(callbackFactory(onSelectItem), multiSelectingDependencies);
     const movingSelectedCards = useCallback(callbackFactory(onMovingSelectedCards), multiSelectingDependencies);
     const copySelectedCards = useCallback(callbackFactory(onCopySelectedCards), multiSelectingDependencies);
@@ -178,11 +83,11 @@ export const CardsContainer: FC<ICardsContainer> = (services) => {
         onChangeSorting={changeSorting}
         onChangeSearchableText={changeSearchableText}
         cards={state.cards}
-        onOpenEditor={onOpenEditor}
-        onEditItem={onEditItem}
-        onDeleteItem={onDeleteItem}
-        onResetProgress={onResetProgress}
-        onClickItem={onClickItem}
+        onOpenEditor={openEditor}
+        onEditItem={editItem}
+        onDeleteItem={deleteItem}
+        onResetProgress={resetProgress}
+        onClickItem={clickItem}
         width={context.width}
         height={context.height}
         onOpenRepeater={openRepeater}

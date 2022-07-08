@@ -8,18 +8,18 @@ import {ICardsRepeaterComponent} from "./types/ICardsRepeaterComponent";
 
 export const CardsRepeaterComponent: FC<ICardsRepeaterComponent> = (
     {
-            card,
-            cardHeight,
-            isQuestionSide,
-            onClickCard,
-            onClick,
-            statistic,
-            onBackClick,
-            onSwitchEditing,
-            isEditable,
-            onChangeAnswer,
-            onChangeQuestion,
-            onDeleteCard
+        card,
+        cardHeight,
+        isQuestionSide,
+        onClickCard,
+        onClickYesNoButton,
+        statistic,
+        onBackClick,
+        onSwitchEditing,
+        isEditable,
+        onChangeAnswer,
+        onChangeQuestion,
+        onDeleteCard
     }
 ) => {
 
@@ -29,14 +29,14 @@ export const CardsRepeaterComponent: FC<ICardsRepeaterComponent> = (
                     <CardsContentComponent
                         card={card}
                         onDeleteCard={onDeleteCard}
-                        onClick={onClick}
+                        onClickYesNoButton={onClickYesNoButton}
                         isQuestionSide={isQuestionSide}
                         onClickCard={onClickCard}
                         cardHeight={cardHeight}
                         onSwitchEditing={onSwitchEditing}
-                isEditable={isEditable}
-                onChangeQuestion={onChangeQuestion}
-                onChangeAnswer={onChangeAnswer}
+                        isEditable={isEditable}
+                        onChangeQuestion={onChangeQuestion}
+                        onChangeAnswer={onChangeAnswer}
             />
         </div> :
         <AllCardsRepeatedComponent onBackClick={onBackClick}/>

@@ -13,7 +13,7 @@ export const AnswerCardComponent: FC<IAnswerCardComponent> = (
         card,
         cardHeight,
         onClickText,
-        onClick,
+        onClickYesNoButton,
         isEditable,
         onChangeAnswer,
         onDeleteCard
@@ -43,7 +43,7 @@ export const AnswerCardComponent: FC<IAnswerCardComponent> = (
                             text={getText()}
                             onClickText={onClickText}
                         />
-                        <AnswerCardFooterComponent onClick={onClick} card={card}/>
+                        <AnswerCardFooterComponent onClickYesNoButton={onClickYesNoButton} card={card}/>
                     </>
             }
         </CardContent>
