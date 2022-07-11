@@ -2,6 +2,8 @@ export enum ISortVariant {
     NONE = 'Нет сортировки',
     QUESTION_ASK = 'По вопросу по возрастанию',
     QUESTION_DESK = 'По вопросу по убыванию',
+    ANSWER_ASK = 'По ответу по возрастанию',
+    ANSWER_DESK = 'По ответу по убыванию',
     NAME_ASK = 'По имени по возрастанию',
     NAME_DESK = 'По имени по убыванию',
     STATUS_ASK = 'По стсатусу сначала пройденные',

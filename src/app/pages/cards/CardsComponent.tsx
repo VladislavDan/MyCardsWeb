@@ -43,7 +43,9 @@ export const CardsComponent: FC<ICardsComponent> = (
                             ISortVariant.QUESTION_ASK,
                             ISortVariant.QUESTION_DESK,
                             ISortVariant.STATUS_ASK,
-                            ISortVariant.STATUS_DESK
+                            ISortVariant.STATUS_DESK,
+                            ISortVariant.ANSWER_ASK,
+                            ISortVariant.ANSWER_DESK
                     ]}
                 />
                 <CardsListComponent
@@ -55,16 +57,16 @@ export const CardsComponent: FC<ICardsComponent> = (
                     onResetProgress={onResetProgress}
                     onClickItem={onClickItem}
                     onSelectItem={onSelectItem}
-                isEnabledSelecting={isEnabledSelecting}
-                selectedItems={selectedItems}
-            />
-            <CardsListActions
-                onOpenRepeater={onOpenRepeater}
-                onOpenEditor={onOpenEditor}
-                onStartSelecting={onStartSelecting}
-                onCopySelectedCards={onCopySelectedCards}
-                hideOpenEditorButton={isEnabledSelecting}
-                hideOpenRepeaterButton={isEnabledSelecting}
+                    isEnabledSelecting={isEnabledSelecting}
+                    selectedItems={selectedItems}
+                />
+                <CardsListActions
+                    onOpenRepeater={onOpenRepeater}
+                    onOpenEditor={onOpenEditor}
+                    onStartSelecting={onStartSelecting}
+                    onCopySelectedCards={onCopySelectedCards}
+                    hideOpenEditorButton={isEnabledSelecting}
+                    hideOpenRepeaterButton={isEnabledSelecting}
                 hideDeleteSelectedCardsButton={!isEnabledSelecting}
                 hideMovingSelectedCardsButton={!isEnabledSelecting}
                 hideCopySelectedCardButton={!isEnabledSelecting}

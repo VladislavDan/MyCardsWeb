@@ -77,6 +77,28 @@ export const filterCards = (cards: ICard[], filter: IFilter) => {
             }
         })
         return sortedCards;
+    } else if (filter.sort === ISortVariant.ANSWER_ASK) {
+        sortedCards = foundByTextCards.sort((card1: ICard, card2: ICard) => {
+            if (card1.answer === card2.answer) {
+                return 0
+            } else if (card1.answer < card2.answer) {
+                return 1
+            } else {
+                return -1
+            }
+        })
+        return sortedCards;
+    } else if (filter.sort === ISortVariant.ANSWER_DESK) {
+        sortedCards = foundByTextCards.sort((card1: ICard, card2: ICard) => {
+            if (card1.answer === card2.answer) {
+                return 0
+            } else if (card1.answer < card2.answer) {
+                return -1
+            } else {
+                return 1
+            }
+        })
+        return sortedCards;
     }
 
     return foundByTextCards
