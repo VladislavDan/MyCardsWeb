@@ -10,14 +10,15 @@ import {
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {ChangeEvent, default as React, FC} from "react";
 
-import {ISortVariants} from "../../types/ISortVariants";
+import {ISortVariant} from "../../types/ISortVariant";
 import {IFilterComponent} from "./types/IFilterComponent";
 
 export const FilterComponent: FC<IFilterComponent> = (
     {
         onChangeSearchableText,
         filter,
-        onChangeSorting
+        onChangeSorting,
+        sortVariants
     }
 ) => {
 
@@ -25,8 +26,8 @@ export const FilterComponent: FC<IFilterComponent> = (
         onChangeSearchableText(event.target.value);
     };
 
-    const handleChangingSortingVariant = (event: SelectChangeEvent<ISortVariants>) => {
-        onChangeSorting(event.target.value as ISortVariants)
+    const handleChangingSortingVariant = (event: SelectChangeEvent<ISortVariant>) => {
+        onChangeSorting(event.target.value as ISortVariant)
     }
 
     return <Accordion>
@@ -57,13 +58,11 @@ export const FilterComponent: FC<IFilterComponent> = (
                 label="Sorting"
                 onChange={handleChangingSortingVariant}
             >
-                <MenuItem value={ISortVariants.NONE}>{ISortVariants.NONE}</MenuItem>
-                <MenuItem value={ISortVariants.QUESTION_ASK}>{ISortVariants.QUESTION_ASK}</MenuItem>
-                <MenuItem value={ISortVariants.QUESTION_DESK}>{ISortVariants.QUESTION_DESK}</MenuItem>
-                <MenuItem value={ISortVariants.STATUS_ASK}>{ISortVariants.STATUS_ASK}</MenuItem>
-                <MenuItem value={ISortVariants.STATUS_DESK}>{ISortVariants.STATUS_DESK}</MenuItem>
-                <MenuItem value={ISortVariants.DATE_ASK}>{ISortVariants.DATE_ASK}</MenuItem>
-                <MenuItem value={ISortVariants.DATE_DESK}>{ISortVariants.DATE_DESK}</MenuItem>
+                {
+                    sortVariants.map((variant: ISortVariant) => {
+                        return <MenuItem key={variant} value={variant}>{variant}</MenuItem>
+                    })
+                }
             </Select>
         </AccordionDetails>
     </Accordion>

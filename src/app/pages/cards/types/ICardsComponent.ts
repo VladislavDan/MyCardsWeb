@@ -1,5 +1,5 @@
 import {ICard} from "../../../common/types/ICard";
-import {ISortVariants} from "../../../common/types/ISortVariants";
+import {ISortVariant} from "../../../common/types/ISortVariant";
 import {IFilter} from "../../../common/types/IFilter";
 
 export interface ICardsComponent {
@@ -13,7 +13,7 @@ export interface ICardsComponent {
     onChangeSearchableText: (answer: string) => void;
     height: number;
     width: number
-    onChangeSorting: (sortVariant: ISortVariants) => void;
+    onChangeSorting: (sortVariant: ISortVariant) => void;
     filter: IFilter
     onOpenRepeater: () => void;
     onStartSelecting: () => void;

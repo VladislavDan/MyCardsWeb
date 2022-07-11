@@ -16,7 +16,7 @@ import {onSimplifiedCardsGroupsChannel} from "./channels-callbacks/onSimplifiedC
 import {onCardChannel} from "./channels-callbacks/onCardChannel";
 import {onConstructor} from "./ui-callbacks/onConstructor";
 import {onChangeQuestion} from "./ui-callbacks/onChangeQuestion";
-import {onChangeAnswer} from "../card-viewer/ui-callbacks/onChangeAnswer";
+import {onChangeAnswer} from "./ui-callbacks/onChangeAnswer";
 import {onChangeCardsGroup} from "./ui-callbacks/onChangeCardsGroup";
 import {onSaveCard} from "./ui-callbacks/onSaveCard";
 

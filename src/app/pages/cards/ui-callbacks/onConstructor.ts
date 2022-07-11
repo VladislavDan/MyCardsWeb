@@ -1,8 +1,8 @@
 import {ICallback} from "../../../../MyTools/react-utils/CallbackFactory";
 import {CardsContainerCallbackSettings} from "../types/CardsContainerCallbackSettings";
-import {ISortVariants} from "../../../common/types/ISortVariants";
+import {ISortVariant} from "../../../common/types/ISortVariant";
 
-export const onConstructor: ICallback<CardsContainerCallbackSettings, ISortVariants> = (
+export const onConstructor: ICallback<CardsContainerCallbackSettings, ISortVariant> = (
     {services, location, state}
 ) => {
     const {cardsListService} = services;

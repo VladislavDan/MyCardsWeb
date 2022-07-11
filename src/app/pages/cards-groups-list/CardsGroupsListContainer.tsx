@@ -1,120 +1,69 @@
-import React, {FC, useContext, useState} from "react";
-import {useHistory} from 'react-router';
+import React, {FC, useCallback} from "react";
 
 import {CardsGroupsListComponent} from './CardsGroupsListComponent';
 import {useChannel} from '../../../MyTools/channel-conception/react-hooks/useChannel';
-import {ICardsGroup} from '../../common/types/ICardsGroup';
 import {useConstructor} from '../../../MyTools/react-hooks/useConstructor';
-import {Routs} from '../../common/Routs';
-import {useUnsubscribe} from '../../../MyTools/react-hooks/useUnsubscribe';
 import {IAppContext} from '../../common/types/IAppContext';
 import {AppContext} from '../../../App';
 import {ICardsGroupsListContainer} from "./types/ICardsGroupsListContainer";
 import {CardsGroupsListContainerState} from "./types/CardsGroupsListContainerState";
+import {useCallbackFactory} from "../../../MyTools/react-hooks/useCallbackFactory";
+import {INavigationState} from "../../common/types/INavigationState";
 import {initialState} from "./Constants";
+import {onResetProgress} from "./ui-callbacks/onResetProgress";
+import {onEditItem} from "./ui-callbacks/onEditItem";
+import {onDeleteItem} from "./ui-callbacks/onDeleteItem";
+import {onOpenEditor} from "./ui-callbacks/onOpenEditor";
+import {onClickItem} from "./ui-callbacks/onClickItem";
+import {onConstructor} from "./ui-callbacks/onConstructor";
+import {onResetProgressChannel} from "./callbackChannels/onResetProgressChannel";
+import {onGroupDeleteChannel} from "./callbackChannels/onGroupDeleteChannel";
+import {onGroupsListChannel} from "./callbackChannels/onGroupsListChannel";
+import {onChangeSorting} from "./ui-callbacks/onChangeSorting";
+import {onChangeFilterChannel} from "./callbackChannels/onChangeFilterChannel";
+import {onFilterChannel} from "./callbackChannels/onFilterChannel";
+import {onChangeSearchableText} from "./ui-callbacks/onChangeSearchableText";
 
 export const CardsGroupsListContainer: FC<ICardsGroupsListContainer> = (
-    {
-        cardsGroupsListService,
-        confirmDialogService
-    }
+    services
 ) => {
 
-    const [state, setState] = useState<CardsGroupsListContainerState>(initialState);
+    const {
+        callbackFactory,
+        callbackSettings
+    } = useCallbackFactory<INavigationState, CardsGroupsListContainerState, ICardsGroupsListContainer, IAppContext>(
+        initialState,
+        services,
+        AppContext
+    );
 
-    const history = useHistory();
+    const {state, context, services: {cardsGroupsListService}} = callbackSettings
 
-    const context = useContext<IAppContext>(AppContext);
+    useChannel(cardsGroupsListService.groupsListChannel, callbackFactory(onGroupsListChannel));
+    useChannel(cardsGroupsListService.groupDeleteChannel, callbackFactory(onGroupDeleteChannel));
+    useChannel(cardsGroupsListService.resetProgressChannel, callbackFactory(onResetProgressChannel));
+    useChannel(cardsGroupsListService.changeFilterChannel, callbackFactory(onChangeFilterChannel));
+    useChannel(cardsGroupsListService.filterChannel, callbackFactory(onFilterChannel))
 
-    useChannel<string, ICardsGroup[]>(cardsGroupsListService.groupsListChannel, (cardsGroups: ICardsGroup[]) => {
-        setState({...state, cardsGroups: cardsGroups})
-    });
+    useConstructor(callbackFactory(onConstructor));
 
-    useChannel<number, ICardsGroup[]>(cardsGroupsListService.groupDeleteChannel, () => {
-        cardsGroupsListService.groupsListChannel.next('');
-    });
-
-    useChannel<number, ICardsGroup[]>(cardsGroupsListService.resetProgressChannel, () => {
-        cardsGroupsListService.groupsListChannel.next('');
-    });
-
-    useConstructor(() => {
-        cardsGroupsListService.groupsListChannel.next('');
-    });
-
-    const {setSubscription} = useUnsubscribe();
-
-    const onClickItem = (cardsGroupID: number): void => {
-        history.push({
-            pathname: Routs.cards.path,
-            state: {
-                cardsGroupID: cardsGroupID
-            }
-        })
-    };
-
-    const onOpenEditor = () => {
-        history.push({
-            pathname: Routs.cardsGroupEditor.path
-        })
-    };
-
-    const onDeleteItem = (cardsGroupID: number) => {
-
-        const subscription = confirmDialogService.confirmationChannel.subscribe((isConfirm) => {
-            if (isConfirm) {
-                cardsGroupsListService.groupDeleteChannel.next(cardsGroupID);
-            }
-
-            confirmDialogService.openDialogChannel.next({
-                isOpen: false,
-                message: ''
-            })
-        });
-
-        setSubscription(subscription);
-
-        confirmDialogService.openDialogChannel.next({
-            isOpen: true,
-            message: 'Do you want to remove this group?'
-        })
-    };
-
-    const onEditItem = (cardsGroupID: number) => {
-        history.push({
-            pathname: Routs.cardsGroupEditor.path,
-            state: {
-                cardsGroupID: cardsGroupID
-            }
-        })
-    };
-
-    const onResetProgress = (cardsGroupID: number) => {
-        const subscription = confirmDialogService.confirmationChannel.subscribe((isConfirm) => {
-            if (isConfirm) {
-                cardsGroupsListService.resetProgressChannel.next(cardsGroupID);
-            }
-
-            confirmDialogService.openDialogChannel.next({
-                isOpen: false,
-                message: ''
-            })
-        });
-
-        setSubscription(subscription);
-
-        confirmDialogService.openDialogChannel.next({
-            isOpen: true,
-            message: 'Do you want to reset progress of this group?'
-        });
-    };
+    const clickItem = useCallback(callbackFactory(onClickItem), []);
+    const openEditor = useCallback(callbackFactory(onOpenEditor), []);
+    const deleteItem = useCallback(callbackFactory(onDeleteItem), []);
+    const editItem = useCallback(callbackFactory(onEditItem), []);
+    const resetProgress = useCallback(callbackFactory(onResetProgress), []);
+    const changeSorting = useCallback(callbackFactory(onChangeSorting), [state.filter]);
+    const changeSearchableText = useCallback(callbackFactory(onChangeSearchableText), [state.filter]);
 
     return <CardsGroupsListComponent
-        onClickItem={onClickItem}
-        onOpenEditor={onOpenEditor}
-        onDeleteItem={onDeleteItem}
-        onEditItem={onEditItem}
-        onResetProgress={onResetProgress}
+        onClickItem={clickItem}
+        onOpenEditor={openEditor}
+        onDeleteItem={deleteItem}
+        onEditItem={editItem}
+        onResetProgress={resetProgress}
+        onChangeSorting={changeSorting}
+        filter={state.filter}
+        onChangeSearchableText={changeSearchableText}
         height={context.height}
         width={context.width}
         cardsGroups={state.cardsGroups}/>

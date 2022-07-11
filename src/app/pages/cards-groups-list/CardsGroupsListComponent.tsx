@@ -6,6 +6,7 @@ import {AddButtonComponent} from '../../common/elements/add-button/AddButtonComp
 import {CardsGroupsListItemComponent} from './elements/cards-groups-list-item/CardsGroupsListItemComponent';
 import {ICardsGroupsListComponent} from "./types/ICardsGroupsListComponent";
 import {FilterComponent} from "../../common/elements/filter/FilterComponent";
+import {ISortVariant} from "../../common/types/ISortVariant";
 
 export const CardsGroupsListComponent: FC<ICardsGroupsListComponent> = (
     {
@@ -28,6 +29,13 @@ export const CardsGroupsListComponent: FC<ICardsGroupsListComponent> = (
             filter={filter}
             onChangeSearchableText={onChangeSearchableText}
             onChangeSorting={onChangeSorting}
+            sortVariants={[
+                ISortVariant.NONE,
+                ISortVariant.DATE_ASK,
+                ISortVariant.DATE_DESK,
+                ISortVariant.NAME_ASK,
+                ISortVariant.NAME_DESK
+            ]}
         />
         <List
             className="cards-groups"

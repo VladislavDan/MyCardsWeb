@@ -1,10 +1,10 @@
-import {ISortVariants} from "../../../common/types/ISortVariants";
+import {ISortVariant} from "../../../common/types/ISortVariant";
 import {ICallback} from "../../../../MyTools/react-utils/CallbackFactory";
 import {CardsContainerCallbackSettings} from "../types/CardsContainerCallbackSettings";
 
-export const onChangeSorting: ICallback<CardsContainerCallbackSettings, ISortVariants> = (
+export const onChangeSorting: ICallback<CardsContainerCallbackSettings, ISortVariant> = (
     {state, setState, services, location},
-    sortVariant: ISortVariants = ISortVariants.NONE
+    sortVariant: ISortVariant = ISortVariant.NONE
 ) => {
     const newFilter = {
         ...state.filter,

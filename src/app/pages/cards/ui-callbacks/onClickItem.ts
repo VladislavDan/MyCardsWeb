@@ -8,14 +8,14 @@ export const onClickItem: ICallback<CardsContainerCallbackSettings, number> = (
         location,
         history
     },
-    cardID
+    cardID = -1
 ) => {
     history.push({
         pathname: Routs.cardViewer.path,
         state: {
             ...location.state,
             cardsGroupID: location.state.cardsGroupID,
-            cardID: cardID
+            cardID
         }
     })
 }

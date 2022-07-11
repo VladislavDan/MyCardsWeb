@@ -1,5 +1,4 @@
-import {useHistory, useLocation} from 'react-router';
-import React, {FC, useCallback, useContext, useState} from 'react';
+import React, {FC, useCallback, useContext} from 'react';
 
 import {useChannel} from '../../../MyTools/channel-conception/react-hooks/useChannel';
 import {ICard} from '../../common/types/ICard';
@@ -13,60 +12,46 @@ import {INavigationState} from '../../common/types/INavigationState';
 import {AppContext} from '../../../App';
 import {IAppContext} from '../../common/types/IAppContext';
 import {initDefaultCard} from "../../common/logic/initDefaultCard";
-import {useUnsubscribe} from "../../../MyTools/react-hooks/useUnsubscribe";
-import {CallbackFactory} from "../../../MyTools/react-utils/CallbackFactory";
 import {IRangeOfKnowledge} from "../../common/types/IRangeOfKnowledge";
 import {ICardRepeaterContainer} from "./types/ICardRepeaterContainer";
 import {CardRepeaterContainerState} from "./types/CardRepeaterContainerState";
 import {onDeleteCard} from "./ui-callbacks/onDeleteCard";
 import {onDeleteSingleCardChannel} from "./channels-callbacks/onDeleteSingleCardChannel";
 import {onCardGroupNameChannel} from "./channels-callbacks/onCardGroupNameChannel";
+import {initialState} from "./Constants";
+import {useCallbackFactory} from "../../../MyTools/react-hooks/useCallbackFactory";
 
 export const CardRepeaterContainer: FC<ICardRepeaterContainer> = (
     services
 ) => {
 
-    const {cardsRepeaterService, cardsEditorService} = services
+    const {
+        callbackFactory,
+        callbackSettings
+    } = useCallbackFactory<INavigationState, CardRepeaterContainerState, ICardRepeaterContainer, IAppContext>(
+        initialState,
+        services,
+        AppContext
+    );
 
-    const location = useLocation<INavigationState>();
-
-    const history = useHistory<INavigationState>();
-
-    const defaultStatisticValue = {
-        inProgress: 0,
-        todo: 0,
-        done: 0
-    };
-
-    const [state, setState] = useState<CardRepeaterContainerState>({
-        card: {
-            id: -1,
-            question: '',
-            answer: '',
-            rangeOfKnowledge: IRangeOfKnowledge.IN_PROGRESS,
-            dateRepeating: 0
-        },
-        isQuestionSide: true,
-        isEditable: false
-    });
-
-    const [statistic, setStatistic] = useState<IStatistic>(defaultStatisticValue);
-
-    const {setSubscription} = useUnsubscribe();
-
-    const callbackSettings = {location, history, services, state, setState, context: {}, setSubscription}
-
-    const callbackFactory = CallbackFactory(callbackSettings)
+    const {
+        state, setState, location, history, services: {
+            cardsRepeaterService, cardsEditorService
+        }
+    } = callbackSettings
 
     useChannel(cardsRepeaterService.deleteSingleCardChannel, callbackFactory(onDeleteSingleCardChannel))
     useChannel(cardsRepeaterService.cardGroupNameChannel, callbackFactory(onCardGroupNameChannel))
 
     useChannel<number[], ICard>(cardsRepeaterService.cardChannel, (card: ICard) => {
         cardsRepeaterService.cardGroupNameChannel.next(card.id)
-        setState({
-            card: card,
-            isQuestionSide: true,
-            isEditable: false
+        setState((prevState) => {
+            return {
+                ...prevState,
+                card: card,
+                isQuestionSide: true,
+                isEditable: false
+            }
         });
         cardsRepeaterService.statisticChannel.next('');
     });
@@ -81,7 +66,12 @@ export const CardRepeaterContainer: FC<ICardRepeaterContainer> = (
     });
 
     useChannel<string, IStatistic>(cardsRepeaterService.statisticChannel, (statistic: IStatistic) => {
-        setStatistic(() => statistic)
+        setState((prevState) => {
+            return {
+                ...prevState,
+                statistic
+            }
+        })
     });
 
     useChannel<IRepeatingArgs, ICardsGroup[]>(cardsRepeaterService.repeatingResultChannel, () => {
@@ -106,25 +96,30 @@ export const CardRepeaterContainer: FC<ICardRepeaterContainer> = (
                 cardsGroupID: location.state.cardsGroupID
             });
         } else {
-            setState({
-                card: {
-                    id: -1,
-                    question: '',
-                    answer: '',
-                    rangeOfKnowledge: IRangeOfKnowledge.IN_PROGRESS,
-                    dateRepeating: 0
-                },
-                isQuestionSide: false,
-                isEditable: false
+            setState((prevState) => {
+                return {
+                    ...prevState,
+                    card: {
+                        id: -1,
+                        question: '',
+                        answer: '',
+                        rangeOfKnowledge: IRangeOfKnowledge.IN_PROGRESS,
+                        dateRepeating: 0
+                    },
+                    isQuestionSide: false,
+                    isEditable: false
+                }
             });
         }
     };
 
     const onClickCard = () => {
         if (!state.isEditable) {
-            setState({
-                ...state,
-                isQuestionSide: !state.isQuestionSide
+            setState((prevState) => {
+                return {
+                    ...prevState,
+                    isQuestionSide: !prevState.isQuestionSide
+                }
             })
         }
     };
@@ -134,9 +129,11 @@ export const CardRepeaterContainer: FC<ICardRepeaterContainer> = (
     };
 
     const onSwitchEditing = () => {
-        setState({
-            ...state,
-            isEditable: !state.isEditable
+        setState((prevState) => {
+            return {
+                ...prevState,
+                isEditable: !prevState.isEditable
+            }
         });
 
         if (state.isEditable) {
@@ -154,7 +151,9 @@ export const CardRepeaterContainer: FC<ICardRepeaterContainer> = (
                 question
             };
 
-            setState({...state, card: editableCard});
+            setState((prevState) => {
+                return {...prevState, card: editableCard}
+            });
         }
     };
 
@@ -165,7 +164,9 @@ export const CardRepeaterContainer: FC<ICardRepeaterContainer> = (
                 answer
             };
 
-            setState({...state, card: editableCard});
+            setState((prevState) => {
+                return {...prevState, card: editableCard}
+            });
         }
     };
 
@@ -178,7 +179,7 @@ export const CardRepeaterContainer: FC<ICardRepeaterContainer> = (
         onClickCard={onClickCard}
         onClickYesNoButton={onClick}
         card={state.card}
-        statistic={statistic}
+        statistic={state.statistic}
         onBackClick={onBackClick}
         onSwitchEditing={onSwitchEditing}
         isEditable={state.isEditable}

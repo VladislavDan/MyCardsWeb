@@ -1,7 +1,7 @@
 import {ICallback} from "../../../../MyTools/react-utils/CallbackFactory";
 import {CardsEditorCallbackSettings} from "../types/CardsEditorCallbackSettings";
 
-export const onChangeQuestion: ICallback<CardsEditorCallbackSettings, string> = (
+export const onChangeAnswer: ICallback<CardsEditorCallbackSettings, string> = (
     {history, setState, state},
     answer = ''
 ) => {

@@ -1,10 +1,10 @@
 import {ICallbackSettings} from "../../../../MyTools/react-hooks/types/ICallbackSettings";
-import {CardRepeaterContainerState} from "./CardRepeaterContainerState";
-import {ICardRepeaterContainer} from "./ICardRepeaterContainer";
 import {INavigationState} from "../../../common/types/INavigationState";
 import {IAppContext} from "../../../common/types/IAppContext";
+import {CardsGroupsEditorState} from "./CardsGroupsEditorState";
+import {ICardsGroupsEditorContainer} from "./ICardsGroupsEditorContainer";
 
-export type CardRepeaterCallbackSettings = ICallbackSettings<CardRepeaterContainerState,
-    ICardRepeaterContainer,
+export type ICardsGroupsEditorCallbackSettings = ICallbackSettings<CardsGroupsEditorState,
+    ICardsGroupsEditorContainer,
     INavigationState,
     IAppContext>

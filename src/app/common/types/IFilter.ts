@@ -1,6 +1,6 @@
-import {ISortVariants} from "./ISortVariants";
+import {ISortVariant} from "./ISortVariant";
 
 export interface IFilter {
     searchableText: string
-    sort: ISortVariants
+    sort: ISortVariant
 }

@@ -8,7 +8,7 @@ export const onEditItem: ICallback<CardsContainerCallbackSettings, number> = (
         location,
         history
     },
-    cardID
+    cardID = -1
 ) => {
     history.push({
         pathname: Routs.cardsEditor.path,

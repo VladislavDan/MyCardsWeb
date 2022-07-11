@@ -1,6 +1,6 @@
 import {ICardsGroup} from "../../../common/types/ICardsGroup";
 import {IFilter} from "../../../common/types/IFilter";
-import {ISortVariants} from "../../../common/types/ISortVariants";
+import {ISortVariant} from "../../../common/types/ISortVariant";
 
 export interface ICardsGroupsListComponent {
     cardsGroups: ICardsGroup[];
@@ -10,7 +10,7 @@ export interface ICardsGroupsListComponent {
     onOpenEditor: () => void;
     onResetProgress: (id: number) => void;
     onChangeSearchableText: (searchableText: string) => void;
-    onChangeSorting: (sortVariant: ISortVariants) => void;
+    onChangeSorting: (sortVariant: ISortVariant) => void;
     filter: IFilter;
     height: number;
     width: number

@@ -1,5 +1,19 @@
-import {ISortVariants} from "./types/ISortVariants";
+import {ISortVariant} from "./types/ISortVariant";
 import {IRangeOfKnowledge} from "./types/IRangeOfKnowledge";
+
+export const defaultStatisticValue = {
+    inProgress: 0,
+    todo: 0,
+    done: 0
+};
+
+export const defaultCardsGroupValue = {
+    cards: [],
+    nameCardsGroup: '',
+    repeatingDate: new Date().getTime(),
+    id: new Date().getTime(),
+    percentRepeatedCards: 0
+}
 
 export const defaultAppState = {
     height: 0,
@@ -8,7 +22,7 @@ export const defaultAppState = {
 
 export const defaultFilterValue = {
     searchableText: '',
-    sort: ISortVariants.NONE
+    sort: ISortVariant.NONE
 }
 
 export const defaultCardValue = {

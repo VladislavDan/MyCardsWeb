@@ -6,7 +6,7 @@ export const onDeleteItem: ICallback<CardsContainerCallbackSettings, number> = (
         setSubscription,
         services
     },
-    cardID
+    cardID = -1
 ) => {
     const {confirmDialogService, cardsListService} = services;
     const subscription = confirmDialogService.confirmationChannel.subscribe((isConfirm: boolean) => {

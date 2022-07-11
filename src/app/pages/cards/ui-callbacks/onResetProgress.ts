@@ -6,7 +6,7 @@ export const onResetProgress: ICallback<CardsContainerCallbackSettings, number> 
         services,
         location
     },
-    cardID
+    cardID = -1
 ) => {
     services.cardsListService.resetCardProgressChannel.next(
         {

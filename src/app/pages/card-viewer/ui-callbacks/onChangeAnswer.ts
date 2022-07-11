@@ -1,7 +1,7 @@
 import {ICallback} from "../../../../MyTools/react-utils/CallbackFactory";
-import {CardsEditorCallbackSettings} from "../../cards-editor/types/CardsEditorCallbackSettings";
+import {CardViewerCallbackSettings} from "../types/CardViewerCallbackSettings";
 
-export const onChangeAnswer: ICallback<CardsEditorCallbackSettings, string> = (
+export const onChangeAnswer: ICallback<CardViewerCallbackSettings, string> = (
     {state, setState},
     args = ''
 ) => {
