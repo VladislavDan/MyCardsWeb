@@ -1,5 +1,8 @@
+import RefreshIcon from '@mui/icons-material/Refresh';
+
 import {ICallback} from "../../../../MyTools/react-utils/CallbackFactory";
 import {ICardsGroupsCallbackSettings} from "../types/ICardsGroupsCallbackSettings";
+import {defaultConfirmDialogState} from "../../../common/Constants";
 
 export const onResetProgress: ICallback<ICardsGroupsCallbackSettings, number> = (
     {services, setSubscription},
@@ -11,16 +14,15 @@ export const onResetProgress: ICallback<ICardsGroupsCallbackSettings, number> = 
             cardsGroupsListService.resetProgressChannel.next(cardsGroupID);
         }
 
-        confirmDialogService.openDialogChannel.next({
-            isOpen: false,
-            message: ''
-        })
+        confirmDialogService.openDialogChannel.next(defaultConfirmDialogState)
     });
 
     setSubscription(subscription);
 
     confirmDialogService.openDialogChannel.next({
         isOpen: true,
-        message: 'Do you want to reset progress of this group?'
+        message: 'Do you want to reset progress of this group?',
+        titleBackgroundColor: 'green',
+        icon: <RefreshIcon/>
     });
 }

@@ -1,5 +1,8 @@
+import DeleteIcon from '@mui/icons-material/Delete';
+
 import {ICallback} from "../../../../MyTools/react-utils/CallbackFactory";
 import {ICardsGroupsCallbackSettings} from "../types/ICardsGroupsCallbackSettings";
+import {defaultConfirmDialogState} from "../../../common/Constants";
 
 export const onDeleteItem: ICallback<ICardsGroupsCallbackSettings, number> = (
     {
@@ -18,16 +21,15 @@ export const onDeleteItem: ICallback<ICardsGroupsCallbackSettings, number> = (
             cardsGroupsListService.groupDeleteChannel.next(cardsGroupID);
         }
 
-        confirmDialogService.openDialogChannel.next({
-            isOpen: false,
-            message: ''
-        })
+        confirmDialogService.openDialogChannel.next(defaultConfirmDialogState)
     });
 
     setSubscription(subscription);
 
     confirmDialogService.openDialogChannel.next({
         isOpen: true,
-        message: 'Do you want to remove this group?'
+        message: 'Do you want to remove this group?',
+        icon: <DeleteIcon/>,
+        titleBackgroundColor: 'red'
     })
 }

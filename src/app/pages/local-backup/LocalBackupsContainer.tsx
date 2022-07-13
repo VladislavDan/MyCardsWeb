@@ -1,10 +1,12 @@
 import * as React from 'react';
 import {FC, useRef} from 'react';
+import LoadIcon from '@mui/icons-material/Download';
 
 import {useChannel} from '../../../MyTools/channel-conception/react-hooks/useChannel';
 import {Button} from '@mui/material';
 import {useUnsubscribe} from '../../../MyTools/react-hooks/useUnsubscribe';
 import {ILocalBackupsContainer} from "./types/ILocalBackupsContainer";
+import {defaultConfirmDialogState} from "../../common/Constants";
 
 export const LocalBackupsContainer: FC<ILocalBackupsContainer> = ({localBackupsService, confirmDialogService, spinnerService}) => {
 
@@ -37,17 +39,16 @@ export const LocalBackupsContainer: FC<ILocalBackupsContainer> = ({localBackupsS
                     localBackupsService.loadBackupChannel.next(games);
                 }
 
-                confirmDialogService.openDialogChannel.next({
-                    isOpen: false,
-                    message: ''
-                })
+                confirmDialogService.openDialogChannel.next(defaultConfirmDialogState)
             });
 
             setSubscription(subscription);
 
             confirmDialogService.openDialogChannel.next({
                 isOpen: true,
-                message: 'Do you want to load this backup, your current changes could be removed?'
+                message: 'Do you want to load this backup, your current changes could be removed?',
+                titleBackgroundColor: 'red',
+                icon: <LoadIcon/>
             });
         };
         reader.readAsText(file);

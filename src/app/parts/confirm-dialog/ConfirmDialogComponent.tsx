@@ -4,17 +4,21 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
 
 import {IConfirmDialogComponent} from "./types/IConfirmDialogComponent";
+import {DialogTitleComponent} from "./elements/dialog-title/DialogTitleComponent";
 
-export const ConfirmDialogComponent: FC<IConfirmDialogComponent> = ({
-                                                                        onClickAgree,
-                                                                        onClickDisagree,
-                                                                        isOpen,
-                                                                        message,
-                                                                        onClose
-                                                                    }) => {
+export const ConfirmDialogComponent: FC<IConfirmDialogComponent> = (
+    {
+        onClickAgree,
+        onClickDisagree,
+        isOpen,
+        message,
+        onClose,
+        titleBackgroundColor = 'grey',
+        icon = null
+    }
+) => {
 
     return (
         <div>
@@ -24,7 +28,10 @@ export const ConfirmDialogComponent: FC<IConfirmDialogComponent> = ({
                 aria-describedby="alert-dialog-description"
                 onClose={onClose}
             >
-                <DialogTitle id="alert-dialog-title">Warning</DialogTitle>
+                <DialogTitleComponent
+                    titleBackgroundColor={titleBackgroundColor}
+                    icon={icon}
+                />
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
                         {message}

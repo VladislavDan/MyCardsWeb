@@ -1,8 +1,11 @@
+import MoveIcon from '@mui/icons-material/MoveToInbox';
+
 import {ICallback} from "../../../../MyTools/react-utils/CallbackFactory";
 import {CardsContainerCallbackSettings} from "../types/CardsContainerCallbackSettings";
+import {defaultConfirmDialogState} from "../../../common/Constants";
 
-export const onCopySelectedCards: ICallback<CardsContainerCallbackSettings, void> = (
-    settings: CardsContainerCallbackSettings
+export const onMovingSelectedCards: ICallback<CardsContainerCallbackSettings, void> = (
+    settings
 ) => {
 
     const {services, state, setSubscription} = settings;
@@ -17,7 +20,7 @@ export const onCopySelectedCards: ICallback<CardsContainerCallbackSettings, void
 
         const subscription = confirmDialogService.confirmationChannel.subscribe((isConfirm) => {
             if (isConfirm) {
-                cardsListService.copyCardsChannel.next({
+                cardsListService.movingCardsChannel.next({
                     selectedItems: state.selectedItems,
                     destinationGroupID: groupID
                 });
@@ -29,17 +32,16 @@ export const onCopySelectedCards: ICallback<CardsContainerCallbackSettings, void
                 });
             }
 
-            confirmDialogService.openDialogChannel.next({
-                isOpen: false,
-                message: ''
-            })
+            confirmDialogService.openDialogChannel.next(defaultConfirmDialogState)
         });
 
         setSubscription(subscription);
 
         confirmDialogService.openDialogChannel.next({
             isOpen: true,
-            message: 'Do you want to copy this cards?'
+            message: 'Do you want to move this cards?',
+            titleBackgroundColor: 'green',
+            icon: <MoveIcon/>
         });
     });
 

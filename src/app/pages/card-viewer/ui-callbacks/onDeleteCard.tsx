@@ -1,5 +1,8 @@
+import DeleteIcon from '@mui/icons-material/Delete';
+
 import {ICallback} from "../../../../MyTools/react-utils/CallbackFactory";
 import {CardViewerCallbackSettings} from "../types/CardViewerCallbackSettings";
+import {defaultConfirmDialogState} from "../../../common/Constants";
 
 export const onDeleteCard: ICallback<CardViewerCallbackSettings, void> = (
     settings
@@ -13,16 +16,15 @@ export const onDeleteCard: ICallback<CardViewerCallbackSettings, void> = (
             cardViewerService.deleteSingleCardChannel.next(state.card.id);
         }
 
-        confirmDialogService.openDialogChannel.next({
-            isOpen: false,
-            message: ''
-        })
+        confirmDialogService.openDialogChannel.next(defaultConfirmDialogState)
     });
 
     setSubscription(subscription);
 
     confirmDialogService.openDialogChannel.next({
         isOpen: true,
-        message: 'Do you want to delete this cards?'
+        message: 'Do you want to delete this cards?',
+        titleBackgroundColor: 'red',
+        icon: <DeleteIcon/>
     });
 }

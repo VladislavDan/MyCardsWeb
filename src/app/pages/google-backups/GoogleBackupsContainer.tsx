@@ -1,5 +1,7 @@
 import * as React from 'react';
 import {FC, useState} from 'react';
+import UploadIcon from '@mui/icons-material/Upload';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 import {useChannel} from '../../../MyTools/channel-conception/react-hooks/useChannel';
 import {IGoogleDriveFile} from '../../common/types/IGoogleDriveFile';
@@ -10,6 +12,7 @@ import {useConstructor} from '../../../MyTools/react-hooks/useConstructor';
 import {useUnsubscribe} from '../../../MyTools/react-hooks/useUnsubscribe';
 import {IGoogleBackupsContainer} from "./types/IGoogleBackupsContainer";
 import {GoogleAuthComponentState} from "./types/GoogleAuthComponentState";
+import {defaultConfirmDialogState} from "../../common/Constants";
 
 export const GoogleBackupsContainer: FC<IGoogleBackupsContainer> = ({
                                                                         spinnerService,
@@ -70,17 +73,16 @@ export const GoogleBackupsContainer: FC<IGoogleBackupsContainer> = ({
                 googleBackupsService.backupLoadChannel.next(backupID);
             }
 
-            confirmDialogService.openDialogChannel.next({
-                isOpen: false,
-                message: ''
-            })
+            confirmDialogService.openDialogChannel.next(defaultConfirmDialogState)
         });
 
         setSubscription(subscription);
 
         confirmDialogService.openDialogChannel.next({
             isOpen: true,
-            message: 'Do you want to upload this backup?'
+            message: 'Do you want to upload this backup?',
+            titleBackgroundColor: 'green',
+            icon: <UploadIcon/>
         });
     };
 
@@ -92,17 +94,16 @@ export const GoogleBackupsContainer: FC<IGoogleBackupsContainer> = ({
                 googleBackupsService.backupDeleteChannel.next(backupID);
             }
 
-            confirmDialogService.openDialogChannel.next({
-                isOpen: false,
-                message: ''
-            })
+            confirmDialogService.openDialogChannel.next(defaultConfirmDialogState)
         });
 
         setSubscription(subscription);
 
         confirmDialogService.openDialogChannel.next({
             isOpen: true,
-            message: 'Do you want to delete this backup?'
+            message: 'Do you want to delete this backup?',
+            titleBackgroundColor: 'red',
+            icon: <DeleteIcon/>
         });
     };
 

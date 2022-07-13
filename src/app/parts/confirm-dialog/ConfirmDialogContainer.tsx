@@ -5,23 +5,29 @@ import {ConfirmDialogComponent} from './ConfirmDialogComponent';
 import {useChannel} from '../../../MyTools/channel-conception/react-hooks/useChannel';
 import {IConfirmDialogContainer} from "./types/IConfirmDialogContainer";
 import {ConfirmDialogContainerState} from "./types/ConfirmDialogContainerState";
+import {defaultConfirmDialogState} from "../../common/Constants";
 
 export const ConfirmDialogContainer: FC<IConfirmDialogContainer> = ({confirmDialogService}) => {
 
-    const [state, setState] = React.useState<ConfirmDialogContainerState>({
-        isOpen: false,
-        message: ''
-    });
+    const [state, setState] = React.useState<ConfirmDialogContainerState>(defaultConfirmDialogState);
 
     useChannel<ConfirmDialogContainerState, ConfirmDialogContainerState>(
         confirmDialogService.openDialogChannel,
         (state: ConfirmDialogContainerState) => {
-            setState({...state});
+            console.log(state)
+            setState(() => {
+                return {...state}
+            })
         }
     );
 
     const onClose = () => {
-        setState({isOpen: false, message: ''});
+        setState((prevState) => {
+            return {
+                ...prevState,
+                isOpen: false, message: ''
+            }
+        });
         confirmDialogService.confirmationChannel.unsubscribe();
     };
 
@@ -39,5 +45,7 @@ export const ConfirmDialogContainer: FC<IConfirmDialogContainer> = ({confirmDial
         onClickDisagree={onClickDisagree}
         onClose={onClose}
         message={state.message}
+        titleBackgroundColor={state.titleBackgroundColor}
+        icon={state.icon}
     />
 };
