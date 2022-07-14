@@ -14,11 +14,13 @@ import {IGoogleBackupsContainer} from "./types/IGoogleBackupsContainer";
 import {GoogleAuthComponentState} from "./types/GoogleAuthComponentState";
 import {defaultConfirmDialogState} from "../../common/Constants";
 
-export const GoogleBackupsContainer: FC<IGoogleBackupsContainer> = ({
-                                                                        spinnerService,
-                                                                        googleBackupsService,
-                                                                        confirmDialogService
-                                                                    }) => {
+export const GoogleBackupsContainer: FC<IGoogleBackupsContainer> = (
+    {
+        spinnerService,
+        googleBackupsService,
+        confirmDialogService
+    }
+) => {
 
     const history = useHistory();
 

@@ -41,11 +41,11 @@ export const sortByFilter = (cardsGroups: ICardsGroup[], filter: IFilter) => {
     } else if (filter.sort === ISortVariant.DATE_DESK) {
         sortedCards = sortedCards && sortedCards.sort((firstCardGroup: ICardsGroup, secondCardsGroup: ICardsGroup) => {
             if (firstCardGroup.repeatingDate && secondCardsGroup.repeatingDate) {
-                if (firstCardGroup.repeatingDate > secondCardsGroup.repeatingDate) {
-                    return -1
-                }
                 if (firstCardGroup.repeatingDate < secondCardsGroup.repeatingDate) {
                     return 1
+                }
+                if (firstCardGroup.repeatingDate > secondCardsGroup.repeatingDate) {
+                    return -1
                 }
             }
             return 0
