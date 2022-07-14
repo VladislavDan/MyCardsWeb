@@ -80,8 +80,8 @@ export const GoogleBackupsContainer: FC<IGoogleBackupsContainer> = ({
 
         confirmDialogService.openDialogChannel.next({
             isOpen: true,
-            message: 'Do you want to upload this backup?',
-            titleBackgroundColor: 'green',
+            message: 'Do you want to load this backup?',
+            titleBackgroundColor: 'red',
             icon: <UploadIcon/>
         });
     };
