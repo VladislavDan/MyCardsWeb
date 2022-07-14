@@ -10,9 +10,7 @@ export const onChangeAnswer: ICallback<CardsEditorCallbackSettings, string> = (
             card: {
                 ...prevState.card,
                 answer
-            },
-            currentCardsGroup: prevState.currentCardsGroup,
-            cardsGroups: prevState.cardsGroups
+            }
         }
     })
 }

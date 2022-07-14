@@ -4,16 +4,12 @@ import {StorageService} from '../../common/services/StorageService';
 import {ICardsGroup} from '../../common/types/ICardsGroup';
 import {Channel} from '../../../MyTools/channel-conception/Channel';
 import {ICard} from '../../common/types/ICard';
-import {ISimplifiedCardsGroup} from '../../common/types/ISimplifiedCardsGroup';
 import {saveCard} from './logic/saveCard';
 import {getEditingCard} from './logic/getEditingCard';
-import {getSimplifiedGroup} from './logic/getSimplifiedGroup';
-import {addCurrentGroupToSimplifiedGroup} from './logic/addCurrentGroupToSimplifiedGroup';
 
 export class CardsEditorService {
 
     public cardEditingChannel: Channel<{ card: ICard, cardsGroupID: number }, ICard>;
-    public simplifiedCardsGroupsChannel: Channel<number, { currentCardsGroup: ISimplifiedCardsGroup, cardsGroups: ISimplifiedCardsGroup[] }>;
     public cardChannel: Channel<{ cardID: number, cardsGroupID: number }, ICard | undefined>;
 
     constructor(storageService: StorageService) {
@@ -28,10 +24,5 @@ export class CardsEditorService {
         this.cardChannel = new Channel(({cardID, cardsGroupID}) => storageService.getBackup().pipe(
             map((cardsGroups: ICardsGroup[]) => getEditingCard(cardsGroupID, cardID, cardsGroups))
         ));
-
-        this.simplifiedCardsGroupsChannel = new Channel((cardsGroupID: number) => storageService.getBackup().pipe(
-            map((cardsGroups: ICardsGroup[]) => getSimplifiedGroup(cardsGroups)),
-            map((cardsGroups: ISimplifiedCardsGroup[]) => addCurrentGroupToSimplifiedGroup(cardsGroupID, cardsGroups))
-        ))
     }
 }
