@@ -13,5 +13,4 @@ export interface ICardsGroupsListComponent {
     onChangeSorting: (sortVariant: ISortVariant) => void;
     filter: IFilter;
     height: number;
-    width: number
 }

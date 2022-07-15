@@ -16,12 +16,12 @@ import {onDeleteItem} from "./ui-callbacks/onDeleteItem";
 import {onOpenEditor} from "./ui-callbacks/onOpenEditor";
 import {onClickItem} from "./ui-callbacks/onClickItem";
 import {onConstructor} from "./ui-callbacks/onConstructor";
-import {onResetProgressChannel} from "./callbackChannels/onResetProgressChannel";
-import {onGroupDeleteChannel} from "./callbackChannels/onGroupDeleteChannel";
-import {onGroupsListChannel} from "./callbackChannels/onGroupsListChannel";
+import {onResetProgressChannel} from "./channels-callbacks/onResetProgressChannel";
+import {onGroupDeleteChannel} from "./channels-callbacks/onGroupDeleteChannel";
+import {onGroupsListChannel} from "./channels-callbacks/onGroupsListChannel";
 import {onChangeSorting} from "./ui-callbacks/onChangeSorting";
-import {onChangeFilterChannel} from "./callbackChannels/onChangeFilterChannel";
-import {onFilterChannel} from "./callbackChannels/onFilterChannel";
+import {onChangeFilterChannel} from "./channels-callbacks/onChangeFilterChannel";
+import {onFilterChannel} from "./channels-callbacks/onFilterChannel";
 import {onChangeSearchableText} from "./ui-callbacks/onChangeSearchableText";
 
 export const CardsGroupsListContainer: FC<ICardsGroupsListContainer> = (
@@ -65,6 +65,5 @@ export const CardsGroupsListContainer: FC<ICardsGroupsListContainer> = (
         filter={state.filter}
         onChangeSearchableText={changeSearchableText}
         height={context.height}
-        width={context.width}
         cardsGroups={state.cardsGroups}/>
 };

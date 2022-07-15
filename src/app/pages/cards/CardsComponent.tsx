@@ -18,7 +18,6 @@ export const CardsComponent: FC<ICardsComponent> = (
         onClickItem,
         onChangeSearchableText,
         onChangeSorting,
-        width,
         height,
         onOpenRepeater,
         onStartSelecting,
@@ -50,7 +49,6 @@ export const CardsComponent: FC<ICardsComponent> = (
                 />
                 <CardsListComponent
                     cards={cards}
-                    width={width}
                     height={height}
                     onEditItem={onEditItem}
                     onDeleteItem={onDeleteItem}

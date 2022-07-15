@@ -64,9 +64,8 @@ function App() {
 
     useEffect(() => {
         const height = window.screen.height;
-        const width = window.screen.width;
-        if (appState.height !== height || appState.width !== width) {
-            setAppState({...appState, height: height, width: width});
+        if (appState.height !== height) {
+            setAppState({...appState, height});
         }
     }, [appState]);
 
@@ -89,7 +88,7 @@ function App() {
 
                         <SelectionDialogContainer selectionDialogService={selectionDialogService}/>
 
-                        <div className="page-container" style={{height: appState.height - 110, width: appState.width}}>
+                        <div className="page-container" style={{height: appState.height - 110, width: '100%'}}>
                             <SpinnerContainer spinnerService={spinnerService}/>
                             <NavigationContainer
                                 toolbarService={toolbarService}

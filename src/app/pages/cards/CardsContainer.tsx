@@ -88,7 +88,6 @@ export const CardsContainer: FC<ICardsContainer> = (services) => {
         onDeleteItem={deleteItem}
         onResetProgress={resetProgress}
         onClickItem={clickItem}
-        width={context.width}
         height={context.height}
         onOpenRepeater={openRepeater}
         onStartSelecting={startSelecting}

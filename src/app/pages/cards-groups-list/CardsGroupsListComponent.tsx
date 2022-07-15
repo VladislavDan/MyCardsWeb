@@ -20,7 +20,6 @@ export const CardsGroupsListComponent: FC<ICardsGroupsListComponent> = (
         onChangeSorting,
         filter,
         height,
-        width
     }
 ) => {
 
@@ -44,7 +43,7 @@ export const CardsGroupsListComponent: FC<ICardsGroupsListComponent> = (
             itemCount={cardsGroups.length}
             overscanCount={5}
             height={height}
-            width={width}
+            width="100%"
         >
             {({index, style}: any) => {
                 const cardGroup = cardsGroups[index];

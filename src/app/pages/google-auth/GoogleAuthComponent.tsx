@@ -4,9 +4,9 @@ import {FC} from 'react';
 import './GoogleAuthComponent.css'
 import {IGoogleAuthComponent} from "./types/IGoogleAuthComponent";
 
-export const GoogleAuthComponent: FC<IGoogleAuthComponent> = ({onSuccess, onFailure, height, width}) => {
+export const GoogleAuthComponent: FC<IGoogleAuthComponent> = ({onSuccess, onFailure, height}) => {
     return (
-        <div className="google-auth" style={{height, width}}>
+        <div className="google-auth" style={{height}}>
             <GoogleLogin
                 className="google-auth_button"
                 clientId="627973926597-tj2la0mnorvm04cqmcosu2nj3b02g6k2.apps.googleusercontent.com"

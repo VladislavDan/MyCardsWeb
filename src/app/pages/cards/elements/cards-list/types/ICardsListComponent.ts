@@ -2,7 +2,6 @@ import {ICard} from "../../../../../common/types/ICard";
 
 export interface ICardsListComponent {
     cards: ICard[];
-    width: number;
     height: number;
     onEditItem: (id: number) => void;
     onDeleteItem: (id: number) => void;

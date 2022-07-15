@@ -8,7 +8,6 @@ import {ICardsListComponent} from "./types/ICardsListComponent";
 export const CardsListComponent: FC<ICardsListComponent> = (
     {
         cards,
-        width,
         height,
         onEditItem,
         onDeleteItem,
@@ -26,7 +25,7 @@ export const CardsListComponent: FC<ICardsListComponent> = (
         itemCount={cards.length}
         overscanCount={5}
         height={height}
-        width={width}
+        width="100%"
     >
         {
             ({index, style}: any) => {

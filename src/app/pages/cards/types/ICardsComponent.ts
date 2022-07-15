@@ -12,7 +12,6 @@ export interface ICardsComponent {
     onSelectItem: (id: number) => void;
     onChangeSearchableText: (answer: string) => void;
     height: number;
-    width: number
     onChangeSorting: (sortVariant: ISortVariant) => void;
     filter: IFilter
     onOpenRepeater: () => void;

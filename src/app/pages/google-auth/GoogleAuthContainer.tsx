@@ -18,7 +18,7 @@ export const GoogleAuthContainer: FC<IGoogleAuthContainer> = ({googleAuthService
         history.replace(Routs.googleBackups.path);
     });
 
-    const {height, width} = React.useContext<IAppContext>(AppContext);
+    const {height} = React.useContext<IAppContext>(AppContext);
 
     const onSuccess = (response: GoogleLoginResponse | GoogleLoginResponseOffline) => {
         googleAuthService.loginChannel.next((response as GoogleLoginResponse).accessToken);
@@ -32,6 +32,5 @@ export const GoogleAuthContainer: FC<IGoogleAuthContainer> = ({googleAuthService
         onSuccess={onSuccess}
         onFailure={onFailure}
         height={height}
-        width={width}
     />;
 };
