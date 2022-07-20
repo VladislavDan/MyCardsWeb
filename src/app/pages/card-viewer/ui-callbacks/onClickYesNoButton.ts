@@ -1,6 +1,6 @@
 import {ICallback} from "../../../../MyTools/react-utils/CallbackFactory";
 import {CardViewerCallbackSettings} from "../types/CardViewerCallbackSettings";
-import {defaultCardValue} from "../../../common/Constants";
+import {defaultCardValue} from "../../../common/defaults/defaultCardValue";
 
 export const onClickYesNoButton: ICallback<CardViewerCallbackSettings, boolean> = (
     {

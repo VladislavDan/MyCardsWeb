@@ -12,7 +12,7 @@ import {useConstructor} from '../../../MyTools/react-hooks/useConstructor';
 import {useUnsubscribe} from '../../../MyTools/react-hooks/useUnsubscribe';
 import {IGoogleBackupsContainer} from "./types/IGoogleBackupsContainer";
 import {GoogleAuthComponentState} from "./types/GoogleAuthComponentState";
-import {defaultConfirmDialogState} from "../../common/Constants";
+import {defaultConfirmDialogState} from "../../common/defaults/defaultConfirmDialogState";
 
 export const GoogleBackupsContainer: FC<IGoogleBackupsContainer> = (
     {

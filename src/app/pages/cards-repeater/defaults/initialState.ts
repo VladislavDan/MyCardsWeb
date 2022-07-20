@@ -1,5 +1,5 @@
-import {IRangeOfKnowledge} from "../../common/types/IRangeOfKnowledge";
-import {defaultStatisticValue} from "../../common/Constants";
+import {IRangeOfKnowledge} from "../../../common/types/IRangeOfKnowledge";
+import {defaultStatisticValue} from "../../../common/defaults/defaultStatisticValue";
 
 export const initialState = {
     card: {

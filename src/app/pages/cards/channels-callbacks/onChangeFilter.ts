@@ -1,7 +1,7 @@
 import {ICallback} from "../../../../MyTools/react-utils/CallbackFactory";
 import {CardsContainerCallbackSettings} from "../types/CardsContainerCallbackSettings";
 import {IStoredFilters} from "../../../common/types/IStoredFilters";
-import {defaultFilterValue} from "../../../common/Constants";
+import {defaultFilterValue} from "../../../common/defaults/defaultFilterValue";
 
 export const onChangeFilter: ICallback<CardsContainerCallbackSettings, IStoredFilters> = (
     {services, location},

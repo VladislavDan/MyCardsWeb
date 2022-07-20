@@ -6,12 +6,12 @@ import ListItemText from '@mui/material/ListItemText/ListItemText';
 import FlagIcon from '@mui/icons-material/Flag';
 import {Checkbox} from "@mui/material";
 
-import {DATE_FORMAT} from '../../../../common/Constants';
 import {ICard} from '../../../../common/types/ICard';
 import {IRangeOfKnowledge} from '../../../../common/types/IRangeOfKnowledge';
 import {ListItemMenuComponent} from '../../../../common/elements/list-item-menu/ListItemMenuComponent';
 import {ICardListItemComponent} from "./types/ICardListItemComponent";
 import {CardPrimaryTextComponent} from "../card-primary-text/CardPrimaryTextComponent";
+import {DATE_FORMAT} from "../../../../common/constants/DATE_FORMAT";
 
 export const CardsListItemComponent: FC<ICardListItemComponent> = (
     {

@@ -2,7 +2,7 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 
 import {ICallback} from "../../../../MyTools/react-utils/CallbackFactory";
 import {ICardsGroupsCallbackSettings} from "../types/ICardsGroupsCallbackSettings";
-import {defaultConfirmDialogState} from "../../../common/Constants";
+import {defaultConfirmDialogState} from "../../../common/defaults/defaultConfirmDialogState";
 
 export const onResetProgress: ICallback<ICardsGroupsCallbackSettings, number> = (
     {services, setSubscription},

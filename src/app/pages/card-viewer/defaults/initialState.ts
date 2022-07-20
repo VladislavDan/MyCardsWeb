@@ -1,4 +1,4 @@
-import {IRangeOfKnowledge} from "../../common/types/IRangeOfKnowledge";
+import {IRangeOfKnowledge} from "../../../common/types/IRangeOfKnowledge";
 
 export const initialState = {
     card: {

@@ -9,7 +9,6 @@ import {ICardsGroupsListContainer} from "./types/ICardsGroupsListContainer";
 import {CardsGroupsListContainerState} from "./types/CardsGroupsListContainerState";
 import {useCallbackFactory} from "../../../MyTools/react-hooks/useCallbackFactory";
 import {INavigationState} from "../../common/types/INavigationState";
-import {initialState} from "./Constants";
 import {onResetProgress} from "./ui-callbacks/onResetProgress";
 import {onEditItem} from "./ui-callbacks/onEditItem";
 import {onDeleteItem} from "./ui-callbacks/onDeleteItem";
@@ -23,6 +22,7 @@ import {onChangeSorting} from "./ui-callbacks/onChangeSorting";
 import {onChangeFilterChannel} from "./channels-callbacks/onChangeFilterChannel";
 import {onFilterChannel} from "./channels-callbacks/onFilterChannel";
 import {onChangeSearchableText} from "./ui-callbacks/onChangeSearchableText";
+import {initialState} from "./defaults/initialState";
 
 export const CardsGroupsListContainer: FC<ICardsGroupsListContainer> = (
     services

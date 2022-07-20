@@ -15,7 +15,7 @@ import {onSaveGroup} from "./ui-callbacks/onSaveGroup";
 import {onConstructor} from "./ui-callbacks/onConstructor";
 import {onGroupEditingChannel} from "./channels-callbacks/onGroupEditingChannel";
 import {onGroupChannel} from "./channels-callbacks/onGroupChannel";
-import {initialState} from './Constants'
+import {initialState} from "./defaults/initialState";
 
 export const CardsGroupsEditorContainer: FC<ICardsGroupsEditorContainer> = (
     services

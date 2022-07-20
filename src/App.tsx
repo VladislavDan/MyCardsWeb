@@ -7,7 +7,6 @@ import {ToolbarContainer} from './app/parts/toolbar/ToolbarContainer';
 import {NavigationPanelContainer} from './app/parts/navigation-panel/NavigationPanelContainer';
 import {ErrorContainer} from './app/parts/error-container/ErrorContainer';
 import {SpinnerContainer} from './app/parts/spinner/SpinnerContainer';
-import {defaultAppState, STORE_NAME} from './app/common/Constants';
 import {ConfirmDialogContainer} from './app/parts/confirm-dialog/ConfirmDialogContainer';
 import {SpinnerService} from './app/parts/spinner/SpinnerService';
 import {ErrorService} from './app/parts/error-container/ErrorService';
@@ -30,6 +29,8 @@ import {SelectionDialogService} from "./app/parts/selection-dialog/SelectionDial
 import {NavigationPanelService} from "./app/parts/navigation-panel/NavigationPanelService";
 import {ToolbarService} from "./app/parts/toolbar/ToolbarService";
 import {Channel} from "./MyTools/channel-conception/Channel";
+import {defaultAppState} from "./app/common/defaults/defaultAppState";
+import {STORE_NAME} from "./app/common/constants/STORE_NAME";
 
 export const AppContext = React.createContext<IAppContext>(defaultAppState);
 

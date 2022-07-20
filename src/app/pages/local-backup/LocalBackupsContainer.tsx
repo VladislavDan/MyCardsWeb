@@ -6,7 +6,7 @@ import {useChannel} from '../../../MyTools/channel-conception/react-hooks/useCha
 import {Button} from '@mui/material';
 import {useUnsubscribe} from '../../../MyTools/react-hooks/useUnsubscribe';
 import {ILocalBackupsContainer} from "./types/ILocalBackupsContainer";
-import {defaultConfirmDialogState} from "../../common/Constants";
+import {defaultConfirmDialogState} from "../../common/defaults/defaultConfirmDialogState";
 
 export const LocalBackupsContainer: FC<ILocalBackupsContainer> = ({localBackupsService, confirmDialogService, spinnerService}) => {
 

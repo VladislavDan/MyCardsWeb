@@ -4,11 +4,11 @@ import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText/ListItemText';
 
-import {DATE_FORMAT} from '../../../../common/Constants';
 import {CircularProgressComponent} from '../circular-progress/CircularProgressComponent';
 import {ListItemMenuComponent} from '../../../../common/elements/list-item-menu/ListItemMenuComponent';
 import './CardsGroupsListItemComponent.css'
 import {ICardsGroupsListItemComponent} from "./types/ICardsGroupsListItemComponent";
+import {DATE_FORMAT} from "../../../../common/constants/DATE_FORMAT";
 
 export const CardsGroupsListItemComponent: FC<ICardsGroupsListItemComponent> = (
     {

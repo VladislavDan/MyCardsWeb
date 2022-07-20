@@ -2,7 +2,7 @@ import CopyIcon from '@mui/icons-material/CopyAll';
 
 import {ICallback} from "../../../../MyTools/react-utils/CallbackFactory";
 import {CardsContainerCallbackSettings} from "../types/CardsContainerCallbackSettings";
-import {defaultConfirmDialogState} from "../../../common/Constants";
+import {defaultConfirmDialogState} from "../../../common/defaults/defaultConfirmDialogState";
 
 export const onCopySelectedCards: ICallback<CardsContainerCallbackSettings, void> = (
     settings: CardsContainerCallbackSettings

@@ -1,7 +1,7 @@
 import {ICallback} from "../../../../MyTools/react-utils/CallbackFactory";
 import {CardsContainerCallbackSettings} from "../types/CardsContainerCallbackSettings";
 import {IFilter} from "../../../common/types/IFilter";
-import {defaultFilterValue} from "../../../common/Constants";
+import {defaultFilterValue} from "../../../common/defaults/defaultFilterValue";
 
 export const onFilterChannel: ICallback<CardsContainerCallbackSettings, IFilter> = (
     {state, setState, services, location},

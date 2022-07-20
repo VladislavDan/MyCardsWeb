@@ -2,7 +2,7 @@ import MoveIcon from '@mui/icons-material/MoveToInbox';
 
 import {ICallback} from "../../../../MyTools/react-utils/CallbackFactory";
 import {CardsContainerCallbackSettings} from "../types/CardsContainerCallbackSettings";
-import {defaultConfirmDialogState} from "../../../common/Constants";
+import {defaultConfirmDialogState} from "../../../common/defaults/defaultConfirmDialogState";
 
 export const onMovingSelectedCards: ICallback<CardsContainerCallbackSettings, void> = (
     settings

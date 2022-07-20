@@ -7,7 +7,6 @@ import {Channel} from '../../../MyTools/channel-conception/Channel';
 export class GoogleAuthService {
     public loginChannel: Channel<string, string>;
 
-
     constructor(storageService: StorageService) {
 
         this.loginChannel = new Channel((authToken: string) => of('').pipe(

@@ -19,7 +19,6 @@ import {onChangeSearchableText} from "./ui-callbacks/onChangeSearchableText";
 import {onCardsChannel} from "./channels-callbacks/onCardsChannel";
 import {onCardsIDsByGroupIDsChannel} from "./channels-callbacks/onCardsIDsByGroupIDsChannel";
 import {onCardsIDsBySelectedItemsChannel} from "./channels-callbacks/onCardsIDsBySelectedItemsChannel";
-import {initialState} from "./Constants";
 import {onFilterChannel} from "./channels-callbacks/onFilterChannel";
 import {onConstructor} from "./ui-callbacks/onConstructor";
 import {onChangeFilter} from "./channels-callbacks/onChangeFilter";
@@ -35,6 +34,7 @@ import {onEditItem} from "./ui-callbacks/onEditItem";
 import {onDeleteItem} from "./ui-callbacks/onDeleteItem";
 import {onResetProgress} from "./ui-callbacks/onResetProgress";
 import {onClickItem} from "./ui-callbacks/onClickItem";
+import {initialState} from "./defaults/initialState";
 
 export const CardsContainer: FC<ICardsContainer> = (services) => {
     const {

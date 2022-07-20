@@ -2,7 +2,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 
 import {ICallback} from "../../../../MyTools/react-utils/CallbackFactory";
 import {CardViewerCallbackSettings} from "../types/CardViewerCallbackSettings";
-import {defaultConfirmDialogState} from "../../../common/Constants";
+import {defaultConfirmDialogState} from "../../../common/defaults/defaultConfirmDialogState";
 
 export const onDeleteCard: ICallback<CardViewerCallbackSettings, void> = (
     settings

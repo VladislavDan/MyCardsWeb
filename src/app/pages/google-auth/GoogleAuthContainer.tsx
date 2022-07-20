@@ -1,36 +1,38 @@
 import * as React from 'react';
-import {FC} from 'react';
-import {GoogleLoginResponse, GoogleLoginResponseOffline} from 'react-google-login';
-import {useHistory} from 'react-router';
+import {FC, useCallback} from 'react';
 
-import {Routs} from '../../common/Routs';
 import {useChannel} from '../../../MyTools/channel-conception/react-hooks/useChannel';
 import {GoogleAuthComponent} from './GoogleAuthComponent';
 import {IAppContext} from '../../common/types/IAppContext';
 import {AppContext} from '../../../App';
 import {IGoogleAuthContainer} from "./types/IGoogleAuthContainer";
+import {useCallbackFactory} from "../../../MyTools/react-hooks/useCallbackFactory";
+import {INavigationState} from "../../common/types/INavigationState";
+import {onSuccess} from "./ui-callbacks/onSuccess";
+import {onFailure} from "./ui-callbacks/onFailure";
+import {onLoginChannel} from "./channels-callbacks/onLoginChannel";
 
-export const GoogleAuthContainer: FC<IGoogleAuthContainer> = ({googleAuthService, errorService}) => {
+export const GoogleAuthContainer: FC<IGoogleAuthContainer> = (services) => {
 
-    const history = useHistory();
+    const {
+        callbackFactory,
+        callbackSettings
+    } = useCallbackFactory<INavigationState, null, IGoogleAuthContainer, IAppContext>(
+        null,
+        services,
+        AppContext
+    );
 
-    useChannel(googleAuthService.loginChannel, ()=> {
-        history.replace(Routs.googleBackups.path);
-    });
+    const {context, services: {googleAuthService}} = callbackSettings
 
-    const {height} = React.useContext<IAppContext>(AppContext);
+    useChannel(googleAuthService.loginChannel, callbackFactory(onLoginChannel));
 
-    const onSuccess = (response: GoogleLoginResponse | GoogleLoginResponseOffline) => {
-        googleAuthService.loginChannel.next((response as GoogleLoginResponse).accessToken);
-    };
-
-    const onFailure = () => {
-        errorService.errorChannel.next('Error of connection');
-    };
+    const success = useCallback(callbackFactory(onSuccess), []);
+    const failure = useCallback(callbackFactory(onFailure), []);
 
     return <GoogleAuthComponent
-        onSuccess={onSuccess}
-        onFailure={onFailure}
-        height={height}
+        onSuccess={success}
+        onFailure={failure}
+        height={context.height}
     />;
 };

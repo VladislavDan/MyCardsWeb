@@ -13,7 +13,6 @@ import {onChangeQuestion} from "./ui-callbacks/onChangeQuestion";
 import {onSwitchEditing} from "./ui-callbacks/onSwitchEditing";
 import {onClickYesNoButton} from "./ui-callbacks/onClickYesNoButton";
 import {onClickCard} from "./ui-callbacks/onClickCard";
-import {initialState} from "./Constants";
 import {onCardChannel} from "./channels-callbacks/onCardChannel";
 import {onCardEditingChannel} from "./channels-callbacks/onCardEditingChannel";
 import {onRepeatingResultChannel} from "./channels-callbacks/onRepeatingResultChannel";
@@ -22,6 +21,7 @@ import {useCallbackFactory} from "../../../MyTools/react-hooks/useCallbackFactor
 import {INavigationState} from "../../common/types/INavigationState";
 import {CardViewerContainerState} from "./types/CardViewerContainerState";
 import {IAppContext} from "../../common/types/IAppContext";
+import {initialState} from "./defaults/initialState";
 
 export const CardViewerContainer: FC<ICardViewerContainer> = (services) => {
 

@@ -9,7 +9,6 @@ import {ICardsEditorContainer} from "./types/ICardsEditorContainer";
 import {useCallbackFactory} from "../../../MyTools/react-hooks/useCallbackFactory";
 import {IAppContext} from "../../common/types/IAppContext";
 import {AppContext} from "../../../App";
-import {initialState} from "./Constants";
 import {CardsEditorState} from "./types/CardsEditorState";
 import {onCardEditingChannel} from "./channels-callbacks/onCardEditingChannel";
 import {onCardChannel} from "./channels-callbacks/onCardChannel";
@@ -17,6 +16,7 @@ import {onConstructor} from "./ui-callbacks/onConstructor";
 import {onChangeQuestion} from "./ui-callbacks/onChangeQuestion";
 import {onChangeAnswer} from "./ui-callbacks/onChangeAnswer";
 import {onSaveCard} from "./ui-callbacks/onSaveCard";
+import {initialState} from "./defaults/initialState";
 
 export const CardsEditorContainer: FC<ICardsEditorContainer> = (services) => {
 

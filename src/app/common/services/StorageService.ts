@@ -3,7 +3,7 @@ import {ICardsGroup} from '../types/ICardsGroup';
 import {DataBaseService} from './DataBaseService';
 import {ISettings} from '../types/ISettings';
 import {IStoredFilters} from "../types/IStoredFilters";
-import {defaultFilterValue} from "../Constants";
+import {defaultFilterValue} from "../defaults/defaultFilterValue";
 
 export class StorageService {
 

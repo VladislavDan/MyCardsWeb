@@ -1,4 +1,4 @@
-import {defaultFilterValue} from "../../common/Constants";
+import {defaultFilterValue} from "../../../common/defaults/defaultFilterValue";
 
 export const initialState = {
     cards: [],
