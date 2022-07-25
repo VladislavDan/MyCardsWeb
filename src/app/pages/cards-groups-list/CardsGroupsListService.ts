@@ -42,12 +42,12 @@ export class CardsGroupsListService {
                 )
             }),
             map((cardsGroups: ICardsGroup[]) => updateRepeatingDate(cardsGroups)),
+            map((cardsGroups: ICardsGroup[]) => countRepeatedCardsPercent(cardsGroups)),
             mergeMap((cardsGroups: ICardsGroup[]) => {
                 return storageService.getFilter().pipe(
                     map((storedFilter) => sortByFilter(cardsGroups, storedFilter.cardsGroups))
                 )
-            }),
-            map((cardsGroups: ICardsGroup[]) => countRepeatedCardsPercent(cardsGroups))
+            })
         ));
 
         this.groupDeleteChannel = new Channel((groupID: number) => storageService.getBackup().pipe(

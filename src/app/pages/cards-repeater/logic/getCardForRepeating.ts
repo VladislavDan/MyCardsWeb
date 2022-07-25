@@ -8,24 +8,12 @@ export const getCardForRepeating = (cards: ICard[], isRandomRepeating: boolean):
     if (!isRandomRepeating) {
         foundCard = cards.find((card: ICard) => {
             return card.rangeOfKnowledge === IRangeOfKnowledge.TO_DO;
-        }) || {
-            id: -1,
-            question: '',
-            answer: '',
-            rangeOfKnowledge: IRangeOfKnowledge.IN_PROGRESS,
-            dateRepeating: 0
-        };
+        });
 
         if (!foundCard) {
             foundCard = cards.find((card: ICard) => {
                 return card.rangeOfKnowledge === IRangeOfKnowledge.IN_PROGRESS;
-            }) || {
-                id: -1,
-                question: '',
-                answer: '',
-                rangeOfKnowledge: IRangeOfKnowledge.IN_PROGRESS,
-                dateRepeating: 0
-            };
+            });
         }
 
         if (cards.length === 1) {
@@ -38,5 +26,11 @@ export const getCardForRepeating = (cards: ICard[], isRandomRepeating: boolean):
         foundCard = cardsWithoutDone[0];
     }
 
-    return foundCard
+    return foundCard || {
+        id: -1,
+        question: '',
+        answer: '',
+        rangeOfKnowledge: IRangeOfKnowledge.IN_PROGRESS,
+        dateRepeating: 0
+    }
 };

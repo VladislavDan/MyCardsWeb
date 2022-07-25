@@ -33,7 +33,9 @@ export const CardsGroupsListComponent: FC<ICardsGroupsListComponent> = (
                 ISortVariant.DATE_ASK,
                 ISortVariant.DATE_DESK,
                 ISortVariant.NAME_ASK,
-                ISortVariant.NAME_DESK
+                ISortVariant.NAME_DESK,
+                ISortVariant.PROGRESS_ASK,
+                ISortVariant.PROGRESS_DESC
             ]}
         />
         <List

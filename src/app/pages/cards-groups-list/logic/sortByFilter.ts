@@ -50,6 +50,30 @@ export const sortByFilter = (cardsGroups: ICardsGroup[], filter: IFilter) => {
             }
             return 0
         })
+    } else if (filter.sort === ISortVariant.PROGRESS_ASK) {
+        sortedCards = sortedCards && sortedCards.sort((firstCardGroup: ICardsGroup, secondCardsGroup: ICardsGroup) => {
+            if (firstCardGroup.percentRepeatedCards && secondCardsGroup.percentRepeatedCards) {
+                if (firstCardGroup.percentRepeatedCards < secondCardsGroup.percentRepeatedCards) {
+                    return 1
+                }
+                if (firstCardGroup.percentRepeatedCards > secondCardsGroup.percentRepeatedCards) {
+                    return -1
+                }
+            }
+            return 0
+        })
+    } else if (filter.sort === ISortVariant.PROGRESS_DESC) {
+        sortedCards = sortedCards && sortedCards.sort((firstCardGroup: ICardsGroup, secondCardsGroup: ICardsGroup) => {
+            if (firstCardGroup.percentRepeatedCards && secondCardsGroup.percentRepeatedCards) {
+                if (firstCardGroup.percentRepeatedCards > secondCardsGroup.percentRepeatedCards) {
+                    return 1
+                }
+                if (firstCardGroup.percentRepeatedCards < secondCardsGroup.percentRepeatedCards) {
+                    return -1
+                }
+            }
+            return 0
+        })
     }
 
     return sortedCards;

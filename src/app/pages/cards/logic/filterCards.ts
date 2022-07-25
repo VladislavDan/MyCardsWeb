@@ -99,6 +99,28 @@ export const filterCards = (cards: ICard[], filter: IFilter) => {
             }
         })
         return sortedCards;
+    } else if (filter.sort === ISortVariant.PROGRESS_ASK) {
+        sortedCards = foundByTextCards.sort((card1: ICard, card2: ICard) => {
+            if (card1.rangeOfKnowledge > card2.rangeOfKnowledge) {
+                return 0
+            } else if (card1.rangeOfKnowledge < card2.rangeOfKnowledge) {
+                return -1
+            } else {
+                return 1
+            }
+        })
+        return sortedCards;
+    } else if (filter.sort === ISortVariant.PROGRESS_DESC) {
+        sortedCards = foundByTextCards.sort((card1: ICard, card2: ICard) => {
+            if (card1.rangeOfKnowledge < card2.rangeOfKnowledge) {
+                return 0
+            } else if (card1.rangeOfKnowledge > card2.rangeOfKnowledge) {
+                return -1
+            } else {
+                return 1
+            }
+        })
+        return sortedCards;
     }
 
     return foundByTextCards

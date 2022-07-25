@@ -14,7 +14,6 @@ export const ConfirmDialogContainer: FC<IConfirmDialogContainer> = ({confirmDial
     useChannel<ConfirmDialogContainerState, ConfirmDialogContainerState>(
         confirmDialogService.openDialogChannel,
         (state: ConfirmDialogContainerState) => {
-            console.log(state)
             setState(() => {
                 return {...state}
             })

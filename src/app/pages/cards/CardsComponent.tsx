@@ -44,7 +44,9 @@ export const CardsComponent: FC<ICardsComponent> = (
                             ISortVariant.STATUS_ASK,
                             ISortVariant.STATUS_DESK,
                             ISortVariant.ANSWER_ASK,
-                            ISortVariant.ANSWER_DESK
+                            ISortVariant.ANSWER_DESK,
+                            ISortVariant.PROGRESS_ASK,
+                            ISortVariant.PROGRESS_DESC
                     ]}
                 />
                 <CardsListComponent
@@ -65,12 +67,12 @@ export const CardsComponent: FC<ICardsComponent> = (
                     onCopySelectedCards={onCopySelectedCards}
                     hideOpenEditorButton={isEnabledSelecting}
                     hideOpenRepeaterButton={isEnabledSelecting}
-                hideDeleteSelectedCardsButton={!isEnabledSelecting}
-                hideMovingSelectedCardsButton={!isEnabledSelecting}
-                hideCopySelectedCardButton={!isEnabledSelecting}
-                onDeleteSelectedCards={onDeleteSelectedCards}
-                onMovingSelectedCards={onMovingSelectedCards}
-            />
+                    hideDeleteSelectedCardsButton={!isEnabledSelecting}
+                    hideMovingSelectedCardsButton={!isEnabledSelecting}
+                    hideCopySelectedCardButton={!isEnabledSelecting}
+                    onDeleteSelectedCards={onDeleteSelectedCards}
+                    onMovingSelectedCards={onMovingSelectedCards}
+                />
         </>
     )
 };

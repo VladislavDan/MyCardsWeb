@@ -46,7 +46,7 @@ export const CardViewerContainer: FC<ICardViewerContainer> = (services) => {
 
     const clickCard = callbackFactory(onClickCard)
     const clickYesNoButton = useCallback(callbackFactory(onClickYesNoButton), [state.card])
-    const switchEditing = useCallback(callbackFactory(onSwitchEditing), [state.card, state.isEditable])
+    const switchEditing = callbackFactory(onSwitchEditing)
     const changeQuestion = useCallback(callbackFactory(onChangeQuestion), [state.card])
     const changeAnswer = useCallback(callbackFactory(onChangeAnswer), [state.card])
     const deleteCard = useCallback(callbackFactory(onDeleteCard), [state.card])
