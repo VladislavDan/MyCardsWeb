@@ -11,12 +11,12 @@ export const changeCardsGroup = (
 
     cardsGroups.forEach((cardsGroup) => {
         cardsGroup.cards.forEach((card) => {
-            const foundCardIndex = selectedCardsIDs.findIndex((cardID) => {
+            const isSelected = selectedCardsIDs.findIndex((cardID) => {
                 return cardID === card.id
-            })
+            }) > -1
 
-            if(foundCardIndex > -1) {
-                selectedCards.push(cardsGroup.cards[foundCardIndex]);
+            if (isSelected) {
+                selectedCards.push(card);
             }
         });
         cardsGroup.cards = cardsGroup.cards.filter((card) => {

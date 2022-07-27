@@ -10,14 +10,13 @@ export const copyCardsInGroup = (
 
     cardsGroups.forEach((cardsGroup) => {
         cardsGroup.cards.forEach((card, index) => {
-            const foundCardIndex = selectedCardsIDs.findIndex((cardID) => {
+            const isSelected = selectedCardsIDs.findIndex((cardID) => {
                 return cardID === card.id
-            })
+            }) > -1
 
-            if(foundCardIndex > -1) {
-                const foundedCard = cardsGroup.cards[foundCardIndex];
+            if (isSelected) {
                 selectedCards.push({
-                    ...foundedCard,
+                    ...card,
                     id: new Date().getTime() + index * 1000
                 });
             }
