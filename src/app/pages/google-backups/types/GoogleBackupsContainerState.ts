@@ -1,5 +1,5 @@
 import {IGoogleDriveFile} from "../../../common/types/IGoogleDriveFile";
 
-export interface GoogleAuthComponentState {
+export interface GoogleBackupsContainerState {
     backupsFiles: IGoogleDriveFile[];
 }

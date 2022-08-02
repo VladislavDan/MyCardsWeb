@@ -1,88 +1,52 @@
 import * as React from 'react';
-import {FC, useState} from 'react';
+import {FC} from 'react';
 
 import {useChannel} from '../../../MyTools/channel-conception/react-hooks/useChannel';
 import {SettingsComponent} from './SettingsComponent';
 import {useConstructor} from '../../../MyTools/react-hooks/useConstructor';
 import {ISettings} from '../../common/types/ISettings';
 import {ISettingsContainer} from "./types/ISettingsContainer";
+import {useCallbackFactory} from "../../../MyTools/react-hooks/useCallbackFactory";
+import {INavigationState} from "../../common/types/INavigationState";
+import {IAppContext} from "../../common/types/IAppContext";
+import {AppContext} from "../../../App";
+import {defaultSettings} from "../../common/defaults/defaultSettings";
+import {onChangeSettingsChannel} from "./channels-callbacks/onChangeSettingsChannel";
+import {onSettingsChannel} from "./channels-callbacks/onSettingsChannel";
+import {onConstructor} from "./ui-callbacks/onConstructor";
+import {onChangeAlgorithm} from "./ui-callbacks/onChangeAlgorithm";
+import {onChangeAutoObsolete} from "./ui-callbacks/onChangeAutoObsolete";
+import {onChangeTimeInDone} from "./ui-callbacks/onChangeTimeInDone";
+import {onChangeTimeInProgress} from "./ui-callbacks/onChangeTimeInProgress";
 
-export const SettingsContainer: FC<ISettingsContainer> = ({settingsService}) => {
+export const SettingsContainer: FC<ISettingsContainer> = (services) => {
 
-    const [state, setState] = useState<ISettings>({
-        isRandomRepeating: false,
-        autoObsolete: {
-            isEnable: false,
-            timeInDone: 7,
-            timeInProgress: 7
-        }
-    });
-
-    useChannel<ISettings, ISettings>(
-        settingsService.changeSettingsChannel,
-        () => {
-            settingsService.settingsChannel.next('');
-        }
+    const {
+        callbackFactory,
+        callbackSettings
+    } = useCallbackFactory<INavigationState, ISettings, ISettingsContainer, IAppContext>(
+        defaultSettings,
+        services,
+        AppContext
     );
 
-    useChannel<string, ISettings>(
-        settingsService.settingsChannel,
-        (settings: ISettings) => {
-            setState((prevState) => {
-                return {...prevState, ...settings}
-            });
-        }
-    );
+    const {state, services: {settingsService}} = callbackSettings
 
-    useConstructor(() => {
-        settingsService.settingsChannel.next('');
-    });
+    useChannel(settingsService.changeSettingsChannel, callbackFactory(onChangeSettingsChannel));
+    useChannel(settingsService.settingsChannel, callbackFactory(onSettingsChannel));
 
-    const onChangeSettings = (settings: ISettings) => {
-        settingsService.changeSettingsChannel.next(settings)
-    };
-    const onChangeAlgorithm = (isRandomRepeating: boolean) => {
-        settingsService.changeSettingsChannel.next({
-            ...state,
-            isRandomRepeating
-        })
-    }
+    useConstructor(callbackFactory(onConstructor));
 
-    const onChangeAutoObsolete = (isEnable: boolean) => {
-        settingsService.changeSettingsChannel.next({
-            ...state,
-            autoObsolete: {
-                ...state.autoObsolete,
-                isEnable
-            }
-        })
-    }
-
-    const onChangeTimeInDone = (timeInDone: number) => {
-        settingsService.changeSettingsChannel.next({
-            ...state,
-            autoObsolete: {
-                ...state.autoObsolete,
-                timeInDone
-            }
-        })
-    }
-
-    const onChangeTimeInProgress = (timeInProgress: number) => {
-        settingsService.changeSettingsChannel.next({
-            ...state,
-            autoObsolete: {
-                ...state.autoObsolete,
-                timeInProgress
-            }
-        })
-    }
+    const changeAlgorithm = callbackFactory(onChangeAlgorithm);
+    const changeAutoObsolete = callbackFactory(onChangeAutoObsolete)
+    const changeTimeInDone = callbackFactory(onChangeTimeInDone)
+    const changeTimeInProgress = callbackFactory(onChangeTimeInProgress)
 
     return <SettingsComponent
         settings={state}
-        onChangeAlgorithm={onChangeAlgorithm}
-        onChangeAutoObsolete={onChangeAutoObsolete}
-        onChangeTimeInDone={onChangeTimeInDone}
-        onChangeTimeInProgress={onChangeTimeInProgress}
+        onChangeAlgorithm={changeAlgorithm}
+        onChangeAutoObsolete={changeAutoObsolete}
+        onChangeTimeInDone={changeTimeInDone}
+        onChangeTimeInProgress={changeTimeInProgress}
     />
 };

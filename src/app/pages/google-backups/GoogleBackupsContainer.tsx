@@ -1,113 +1,56 @@
 import * as React from 'react';
-import {FC, useState} from 'react';
-import UploadIcon from '@mui/icons-material/Upload';
-import DeleteIcon from '@mui/icons-material/Delete';
+import {FC, useCallback} from 'react';
 
 import {useChannel} from '../../../MyTools/channel-conception/react-hooks/useChannel';
-import {IGoogleDriveFile} from '../../common/types/IGoogleDriveFile';
 import {GoogleBackupsComponent} from './GoogleBackupsComponent';
-import {useHistory} from 'react-router';
-import {Routs} from '../../common/Routs';
 import {useConstructor} from '../../../MyTools/react-hooks/useConstructor';
-import {useUnsubscribe} from '../../../MyTools/react-hooks/useUnsubscribe';
 import {IGoogleBackupsContainer} from "./types/IGoogleBackupsContainer";
-import {GoogleAuthComponentState} from "./types/GoogleAuthComponentState";
-import {defaultConfirmDialogState} from "../../common/defaults/defaultConfirmDialogState";
+import {GoogleBackupsContainerState} from "./types/GoogleBackupsContainerState";
+import {useCallbackFactory} from "../../../MyTools/react-hooks/useCallbackFactory";
+import {INavigationState} from "../../common/types/INavigationState";
+import {IAppContext} from "../../common/types/IAppContext";
+import {AppContext} from "../../../App";
+import {onBackupsNameLoadChannelError} from "./channels-callback/onBackupsNameLoadChannelError";
+import {onBackupsNameLoadChannel} from "./channels-callback/onBackupsNameLoadChannel";
+import {onBackupLoadChannelError} from "./channels-callback/onBackupLoadChannelError";
+import {onBackupLoadChannel} from "./channels-callback/onBackupLoadChannel";
+import {onBackupDeleteChannel} from "./channels-callback/onBackupDeleteChannel";
+import {onBackupUploadChannel} from "./channels-callback/onBackupUploadChannel";
+import {onConstructor} from "./ui-callbacks/onConstructor";
+import {onLoad} from "./ui-callbacks/onLoad";
+import {onDelete} from "./ui-callbacks/onDelete";
 
-export const GoogleBackupsContainer: FC<IGoogleBackupsContainer> = (
-    {
-        spinnerService,
-        googleBackupsService,
-        confirmDialogService
-    }
-) => {
+export const GoogleBackupsContainer: FC<IGoogleBackupsContainer> = (services) => {
+    const {
+        callbackFactory,
+        callbackSettings
+    } = useCallbackFactory<INavigationState, GoogleBackupsContainerState, IGoogleBackupsContainer, IAppContext>(
+        {
+            backupsFiles: []
+        },
+        services,
+        AppContext
+    );
 
-    const history = useHistory();
-
-    const [state, setState] = useState<GoogleAuthComponentState>({
-        backupsFiles: []
-    });
+    const {state, services: {googleBackupsService, spinnerService, confirmDialogService}} = callbackSettings
 
     useChannel(
         googleBackupsService.backupsNameLoadChannel,
-        (backupsFiles: IGoogleDriveFile[]) => {
-            setState({...state, backupsFiles: backupsFiles});
-            spinnerService.spinnerCounterChannel.next(-1);
-        },
-        () => {
-            spinnerService.spinnerCounterChannel.next(-1);
-            history.replace(Routs.googleAuth.path);
-        }
+        callbackFactory(onBackupsNameLoadChannel),
+        callbackFactory(onBackupsNameLoadChannelError)
     );
-
     useChannel(
         googleBackupsService.backupLoadChannel,
-        () => {
-            spinnerService.spinnerCounterChannel.next(-1);
-        },
-        () => {
-            spinnerService.spinnerCounterChannel.next(-1);
-            history.replace(Routs.googleAuth.path);
-        }
+        callbackFactory(onBackupLoadChannel),
+        callbackFactory(onBackupLoadChannelError)
     );
+    useChannel(googleBackupsService.backupDeleteChannel, callbackFactory(onBackupDeleteChannel));
+    useChannel(googleBackupsService.backupUploadChannel, callbackFactory(onBackupUploadChannel));
 
-    useChannel(googleBackupsService.backupDeleteChannel, () => {
-        spinnerService.spinnerCounterChannel.next(-1);
-        googleBackupsService.backupsNameLoadChannel.next('')
-    });
+    useConstructor(callbackFactory(onConstructor));
 
-    useChannel(googleBackupsService.backupUploadChannel, () => {
-        googleBackupsService.backupsNameLoadChannel.next('')
-        spinnerService.spinnerCounterChannel.next(-1);
-    });
-
-    useConstructor(() => {
-        googleBackupsService.backupsNameLoadChannel.next('');
-    });
-
-    const {setSubscription} = useUnsubscribe();
-
-    const onLoad = (backupID: string) => {
-
-        const subscription = confirmDialogService.confirmationChannel.subscribe((isConfirm) => {
-            if (isConfirm) {
-                spinnerService.spinnerCounterChannel.next(1);
-                googleBackupsService.backupLoadChannel.next(backupID);
-            }
-
-            confirmDialogService.openDialogChannel.next(defaultConfirmDialogState)
-        });
-
-        setSubscription(subscription);
-
-        confirmDialogService.openDialogChannel.next({
-            isOpen: true,
-            message: 'Do you want to load this backup?',
-            titleBackgroundColor: 'red',
-            icon: <UploadIcon/>
-        });
-    };
-
-    const onDelete = (backupID: string) => {
-
-        const subscription = confirmDialogService.confirmationChannel.subscribe((isConfirm) => {
-            if (isConfirm) {
-                spinnerService.spinnerCounterChannel.next(1);
-                googleBackupsService.backupDeleteChannel.next(backupID);
-            }
-
-            confirmDialogService.openDialogChannel.next(defaultConfirmDialogState)
-        });
-
-        setSubscription(subscription);
-
-        confirmDialogService.openDialogChannel.next({
-            isOpen: true,
-            message: 'Do you want to delete this backup?',
-            titleBackgroundColor: 'red',
-            icon: <DeleteIcon/>
-        });
-    };
+    const load = useCallback(callbackFactory(onLoad), []);
+    const deleteBackup = useCallback(callbackFactory(onDelete), []);
 
     const onCreate = () => {
         spinnerService.spinnerCounterChannel.next(1);
@@ -116,8 +59,8 @@ export const GoogleBackupsContainer: FC<IGoogleBackupsContainer> = (
 
     return <GoogleBackupsComponent
         backupsFiles={state.backupsFiles}
-        onLoad={onLoad}
-        onDelete={onDelete}
+        onLoad={load}
+        onDelete={deleteBackup}
         onCreate={onCreate}
     />;
 };

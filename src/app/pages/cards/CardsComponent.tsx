@@ -44,9 +44,7 @@ export const CardsComponent: FC<ICardsComponent> = (
                             ISortVariant.STATUS_ASK,
                             ISortVariant.STATUS_DESK,
                             ISortVariant.ANSWER_ASK,
-                            ISortVariant.ANSWER_DESK,
-                            ISortVariant.PROGRESS_ASK,
-                            ISortVariant.PROGRESS_DESC
+                            ISortVariant.ANSWER_DESK
                     ]}
                 />
                 <CardsListComponent

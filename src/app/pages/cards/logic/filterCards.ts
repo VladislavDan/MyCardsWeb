@@ -55,7 +55,7 @@ export const filterCards = (cards: ICard[], filter: IFilter) => {
             }
         })
         return sortedCards;
-    } else if (filter.sort === ISortVariant.DATE_ASK) {
+    } else if (filter.sort === ISortVariant.DATE_DESK) {
         sortedCards = foundByTextCards.sort((card1: ICard, card2: ICard) => {
             if (card1.dateRepeating === card2.dateRepeating) {
                 return 0
@@ -66,7 +66,7 @@ export const filterCards = (cards: ICard[], filter: IFilter) => {
             }
         })
         return sortedCards;
-    } else if (filter.sort === ISortVariant.DATE_DESK) {
+    } else if (filter.sort === ISortVariant.DATE_ASK) {
         sortedCards = foundByTextCards.sort((card1: ICard, card2: ICard) => {
             if (card1.dateRepeating === card2.dateRepeating) {
                 return 0
