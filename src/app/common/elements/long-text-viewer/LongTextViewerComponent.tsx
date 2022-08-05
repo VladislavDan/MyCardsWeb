@@ -11,9 +11,14 @@ export const LongTextViewerComponent: FC<ILongTextViewerComponent> = (
         onClickText = () => {}
     }
 ) => {
-    return <Typography color="textSecondary" gutterBottom onClick={onClickText}
-                       className="long-text-viewer"
-                       style={{height: viewHeight}}>
+    return <Typography
+        component="div"
+        color="textSecondary"
+        gutterBottom
+        onClick={onClickText}
+        className="long-text-viewer"
+        style={{height: viewHeight}}
+    >
         <List style={{paddingTop: 0}}>
             {text}
         </List>

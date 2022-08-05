@@ -1,32 +1,31 @@
 import * as React from 'react';
-import {FC, ReactEventHandler, SyntheticEvent, useState} from 'react';
+import {FC, useCallback} from 'react';
 
 import {NavigationPanelComponent} from './NavigationPanelComponent';
 import {useChannel} from '../../../MyTools/channel-conception/react-hooks/useChannel';
 import {INavigationPanelContainer} from "./types/INavigationPanelContainer";
-import {NavigationPanelState} from "./types/NavigationPanelState";
+import {useCallbackFactory} from "../../../MyTools/react-hooks/useCallbackFactory";
+import {AppContext} from "../../../App";
+import {initialState} from "./defaults/initialState";
+import {onNavigationPanelOpenChannel} from "./channels-callbacks/onNavigationPanelOpenChannel";
+import {onToggleDrawer} from "./ui-callbacks/onToggleDrawer";
+import {NavigationPanelCallbackSettings} from "./types/NavigationPanelCallbackSettings";
 
-export const NavigationPanelContainer: FC<INavigationPanelContainer> = (
-    {
-        navigationPanelService
-    }
-) => {
+export const NavigationPanelContainer: FC<INavigationPanelContainer> = (services) => {
+    const {
+        callbackFactory,
+        callbackSettings
+    } = useCallbackFactory<NavigationPanelCallbackSettings>(
+        initialState,
+        services,
+        AppContext
+    );
 
-    const [state, setState] = useState<NavigationPanelState>({
-        isOpen: false
-    });
+    const {state, services: {navigationPanelService}} = callbackSettings
 
-    useChannel<string, string>(navigationPanelService.navigationPanelOpenChannel, () => {
-        setState({...state, isOpen: true});
-    });
+    useChannel(navigationPanelService.navigationPanelOpenChannel, callbackFactory(onNavigationPanelOpenChannel));
 
-    const toggleDrawer = (isOpen: boolean): ReactEventHandler => (event: SyntheticEvent<Element, KeyboardEvent>) => {
-        if (event && event.type === 'keydown' && (event.nativeEvent.key === 'Tab' || event.nativeEvent.key === 'Shift')) {
-            return;
-        }
-
-        setState({...state, isOpen});
-    };
+    const toggleDrawer = useCallback(callbackFactory(onToggleDrawer), []);
 
     return (
         <NavigationPanelComponent isOpen={state.isOpen} toggleDrawer={toggleDrawer}/>

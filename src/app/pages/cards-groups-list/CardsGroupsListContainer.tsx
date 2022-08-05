@@ -3,12 +3,9 @@ import React, {FC, useCallback} from "react";
 import {CardsGroupsListComponent} from './CardsGroupsListComponent';
 import {useChannel} from '../../../MyTools/channel-conception/react-hooks/useChannel';
 import {useConstructor} from '../../../MyTools/react-hooks/useConstructor';
-import {IAppContext} from '../../common/types/IAppContext';
 import {AppContext} from '../../../App';
 import {ICardsGroupsListContainer} from "./types/ICardsGroupsListContainer";
-import {CardsGroupsListContainerState} from "./types/CardsGroupsListContainerState";
 import {useCallbackFactory} from "../../../MyTools/react-hooks/useCallbackFactory";
-import {INavigationState} from "../../common/types/INavigationState";
 import {onResetProgress} from "./ui-callbacks/onResetProgress";
 import {onEditItem} from "./ui-callbacks/onEditItem";
 import {onDeleteItem} from "./ui-callbacks/onDeleteItem";
@@ -23,6 +20,7 @@ import {onChangeFilterChannel} from "./channels-callbacks/onChangeFilterChannel"
 import {onFilterChannel} from "./channels-callbacks/onFilterChannel";
 import {onChangeSearchableText} from "./ui-callbacks/onChangeSearchableText";
 import {initialState} from "./defaults/initialState";
+import {ICardsGroupsCallbackSettings} from "./types/ICardsGroupsCallbackSettings";
 
 export const CardsGroupsListContainer: FC<ICardsGroupsListContainer> = (
     services
@@ -31,7 +29,7 @@ export const CardsGroupsListContainer: FC<ICardsGroupsListContainer> = (
     const {
         callbackFactory,
         callbackSettings
-    } = useCallbackFactory<INavigationState, CardsGroupsListContainerState, ICardsGroupsListContainer, IAppContext>(
+    } = useCallbackFactory<ICardsGroupsCallbackSettings>(
         initialState,
         services,
         AppContext
@@ -52,8 +50,8 @@ export const CardsGroupsListContainer: FC<ICardsGroupsListContainer> = (
     const deleteItem = useCallback(callbackFactory(onDeleteItem), []);
     const editItem = useCallback(callbackFactory(onEditItem), []);
     const resetProgress = useCallback(callbackFactory(onResetProgress), []);
-    const changeSorting = useCallback(callbackFactory(onChangeSorting), [state.filter]);
-    const changeSearchableText = useCallback(callbackFactory(onChangeSearchableText), [state.filter]);
+    const changeSorting = useCallback(callbackFactory(onChangeSorting), []);
+    const changeSearchableText = useCallback(callbackFactory(onChangeSearchableText), []);
 
     return <CardsGroupsListComponent
         onClickItem={clickItem}

@@ -18,17 +18,15 @@ import {onCardEditingChannel} from "./channels-callbacks/onCardEditingChannel";
 import {onRepeatingResultChannel} from "./channels-callbacks/onRepeatingResultChannel";
 import {onConstructor} from "./ui-callbacks/onConstructor";
 import {useCallbackFactory} from "../../../MyTools/react-hooks/useCallbackFactory";
-import {INavigationState} from "../../common/types/INavigationState";
-import {CardViewerContainerState} from "./types/CardViewerContainerState";
-import {IAppContext} from "../../common/types/IAppContext";
 import {initialState} from "./defaults/initialState";
+import {CardViewerCallbackSettings} from "./types/CardViewerCallbackSettings";
 
 export const CardViewerContainer: FC<ICardViewerContainer> = (services) => {
 
     const {
         callbackFactory,
         callbackSettings
-    } = useCallbackFactory<INavigationState, CardViewerContainerState, ICardViewerContainer, IAppContext>(
+    } = useCallbackFactory<CardViewerCallbackSettings>(
         initialState,
         services,
         AppContext
@@ -44,12 +42,12 @@ export const CardViewerContainer: FC<ICardViewerContainer> = (services) => {
 
     useConstructor(callbackFactory(onConstructor))
 
-    const clickCard = callbackFactory(onClickCard)
-    const clickYesNoButton = useCallback(callbackFactory(onClickYesNoButton), [state.card])
-    const switchEditing = callbackFactory(onSwitchEditing)
-    const changeQuestion = useCallback(callbackFactory(onChangeQuestion), [state.card])
-    const changeAnswer = useCallback(callbackFactory(onChangeAnswer), [state.card])
-    const deleteCard = useCallback(callbackFactory(onDeleteCard), [state.card])
+    const clickCard = useCallback(callbackFactory(onClickCard), [])
+    const clickYesNoButton = useCallback(callbackFactory(onClickYesNoButton), [])
+    const switchEditing = useCallback(callbackFactory(onSwitchEditing), [])
+    const changeQuestion = useCallback(callbackFactory(onChangeQuestion), [])
+    const changeAnswer = useCallback(callbackFactory(onChangeAnswer), [])
+    const deleteCard = useCallback(callbackFactory(onDeleteCard), [])
 
     return <CardViewerComponent
         cardHeight={context.height * 0.55}

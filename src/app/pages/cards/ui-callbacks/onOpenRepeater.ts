@@ -1,16 +1,19 @@
 import {ICallback} from "../../../../MyTools/react-utils/CallbackFactory";
-import {CardsContainerCallbackSettings} from "../types/CardsContainerCallbackSettings";
+import {CardsCallbackSettings} from "../types/CardsCallbackSettings";
 
-export const onOpenRepeater: ICallback<CardsContainerCallbackSettings, void> = (
+export const onOpenRepeater: ICallback<CardsCallbackSettings, void> = (
     {
-        state,
+        setState,
         location,
         services
     }
 ) => {
-    if (state.isEnabledSelecting) {
-        services.cardsListService.cardsIDsBySelectedItemsChannel.next(state.selectedItems);
-    } else {
-        services.cardsListService.cardsIDsByGroupIDsChannel.next(location.state.cardsGroupID);
-    }
+    setState((prevState) => {
+        if (prevState.isEnabledSelecting) {
+            services.cardsListService.cardsIDsBySelectedItemsChannel.next(prevState.selectedItems);
+        } else {
+            services.cardsListService.cardsIDsByGroupIDsChannel.next(location.state.cardsGroupID);
+        }
+        return prevState;
+    })
 }

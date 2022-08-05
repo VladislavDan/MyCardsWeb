@@ -1,8 +1,8 @@
 import {ICallback} from "../../../../MyTools/react-utils/CallbackFactory";
-import {CardsContainerCallbackSettings} from "../types/CardsContainerCallbackSettings";
+import {CardsCallbackSettings} from "../types/CardsCallbackSettings";
 import {Routs} from "../../../common/Routs";
 
-export const onOpenEditor: ICallback<CardsContainerCallbackSettings, void> = (
+export const onOpenEditor: ICallback<CardsCallbackSettings, void> = (
     {
         location,
         history

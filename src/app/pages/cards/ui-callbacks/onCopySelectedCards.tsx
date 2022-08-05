@@ -1,55 +1,57 @@
 import CopyIcon from '@mui/icons-material/CopyAll';
 
 import {ICallback} from "../../../../MyTools/react-utils/CallbackFactory";
-import {CardsContainerCallbackSettings} from "../types/CardsContainerCallbackSettings";
+import {CardsCallbackSettings} from "../types/CardsCallbackSettings";
 import {defaultConfirmDialogState} from "../../../common/defaults/defaultConfirmDialogState";
 
-export const onCopySelectedCards: ICallback<CardsContainerCallbackSettings, void> = (
-    settings: CardsContainerCallbackSettings
+export const onCopySelectedCards: ICallback<CardsCallbackSettings, void> = (
+    {services, setState, setSubscription}
 ) => {
-
-    const {services, state, setSubscription} = settings;
-
     const {
         cardsListService,
         confirmDialogService,
         selectionDialogService
     } = services;
 
-    const subscription = selectionDialogService.selectionChannel.subscribe((groupID) => {
+    setState((prevState) => {
 
-        const subscription = confirmDialogService.confirmationChannel.subscribe((isConfirm) => {
-            if (isConfirm) {
-                cardsListService.copyCardsChannel.next({
-                    selectedItems: state.selectedItems,
-                    destinationGroupID: groupID
-                });
+        const subscription = selectionDialogService.selectionChannel.subscribe((groupID) => {
 
-                selectionDialogService.openDialogChannel.next({
-                    isOpen: false,
-                    title: '',
-                    selectionItems: []
-                });
-            }
+            const subscription = confirmDialogService.confirmationChannel.subscribe((isConfirm) => {
+                if (isConfirm) {
+                    cardsListService.copyCardsChannel.next({
+                        selectedItems: prevState.selectedItems,
+                        destinationGroupID: groupID
+                    });
 
-            confirmDialogService.openDialogChannel.next(defaultConfirmDialogState)
+                    selectionDialogService.openDialogChannel.next({
+                        isOpen: false,
+                        title: '',
+                        selectionItems: []
+                    });
+                }
+
+                confirmDialogService.openDialogChannel.next(defaultConfirmDialogState)
+            });
+
+            setSubscription(subscription);
+
+            confirmDialogService.openDialogChannel.next({
+                isOpen: true,
+                message: 'Do you want to copy this cards?',
+                titleBackgroundColor: 'orange',
+                icon: <CopyIcon/>
+            });
         });
 
         setSubscription(subscription);
 
-        confirmDialogService.openDialogChannel.next({
+        selectionDialogService.openDialogChannel.next({
             isOpen: true,
-            message: 'Do you want to copy this cards?',
-            titleBackgroundColor: 'orange',
-            icon: <CopyIcon/>
-        });
-    });
+            title: 'Select cards group',
+            selectionItems: prevState.existedGroupsIDs
+        })
 
-    setSubscription(subscription);
-
-    selectionDialogService.openDialogChannel.next({
-        isOpen: true,
-        title: 'Select cards group',
-        selectionItems: state.existedGroupsIDs
+        return prevState;
     })
 }

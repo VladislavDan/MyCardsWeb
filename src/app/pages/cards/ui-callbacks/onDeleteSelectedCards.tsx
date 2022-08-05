@@ -1,20 +1,19 @@
 import DeleteIcon from '@mui/icons-material/Delete';
 
 import {ICallback} from "../../../../MyTools/react-utils/CallbackFactory";
-import {CardsContainerCallbackSettings} from "../types/CardsContainerCallbackSettings";
+import {CardsCallbackSettings} from "../types/CardsCallbackSettings";
 import {defaultConfirmDialogState} from "../../../common/defaults/defaultConfirmDialogState";
 
-export const onDeleteSelectedCards: ICallback<CardsContainerCallbackSettings, void> = (
-    settings: CardsContainerCallbackSettings
+export const onDeleteSelectedCards: ICallback<CardsCallbackSettings, void> = (
+    {services: {confirmDialogService, cardsListService}, setState, setSubscription}
 ) => {
-
-    const {services, state, setSubscription} = settings;
-
-    const {confirmDialogService, cardsListService} = services;
 
     const subscription = confirmDialogService.confirmationChannel.subscribe((isConfirm) => {
         if (isConfirm) {
-            cardsListService.deleteCardsChannel.next(state.selectedItems);
+            setState((prevState) => {
+                cardsListService.deleteCardsChannel.next(prevState.selectedItems);
+                return prevState;
+            })
         }
 
         confirmDialogService.openDialogChannel.next(defaultConfirmDialogState)

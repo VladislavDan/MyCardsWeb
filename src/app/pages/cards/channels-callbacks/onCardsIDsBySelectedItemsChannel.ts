@@ -1,8 +1,8 @@
 import {ICallback} from "../../../../MyTools/react-utils/CallbackFactory";
-import {CardsContainerCallbackSettings} from "../types/CardsContainerCallbackSettings";
+import {CardsCallbackSettings} from "../types/CardsCallbackSettings";
 import {Routs} from "../../../common/Routs";
 
-export const onCardsIDsBySelectedItemsChannel: ICallback<CardsContainerCallbackSettings, number[]> = (
+export const onCardsIDsBySelectedItemsChannel: ICallback<CardsCallbackSettings, number[]> = (
     {history, location},
     args
 ) => {

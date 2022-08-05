@@ -1,7 +1,7 @@
 import {ICallback} from "../../../../MyTools/react-utils/CallbackFactory";
-import {CardsContainerCallbackSettings} from "../types/CardsContainerCallbackSettings";
+import {CardsCallbackSettings} from "../types/CardsCallbackSettings";
 
-export const onResetProgress: ICallback<CardsContainerCallbackSettings, number> = (
+export const onResetProgress: ICallback<CardsCallbackSettings, number> = (
     {
         services,
         location

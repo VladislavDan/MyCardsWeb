@@ -4,23 +4,21 @@ import {initDefaultCard} from "../../../common/logic/initDefaultCard";
 
 export const onSwitchEditing: ICallback<CardViewerCallbackSettings, void> = (
     {
-        state,
         setState,
         services,
         location
     }
 ) => {
-    setState(() => {
+    setState((prevState) => {
+        if (prevState.isEditable) {
+            services.cardsEditorService.cardEditingChannel.next({
+                card: prevState.card || initDefaultCard(),
+                cardsGroupID: location.state.cardsGroupID
+            })
+        }
         return {
-            ...state,
-            isEditable: !state.isEditable
+            ...prevState,
+            isEditable: !prevState.isEditable
         }
     });
-
-    if (state.isEditable) {
-        services.cardsEditorService.cardEditingChannel.next({
-            card: state.card || initDefaultCard(),
-            cardsGroupID: location.state.cardsGroupID
-        })
-    }
 }

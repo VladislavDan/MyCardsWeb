@@ -1,7 +1,7 @@
 import {ICallback} from "../../../../MyTools/react-utils/CallbackFactory";
-import {CardsContainerCallbackSettings} from "../types/CardsContainerCallbackSettings";
+import {CardsCallbackSettings} from "../types/CardsCallbackSettings";
 
-export const onStartSelecting: ICallback<CardsContainerCallbackSettings, void> = (
+export const onStartSelecting: ICallback<CardsCallbackSettings, void> = (
     {setState}
 ) => {
     setState((prevState) => {

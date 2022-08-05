@@ -3,11 +3,8 @@ import React, {FC, useCallback} from 'react';
 import {CardsComponent} from './CardsComponent';
 import {useChannel} from '../../../MyTools/channel-conception/react-hooks/useChannel';
 import {useConstructor} from '../../../MyTools/react-hooks/useConstructor';
-import {INavigationState} from '../../common/types/INavigationState';
-import {IAppContext} from '../../common/types/IAppContext';
 import {AppContext} from '../../../App';
 import {ICardsContainer} from "./types/ICardsContainer";
-import {CardsContainerState} from "./types/CardsContainerState";
 import {onDeleteSelectedCards} from "./ui-callbacks/onDeleteSelectedCards";
 import {onCopySelectedCards} from "./ui-callbacks/onCopySelectedCards";
 import {onMovingSelectedCards} from "./ui-callbacks/onMovingSelectedCards";
@@ -35,12 +32,13 @@ import {onDeleteItem} from "./ui-callbacks/onDeleteItem";
 import {onResetProgress} from "./ui-callbacks/onResetProgress";
 import {onClickItem} from "./ui-callbacks/onClickItem";
 import {initialState} from "./defaults/initialState";
+import {CardsCallbackSettings} from "./types/CardsCallbackSettings";
 
 export const CardsContainer: FC<ICardsContainer> = (services) => {
     const {
         callbackFactory,
         callbackSettings
-    } = useCallbackFactory<INavigationState, CardsContainerState, ICardsContainer, IAppContext>(
+    } = useCallbackFactory<CardsCallbackSettings>(
         initialState,
         services,
         AppContext
@@ -70,13 +68,12 @@ export const CardsContainer: FC<ICardsContainer> = (services) => {
     const changeSearchableText = useCallback(callbackFactory(onChangeSearchableText), [state.filter]);
     const changeSorting = useCallback(callbackFactory(onChangeSorting), [state.filter]);
 
-    const startSelecting = callbackFactory(onStartSelecting);
-    const multiSelectingDependencies = [state.isEnabledSelecting, state.selectedItems]
-    const openRepeater = useCallback(callbackFactory(onOpenRepeater), multiSelectingDependencies);
-    const selectItem = useCallback(callbackFactory(onSelectItem), multiSelectingDependencies);
-    const movingSelectedCards = useCallback(callbackFactory(onMovingSelectedCards), multiSelectingDependencies);
-    const copySelectedCards = useCallback(callbackFactory(onCopySelectedCards), multiSelectingDependencies);
-    const deleteSelectedCards = useCallback(callbackFactory(onDeleteSelectedCards), multiSelectingDependencies)
+    const startSelecting = useCallback(callbackFactory(onStartSelecting), []);
+    const openRepeater = useCallback(callbackFactory(onOpenRepeater), []);
+    const selectItem = useCallback(callbackFactory(onSelectItem), []);
+    const movingSelectedCards = useCallback(callbackFactory(onMovingSelectedCards), []);
+    const copySelectedCards = useCallback(callbackFactory(onCopySelectedCards), []);
+    const deleteSelectedCards = useCallback(callbackFactory(onDeleteSelectedCards), [])
 
     return <CardsComponent
         filter={state.filter}

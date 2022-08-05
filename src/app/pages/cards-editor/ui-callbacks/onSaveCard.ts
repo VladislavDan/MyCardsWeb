@@ -2,9 +2,12 @@ import {ICallback} from "../../../../MyTools/react-utils/CallbackFactory";
 import {CardsEditorCallbackSettings} from "../types/CardsEditorCallbackSettings";
 
 export const onSaveCard: ICallback<CardsEditorCallbackSettings, void> = (
-    {services, state, location}
+    {services, setState, location}
 ) => {
-    services.cardsEditorService.cardEditingChannel.next(
-        {card: state.card, cardsGroupID: location.state.cardsGroupID}
-    );
+    setState((prevState) => {
+        services.cardsEditorService.cardEditingChannel.next(
+            {card: prevState.card, cardsGroupID: location.state.cardsGroupID}
+        );
+        return prevState;
+    })
 }

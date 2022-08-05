@@ -1,48 +1,42 @@
 import * as React from 'react';
-import {FC} from 'react';
+import {FC, useCallback} from 'react';
 
 import {ConfirmDialogComponent} from './ConfirmDialogComponent';
 import {useChannel} from '../../../MyTools/channel-conception/react-hooks/useChannel';
 import {IConfirmDialogContainer} from "./types/IConfirmDialogContainer";
-import {ConfirmDialogContainerState} from "./types/ConfirmDialogContainerState";
 import {defaultConfirmDialogState} from "../../common/defaults/defaultConfirmDialogState";
+import {useCallbackFactory} from "../../../MyTools/react-hooks/useCallbackFactory";
+import {AppContext} from "../../../App";
+import {onOpenDialogChannel} from "./channels-callbacks/onOpenDialogChannel";
+import {onClose} from "./ui-callbacks/onClose";
+import {onClickAgree} from "./ui-callbacks/onClickAgree";
+import {onClickDisagree} from "./ui-callbacks/onClickDisagree";
+import {ConfirmDialogCallbackSettings} from "./types/ConfirmDialogCallbackSettings";
 
-export const ConfirmDialogContainer: FC<IConfirmDialogContainer> = ({confirmDialogService}) => {
+export const ConfirmDialogContainer: FC<IConfirmDialogContainer> = (services) => {
 
-    const [state, setState] = React.useState<ConfirmDialogContainerState>(defaultConfirmDialogState);
-
-    useChannel<ConfirmDialogContainerState, ConfirmDialogContainerState>(
-        confirmDialogService.openDialogChannel,
-        (state: ConfirmDialogContainerState) => {
-            setState(() => {
-                return {...state}
-            })
-        }
+    const {
+        callbackFactory,
+        callbackSettings
+    } = useCallbackFactory<ConfirmDialogCallbackSettings>(
+        defaultConfirmDialogState,
+        services,
+        AppContext
     );
 
-    const onClose = () => {
-        setState((prevState) => {
-            return {
-                ...prevState,
-                isOpen: false, message: ''
-            }
-        });
-        confirmDialogService.confirmationChannel.unsubscribe();
-    };
+    const {state, services: {confirmDialogService}} = callbackSettings
 
-    const onClickAgree = () => {
-        confirmDialogService.confirmationChannel.next(true);
-    };
+    useChannel(confirmDialogService.openDialogChannel, callbackFactory(onOpenDialogChannel));
 
-    const onClickDisagree = () => {
-        confirmDialogService.confirmationChannel.next(false);
-    };
+    const close = useCallback(callbackFactory(onClose), []);
+    const clickAgree = useCallback(callbackFactory(onClickAgree), [])
+    const clickDisagree = useCallback(callbackFactory(onClickDisagree), [])
 
     return <ConfirmDialogComponent
         isOpen={state.isOpen}
-        onClickAgree={onClickAgree}
-        onClickDisagree={onClickDisagree}
-        onClose={onClose}
+        onClickAgree={clickAgree}
+        onClickDisagree={clickDisagree}
+        onClose={close}
         message={state.message}
         titleBackgroundColor={state.titleBackgroundColor}
         icon={state.icon}

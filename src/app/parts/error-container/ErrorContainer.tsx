@@ -1,27 +1,31 @@
-import React, {FC, useState} from 'react';
+import React, {FC, useCallback} from 'react';
 
 import {useChannel} from '../../../MyTools/channel-conception/react-hooks/useChannel';
 import {ErrorComponent} from './ErrorComponent';
 import {IErrorContainer} from "./types/IErrorContainer";
-import {ErrorContainerState} from "./types/ErrorContainerState";
+import {useCallbackFactory} from "../../../MyTools/react-hooks/useCallbackFactory";
+import {AppContext} from "../../../App";
+import {initialState} from "./defaults/initialState";
+import {onErrorChannel} from "./channels-callbacks/onErrorChannel";
+import {onClose} from "./ui-callbacks/onClose";
+import {ErrorCallbackSettings} from "./types/ErrorCallbackSettings";
 
-export const ErrorContainer: FC<IErrorContainer> = ({errorService}) => {
+export const ErrorContainer: FC<IErrorContainer> = (services) => {
 
-    const [state, setState] = useState<ErrorContainerState>({isOpen: false, errorMessage: ''});
+    const {
+        callbackFactory,
+        callbackSettings
+    } = useCallbackFactory<ErrorCallbackSettings>(
+        initialState,
+        services,
+        AppContext
+    );
 
-    useChannel<string, string>(errorService.errorChannel, (errorMessage: string) => {
-        setState({
-            isOpen: true,
-            errorMessage
-        })
-    });
+    const {state, services: {errorService}} = callbackSettings
 
-    const onClose = () => {
-        setState({
-            isOpen: false,
-            errorMessage: ''
-        })
-    };
+    useChannel(errorService.errorChannel, callbackFactory(onErrorChannel));
 
-    return <ErrorComponent isOpen={state.isOpen} errorMessage={state.errorMessage} handleClose={onClose}/>
+    const close = useCallback(callbackFactory(onClose), []);
+
+    return <ErrorComponent isOpen={state.isOpen} errorMessage={state.errorMessage} handleClose={close}/>
 };

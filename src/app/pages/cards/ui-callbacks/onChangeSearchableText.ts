@@ -1,14 +1,18 @@
 import {ICallback} from "../../../../MyTools/react-utils/CallbackFactory";
-import {CardsContainerCallbackSettings} from "../types/CardsContainerCallbackSettings";
+import {CardsCallbackSettings} from "../types/CardsCallbackSettings";
 
-export const onChangeSearchableText: ICallback<CardsContainerCallbackSettings, string> = (
-    {services, setState, state, location},
+export const onChangeSearchableText: ICallback<CardsCallbackSettings, string> = (
+    {services, setState, location},
     searchableText = ''
 ) => {
-    const newFilter = {
-        ...state.filter,
-        searchableText: searchableText
-    }
+    setState((prevState) => {
+        const newFilter = {
+            ...prevState.filter,
+            searchableText: searchableText
+        }
 
-    services.cardsListService.changeFilterChannel.next(newFilter)
+        services.cardsListService.changeFilterChannel.next(newFilter)
+
+        return prevState;
+    })
 }

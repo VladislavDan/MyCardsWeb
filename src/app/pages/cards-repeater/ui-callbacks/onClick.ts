@@ -6,19 +6,19 @@ export const onClick: ICallback<CardRepeaterCallbackSettings, boolean> = (
     {
         setState,
         location,
-        state,
         services: {cardsRepeaterService}
     },
     isKnown = false
 ) => {
-    if (state.card) {
-        cardsRepeaterService.repeatingResultChannel.next({
-            isKnown: isKnown,
-            cardID: state.card.id,
-            cardsGroupID: location.state.cardsGroupID
-        });
-    } else {
-        setState((prevState) => {
+    setState((prevState) => {
+        if (prevState.card) {
+            cardsRepeaterService.repeatingResultChannel.next({
+                isKnown: isKnown,
+                cardID: prevState.card.id,
+                cardsGroupID: location.state.cardsGroupID
+            });
+            return prevState;
+        } else {
             return {
                 ...prevState,
                 card: {
@@ -31,6 +31,6 @@ export const onClick: ICallback<CardRepeaterCallbackSettings, boolean> = (
                 isQuestionSide: false,
                 isEditable: false
             }
-        });
-    }
+        }
+    });
 }

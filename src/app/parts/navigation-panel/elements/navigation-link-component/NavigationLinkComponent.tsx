@@ -5,15 +5,16 @@ import {FC} from 'react';
 
 import {INavigationLinkComponent} from "./types/INavigationLinkComponent";
 
-export const NavigationLinkComponent: FC<INavigationLinkComponent> = ({
-                                                                          path,
-                                                                          name,
-                                                                          toggleDrawer
-                                                                      }: INavigationLinkComponent) => {
-
+export const NavigationLinkComponent: FC<INavigationLinkComponent> = (
+    {
+        path,
+        name,
+        toggleDrawer
+    }: INavigationLinkComponent
+) => {
     return (
         <ListItem button>
-            <Link to={path} onClick={toggleDrawer(false)}>
+            <Link to={path} onClick={toggleDrawer}>
                 {name}
             </Link>
         </ListItem>

@@ -3,15 +3,18 @@ import {ICardsGroupsCallbackSettings} from "../types/ICardsGroupsCallbackSetting
 
 export const onChangeSearchableText: ICallback<ICardsGroupsCallbackSettings, string> = (
     {
-        state,
+        setState,
         services: {
             cardsGroupsListService
         }
     },
     searchableText = ''
 ) => {
-    cardsGroupsListService.changeFilterChannel.next({
-        ...state.filter,
-        searchableText
+    setState((prevState) => {
+        cardsGroupsListService.changeFilterChannel.next({
+            ...prevState.filter,
+            searchableText
+        })
+        return prevState
     })
 }

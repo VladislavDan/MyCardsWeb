@@ -4,7 +4,7 @@ import {IFilter} from "../../../common/types/IFilter";
 import {defaultFilterValue} from "../../../common/defaults/defaultFilterValue";
 
 export const onFilterChannel: ICallback<ICardsGroupsCallbackSettings, IFilter> = (
-    {state, setState, services},
+    {setState, services},
     filter = defaultFilterValue
 ) => {
     setState((prevState) => {

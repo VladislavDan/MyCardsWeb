@@ -2,11 +2,14 @@ import {ICallback} from "../../../../MyTools/react-utils/CallbackFactory";
 import {SettingsCallbackSettings} from "../types/SettingsCallbackSettings";
 
 export const onChangeAlgorithm: ICallback<SettingsCallbackSettings, boolean> = (
-    {state, services: {settingsService}},
+    {setState, services: {settingsService}},
     isRandomRepeating = false
 ) => {
-    settingsService.changeSettingsChannel.next({
-        ...state,
-        isRandomRepeating
+    setState((prevState) => {
+        settingsService.changeSettingsChannel.next({
+            ...prevState,
+            isRandomRepeating
+        })
+        return prevState;
     })
 }

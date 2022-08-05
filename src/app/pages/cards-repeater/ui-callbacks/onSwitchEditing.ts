@@ -3,19 +3,18 @@ import {CardRepeaterCallbackSettings} from "../types/CardRepeaterCallbackSetting
 import {initDefaultCard} from "../../../common/logic/initDefaultCard";
 
 export const onSwitchEditing: ICallback<CardRepeaterCallbackSettings, void> = (
-    {setState, location, state, services: {cardsEditorService}}
+    {setState, location, services: {cardsEditorService}}
 ) => {
     setState((prevState) => {
+        if (prevState.isEditable) {
+            cardsEditorService.cardEditingChannel.next({
+                card: prevState.card || initDefaultCard(),
+                cardsGroupID: location.state.cardsGroupID
+            })
+        }
         return {
             ...prevState,
             isEditable: !prevState.isEditable
         }
     });
-
-    if (state.isEditable) {
-        cardsEditorService.cardEditingChannel.next({
-            card: state.card || initDefaultCard(),
-            cardsGroupID: location.state.cardsGroupID
-        })
-    }
 }

@@ -1,15 +1,12 @@
 import * as React from 'react';
-import {FC} from 'react';
+import {FC, useCallback} from 'react';
 
 import {useChannel} from '../../../MyTools/channel-conception/react-hooks/useChannel';
 import {CardsEditorComponent} from './CardsEditorComponent';
-import {INavigationState} from '../../common/types/INavigationState';
 import {useConstructor} from '../../../MyTools/react-hooks/useConstructor';
 import {ICardsEditorContainer} from "./types/ICardsEditorContainer";
 import {useCallbackFactory} from "../../../MyTools/react-hooks/useCallbackFactory";
-import {IAppContext} from "../../common/types/IAppContext";
 import {AppContext} from "../../../App";
-import {CardsEditorState} from "./types/CardsEditorState";
 import {onCardEditingChannel} from "./channels-callbacks/onCardEditingChannel";
 import {onCardChannel} from "./channels-callbacks/onCardChannel";
 import {onConstructor} from "./ui-callbacks/onConstructor";
@@ -17,13 +14,14 @@ import {onChangeQuestion} from "./ui-callbacks/onChangeQuestion";
 import {onChangeAnswer} from "./ui-callbacks/onChangeAnswer";
 import {onSaveCard} from "./ui-callbacks/onSaveCard";
 import {initialState} from "./defaults/initialState";
+import {CardsEditorCallbackSettings} from "./types/CardsEditorCallbackSettings";
 
 export const CardsEditorContainer: FC<ICardsEditorContainer> = (services) => {
 
     const {
         callbackFactory,
         callbackSettings
-    } = useCallbackFactory<INavigationState, CardsEditorState, ICardsEditorContainer, IAppContext>(
+    } = useCallbackFactory<CardsEditorCallbackSettings>(
         initialState,
         services,
         AppContext
@@ -36,9 +34,9 @@ export const CardsEditorContainer: FC<ICardsEditorContainer> = (services) => {
 
     useConstructor(callbackFactory(onConstructor));
 
-    const changeQuestion = callbackFactory(onChangeQuestion);
-    const changeAnswer = callbackFactory(onChangeAnswer);
-    const saveCard = callbackFactory(onSaveCard);
+    const changeQuestion = useCallback(callbackFactory(onChangeQuestion), []);
+    const changeAnswer = useCallback(callbackFactory(onChangeAnswer), []);
+    const saveCard = useCallback(callbackFactory(onSaveCard), []);
 
     return <CardsEditorComponent
         question={state.card.question}

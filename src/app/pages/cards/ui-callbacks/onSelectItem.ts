@@ -1,26 +1,25 @@
 import {ICallback} from "../../../../MyTools/react-utils/CallbackFactory";
-import {CardsContainerCallbackSettings} from "../types/CardsContainerCallbackSettings";
+import {CardsCallbackSettings} from "../types/CardsCallbackSettings";
 
-export const onSelectItem: ICallback<CardsContainerCallbackSettings, number> = (
+export const onSelectItem: ICallback<CardsCallbackSettings, number> = (
     settings,
     cardID = -1
 ) => {
 
-    const {state, setState} = settings;
-
-    const selectedItems = {
-        ...state.selectedItems
-    };
-
-    if (selectedItems[cardID]) {
-        selectedItems[cardID] = !selectedItems[cardID]
-    } else {
-        selectedItems[cardID] = true
-    }
+    const {setState} = settings;
 
     setState((prevState) => {
+        const selectedItems = {
+            ...prevState.selectedItems
+        };
+
+        if (selectedItems[cardID]) {
+            selectedItems[cardID] = !selectedItems[cardID]
+        } else {
+            selectedItems[cardID] = true
+        }
         return {
-        ...prevState,
+            ...prevState,
             selectedItems
         }
     })

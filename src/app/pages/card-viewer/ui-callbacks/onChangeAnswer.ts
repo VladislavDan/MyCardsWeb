@@ -2,17 +2,17 @@ import {ICallback} from "../../../../MyTools/react-utils/CallbackFactory";
 import {CardViewerCallbackSettings} from "../types/CardViewerCallbackSettings";
 
 export const onChangeAnswer: ICallback<CardViewerCallbackSettings, string> = (
-    {state, setState},
+    {setState},
     args = ''
 ) => {
-    if (state.card) {
-        const editableCard = {
-            ...state.card,
-            answer: args
-        };
-
-        setState((prevState) => {
+    setState((prevState) => {
+        if (prevState.card) {
+            const editableCard = {
+                ...prevState.card,
+                answer: args
+            };
             return {...prevState, card: editableCard}
-        });
-    }
+        }
+        return prevState;
+    });
 }

@@ -5,15 +5,16 @@ import {CardRepeaterCallbackSettings} from "../types/CardRepeaterCallbackSetting
 import {defaultConfirmDialogState} from "../../../common/defaults/defaultConfirmDialogState";
 
 export const onDeleteCard: ICallback<CardRepeaterCallbackSettings, void> = (
-    settings
+    {services, setState, setSubscription}
 ) => {
-    const {services, state, setSubscription} = settings;
-
     const {confirmDialogService, cardsRepeaterService} = services;
 
     const subscription = confirmDialogService.confirmationChannel.subscribe((isConfirm: boolean) => {
         if (isConfirm) {
-            cardsRepeaterService.deleteSingleCardChannel.next(state.card.id);
+            setState((prevState) => {
+                cardsRepeaterService.deleteSingleCardChannel.next(prevState.card.id);
+                return prevState;
+            })
         }
 
         confirmDialogService.openDialogChannel.next(defaultConfirmDialogState)

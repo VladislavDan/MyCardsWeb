@@ -3,7 +3,7 @@ import {ICardsGroupsCallbackSettings} from "../types/ICardsGroupsCallbackSetting
 import {ICardsGroup} from "../../../common/types/ICardsGroup";
 
 export const onGroupsListChannel: ICallback<ICardsGroupsCallbackSettings, ICardsGroup[]> = (
-    {setState, state},
+    {setState},
     cardsGroups = []
 ) => {
     setState((prevState) => {

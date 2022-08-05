@@ -2,13 +2,13 @@ import {ICallback} from "../../../../MyTools/react-utils/CallbackFactory";
 import {ICardsGroupsEditorCallbackSettings} from "../types/ICardsGroupsEditorCallbackSettings";
 
 export const onChangeGroupName: ICallback<ICardsGroupsEditorCallbackSettings, string> = (
-    {setState, state},
+    {setState},
     groupName = ''
 ) => {
-    setState(() => {
+    setState((prevState) => {
         return {
             cardsGroup: {
-                ...state.cardsGroup,
+                ...prevState.cardsGroup,
                 nameCardsGroup: groupName
             }
         }

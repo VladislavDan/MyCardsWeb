@@ -1,15 +1,14 @@
 import {ICallback} from "../../../../MyTools/react-utils/CallbackFactory";
-import {CardsContainerCallbackSettings} from "../types/CardsContainerCallbackSettings";
+import {CardsCallbackSettings} from "../types/CardsCallbackSettings";
 import {ISortVariant} from "../../../common/types/ISortVariant";
 
-export const onConstructor: ICallback<CardsContainerCallbackSettings, ISortVariant> = (
-    {services, location, state}
+export const onConstructor: ICallback<CardsCallbackSettings, ISortVariant> = (
+    {services, setState, location}
 ) => {
     const {cardsListService} = services;
-    cardsListService.filterChannel.next('')
-    cardsListService.cardsChannel.next({
-        cardsGroupID: location.state.cardsGroupID,
-        filter: state.filter
-    });
-    cardsListService.existedGroupsIDsChannel.next('');
+    setState((prevState) => {
+        cardsListService.filterChannel.next('')
+        cardsListService.existedGroupsIDsChannel.next('');
+        return prevState;
+    })
 }

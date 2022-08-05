@@ -2,17 +2,15 @@ import {ICallback} from "../../../../MyTools/react-utils/CallbackFactory";
 import {CardViewerCallbackSettings} from "../types/CardViewerCallbackSettings";
 
 export const onClickCard: ICallback<CardViewerCallbackSettings, void> = (
-    {
-        state,
-        setState
-    }
+    {setState}
 ) => {
-    if (!state.isEditable) {
-        setState(() => {
+    setState((prevState) => {
+        if (!prevState.isEditable) {
             return {
-                ...state,
-                isQuestionSide: !state.isQuestionSide
+                ...prevState,
+                isQuestionSide: !prevState.isQuestionSide
             }
-        })
-    }
+        }
+        return prevState;
+    })
 }

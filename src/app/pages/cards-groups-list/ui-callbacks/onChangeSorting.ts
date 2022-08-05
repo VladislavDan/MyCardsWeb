@@ -3,12 +3,15 @@ import {ICardsGroupsCallbackSettings} from "../types/ICardsGroupsCallbackSetting
 import {ISortVariant} from "../../../common/types/ISortVariant";
 
 export const onChangeSorting: ICallback<ICardsGroupsCallbackSettings, ISortVariant> = (
-    {services: {cardsGroupsListService}, state},
+    {services: {cardsGroupsListService}, setState},
     sortVariant = ISortVariant.NONE
 ) => {
-    const newFilter = {
-        ...state.filter,
-        sort: sortVariant
-    }
-    cardsGroupsListService.changeFilterChannel.next(newFilter);
+    setState((prevState) => {
+        const newFilter = {
+            ...prevState.filter,
+            sort: sortVariant
+        }
+        cardsGroupsListService.changeFilterChannel.next(newFilter);
+        return prevState;
+    })
 }

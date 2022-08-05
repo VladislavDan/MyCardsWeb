@@ -2,14 +2,17 @@ import {ICallback} from "../../../../MyTools/react-utils/CallbackFactory";
 import {SettingsCallbackSettings} from "../types/SettingsCallbackSettings";
 
 export const onChangeTimeInProgress: ICallback<SettingsCallbackSettings, number> = (
-    {state, services: {settingsService}},
+    {setState, services: {settingsService}},
     timeInProgress = -1
 ) => {
-    settingsService.changeSettingsChannel.next({
-        ...state,
-        autoObsolete: {
-            ...state.autoObsolete,
-            timeInProgress
-        }
+    setState((prevState) => {
+        settingsService.changeSettingsChannel.next({
+            ...prevState,
+            autoObsolete: {
+                ...prevState.autoObsolete,
+                timeInProgress
+            }
+        })
+        return prevState;
     })
 }

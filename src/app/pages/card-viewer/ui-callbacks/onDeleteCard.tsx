@@ -5,26 +5,27 @@ import {CardViewerCallbackSettings} from "../types/CardViewerCallbackSettings";
 import {defaultConfirmDialogState} from "../../../common/defaults/defaultConfirmDialogState";
 
 export const onDeleteCard: ICallback<CardViewerCallbackSettings, void> = (
-    settings
+    {services, setSubscription, setState}
 ) => {
-    const {services, state, setSubscription} = settings;
+    setState((prevState) => {
+        const {confirmDialogService, cardViewerService} = services;
 
-    const {confirmDialogService, cardViewerService} = services;
+        const subscription = confirmDialogService.confirmationChannel.subscribe((isConfirm) => {
+            if (isConfirm) {
+                cardViewerService.deleteSingleCardChannel.next(prevState.card.id);
+            }
 
-    const subscription = confirmDialogService.confirmationChannel.subscribe((isConfirm) => {
-        if (isConfirm) {
-            cardViewerService.deleteSingleCardChannel.next(state.card.id);
-        }
+            confirmDialogService.openDialogChannel.next(defaultConfirmDialogState)
+        });
 
-        confirmDialogService.openDialogChannel.next(defaultConfirmDialogState)
-    });
+        setSubscription(subscription);
 
-    setSubscription(subscription);
-
-    confirmDialogService.openDialogChannel.next({
-        isOpen: true,
-        message: 'Do you want to delete this cards?',
-        titleBackgroundColor: 'red',
-        icon: <DeleteIcon/>
+        confirmDialogService.openDialogChannel.next({
+            isOpen: true,
+            message: 'Do you want to delete this cards?',
+            titleBackgroundColor: 'red',
+            icon: <DeleteIcon/>
+        });
+        return prevState;
     });
 }

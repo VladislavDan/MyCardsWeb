@@ -3,11 +3,8 @@ import React, {FC, useCallback} from 'react';
 import {useChannel} from '../../../MyTools/channel-conception/react-hooks/useChannel';
 import {useConstructor} from '../../../MyTools/react-hooks/useConstructor';
 import {CardsRepeaterComponent} from './CardsRepeaterComponent';
-import {INavigationState} from '../../common/types/INavigationState';
 import {AppContext} from '../../../App';
-import {IAppContext} from '../../common/types/IAppContext';
 import {ICardRepeaterContainer} from "./types/ICardRepeaterContainer";
-import {CardRepeaterContainerState} from "./types/CardRepeaterContainerState";
 import {onDeleteCard} from "./ui-callbacks/onDeleteCard";
 import {onDeleteSingleCardChannel} from "./channels-callbacks/onDeleteSingleCardChannel";
 import {onCardGroupNameChannel} from "./channels-callbacks/onCardGroupNameChannel";
@@ -24,6 +21,7 @@ import {onSwitchEditing} from "./ui-callbacks/onSwitchEditing";
 import {onChangeQuestion} from "./ui-callbacks/onChangeQuestion";
 import {onChangeAnswer} from "./ui-callbacks/onChangeAnswer";
 import {initialState} from "./defaults/initialState";
+import {CardRepeaterCallbackSettings} from "./types/CardRepeaterCallbackSettings";
 
 export const CardRepeaterContainer: FC<ICardRepeaterContainer> = (
     services
@@ -32,7 +30,7 @@ export const CardRepeaterContainer: FC<ICardRepeaterContainer> = (
     const {
         callbackFactory,
         callbackSettings
-    } = useCallbackFactory<INavigationState, CardRepeaterContainerState, ICardRepeaterContainer, IAppContext>(
+    } = useCallbackFactory<CardRepeaterCallbackSettings>(
         initialState,
         services,
         AppContext
@@ -53,13 +51,13 @@ export const CardRepeaterContainer: FC<ICardRepeaterContainer> = (
 
     useConstructor(callbackFactory(onConstructor));
 
-    const click = useCallback(callbackFactory(onClick), [state.card]);
-    const clickCard = callbackFactory(onClickCard);
+    const click = useCallback(callbackFactory(onClick), []);
+    const clickCard = useCallback(callbackFactory(onClickCard), []);
     const backClick = useCallback(callbackFactory(onBackClick), []);
-    const switchEditing = callbackFactory(onSwitchEditing);
-    const changeQuestion = useCallback(callbackFactory(onChangeQuestion), [state.card]);
-    const changeAnswer = useCallback(callbackFactory(onChangeAnswer), [state.card]);
-    const deleteCard = useCallback(callbackFactory(onDeleteCard), [state.card])
+    const switchEditing = useCallback(callbackFactory(onSwitchEditing), []);
+    const changeQuestion = useCallback(callbackFactory(onChangeQuestion), []);
+    const changeAnswer = useCallback(callbackFactory(onChangeAnswer), []);
+    const deleteCard = useCallback(callbackFactory(onDeleteCard), [])
 
     return <CardsRepeaterComponent
         onDeleteCard={deleteCard}

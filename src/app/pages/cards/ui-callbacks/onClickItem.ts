@@ -1,10 +1,9 @@
 import {ICallback} from "../../../../MyTools/react-utils/CallbackFactory";
-import {CardsContainerCallbackSettings} from "../types/CardsContainerCallbackSettings";
+import {CardsCallbackSettings} from "../types/CardsCallbackSettings";
 import {Routs} from "../../../common/Routs";
 
-export const onClickItem: ICallback<CardsContainerCallbackSettings, number> = (
+export const onClickItem: ICallback<CardsCallbackSettings, number> = (
     {
-        state,
         location,
         history
     },

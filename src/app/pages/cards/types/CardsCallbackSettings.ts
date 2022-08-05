@@ -4,7 +4,7 @@ import {ICardsContainer} from "./ICardsContainer";
 import {INavigationState} from "../../../common/types/INavigationState";
 import {IAppContext} from "../../../common/types/IAppContext";
 
-export type CardsContainerCallbackSettings = ICallbackSettings<CardsContainerState,
+export type CardsCallbackSettings = ICallbackSettings<CardsContainerState,
     ICardsContainer,
     INavigationState,
     IAppContext>

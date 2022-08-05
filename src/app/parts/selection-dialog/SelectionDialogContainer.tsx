@@ -1,39 +1,38 @@
 import * as React from 'react';
-import {FC} from 'react';
+import {FC, useCallback} from 'react';
 
 import {SelectionDialogComponent} from './SelectionDialogComponent';
 import {useChannel} from '../../../MyTools/channel-conception/react-hooks/useChannel';
 import {ISelectionDialogContainer} from "./types/ISelectionDialogContainer";
-import {SelectionDialogContainerState} from "./types/SelectionDialogContainerState";
+import {useCallbackFactory} from "../../../MyTools/react-hooks/useCallbackFactory";
+import {AppContext} from "../../../App";
+import {initialState} from "./defaults/initialState";
+import {SelectionDialogCallbackSettings} from "./types/SelectionDialogCallbackSettings";
+import {onOpenDialogChannel} from "./channels-callbacks/onOpenDialogChannel";
+import {onClose} from "./ui-callbacks/onClose";
+import {onClickItem} from "./ui-callbacks/onClickItem";
 
-export const SelectionDialogContainer: FC<ISelectionDialogContainer> = ({selectionDialogService}) => {
-
-    const [state, setState] = React.useState<SelectionDialogContainerState>({
-        isOpen: false,
-        title: '',
-        selectionItems: []
-    });
-
-    useChannel<SelectionDialogContainerState, SelectionDialogContainerState>(
-        selectionDialogService.openDialogChannel,
-        (state: SelectionDialogContainerState) => {
-            setState({...state});
-        }
+export const SelectionDialogContainer: FC<ISelectionDialogContainer> = (services) => {
+    const {
+        callbackFactory,
+        callbackSettings
+    } = useCallbackFactory<SelectionDialogCallbackSettings>(
+        initialState,
+        services,
+        AppContext
     );
 
-    const onClose = () => {
-        setState({isOpen: false, title: '', selectionItems: []});
-        selectionDialogService.selectionChannel.unsubscribe();
-    };
+    const {state, services: {selectionDialogService}} = callbackSettings
 
-    const onClickItem = (itemID: number) => {
-        selectionDialogService.selectionChannel.next(itemID);
-    };
+    useChannel(selectionDialogService.openDialogChannel, callbackFactory(onOpenDialogChannel));
+
+    const close = useCallback(callbackFactory(onClose), [])
+    const clickItem = useCallback(callbackFactory(onClickItem), [])
 
     return <SelectionDialogComponent
         isOpen={state.isOpen}
-        onClickItem={onClickItem}
-        onClose={onClose}
+        onClickItem={clickItem}
+        onClose={close}
         title={state.title}
         selectionItems={state.selectionItems}
     />

@@ -2,17 +2,17 @@ import {ICallback} from "../../../../MyTools/react-utils/CallbackFactory";
 import {CardRepeaterCallbackSettings} from "../types/CardRepeaterCallbackSettings";
 
 export const onChangeQuestion: ICallback<CardRepeaterCallbackSettings, string> = (
-    {setState, state},
+    {setState},
     question = ''
 ) => {
-    if (state.card) {
-        const editableCard = {
-            ...state.card,
-            question
-        };
-
-        setState((prevState) => {
+    setState((prevState) => {
+        if (prevState.card) {
+            const editableCard = {
+                ...prevState.card,
+                question
+            };
             return {...prevState, card: editableCard}
-        });
-    }
+        }
+        return prevState
+    });
 }

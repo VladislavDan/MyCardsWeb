@@ -1,14 +1,11 @@
 import * as React from 'react';
-import {FC} from 'react';
+import {FC, useCallback} from 'react';
 
 import {useChannel} from '../../../MyTools/channel-conception/react-hooks/useChannel';
 import {SettingsComponent} from './SettingsComponent';
 import {useConstructor} from '../../../MyTools/react-hooks/useConstructor';
-import {ISettings} from '../../common/types/ISettings';
 import {ISettingsContainer} from "./types/ISettingsContainer";
 import {useCallbackFactory} from "../../../MyTools/react-hooks/useCallbackFactory";
-import {INavigationState} from "../../common/types/INavigationState";
-import {IAppContext} from "../../common/types/IAppContext";
 import {AppContext} from "../../../App";
 import {defaultSettings} from "../../common/defaults/defaultSettings";
 import {onChangeSettingsChannel} from "./channels-callbacks/onChangeSettingsChannel";
@@ -18,13 +15,14 @@ import {onChangeAlgorithm} from "./ui-callbacks/onChangeAlgorithm";
 import {onChangeAutoObsolete} from "./ui-callbacks/onChangeAutoObsolete";
 import {onChangeTimeInDone} from "./ui-callbacks/onChangeTimeInDone";
 import {onChangeTimeInProgress} from "./ui-callbacks/onChangeTimeInProgress";
+import {SettingsCallbackSettings} from "./types/SettingsCallbackSettings";
 
 export const SettingsContainer: FC<ISettingsContainer> = (services) => {
 
     const {
         callbackFactory,
         callbackSettings
-    } = useCallbackFactory<INavigationState, ISettings, ISettingsContainer, IAppContext>(
+    } = useCallbackFactory<SettingsCallbackSettings>(
         defaultSettings,
         services,
         AppContext
@@ -37,10 +35,10 @@ export const SettingsContainer: FC<ISettingsContainer> = (services) => {
 
     useConstructor(callbackFactory(onConstructor));
 
-    const changeAlgorithm = callbackFactory(onChangeAlgorithm);
-    const changeAutoObsolete = callbackFactory(onChangeAutoObsolete)
-    const changeTimeInDone = callbackFactory(onChangeTimeInDone)
-    const changeTimeInProgress = callbackFactory(onChangeTimeInProgress)
+    const changeAlgorithm = useCallback(callbackFactory(onChangeAlgorithm), []);
+    const changeAutoObsolete = useCallback(callbackFactory(onChangeAutoObsolete), [])
+    const changeTimeInDone = useCallback(callbackFactory(onChangeTimeInDone), [])
+    const changeTimeInProgress = useCallback(callbackFactory(onChangeTimeInProgress), [])
 
     return <SettingsComponent
         settings={state}

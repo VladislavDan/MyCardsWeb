@@ -1,10 +1,10 @@
 import DeleteIcon from '@mui/icons-material/Delete';
 
 import {ICallback} from "../../../../MyTools/react-utils/CallbackFactory";
-import {CardsContainerCallbackSettings} from "../types/CardsContainerCallbackSettings";
+import {CardsCallbackSettings} from "../types/CardsCallbackSettings";
 import {defaultConfirmDialogState} from "../../../common/defaults/defaultConfirmDialogState";
 
-export const onDeleteItem: ICallback<CardsContainerCallbackSettings, number> = (
+export const onDeleteItem: ICallback<CardsCallbackSettings, number> = (
     {
         setSubscription,
         services
