@@ -1,28 +1,32 @@
-import React, {FC, useEffect, useState} from 'react';
-import * as H from 'history';
-import {useLocation} from 'react-router-dom';
+import React, {FC, useEffect} from 'react';
 
 import {ToolbarComponent} from './ToolbarComponent';
 import {useChannel} from "../../../MyTools/channel-conception/react-hooks/useChannel";
 import {IToolbarContainer} from "./types/IToolbarContainer";
+import {useCallbackFactory} from "../../../MyTools/react-hooks/useCallbackFactory";
+import {AppContext} from "../../../App";
+import {ToolbarCallbackSettings} from "./types/ToolbarCallbackSettings";
+import {onToolbarExternalLabelChannel} from "./channels-callbacks/onToolbarExternalLabelChannel";
+import {onPageLabelChannel} from "./channels-callbacks/onPageLabelChannel";
 
-export const ToolbarContainer: FC<IToolbarContainer> = (
-    {
-        toolbarService,
-        navigationPanelService
-    }
-) => {
+export const ToolbarContainer: FC<IToolbarContainer> = (services) => {
 
-    const location: H.Location = useLocation();
-    const [pageLabel, setPageLabel] = useState('');
+    const {
+        callbackFactory,
+        callbackSettings
+    } = useCallbackFactory<ToolbarCallbackSettings>(
+        '',
+        services,
+        AppContext
+    );
 
-    useChannel(toolbarService.toolbarExternalLabelChannel, (label: string) => {
-        setPageLabel(label)
-    })
+    const {services: {toolbarService, navigationPanelService}, state, location} = callbackSettings;
+
+    useChannel(toolbarService.toolbarExternalLabelChannel, callbackFactory(onToolbarExternalLabelChannel))
+    useChannel(toolbarService.pageLabelChannel, callbackFactory(onPageLabelChannel))
 
     useEffect(() => {
-        const newPageLabel = toolbarService.getPageLabel(location.pathname);
-        setPageLabel(newPageLabel);
+        toolbarService.pageLabelChannel.next(location.pathname);
     }, [location.pathname]);
 
     const onClick = () => {
@@ -30,6 +34,6 @@ export const ToolbarContainer: FC<IToolbarContainer> = (
     };
 
     return (
-        <ToolbarComponent pageLabel={pageLabel} onClick={onClick}/>
+        <ToolbarComponent pageLabel={state} onClick={onClick}/>
     )
 };
