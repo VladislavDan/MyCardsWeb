@@ -13,7 +13,7 @@ export const CardsRepeaterComponent: FC<ICardsRepeaterComponent> = (
         isQuestionSide,
         onClickCard,
         onClickYesNoButton,
-        statistic,
+        repeatingProgress,
         onBackClick,
         onSwitchEditing,
         isEditable,
@@ -25,17 +25,17 @@ export const CardsRepeaterComponent: FC<ICardsRepeaterComponent> = (
 
         return card && card.id !== -1 ?
             <div className="cards-repeater">
-                    <StatisticComponent statistic={statistic}/>
-                    <CardsContentComponent
-                        card={card}
-                        onDeleteCard={onDeleteCard}
-                        onClickYesNoButton={onClickYesNoButton}
-                        isQuestionSide={isQuestionSide}
-                        onClickCard={onClickCard}
-                        cardHeight={cardHeight}
-                        onSwitchEditing={onSwitchEditing}
-                        isEditable={isEditable}
-                        onChangeQuestion={onChangeQuestion}
+                <StatisticComponent repeatingProgress={repeatingProgress}/>
+                <CardsContentComponent
+                    card={card}
+                    onDeleteCard={onDeleteCard}
+                    onClickYesNoButton={onClickYesNoButton}
+                    isQuestionSide={isQuestionSide}
+                    onClickCard={onClickCard}
+                    cardHeight={cardHeight}
+                    onSwitchEditing={onSwitchEditing}
+                    isEditable={isEditable}
+                    onChangeQuestion={onChangeQuestion}
                         onChangeAnswer={onChangeAnswer}
             />
         </div> :

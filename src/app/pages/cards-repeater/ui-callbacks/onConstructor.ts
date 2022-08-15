@@ -8,5 +8,5 @@ export const onConstructor: ICallback<CardRepeaterCallbackSettings, ICard> = (
     if (location.state) {
         cardsRepeaterService.cardChannel.next(location.state.cardsIDsForRepeating);
     }
-    cardsRepeaterService.statisticChannel.next('');
+    cardsRepeaterService.repeatingProgressChannel.next('');
 }

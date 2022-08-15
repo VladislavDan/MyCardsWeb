@@ -6,12 +6,12 @@ import {StorageService} from '../../common/services/StorageService';
 import {ICardsGroup} from '../../common/types/ICardsGroup';
 import {IRepeatingArgs} from '../../common/types/IRepeatingArgs';
 import {Channel} from '../../../MyTools/channel-conception/Channel';
-import {IStatistic} from '../../common/types/IStatistic';
+import {IRepeatingProgress} from '../../common/types/IRepeatingProgress';
 import {ISettings} from '../../common/types/ISettings';
 import {getCardsByIDs} from './logic/getCardsByIDs';
 import {changeRangeOfKnowledge} from '../../common/logic/changeRangeOfKnowledge';
 import {getCardForRepeating} from './logic/getCardForRepeating';
-import {getStatistic} from './logic/getStatistic';
+import {getRepeatingProgress} from './logic/getRepeatingProgress';
 import {shuffleCards} from './logic/shuffleCards';
 import {refreshCardRepeatingDate} from "../../common/logic/refreshCardRepeatingDate";
 import {deleteSingleCard} from "../../common/logic/deleteSingleCard";
@@ -20,7 +20,7 @@ import {getCardGroupName} from "../card-viewer/logic/getCardGroupName";
 export class CardsRepeaterService {
     public cardChannel: Channel<number[], ICard>;
     public repeatingResultChannel: Channel<IRepeatingArgs, ICardsGroup[]>;
-    public statisticChannel: Channel<string, IStatistic>;
+    public repeatingProgressChannel: Channel<string, IRepeatingProgress>;
     public deleteSingleCardChannel: Channel<number, ICardsGroup[]>;
     public cardGroupNameChannel: Channel<number, string>;
 
@@ -45,7 +45,7 @@ export class CardsRepeaterService {
                 })
             )),
             tap(({cards, isRandomRepeating}) => {
-                this.statisticValue = getStatistic(cards);
+                this.statisticValue = getRepeatingProgress(cards);
             }),
             map(({cards, isRandomRepeating}) => {
                 return getCardForRepeating(cards, isRandomRepeating)
@@ -60,7 +60,7 @@ export class CardsRepeaterService {
             );
         });
 
-        this.statisticChannel = new Channel(() => of(this.statisticValue));
+        this.repeatingProgressChannel = new Channel(() => of(this.statisticValue));
 
         this.deleteSingleCardChannel = new Channel(
             (cardID) => storageService.getBackup().pipe(

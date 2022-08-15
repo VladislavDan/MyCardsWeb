@@ -1,9 +1,9 @@
 import {ICard} from "../../../common/types/ICard";
-import {IStatistic} from "../../../common/types/IStatistic";
+import {IRepeatingProgress} from "../../../common/types/IRepeatingProgress";
 
 export interface CardRepeaterContainerState {
     card: ICard,
     isQuestionSide: boolean,
     isEditable: boolean,
-    statistic: IStatistic
+    repeatingProgress: IRepeatingProgress
 }

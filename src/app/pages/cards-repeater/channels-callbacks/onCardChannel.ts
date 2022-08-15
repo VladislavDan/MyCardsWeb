@@ -16,5 +16,5 @@ export const onCardChannel: ICallback<CardRepeaterCallbackSettings, ICard> = (
             isEditable: false
         }
     });
-    cardsRepeaterService.statisticChannel.next('');
+    cardsRepeaterService.repeatingProgressChannel.next('');
 }

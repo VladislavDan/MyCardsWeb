@@ -1,5 +1,8 @@
+import {IDayStatistic} from "./IDayStatistic";
+
 export interface IStatistic {
-    inProgress: number
-    todo: number
-    done: number
+    dailyStatistic: Array<IDayStatistic>;
+    cardsInProgressFrequency: {
+        [key: number]: number
+    }
 }

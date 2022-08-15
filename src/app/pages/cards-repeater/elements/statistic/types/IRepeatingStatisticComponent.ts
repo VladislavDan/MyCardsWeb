@@ -1,5 +1,5 @@
-import {IStatistic} from "../../../../../common/types/IStatistic";
+import {IRepeatingProgress} from "../../../../../common/types/IRepeatingProgress";
 
 export interface IRepeatingStatisticComponent {
-    statistic: IStatistic
+    repeatingProgress: IRepeatingProgress
 }

@@ -46,7 +46,7 @@ export const CardRepeaterContainer: FC<ICardRepeaterContainer> = (
     useChannel(cardsRepeaterService.cardGroupNameChannel, callbackFactory(onCardGroupNameChannel))
     useChannel(cardsRepeaterService.cardChannel, callbackFactory(onCardChannel));
     useChannel(cardsEditorService.cardEditingChannel, callbackFactory(onCardEditingChannel));
-    useChannel(cardsRepeaterService.statisticChannel, callbackFactory(onStatisticChannel));
+    useChannel(cardsRepeaterService.repeatingProgressChannel, callbackFactory(onStatisticChannel));
     useChannel(cardsRepeaterService.repeatingResultChannel, callbackFactory(onRepeatingResultChannel));
 
     useConstructor(callbackFactory(onConstructor));
@@ -66,7 +66,7 @@ export const CardRepeaterContainer: FC<ICardRepeaterContainer> = (
         onClickCard={clickCard}
         onClickYesNoButton={click}
         card={state.card}
-        statistic={state.statistic}
+        repeatingProgress={state.repeatingProgress}
         onBackClick={backClick}
         onSwitchEditing={switchEditing}
         isEditable={state.isEditable}
