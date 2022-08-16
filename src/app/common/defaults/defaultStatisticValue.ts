@@ -1,5 +1,6 @@
-export const defaultStatisticValue = {
-    inProgress: 0,
-    todo: 0,
-    done: 0
-};
+import {IStatistic} from "../types/IStatistic";
+
+export const defaultStatisticValue: IStatistic = {
+    dailyStatistic: [],
+    cardsInProgressFrequency: {}
+}

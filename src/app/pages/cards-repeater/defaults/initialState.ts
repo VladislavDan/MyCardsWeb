@@ -1,5 +1,5 @@
 import {IRangeOfKnowledge} from "../../../common/types/IRangeOfKnowledge";
-import {defaultStatisticValue} from "../../../common/defaults/defaultStatisticValue";
+import {defaultRepeatingProgressValue} from "../../../common/defaults/defaultRepeatingProgressValue";
 
 export const initialState = {
     card: {
@@ -11,5 +11,5 @@ export const initialState = {
     },
     isQuestionSide: true,
     isEditable: false,
-    statistic: defaultStatisticValue
+    repeatingProgress: defaultRepeatingProgressValue
 }

@@ -16,6 +16,8 @@ import {shuffleCards} from './logic/shuffleCards';
 import {refreshCardRepeatingDate} from "../../common/logic/refreshCardRepeatingDate";
 import {deleteSingleCard} from "../../common/logic/deleteSingleCard";
 import {getCardGroupName} from "../card-viewer/logic/getCardGroupName";
+import {updateStatistic} from "../../common/logic/updateStatistic";
+import {IStatistic} from "../../common/types/IStatistic";
 
 export class CardsRepeaterService {
     public cardChannel: Channel<number[], ICard>;
@@ -53,10 +55,13 @@ export class CardsRepeaterService {
         ));
 
         this.repeatingResultChannel = new Channel((args: IRepeatingArgs) => {
-            return this.storageService.getBackup().pipe(
+            return this.storageService.getStatistic().pipe(
+                map((statistic: IStatistic) => updateStatistic(statistic, args)),
+                map((statistic: IStatistic) => this.storageService.setStatistic(statistic)),
+                switchMap(() => this.storageService.getBackup()),
                 map((cardsGroups: ICardsGroup[]) => changeRangeOfKnowledge(args, cardsGroups)),
                 map((cardsGroups: ICardsGroup[]) => refreshCardRepeatingDate(args, cardsGroups)),
-                switchMap((cardsGroups: ICardsGroup[]) => this.storageService.setBackup(cardsGroups))
+                switchMap((cardsGroups: ICardsGroup[]) => this.storageService.setBackup(cardsGroups)),
             );
         });
 

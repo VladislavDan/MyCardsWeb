@@ -30,7 +30,7 @@ export const ToolbarContainer: FC<IToolbarContainer> = (services) => {
         toolbarService.pageLabelChannel.next(location.pathname);
     }, [location.pathname]);
 
-    const click = () => useCallback(callbackFactory(onClick), []);
+    const click = useCallback(callbackFactory(onClick), []);
 
     return (
         <ToolbarComponent pageLabel={state} onClick={click}/>

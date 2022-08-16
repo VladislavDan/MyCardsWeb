@@ -4,6 +4,8 @@ import {DataBaseService} from './DataBaseService';
 import {ISettings} from '../types/ISettings';
 import {IStoredFilters} from "../types/IStoredFilters";
 import {defaultFilterValue} from "../defaults/defaultFilterValue";
+import {IStatistic} from "../types/IStatistic";
+import {defaultStatisticValue} from "../defaults/defaultStatisticValue";
 
 export class StorageService {
 
@@ -11,6 +13,7 @@ export class StorageService {
     private authTokenLocalStorageID = 'auth-token';
     private settingsID = 'settings';
     private filterID = 'filter'
+    private statisticID = 'statistic'
 
     constructor(private dataBaseService: DataBaseService) {
     }
@@ -109,6 +112,24 @@ export class StorageService {
         return from(new Promise<IStoredFilters>((resolve) => {
             localStorage.setItem(this.filterID, JSON.stringify(settings));
             resolve(settings);
+        }));
+    }
+
+    public getStatistic(): Observable<IStatistic> {
+        return from(new Promise<IStatistic>((resolve) => {
+            const statistic = localStorage.getItem(this.statisticID);
+            if (statistic) {
+                resolve(JSON.parse(statistic) as IStatistic);
+            } else {
+                resolve(defaultStatisticValue)
+            }
+        }));
+    }
+
+    public setStatistic(statistic: IStatistic): Observable<IStatistic> {
+        return from(new Promise<IStatistic>((resolve) => {
+            localStorage.setItem(this.statisticID, JSON.stringify(statistic));
+            resolve(statistic);
         }));
     }
 }
