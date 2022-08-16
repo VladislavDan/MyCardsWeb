@@ -13,6 +13,7 @@ import {SettingsService} from "../../../pages/settings/SettingsService";
 import {CardViewerService} from "../../../pages/card-viewer/CardViewerService";
 import {SelectionDialogService} from "../../selection-dialog/SelectionDialogService";
 import {ToolbarService} from "../../toolbar/ToolbarService";
+import {StatisticService} from "../../../pages/statistic/StatisticService";
 
 export interface INavigationContainer {
     cardsGroupsListService: CardsGroupsListService;
@@ -30,4 +31,5 @@ export interface INavigationContainer {
     cardViewerService: CardViewerService;
     selectionDialogService: SelectionDialogService;
     toolbarService: ToolbarService;
+    statisticService: StatisticService;
 }

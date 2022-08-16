@@ -47,5 +47,10 @@ export const Routs = {
     cardViewer: {
         path: '/card-viewer',
         name: 'Card Preview'
+    },
+
+    statistic: {
+        path: '/statistic',
+        name: 'Statistic'
     }
 };

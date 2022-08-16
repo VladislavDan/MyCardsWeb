@@ -14,6 +14,7 @@ import {CardsEditorContainer} from '../../pages/cards-editor/CardsEditorContaine
 import {SettingsContainer} from '../../pages/settings/SettingsContainer';
 import {CardViewerContainer} from "../../pages/card-viewer/CardViewerContainer";
 import {INavigationContainer} from "./types/INavigationContainer";
+import {StatisticContainer} from "../../pages/statistic/StatisticContainer";
 
 
 export const NavigationContainer: FC<INavigationContainer> = (
@@ -32,7 +33,8 @@ export const NavigationContainer: FC<INavigationContainer> = (
         localBackupsService,
         cardViewerService,
         selectionDialogService,
-        toolbarService
+        toolbarService,
+        statisticService
     }
 ) => {
 
@@ -84,6 +86,12 @@ export const NavigationContainer: FC<INavigationContainer> = (
                 confirmDialogService={confirmDialogService}
                 cardViewerService={cardViewerService}
                 cardsEditorService={cardsEditorService}
+            />
+        </Route>
+        <Route path={Routs.statistic.path}>
+            <StatisticContainer
+                confirmDialogService={confirmDialogService}
+                statisticService={statisticService}
             />
         </Route>
     </Switch>

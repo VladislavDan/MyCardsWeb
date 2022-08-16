@@ -33,5 +33,9 @@ export const getPageLabel = (path: string) => {
         return Routs.cardViewer.name;
     }
 
+    if (path === Routs.statistic.path) {
+        return Routs.statistic.name;
+    }
+
     return 'My Cards'
 }
