@@ -1,4 +1,4 @@
-export const defaultCardsGroupValue = {
+export const defaultCardsGroup = {
     cards: [],
     nameCardsGroup: '',
     repeatingDate: new Date().getTime(),

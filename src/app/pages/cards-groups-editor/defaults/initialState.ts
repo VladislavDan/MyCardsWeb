@@ -1,5 +1,5 @@
-import {defaultCardsGroupValue} from "../../../common/defaults/defaultCardsGroupValue";
+import {defaultCardsGroup} from "../../../common/defaults/defaultCardsGroup";
 
 export const initialState = {
-    cardsGroup: defaultCardsGroupValue
+    cardsGroup: defaultCardsGroup
 }

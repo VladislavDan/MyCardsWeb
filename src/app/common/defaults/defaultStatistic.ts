@@ -1,6 +1,6 @@
 import {IStatistic} from "../types/IStatistic";
 
-export const defaultStatisticValue: IStatistic = {
+export const defaultStatistic: IStatistic = {
     dailyStatistic: [],
     cardsInProgressFrequency: {}
 }

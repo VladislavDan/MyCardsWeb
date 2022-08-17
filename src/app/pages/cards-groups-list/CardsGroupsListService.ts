@@ -13,13 +13,14 @@ import {ISettings} from "../../common/types/ISettings";
 import {updateObsoleteStatus} from "./logic/updateObsoleteStatus";
 import {IFilter} from "../../common/types/IFilter";
 import {IStoredFilters} from "../../common/types/IStoredFilters";
+import {IEmpty} from "../../../MyTools/channel-conception/defaults/IEmpty";
 
 export class CardsGroupsListService {
-    public groupsListChannel: Channel<string, ICardsGroup[]>;
+    public groupsListChannel: Channel<IEmpty, ICardsGroup[]>;
     public groupDeleteChannel: Channel<number, ICardsGroup[]>;
     public resetProgressChannel: Channel<number, ICardsGroup[]>;
     public changeFilterChannel: Channel<IFilter, IStoredFilters>;
-    public filterChannel: Channel<string, IFilter>;
+    public filterChannel: Channel<IEmpty, IFilter>;
 
     constructor(storageService: StorageService) {
 
@@ -60,7 +61,7 @@ export class CardsGroupsListService {
             tap((cardsGroups: ICardsGroup[]) => storageService.setBackup(cardsGroups))
         ))
 
-        this.filterChannel = new Channel<string, IFilter>(
+        this.filterChannel = new Channel(
             () => storageService.getFilter().pipe(
                 map((storedFilters) => storedFilters.cardsGroups)
             )

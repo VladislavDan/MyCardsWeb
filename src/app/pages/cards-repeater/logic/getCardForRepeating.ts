@@ -1,11 +1,19 @@
 import {ICard} from '../../../common/types/ICard';
 import {IRangeOfKnowledge} from '../../../common/types/IRangeOfKnowledge';
+import {IRepeatingType} from "../../../common/types/IRepeatingType";
+import {shuffleCards} from "./shuffleCards";
+import {defaultCard} from "../../../common/defaults/defaultCard";
 
-export const getCardForRepeating = (cards: ICard[], isRandomRepeating: boolean): ICard => {
+export const getCardForRepeating = (cards: ICard[], repeatingType: IRepeatingType): ICard => {
 
     let foundCard
 
-    if (!isRandomRepeating) {
+    if (repeatingType === IRepeatingType.RANDOM) {
+        const cardsWithoutDone = shuffleCards(cards).filter((card: ICard) => {
+            return card.rangeOfKnowledge !== IRangeOfKnowledge.DONE
+        })
+        foundCard = cardsWithoutDone[0];
+    } else {
         foundCard = cards.find((card: ICard) => {
             return card.rangeOfKnowledge === IRangeOfKnowledge.TO_DO;
         });
@@ -19,18 +27,7 @@ export const getCardForRepeating = (cards: ICard[], isRandomRepeating: boolean):
         if (cards.length === 1) {
             foundCard = cards[0]
         }
-    } else {
-        const cardsWithoutDone = cards.filter((card: ICard) => {
-            return card.rangeOfKnowledge !== IRangeOfKnowledge.DONE
-        })
-        foundCard = cardsWithoutDone[0];
     }
 
-    return foundCard || {
-        id: -1,
-        question: '',
-        answer: '',
-        rangeOfKnowledge: IRangeOfKnowledge.IN_PROGRESS,
-        dateRepeating: 0
-    }
+    return foundCard || defaultCard
 };

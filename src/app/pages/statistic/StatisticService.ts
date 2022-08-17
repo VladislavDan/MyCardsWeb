@@ -4,11 +4,12 @@ import {StorageService} from "../../common/services/StorageService";
 import {map} from "rxjs/operators";
 import {getRowsFromStatistic} from "./logic/getRowsFromStatistic";
 import {IRow} from "./types/IRow";
-import {defaultStatisticValue} from "../../common/defaults/defaultStatisticValue";
+import {defaultStatistic} from "../../common/defaults/defaultStatistic";
+import {IEmpty} from "../../../MyTools/channel-conception/defaults/IEmpty";
 
 export class StatisticService {
-    public statisticChannel: Channel<string, IRow[]>;
-    public removeStatisticChannel: Channel<string, IStatistic>;
+    public statisticChannel: Channel<IEmpty, IRow[]>;
+    public removeStatisticChannel: Channel<IEmpty, IStatistic>;
 
     constructor(private storageService: StorageService) {
         this.statisticChannel = new Channel(
@@ -19,7 +20,7 @@ export class StatisticService {
             )
         )
         this.removeStatisticChannel = new Channel(
-            () => storageService.setStatistic(defaultStatisticValue)
+            () => storageService.setStatistic(defaultStatistic)
         )
     }
 }

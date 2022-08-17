@@ -1,3 +1,6 @@
+import {IStatistic} from "./IStatistic";
+import {IRepeatingType} from "./IRepeatingType";
+
 export interface IRepeater {
     id: number;
     cardsGroupsIDs: number[];
@@ -6,5 +9,6 @@ export interface IRepeater {
         timeInProgress: number;
         timeInDone: number;
     };
-    isRandomRepeating: boolean;
+    statistic: IStatistic;
+    repeatingType: IRepeatingType
 }

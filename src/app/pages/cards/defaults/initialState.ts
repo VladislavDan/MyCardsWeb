@@ -1,8 +1,8 @@
-import {defaultFilterValue} from "../../../common/defaults/defaultFilterValue";
+import {defaultFilter} from "../../../common/defaults/defaultFilter";
 
 export const initialState = {
     cards: [],
-    filter: defaultFilterValue,
+    filter: defaultFilter,
     isEnabledSelecting: false,
     selectedItems: {},
     existedGroupsIDs: []

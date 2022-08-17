@@ -1,6 +1,6 @@
 import {ICallback} from "../../../../MyTools/react-utils/CallbackFactory";
 import {CardViewerCallbackSettings} from "../types/CardViewerCallbackSettings";
-import {defaultCardValue} from "../../../common/defaults/defaultCardValue";
+import {defaultCard} from "../../../common/defaults/defaultCard";
 
 export const onClickYesNoButton: ICallback<CardViewerCallbackSettings, boolean> = (
     {
@@ -21,7 +21,7 @@ export const onClickYesNoButton: ICallback<CardViewerCallbackSettings, boolean> 
             return prevState;
         } else {
             return {
-                card: defaultCardValue,
+                card: defaultCard,
                 isQuestionSide: false,
                 isEditable: false
             }

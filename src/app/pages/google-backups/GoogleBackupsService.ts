@@ -14,10 +14,11 @@ import {createEmptyBackupFile} from "./logic/createEmptyBackupFile";
 import {createBackupName} from "./logic/createBackupName";
 import {uploadBackupFile} from "./logic/uploadBackupFile";
 import {deleteBackupFile} from "./logic/deleteBackupFile";
+import {IEmpty} from "../../../MyTools/channel-conception/defaults/IEmpty";
 
 export class GoogleBackupsService {
 
-    public backupsNameLoadChannel: Channel<string, IGoogleDriveFile[]>;
+    public backupsNameLoadChannel: Channel<IEmpty, IGoogleDriveFile[]>;
     public backupLoadChannel: Channel<string, ICardsGroup[]>;
     public backupUploadChannel: Channel<void, string>;
     public backupDeleteChannel: Channel<string, string>;

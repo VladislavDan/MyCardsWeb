@@ -18,6 +18,7 @@ import {deleteCards} from "./logic/deleteCards";
 import {cardsToIDS} from "./logic/cardsToIDS";
 import {selectedItemsToIDs} from "./logic/selectedItemsToIDs";
 import {IStoredFilters} from "../../common/types/IStoredFilters";
+import {IEmpty} from "../../../MyTools/channel-conception/defaults/IEmpty";
 
 export class CardsService {
     public cardsChannel: Channel<{ cardsGroupID: number, filter: IFilter }, ICard[]>;
@@ -32,10 +33,10 @@ export class CardsService {
         destinationGroupID: number;
     }, ICardsGroup[]>;
     public deleteCardsChannel: Channel<{ [key: number]: boolean }, ICardsGroup[]>;
-    public existedGroupsIDsChannel: Channel<string, Array<{ id: number; label: string }>>;
+    public existedGroupsIDsChannel: Channel<IEmpty, Array<{ id: number; label: string }>>;
     public cardsIDsByGroupIDsChannel: Channel<number, number[]>;
     public cardsIDsBySelectedItemsChannel: Channel<{ [key: number]: boolean }, number[]>;
-    public filterChannel: Channel<string, IFilter>;
+    public filterChannel: Channel<IEmpty, IFilter>;
     public changeFilterChannel: Channel<IFilter, IStoredFilters>;
 
     constructor(private storageService: StorageService) {
@@ -137,13 +138,13 @@ export class CardsService {
             )
         )
 
-        this.cardsIDsBySelectedItemsChannel = new Channel<{ [p: number]: boolean }, number[]>(
+        this.cardsIDsBySelectedItemsChannel = new Channel(
             (args) => of(args).pipe(
                 map(() => selectedItemsToIDs(args))
             )
         )
 
-        this.filterChannel = new Channel<string, IFilter>(
+        this.filterChannel = new Channel(
             () => storageService.getFilter().pipe(
                 map((storedFilters) => storedFilters.cards)
             )

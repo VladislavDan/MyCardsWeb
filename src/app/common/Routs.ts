@@ -52,5 +52,15 @@ export const Routs = {
     statistic: {
         path: '/statistic',
         name: 'Statistic'
+    },
+
+    repeaterEditor: {
+        path: '/repeater-editor',
+        name: 'Edit repeater'
+    },
+
+    repeaterList: {
+        path: '/repeater-list',
+        name: 'Repeater list'
     }
 };

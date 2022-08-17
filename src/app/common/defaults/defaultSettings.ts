@@ -1,5 +1,8 @@
-export const defaultSettings = {
-    isRandomRepeating: false,
+import {ISettings} from "../types/ISettings";
+import {IRepeatingType} from "../types/IRepeatingType";
+
+export const defaultSettings: ISettings = {
+    repeatingType: IRepeatingType.DEFAULT,
     autoObsolete: {
         isEnable: false,
         timeInDone: 7,

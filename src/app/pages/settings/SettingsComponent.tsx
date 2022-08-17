@@ -1,11 +1,14 @@
 import * as React from 'react';
-import {FC} from 'react';
-import {FormGroup} from '@mui/material';
+import {ChangeEvent, FC} from 'react';
+import {FormControlLabel, FormGroup, FormLabel} from '@mui/material';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
 
 import {ISettingsComponent} from "./types/ISettingsComponent";
 import {SettingsSwitcherComponent} from "./elements/settings-switcher/SettingsSwitcherComponent";
 import {SettingsNumberInputComponent} from "./elements/settings-number-input/SettingsNumberInputComponent";
 import './SettingsComponent.css'
+import {IRepeatingType} from "../../common/types/IRepeatingType";
 
 export const SettingsComponent: FC<ISettingsComponent> = (
     {
@@ -17,12 +20,17 @@ export const SettingsComponent: FC<ISettingsComponent> = (
     }
 ) => {
 
+    const changeAlgorithm = (event: ChangeEvent<HTMLInputElement>) => {
+        let repeatingType = Number(event.target.value) as any
+        onChangeAlgorithm(repeatingType);
+    };
+
     return <FormGroup className="settings-form">
-        <SettingsSwitcherComponent
-            checked={settings.isRandomRepeating}
-            label="Random repeating algorithm"
-            onChange={onChangeAlgorithm}
-        />
+        <FormLabel>Random repeating algorithm</FormLabel>
+        <RadioGroup value={settings.repeatingType} onChange={changeAlgorithm}>
+            <FormControlLabel value={IRepeatingType.DEFAULT} control={<Radio/>} label="Default"/>
+            <FormControlLabel value={IRepeatingType.RANDOM} control={<Radio/>} label="Random"/>
+        </RadioGroup>
         <SettingsSwitcherComponent
             checked={settings.autoObsolete?.isEnable}
             label="Enable auto obsolete"

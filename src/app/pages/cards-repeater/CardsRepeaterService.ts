@@ -7,22 +7,21 @@ import {ICardsGroup} from '../../common/types/ICardsGroup';
 import {IRepeatingArgs} from '../../common/types/IRepeatingArgs';
 import {Channel} from '../../../MyTools/channel-conception/Channel';
 import {IRepeatingProgress} from '../../common/types/IRepeatingProgress';
-import {ISettings} from '../../common/types/ISettings';
 import {getCardsByIDs} from './logic/getCardsByIDs';
 import {changeRangeOfKnowledge} from '../../common/logic/changeRangeOfKnowledge';
 import {getCardForRepeating} from './logic/getCardForRepeating';
 import {getRepeatingProgress} from './logic/getRepeatingProgress';
-import {shuffleCards} from './logic/shuffleCards';
 import {refreshCardRepeatingDate} from "../../common/logic/refreshCardRepeatingDate";
 import {deleteSingleCard} from "../../common/logic/deleteSingleCard";
 import {getCardGroupName} from "../card-viewer/logic/getCardGroupName";
 import {updateStatistic} from "../../common/logic/updateStatistic";
 import {IStatistic} from "../../common/types/IStatistic";
+import {IEmpty} from "../../../MyTools/channel-conception/defaults/IEmpty";
 
 export class CardsRepeaterService {
     public cardChannel: Channel<number[], ICard>;
     public repeatingResultChannel: Channel<IRepeatingArgs, ICardsGroup[]>;
-    public repeatingProgressChannel: Channel<string, IRepeatingProgress>;
+    public repeatingProgressChannel: Channel<IEmpty, IRepeatingProgress>;
     public deleteSingleCardChannel: Channel<number, ICardsGroup[]>;
     public cardGroupNameChannel: Channel<number, string>;
 
@@ -35,23 +34,14 @@ export class CardsRepeaterService {
     constructor(private storageService: StorageService) {
         this.cardChannel = new Channel((cardsIDs) => this.storageService.getBackup().pipe(
             map((cardsGroups: ICardsGroup[]) => getCardsByIDs(cardsGroups, cardsIDs)),
-            switchMap((cards: ICard[]) => this.storageService.getSettings().pipe(
-                map((settings: ISettings) => {
-                    if (settings.isRandomRepeating) {
-                        cards = shuffleCards(cards);
-                    }
-                    return {
-                        cards,
-                        isRandomRepeating: settings.isRandomRepeating
-                    };
-                })
-            )),
-            tap(({cards, isRandomRepeating}) => {
+            tap((cards) => {
                 this.statisticValue = getRepeatingProgress(cards);
             }),
-            map(({cards, isRandomRepeating}) => {
-                return getCardForRepeating(cards, isRandomRepeating)
-            })
+            switchMap((cards: ICard[]) => this.storageService.getSettings().pipe(
+                map((settings) => {
+                    return getCardForRepeating(cards, settings.repeatingType);
+                })
+            ))
         ));
 
         this.repeatingResultChannel = new Channel((args: IRepeatingArgs) => {

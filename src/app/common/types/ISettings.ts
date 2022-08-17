@@ -1,5 +1,7 @@
+import {IRepeatingType} from "./IRepeatingType";
+
 export interface ISettings {
-    isRandomRepeating: boolean;
+    repeatingType: IRepeatingType;
     autoObsolete: {
         isEnable: boolean;
         timeInProgress: number;

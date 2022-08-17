@@ -15,6 +15,8 @@ import {SettingsContainer} from '../../pages/settings/SettingsContainer';
 import {CardViewerContainer} from "../../pages/card-viewer/CardViewerContainer";
 import {INavigationContainer} from "./types/INavigationContainer";
 import {StatisticContainer} from "../../pages/statistic/StatisticContainer";
+import {RepeaterEditorContainer} from "../../pages/repeater-editor/RepeaterEditorContainer";
+import {RepeaterListContainer} from "../../pages/repeater-list/RepeaterListContainer";
 
 
 export const NavigationContainer: FC<INavigationContainer> = (
@@ -93,6 +95,12 @@ export const NavigationContainer: FC<INavigationContainer> = (
                 confirmDialogService={confirmDialogService}
                 statisticService={statisticService}
             />
+        </Route>
+        <Route path={Routs.repeaterEditor.path}>
+            <RepeaterEditorContainer/>
+        </Route>
+        <Route path={Routs.repeaterList.path}>
+            <RepeaterListContainer/>
         </Route>
     </Switch>
 };

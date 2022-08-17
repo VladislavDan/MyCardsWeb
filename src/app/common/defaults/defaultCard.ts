@@ -1,6 +1,6 @@
 import {IRangeOfKnowledge} from "../types/IRangeOfKnowledge";
 
-export const defaultCardValue = {
+export const defaultCard = {
     id: -1,
     question: '',
     answer: '',

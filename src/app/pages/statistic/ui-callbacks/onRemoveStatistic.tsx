@@ -3,6 +3,7 @@ import {StatisticCallbackSettings} from "../types/StatisticCallbackSettings";
 import {defaultConfirmDialogState} from "../../../common/defaults/defaultConfirmDialogState";
 import DeleteIcon from "@mui/icons-material/Delete";
 import * as React from "react";
+import {empty} from "../../../../MyTools/channel-conception/defaults/empty";
 
 export const onRemoveStatistic: ICallback<StatisticCallbackSettings, void> = (
     {setSubscription, services: {statisticService, confirmDialogService}}
@@ -10,7 +11,7 @@ export const onRemoveStatistic: ICallback<StatisticCallbackSettings, void> = (
 
     const subscription = confirmDialogService.confirmationChannel.subscribe((isConfirm) => {
         if (isConfirm) {
-            statisticService.removeStatisticChannel.next('');
+            statisticService.removeStatisticChannel.next(empty);
         }
 
         confirmDialogService.openDialogChannel.next(defaultConfirmDialogState)

@@ -1,8 +1,9 @@
 import {ICallback} from "../../../../MyTools/react-utils/CallbackFactory";
 import {SettingsCallbackSettings} from "../types/SettingsCallbackSettings";
+import {empty} from "../../../../MyTools/channel-conception/defaults/empty";
 
 export const onConstructor: ICallback<SettingsCallbackSettings, void> = (
     {setState, services: {settingsService}}
 ) => {
-    settingsService.settingsChannel.next('');
+    settingsService.settingsChannel.next(empty);
 }

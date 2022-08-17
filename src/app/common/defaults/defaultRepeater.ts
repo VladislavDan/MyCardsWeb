@@ -1,4 +1,6 @@
 import {IRepeater} from "../types/IRepeater";
+import {IRepeatingType} from "../types/IRepeatingType";
+import {defaultStatistic} from "./defaultStatistic";
 
 export const defaultRepeater: IRepeater = {
     id: -1,
@@ -8,5 +10,6 @@ export const defaultRepeater: IRepeater = {
         timeInProgress: 7,
         timeInDone: 7
     },
-    isRandomRepeating: false
+    repeatingType: IRepeatingType.DEFAULT,
+    statistic: defaultStatistic
 }

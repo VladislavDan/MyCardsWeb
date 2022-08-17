@@ -1,11 +1,12 @@
 import {ICallback} from "../../../../MyTools/react-utils/CallbackFactory";
 import {CardRepeaterCallbackSettings} from "../types/CardRepeaterCallbackSettings";
 import {ICard} from "../../../common/types/ICard";
-import {defaultCardValue} from "../../../common/defaults/defaultCardValue";
+import {defaultCard} from "../../../common/defaults/defaultCard";
+import {empty} from "../../../../MyTools/channel-conception/defaults/empty";
 
 export const onCardChannel: ICallback<CardRepeaterCallbackSettings, ICard> = (
     {services: {cardsRepeaterService}, setState},
-    card = defaultCardValue
+    card = defaultCard
 ) => {
     cardsRepeaterService.cardGroupNameChannel.next(card.id)
     setState((prevState) => {
@@ -16,5 +17,5 @@ export const onCardChannel: ICallback<CardRepeaterCallbackSettings, ICard> = (
             isEditable: false
         }
     });
-    cardsRepeaterService.repeatingProgressChannel.next('');
+    cardsRepeaterService.repeatingProgressChannel.next(empty);
 }

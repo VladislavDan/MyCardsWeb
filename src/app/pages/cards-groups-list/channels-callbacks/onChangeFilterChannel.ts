@@ -1,6 +1,7 @@
 import {ICallback} from "../../../../MyTools/react-utils/CallbackFactory";
 import {ICardsGroupsCallbackSettings} from "../types/ICardsGroupsCallbackSettings";
 import {IStoredFilters} from "../../../common/types/IStoredFilters";
+import {empty} from "../../../../MyTools/channel-conception/defaults/empty";
 
 export const onChangeFilterChannel: ICallback<ICardsGroupsCallbackSettings, IStoredFilters> = (
     {
@@ -9,6 +10,6 @@ export const onChangeFilterChannel: ICallback<ICardsGroupsCallbackSettings, ISto
         }
     }
 ) => {
-    cardsGroupsListService.filterChannel.next('');
-    cardsGroupsListService.groupsListChannel.next('');
+    cardsGroupsListService.filterChannel.next(empty);
+    cardsGroupsListService.groupsListChannel.next(empty);
 }

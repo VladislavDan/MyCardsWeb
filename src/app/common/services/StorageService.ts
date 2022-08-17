@@ -3,9 +3,10 @@ import {ICardsGroup} from '../types/ICardsGroup';
 import {DataBaseService} from './DataBaseService';
 import {ISettings} from '../types/ISettings';
 import {IStoredFilters} from "../types/IStoredFilters";
-import {defaultFilterValue} from "../defaults/defaultFilterValue";
+import {defaultFilter} from "../defaults/defaultFilter";
 import {IStatistic} from "../types/IStatistic";
-import {defaultStatisticValue} from "../defaults/defaultStatisticValue";
+import {defaultStatistic} from "../defaults/defaultStatistic";
+import {defaultSettings} from "../defaults/defaultSettings";
 
 export class StorageService {
 
@@ -75,14 +76,7 @@ export class StorageService {
             if(settings) {
                 resolve(JSON.parse(settings) as ISettings);
             } else {
-                resolve({
-                    isRandomRepeating: false,
-                    autoObsolete: {
-                        isEnable: false,
-                        timeInProgress: 7,
-                        timeInDone: 7
-                    }
-                })
+                resolve(defaultSettings)
             }
         }));
     }
@@ -101,8 +95,8 @@ export class StorageService {
                 resolve(JSON.parse(settings) as IStoredFilters);
             } else {
                 resolve({
-                    cards: defaultFilterValue,
-                    cardsGroups: defaultFilterValue
+                    cards: defaultFilter,
+                    cardsGroups: defaultFilter
                 })
             }
         }));
@@ -121,7 +115,7 @@ export class StorageService {
             if (statistic) {
                 resolve(JSON.parse(statistic) as IStatistic);
             } else {
-                resolve(defaultStatisticValue)
+                resolve(defaultStatistic)
             }
         }));
     }
