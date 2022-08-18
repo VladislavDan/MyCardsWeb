@@ -32,6 +32,8 @@ import {Channel} from "./MyTools/channel-conception/Channel";
 import {defaultAppState} from "./app/common/defaults/defaultAppState";
 import {STORE_NAME} from "./app/common/constants/STORE_NAME";
 import {StatisticService} from "./app/pages/statistic/StatisticService";
+import {RepeaterListService} from "./app/pages/repeater-list/RepeaterListService";
+import {RepeaterEditorService} from "./app/pages/repeater-editor/RepeaterEditorService";
 
 export const AppContext = React.createContext<IAppContext>(defaultAppState);
 
@@ -56,6 +58,8 @@ const localBackupsService = new LocalBackupsService(storageService);
 const settingService = new SettingsService(storageService);
 const cardViewerService = new CardViewerService(storageService);
 const statisticService = new StatisticService(storageService);
+const repeaterListService = new RepeaterListService();
+const repeaterEditorService = new RepeaterEditorService();
 
 Channel.setGlobalErrorHandler((error) => {
     console.error(error);
@@ -110,6 +114,8 @@ function App() {
                                 cardViewerService={cardViewerService}
                                 selectionDialogService={selectionDialogService}
                                 statisticService={statisticService}
+                                repeaterListService={repeaterListService}
+                                repeaterEditorService={repeaterEditorService}
                             />
                         </div>
                     </div>

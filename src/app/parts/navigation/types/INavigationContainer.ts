@@ -14,6 +14,8 @@ import {CardViewerService} from "../../../pages/card-viewer/CardViewerService";
 import {SelectionDialogService} from "../../selection-dialog/SelectionDialogService";
 import {ToolbarService} from "../../toolbar/ToolbarService";
 import {StatisticService} from "../../../pages/statistic/StatisticService";
+import {RepeaterListService} from "../../../pages/repeater-list/RepeaterListService";
+import {RepeaterEditorService} from "../../../pages/repeater-editor/RepeaterEditorService";
 
 export interface INavigationContainer {
     cardsGroupsListService: CardsGroupsListService;
@@ -32,4 +34,6 @@ export interface INavigationContainer {
     selectionDialogService: SelectionDialogService;
     toolbarService: ToolbarService;
     statisticService: StatisticService;
+    repeaterListService: RepeaterListService;
+    repeaterEditorService: RepeaterEditorService
 }

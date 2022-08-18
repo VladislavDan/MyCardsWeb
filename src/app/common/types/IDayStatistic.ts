@@ -2,6 +2,10 @@ export interface IDayStatistic {
     date: number;
     month: number;
     year: number;
-    inProgress: number;
-    done: number;
+    inProgress: {
+        [key: number]: number
+    };
+    done: {
+        [key: number]: number
+    };
 }

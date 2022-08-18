@@ -36,7 +36,9 @@ export const NavigationContainer: FC<INavigationContainer> = (
         cardViewerService,
         selectionDialogService,
         toolbarService,
-        statisticService
+        statisticService,
+        repeaterListService,
+        repeaterEditorService
     }
 ) => {
 
@@ -97,10 +99,10 @@ export const NavigationContainer: FC<INavigationContainer> = (
             />
         </Route>
         <Route path={Routs.repeaterEditor.path}>
-            <RepeaterEditorContainer/>
+            <RepeaterEditorContainer repeaterEditorService={repeaterEditorService}/>
         </Route>
         <Route path={Routs.repeaterList.path}>
-            <RepeaterListContainer/>
+            <RepeaterListContainer repeaterListService={repeaterListService}/>
         </Route>
     </Switch>
 };

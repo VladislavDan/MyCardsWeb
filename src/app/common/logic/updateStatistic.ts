@@ -14,17 +14,25 @@ export const updateStatistic = (statistic: IStatistic, args: IRepeatingArgs): IS
     if (foundDayIndex >= 0) {
         let dailyStatistic = statistic.dailyStatistic[foundDayIndex];
         if (args.isKnown) {
-            dailyStatistic.done = dailyStatistic.done + 1;
+            if (dailyStatistic.done[args.cardID]) {
+                dailyStatistic.done[args.cardID] = dailyStatistic.done[args.cardID] + 1;
+            } else {
+                dailyStatistic.done[args.cardID] = 1;
+            }
         } else {
-            dailyStatistic.inProgress = dailyStatistic.inProgress + 1;
+            if (dailyStatistic.inProgress[args.cardID]) {
+                dailyStatistic.inProgress[args.cardID] = dailyStatistic.inProgress[args.cardID] + 1;
+            } else {
+                dailyStatistic.inProgress[args.cardID] = 1;
+            }
         }
     } else {
         statistic.dailyStatistic.push({
             date,
             year,
             month,
-            inProgress: args.isKnown ? 0 : 1,
-            done: args.isKnown ? 1 : 0
+            inProgress: args.isKnown ? {} : {[args.cardID]: 1},
+            done: args.isKnown ? {[args.cardID]: 1} : {}
         });
     }
     if (!args.isKnown) {
