@@ -7,6 +7,7 @@ import {defaultFilter} from "../defaults/defaultFilter";
 import {IStatistic} from "../types/IStatistic";
 import {defaultStatistic} from "../defaults/defaultStatistic";
 import {defaultSettings} from "../defaults/defaultSettings";
+import {IRepeater} from "../types/IRepeater";
 
 export class StorageService {
 
@@ -15,6 +16,7 @@ export class StorageService {
     private settingsID = 'settings';
     private filterID = 'filter'
     private statisticID = 'statistic'
+    private repeatersID = 'repeaters'
 
     constructor(private dataBaseService: DataBaseService) {
     }
@@ -124,6 +126,24 @@ export class StorageService {
         return from(new Promise<IStatistic>((resolve) => {
             localStorage.setItem(this.statisticID, JSON.stringify(statistic));
             resolve(statistic);
+        }));
+    }
+
+    public getRepeaters(): Observable<IRepeater[]> {
+        return from(new Promise<IRepeater[]>((resolve) => {
+            const repeaters = localStorage.getItem(this.repeatersID);
+            if (repeaters) {
+                resolve(JSON.parse(repeaters) as IRepeater[]);
+            } else {
+                resolve([])
+            }
+        }));
+    }
+
+    public setRepeaters(repeaters: IRepeater[]): Observable<IRepeater[]> {
+        return from(new Promise<IRepeater[]>((resolve) => {
+            localStorage.setItem(this.statisticID, JSON.stringify(repeaters));
+            resolve(repeaters);
         }));
     }
 }

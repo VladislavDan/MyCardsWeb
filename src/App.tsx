@@ -59,7 +59,7 @@ const settingService = new SettingsService(storageService);
 const cardViewerService = new CardViewerService(storageService);
 const statisticService = new StatisticService(storageService);
 const repeaterListService = new RepeaterListService();
-const repeaterEditorService = new RepeaterEditorService();
+const repeaterEditorService = new RepeaterEditorService(storageService);
 
 Channel.setGlobalErrorHandler((error) => {
     console.error(error);

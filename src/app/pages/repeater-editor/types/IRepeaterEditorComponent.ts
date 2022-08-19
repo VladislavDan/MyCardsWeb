@@ -7,5 +7,7 @@ export interface IRepeaterEditorComponent {
     onSelect: (id: number) => void;
     selectedGroups: {
         [key: number]: boolean;
-    }
+    };
+    onChangeName: (name: string) => void;
+    repeaterName: string;
 }
