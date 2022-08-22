@@ -58,7 +58,7 @@ const localBackupsService = new LocalBackupsService(storageService);
 const settingService = new SettingsService(storageService);
 const cardViewerService = new CardViewerService(storageService);
 const statisticService = new StatisticService(storageService);
-const repeaterListService = new RepeaterListService();
+const repeaterListService = new RepeaterListService(storageService);
 const repeaterEditorService = new RepeaterEditorService(storageService);
 
 Channel.setGlobalErrorHandler((error) => {

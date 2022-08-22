@@ -142,7 +142,7 @@ export class StorageService {
 
     public setRepeaters(repeaters: IRepeater[]): Observable<IRepeater[]> {
         return from(new Promise<IRepeater[]>((resolve) => {
-            localStorage.setItem(this.statisticID, JSON.stringify(repeaters));
+            localStorage.setItem(this.repeatersID, JSON.stringify(repeaters));
             resolve(repeaters);
         }));
     }

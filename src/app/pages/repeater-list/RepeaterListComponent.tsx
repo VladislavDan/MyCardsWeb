@@ -4,9 +4,16 @@ import {FixedSizeList as List} from "react-window";
 import './RepeaterListComponent.css'
 import {AddButtonComponent} from "../../common/elements/add-button/AddButtonComponent";
 import {IRepeaterListComponent} from "./types/IRepeaterListComponent";
+import {RepeaterListItem} from "./elements/repeater-list-item/RepeaterListItem";
 
 export const RepeaterListComponent: FC<IRepeaterListComponent> = (
-    {repeaters, height, onOpenEditor}
+    {
+        repeaters,
+        height,
+        onOpenEditor,
+        onStartRepeating,
+        onDeleteRepeater
+    }
 ) => {
     return <>
         <List
@@ -19,7 +26,13 @@ export const RepeaterListComponent: FC<IRepeaterListComponent> = (
             width="100%"
         >
             {({index, style}: any) => {
-                return <div style={style}>{repeaters[index].name}</div>
+                return <div style={style}>
+                    <RepeaterListItem
+                        repeater={repeaters[index]}
+                        onStartRepeating={onStartRepeating}
+                        onDeleteRepeater={onDeleteRepeater}
+                    />
+                </div>
             }}
         </List>
         <AddButtonComponent onClick={onOpenEditor}/>

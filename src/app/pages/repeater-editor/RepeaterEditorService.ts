@@ -24,6 +24,7 @@ export class RepeaterEditorService {
             (repeater) => storageService.getRepeaters().pipe(
                 map((repeaters) => {
                     if (repeater.id === -1) {
+                        repeater.id = new Date().getTime();
                         repeaters.push(repeater);
                     } else {
                         updateExistRepeater(repeaters, repeater);

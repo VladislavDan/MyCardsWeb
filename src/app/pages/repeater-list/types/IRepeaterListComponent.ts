@@ -4,4 +4,6 @@ export interface IRepeaterListComponent {
     repeaters: IRepeater[];
     height: number;
     onOpenEditor: () => void;
+    onStartRepeating: (repeaterID: number) => void;
+    onDeleteRepeater: (repeaterID: number) => void;
 }
