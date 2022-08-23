@@ -16,6 +16,7 @@ import {onRepeaterChannel} from "./channels-callbacks/onRepeaterChannel";
 import {onChangeName} from "./ui-callbacks/onChangeName";
 import {useConstructor} from "../../../MyTools/react-hooks/useConstructor";
 import {onConstructor} from "./ui-callbacks/onConstructor";
+import {onSelectedGroupsChannel} from "./channels-callbacks/onSelectedGroupsChannel";
 
 export const RepeaterEditorContainer: FC<IRepeaterEditorContainer> = (services) => {
 
@@ -34,6 +35,7 @@ export const RepeaterEditorContainer: FC<IRepeaterEditorContainer> = (services) 
     useChannel(repeaterEditorService.saveRepeaterChannel, callbackFactory(onSaveRepeaterChannel));
     useChannel(repeaterEditorService.updateGroupsIDsChannel, callbackFactory(onUpdateGroupsIDsChannel));
     useChannel(repeaterEditorService.repeaterChannel, callbackFactory(onRepeaterChannel));
+    useChannel(repeaterEditorService.selectedGroupsChannel, callbackFactory(onSelectedGroupsChannel));
 
     useConstructor(callbackFactory(onConstructor));
 

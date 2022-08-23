@@ -14,6 +14,9 @@ import {onConstructor} from "./ui-callbacks/onConstructor";
 import {onStartRepeatingChannel} from "./channels-callbacks/onStartRepeatingChannel";
 import {onStartRepeating} from "./ui-callbacks/onStartRepeating";
 import {onRemoveRepeater} from "./ui-callbacks/onRemoveRepeater";
+import {onResetProgressChannel} from "./channels-callbacks/onResetProgressChannel";
+import {onResetProgress} from "./ui-callbacks/onResetProgress";
+import {onEditRepeater} from "./ui-callbacks/onEditRepeater";
 
 export const RepeaterListContainer: FC<IRepeaterListContainer> = (services) => {
 
@@ -31,12 +34,15 @@ export const RepeaterListContainer: FC<IRepeaterListContainer> = (services) => {
     useChannel(repeaterListService.repeaterListChannel, callbackFactory(onRepeaterListChannel));
     useChannel(repeaterListService.startRepeatingChannel, callbackFactory(onStartRepeatingChannel));
     useChannel(repeaterListService.removingRepeaterChannel, callbackFactory(onRepeaterListChannel));
+    useChannel(repeaterListService.resetProgressChannel, callbackFactory(onResetProgressChannel));
 
     useConstructor(callbackFactory(onConstructor));
 
     const openEditor = useCallback(callbackFactory(onOpenEditor), []);
     const startRepeating = useCallback(callbackFactory(onStartRepeating), []);
     const removeRepeater = useCallback(callbackFactory(onRemoveRepeater), []);
+    const resetProgress = useCallback(callbackFactory(onResetProgress), []);
+    const editRepeater = useCallback(callbackFactory(onEditRepeater), []);
 
     return <RepeaterListComponent
         repeaters={state.repeaters}
@@ -44,5 +50,7 @@ export const RepeaterListContainer: FC<IRepeaterListContainer> = (services) => {
         onOpenEditor={openEditor}
         onDeleteRepeater={removeRepeater}
         onStartRepeating={startRepeating}
+        onResetProgress={resetProgress}
+        onEditRepeater={editRepeater}
     />
 }

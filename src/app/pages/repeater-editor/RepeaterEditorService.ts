@@ -9,6 +9,7 @@ import {updateExistRepeater} from "./logic/updateExistRepeater";
 import {of} from "rxjs";
 import {updateGroupsIDs} from "./logic/updateGroupsIDs";
 import {getRepeaterByID} from "./logic/getRepeaterByID";
+import {getSelectedGroups} from "./logic/getSelectedGroups";
 
 export class RepeaterEditorService {
     public groupsListChannel: Channel<IEmpty, ICardsGroup[]>;
@@ -16,9 +17,14 @@ export class RepeaterEditorService {
     public updateGroupsIDsChannel: Channel<{ selectedGroups: { [key: number]: boolean }; repeater: IRepeater },
         IRepeater>;
     public repeaterChannel: Channel<number, IRepeater>;
+    public selectedGroupsChannel: Channel<IRepeater, {
+        [key: number]: boolean;
+    }>;
 
     constructor(private storageService: StorageService) {
-        this.groupsListChannel = new Channel(() => storageService.getBackup());
+        this.groupsListChannel = new Channel(
+            () => storageService.getBackup()
+        );
 
         this.saveRepeaterChannel = new Channel(
             (repeater) => storageService.getRepeaters().pipe(
@@ -46,6 +52,11 @@ export class RepeaterEditorService {
                 map((repeaters) => {
                     return getRepeaterByID(repeaters, repeaterID);
                 })
+            )
+        )
+        this.selectedGroupsChannel = new Channel(
+            (repeater: IRepeater) => of(repeater).pipe(
+                map(() => getSelectedGroups(repeater))
             )
         )
     }

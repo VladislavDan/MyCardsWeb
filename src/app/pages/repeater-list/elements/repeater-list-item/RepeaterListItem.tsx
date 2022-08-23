@@ -1,26 +1,39 @@
 import React, {FC} from "react";
 import ListItemIcon from "@mui/material/ListItemIcon/ListItemIcon";
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import ListItemText from "@mui/material/ListItemText/ListItemText";
 import ListItem from "@mui/material/ListItem";
-import DeleteIcon from "@mui/icons-material/Delete";
 
 import {IRepeaterListItem} from "./types/IRepeaterListItem";
+import {ListItemMenuComponent} from "../../../../common/elements/list-item-menu/ListItemMenuComponent";
+import {
+    CircularProgressComponent
+} from "../../../cards-groups-list/elements/circular-progress/CircularProgressComponent";
 
 export const RepeaterListItem: FC<IRepeaterListItem> = (
-    {repeater, onStartRepeating, onDeleteRepeater}
+    {
+        repeater,
+        onStartRepeating,
+        onDeleteRepeater,
+        onResetProgress,
+        onEditItem
+    }
 ) => {
 
     return <ListItem key={repeater.id} button component="div">
         <ListItemIcon onClick={() => onStartRepeating(repeater.id)}>
-            <PlayArrowIcon/>
+            <CircularProgressComponent percent={repeater.percentRepeatedCards || 0}/>
         </ListItemIcon>
         <ListItemText
             className="repeater-list-item_content"
             primary={repeater.name}
+            onClick={() => onStartRepeating(repeater.id)}
         />
         <ListItemIcon>
-            <DeleteIcon onClick={() => onDeleteRepeater(repeater.id)}/>
+            <ListItemMenuComponent
+                onEdit={() => onEditItem(repeater.id)}
+                onDelete={() => onDeleteRepeater(repeater.id)}
+                onResetProgress={() => onResetProgress(repeater.id)}
+            />
         </ListItemIcon>
     </ListItem>
 }

@@ -102,7 +102,10 @@ export const NavigationContainer: FC<INavigationContainer> = (
             <RepeaterEditorContainer repeaterEditorService={repeaterEditorService}/>
         </Route>
         <Route path={Routs.repeaterList.path}>
-            <RepeaterListContainer repeaterListService={repeaterListService}/>
+            <RepeaterListContainer
+                repeaterListService={repeaterListService}
+                confirmDialogService={confirmDialogService}
+            />
         </Route>
     </Switch>
 };

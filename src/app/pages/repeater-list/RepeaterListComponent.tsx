@@ -12,7 +12,9 @@ export const RepeaterListComponent: FC<IRepeaterListComponent> = (
         height,
         onOpenEditor,
         onStartRepeating,
-        onDeleteRepeater
+        onDeleteRepeater,
+        onEditRepeater,
+        onResetProgress
     }
 ) => {
     return <>
@@ -31,6 +33,8 @@ export const RepeaterListComponent: FC<IRepeaterListComponent> = (
                         repeater={repeaters[index]}
                         onStartRepeating={onStartRepeating}
                         onDeleteRepeater={onDeleteRepeater}
+                        onEditItem={onEditRepeater}
+                        onResetProgress={onResetProgress}
                     />
                 </div>
             }}
