@@ -5,4 +5,5 @@ export interface ICardsRepeaterComponent extends ICardsContentComponent {
     repeatingProgress: IRepeatingProgress;
     onBackClick: () => void;
     onDeleteCard: () => void;
+    onReadByVoiceEngine: () => void;
 }

@@ -16,11 +16,13 @@ export const CardsContentComponent: FC<ICardsContentComponent> = (
         onChangeAnswer,
         onChangeQuestion,
         onDeleteCard,
-        onClickYesNoButton
+        onClickYesNoButton,
+        onReadByVoiceEngine
     }
 ) => {
     return <>
         <CardsHeaderComponent
+            onReadByVoiceEngine={onReadByVoiceEngine}
             isQuestionSide={isQuestionSide}
             isEditable={isEditable}
             onSwitchEditing={onSwitchEditing}

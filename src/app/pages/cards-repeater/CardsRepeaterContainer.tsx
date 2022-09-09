@@ -22,6 +22,8 @@ import {onChangeQuestion} from "./ui-callbacks/onChangeQuestion";
 import {onChangeAnswer} from "./ui-callbacks/onChangeAnswer";
 import {initialState} from "./defaults/initialState";
 import {CardRepeaterCallbackSettings} from "./types/CardRepeaterCallbackSettings";
+import {onReadByVoiceEngine} from "./ui-callbacks/onReadByVoiceEngine";
+import {onReadByVoiceEngineChannel} from "./channels-callbacks/onReadByVoiceEngineChannel";
 
 export const CardRepeaterContainer: FC<ICardRepeaterContainer> = (
     services
@@ -48,6 +50,7 @@ export const CardRepeaterContainer: FC<ICardRepeaterContainer> = (
     useChannel(cardsEditorService.cardEditingChannel, callbackFactory(onCardEditingChannel));
     useChannel(cardsRepeaterService.repeatingProgressChannel, callbackFactory(onStatisticChannel));
     useChannel(cardsRepeaterService.repeatingResultChannel, callbackFactory(onRepeatingResultChannel));
+    useChannel(cardsRepeaterService.readByVoiceEngineChannel, callbackFactory(onReadByVoiceEngineChannel))
 
     useConstructor(callbackFactory(onConstructor));
 
@@ -58,8 +61,10 @@ export const CardRepeaterContainer: FC<ICardRepeaterContainer> = (
     const changeQuestion = useCallback(callbackFactory(onChangeQuestion), []);
     const changeAnswer = useCallback(callbackFactory(onChangeAnswer), []);
     const deleteCard = useCallback(callbackFactory(onDeleteCard), [])
+    const readByVoiceEngine = useCallback(callbackFactory(onReadByVoiceEngine), []);
 
     return <CardsRepeaterComponent
+        onReadByVoiceEngine={readByVoiceEngine}
         onDeleteCard={deleteCard}
         cardHeight={context.height * 0.55}
         isQuestionSide={state.isQuestionSide}

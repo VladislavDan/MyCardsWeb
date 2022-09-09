@@ -34,6 +34,7 @@ import {STORE_NAME} from "./app/common/constants/STORE_NAME";
 import {StatisticService} from "./app/pages/statistic/StatisticService";
 import {RepeaterListService} from "./app/pages/repeater-list/RepeaterListService";
 import {RepeaterEditorService} from "./app/pages/repeater-editor/RepeaterEditorService";
+import {VoiceService} from "./app/common/services/VoiceService";
 
 export const AppContext = React.createContext<IAppContext>(defaultAppState);
 
@@ -45,6 +46,7 @@ const selectionDialogService = new SelectionDialogService();
 const navigationPanelService = new NavigationPanelService();
 const toolbarService = new ToolbarService();
 
+const voiceService = new VoiceService();
 const dataBaseService = new DataBaseService(STORE_NAME);
 const storageService = new StorageService(dataBaseService);
 const cardsGroupsEditorService = new CardsGroupsEditorService(storageService);
@@ -53,10 +55,10 @@ const googleAuthService = new GoogleAuthService(storageService);
 const googleBackupsService = new GoogleBackupsService(storageService);
 const cardsEditorService = new CardsEditorService(storageService);
 const cardsListService = new CardsService(storageService);
-const cardsRepeaterService = new CardsRepeaterService(storageService);
+const cardsRepeaterService = new CardsRepeaterService(storageService, voiceService);
 const localBackupsService = new LocalBackupsService(storageService);
 const settingService = new SettingsService(storageService);
-const cardViewerService = new CardViewerService(storageService);
+const cardViewerService = new CardViewerService(storageService, voiceService);
 const statisticService = new StatisticService(storageService);
 const repeaterListService = new RepeaterListService(storageService);
 const repeaterEditorService = new RepeaterEditorService(storageService);

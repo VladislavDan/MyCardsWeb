@@ -9,35 +9,37 @@ import {ICardsRepeaterComponent} from "./types/ICardsRepeaterComponent";
 export const CardsRepeaterComponent: FC<ICardsRepeaterComponent> = (
     {
         card,
-        cardHeight,
-        isQuestionSide,
-        onClickCard,
-        onClickYesNoButton,
-        repeatingProgress,
-        onBackClick,
-        onSwitchEditing,
-        isEditable,
-        onChangeAnswer,
-        onChangeQuestion,
-        onDeleteCard
+            cardHeight,
+            isQuestionSide,
+            onClickCard,
+            onClickYesNoButton,
+            repeatingProgress,
+            onBackClick,
+            onSwitchEditing,
+            isEditable,
+            onChangeAnswer,
+            onChangeQuestion,
+            onReadByVoiceEngine,
+            onDeleteCard
     }
 ) => {
 
         return card && card.id !== -1 ?
             <div className="cards-repeater">
-                <StatisticComponent repeatingProgress={repeatingProgress}/>
-                <CardsContentComponent
-                    card={card}
-                    onDeleteCard={onDeleteCard}
-                    onClickYesNoButton={onClickYesNoButton}
-                    isQuestionSide={isQuestionSide}
-                    onClickCard={onClickCard}
-                    cardHeight={cardHeight}
-                    onSwitchEditing={onSwitchEditing}
-                    isEditable={isEditable}
-                    onChangeQuestion={onChangeQuestion}
+                    <StatisticComponent repeatingProgress={repeatingProgress}/>
+                    <CardsContentComponent
+                        card={card}
+                        onDeleteCard={onDeleteCard}
+                        onClickYesNoButton={onClickYesNoButton}
+                        isQuestionSide={isQuestionSide}
+                        onClickCard={onClickCard}
+                        cardHeight={cardHeight}
+                        onSwitchEditing={onSwitchEditing}
+                        isEditable={isEditable}
+                        onChangeQuestion={onChangeQuestion}
                         onChangeAnswer={onChangeAnswer}
-            />
-        </div> :
-        <AllCardsRepeatedComponent onBackClick={onBackClick}/>
+                        onReadByVoiceEngine={onReadByVoiceEngine}
+                    />
+            </div> :
+            <AllCardsRepeatedComponent onBackClick={onBackClick}/>
 };

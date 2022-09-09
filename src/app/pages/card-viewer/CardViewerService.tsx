@@ -12,14 +12,18 @@ import {deleteSingleCard} from "../../common/logic/deleteSingleCard";
 import {getCardGroupName} from "./logic/getCardGroupName";
 import {IStatistic} from "../../common/types/IStatistic";
 import {updateStatistic} from "../../common/logic/updateStatistic";
+import {readByVoiceEngine} from "../../common/logic/readByVoiceEngine";
+import {of} from "rxjs";
+import {VoiceService} from "../../common/services/VoiceService";
 
 export class CardViewerService {
     public cardChannel: Channel<number, ICard>;
     public cardGroupNameChannel: Channel<number, string>;
     public repeatingResultChannel: Channel<IRepeatingArgs, ICardsGroup[]>;
     public deleteSingleCardChannel: Channel<number, ICardsGroup[]>;
+    public readByVoiceEngineChannel: Channel<string, string>;
 
-    constructor(private storageService: StorageService) {
+    constructor(private storageService: StorageService, voiceService: VoiceService) {
         this.cardChannel = new Channel((cardID = -1) => this.storageService.getBackup().pipe(
             map((cardsGroups: ICardsGroup[]) => getCardForViewing(cardsGroups, cardID))
         ));
@@ -48,5 +52,12 @@ export class CardViewerService {
                 })
             )
         )
+        this.readByVoiceEngineChannel = new Channel<string, string>(
+            (text) => of(text).pipe(
+                map(
+                    (text) => readByVoiceEngine(text, voiceService.getRandomVoice())
+                )
+            )
+        );
     }
 }

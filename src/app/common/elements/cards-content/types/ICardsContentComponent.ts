@@ -11,4 +11,5 @@ export interface ICardsContentComponent {
     isEditable: boolean;
     onChangeQuestion: (question: string) => void;
     onChangeAnswer: (answer: string) => void;
+    onReadByVoiceEngine: () => void;
 }

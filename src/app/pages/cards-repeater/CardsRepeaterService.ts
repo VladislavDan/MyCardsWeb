@@ -17,6 +17,8 @@ import {getCardGroupName} from "../card-viewer/logic/getCardGroupName";
 import {updateStatistic} from "../../common/logic/updateStatistic";
 import {IStatistic} from "../../common/types/IStatistic";
 import {IEmpty} from "../../../MyTools/channel-conception/defaults/IEmpty";
+import {readByVoiceEngine} from "../../common/logic/readByVoiceEngine";
+import {VoiceService} from "../../common/services/VoiceService";
 
 export class CardsRepeaterService {
     public cardChannel: Channel<number[], ICard>;
@@ -24,6 +26,7 @@ export class CardsRepeaterService {
     public repeatingProgressChannel: Channel<IEmpty, IRepeatingProgress>;
     public deleteSingleCardChannel: Channel<number, ICardsGroup[]>;
     public cardGroupNameChannel: Channel<number, string>;
+    public readByVoiceEngineChannel: Channel<string, string>;
 
     private statisticValue = {
         inProgress: 0,
@@ -31,7 +34,7 @@ export class CardsRepeaterService {
         done: 0
     };
 
-    constructor(private storageService: StorageService) {
+    constructor(private storageService: StorageService, private voiceService: VoiceService) {
         this.cardChannel = new Channel((cardsIDs) => this.storageService.getBackup().pipe(
             map((cardsGroups: ICardsGroup[]) => getCardsByIDs(cardsGroups, cardsIDs)),
             tap((cards) => {
@@ -70,6 +73,13 @@ export class CardsRepeaterService {
                     return getCardGroupName(cardsGroups, cardID);
                 })
             )
-        )
+        );
+        this.readByVoiceEngineChannel = new Channel<string, string>(
+            (text) => of(text).pipe(
+                map(
+                    (text) => readByVoiceEngine(text, voiceService.getRandomVoice())
+                )
+            )
+        );
     }
 }

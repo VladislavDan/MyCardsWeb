@@ -20,6 +20,8 @@ import {onConstructor} from "./ui-callbacks/onConstructor";
 import {useCallbackFactory} from "../../../MyTools/react-hooks/useCallbackFactory";
 import {initialState} from "./defaults/initialState";
 import {CardViewerCallbackSettings} from "./types/CardViewerCallbackSettings";
+import {onReadByVoiceEngine} from "./ui-callbacks/onReadByVoiceEngine";
+import {onReadByVoiceEngineChannel} from "./channels-callbacks/onReadByVoiceEngineChannel";
 
 export const CardViewerContainer: FC<ICardViewerContainer> = (services) => {
 
@@ -39,6 +41,7 @@ export const CardViewerContainer: FC<ICardViewerContainer> = (services) => {
     useChannel(cardViewerService.cardChannel, callbackFactory(onCardChannel));
     useChannel(cardsEditorService.cardEditingChannel, callbackFactory(onCardEditingChannel));
     useChannel(cardViewerService.repeatingResultChannel, callbackFactory(onRepeatingResultChannel));
+    useChannel(cardViewerService.readByVoiceEngineChannel, callbackFactory(onReadByVoiceEngineChannel));
 
     useConstructor(callbackFactory(onConstructor))
 
@@ -48,8 +51,10 @@ export const CardViewerContainer: FC<ICardViewerContainer> = (services) => {
     const changeQuestion = useCallback(callbackFactory(onChangeQuestion), [])
     const changeAnswer = useCallback(callbackFactory(onChangeAnswer), [])
     const deleteCard = useCallback(callbackFactory(onDeleteCard), [])
+    const readByVoiceEngine = useCallback(callbackFactory(onReadByVoiceEngine), [])
 
     return <CardViewerComponent
+        onReadByVoiceEngine={readByVoiceEngine}
         cardHeight={context.height * 0.55}
         isQuestionSide={state.isQuestionSide}
         onClickCard={clickCard}
