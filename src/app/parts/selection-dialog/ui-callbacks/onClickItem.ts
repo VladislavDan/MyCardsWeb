@@ -1,4 +1,4 @@
-import {ICallback} from "../../../../MyTools/react-utils/CallbackFactory";
+import {ICallback} from "../../../../MyTools/react-types/ICallback";
 import {SelectionDialogCallbackSettings} from "../types/SelectionDialogCallbackSettings";
 
 export const onClickItem: ICallback<SelectionDialogCallbackSettings, number> = (

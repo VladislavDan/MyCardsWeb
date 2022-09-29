@@ -1,4 +1,4 @@
-import {ICallback} from "../../../../MyTools/react-utils/CallbackFactory";
+import {ICallback} from "../../../../MyTools/react-types/ICallback";
 import {SpinnerCallbackSettings} from "../types/SpinnerCallbackSettings";
 
 export const onSpinnerCounterChannel: ICallback<SpinnerCallbackSettings, number> = (

@@ -4,7 +4,6 @@ import {FC, useCallback} from 'react';
 import {useChannel} from '../../../MyTools/channel-conception/react-hooks/useChannel';
 import {GoogleBackupsComponent} from './GoogleBackupsComponent';
 import {useConstructor} from '../../../MyTools/react-hooks/useConstructor';
-import {IGoogleBackupsContainer} from "./types/IGoogleBackupsContainer";
 import {useCallbackFactory} from "../../../MyTools/react-hooks/useCallbackFactory";
 import {AppContext} from "../../../App";
 import {onBackupsNameLoadChannelError} from "./channels-callback/onBackupsNameLoadChannelError";
@@ -17,20 +16,33 @@ import {onConstructor} from "./ui-callbacks/onConstructor";
 import {onLoad} from "./ui-callbacks/onLoad";
 import {onDelete} from "./ui-callbacks/onDelete";
 import {GoogleBackupCallbackSettings} from "./types/GoogleBackupCallbackSettings";
+import {useDependency} from "../../../MyTools/react-di/hooks/useDependency";
+import {GoogleBackupsService} from "./GoogleBackupsService";
+import {SpinnerService} from "../../parts/spinner/SpinnerService";
+import {ConfirmDialogService} from "../../parts/confirm-dialog/ConfirmDialogService";
 
-export const GoogleBackupsContainer: FC<IGoogleBackupsContainer> = (services) => {
+export const GoogleBackupsContainer: FC = () => {
+
+    const googleBackupsService = useDependency(GoogleBackupsService);
+    const spinnerService = useDependency(SpinnerService);
+    const confirmDialogService = useDependency(ConfirmDialogService);
+
     const {
         callbackFactory,
-        callbackSettings
+        externalCallbackSettings
     } = useCallbackFactory<GoogleBackupCallbackSettings>(
         {
             backupsFiles: []
         },
-        services,
+        {
+            googleBackupsService,
+            spinnerService,
+            confirmDialogService
+        },
         AppContext
     );
 
-    const {state, services: {googleBackupsService, spinnerService, confirmDialogService}} = callbackSettings
+    const {state} = externalCallbackSettings
 
     useChannel(
         googleBackupsService.backupsNameLoadChannel,

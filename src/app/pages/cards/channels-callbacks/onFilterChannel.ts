@@ -1,4 +1,4 @@
-import {ICallback} from "../../../../MyTools/react-utils/CallbackFactory";
+import {ICallback} from "../../../../MyTools/react-types/ICallback";
 import {CardsCallbackSettings} from "../types/CardsCallbackSettings";
 import {IFilter} from "../../../common/types/IFilter";
 import {defaultFilter} from "../../../common/defaults/defaultFilter";

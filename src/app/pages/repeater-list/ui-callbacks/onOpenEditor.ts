@@ -1,5 +1,5 @@
 import {Routs} from "../../../common/Routs";
-import {ICallback} from "../../../../MyTools/react-utils/CallbackFactory";
+import {ICallback} from "../../../../MyTools/react-types/ICallback";
 import {RepeaterListCallbackSettings} from "../types/RepeaterListCallbackSettings";
 
 export const onOpenEditor: ICallback<RepeaterListCallbackSettings, void> = (

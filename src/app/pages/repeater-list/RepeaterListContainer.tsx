@@ -1,7 +1,6 @@
 import {FC, useCallback} from "react";
 
 import {RepeaterListComponent} from "./RepeaterListComponent";
-import {IRepeaterListContainer} from "./types/IRepeaterListContainer";
 import {useCallbackFactory} from "../../../MyTools/react-hooks/useCallbackFactory";
 import {AppContext} from "../../../App";
 import {RepeaterListCallbackSettings} from "./types/RepeaterListCallbackSettings";
@@ -17,19 +16,25 @@ import {onRemoveRepeater} from "./ui-callbacks/onRemoveRepeater";
 import {onResetProgressChannel} from "./channels-callbacks/onResetProgressChannel";
 import {onResetProgress} from "./ui-callbacks/onResetProgress";
 import {onEditRepeater} from "./ui-callbacks/onEditRepeater";
+import {useDependency} from "../../../MyTools/react-di/hooks/useDependency";
+import {RepeaterListService} from "./RepeaterListService";
+import {ConfirmDialogService} from "../../parts/confirm-dialog/ConfirmDialogService";
 
-export const RepeaterListContainer: FC<IRepeaterListContainer> = (services) => {
+export const RepeaterListContainer: FC = () => {
+
+    const repeaterListService = useDependency(RepeaterListService);
+    const confirmDialogService = useDependency(ConfirmDialogService);
 
     const {
         callbackFactory,
-        callbackSettings
+        externalCallbackSettings
     } = useCallbackFactory<RepeaterListCallbackSettings>(
         initialState,
-        services,
+        {repeaterListService, confirmDialogService},
         AppContext
     );
 
-    const {state, services: {repeaterListService}, context} = callbackSettings
+    const {state, context} = externalCallbackSettings
 
     useChannel(repeaterListService.repeaterListChannel, callbackFactory(onRepeaterListChannel));
     useChannel(repeaterListService.startRepeatingChannel, callbackFactory(onStartRepeatingChannel));

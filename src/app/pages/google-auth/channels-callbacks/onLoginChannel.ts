@@ -1,4 +1,4 @@
-import {ICallback} from "../../../../MyTools/react-utils/CallbackFactory";
+import {ICallback} from "../../../../MyTools/react-types/ICallback";
 import {GoogleAuthCallbackSettings} from "../types/GoogleAuthCallbackSettings";
 import {Routs} from "../../../common/Routs";
 

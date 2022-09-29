@@ -1,4 +1,4 @@
-import {ICallbackSettings} from "../../../../MyTools/react-hooks/types/ICallbackSettings";
+import {ICallbackSettings} from "../../../../MyTools/react-types/ICallbackSettings";
 import {CardViewerContainerState} from "./CardViewerContainerState";
 import {ICardViewerContainer} from "./ICardViewerContainer";
 import {INavigationState} from "../../../common/types/INavigationState";

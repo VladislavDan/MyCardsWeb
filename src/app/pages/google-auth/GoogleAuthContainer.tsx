@@ -4,25 +4,30 @@ import {FC, useCallback} from 'react';
 import {useChannel} from '../../../MyTools/channel-conception/react-hooks/useChannel';
 import {GoogleAuthComponent} from './GoogleAuthComponent';
 import {AppContext} from '../../../App';
-import {IGoogleAuthContainer} from "./types/IGoogleAuthContainer";
 import {useCallbackFactory} from "../../../MyTools/react-hooks/useCallbackFactory";
 import {onSuccess} from "./ui-callbacks/onSuccess";
 import {onFailure} from "./ui-callbacks/onFailure";
 import {onLoginChannel} from "./channels-callbacks/onLoginChannel";
 import {GoogleAuthCallbackSettings} from "./types/GoogleAuthCallbackSettings";
+import {useDependency} from "../../../MyTools/react-di/hooks/useDependency";
+import {GoogleAuthService} from "./GoogleAuthService";
+import {ErrorService} from "../../parts/error-container/ErrorService";
 
-export const GoogleAuthContainer: FC<IGoogleAuthContainer> = (services) => {
+export const GoogleAuthContainer: FC = () => {
+
+    const googleAuthService = useDependency(GoogleAuthService);
+    const errorService = useDependency(ErrorService);
 
     const {
         callbackFactory,
-        callbackSettings
+        externalCallbackSettings
     } = useCallbackFactory<GoogleAuthCallbackSettings>(
         null,
-        services,
+        {googleAuthService, errorService},
         AppContext
     );
 
-    const {context, services: {googleAuthService}} = callbackSettings
+    const {context} = externalCallbackSettings;
 
     useChannel(googleAuthService.loginChannel, callbackFactory(onLoginChannel));
 

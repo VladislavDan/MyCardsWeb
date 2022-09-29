@@ -1,4 +1,4 @@
-import {ICallback} from "../../../../MyTools/react-utils/CallbackFactory";
+import {ICallback} from "../../../../MyTools/react-types/ICallback";
 import {ToolbarCallbackSettings} from "../types/ToolbarCallbackSettings";
 import {MouseEvent} from "react";
 import {empty} from "../../../../MyTools/channel-conception/defaults/empty";

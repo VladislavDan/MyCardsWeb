@@ -1,4 +1,4 @@
-import {ICallback} from "../../../../MyTools/react-utils/CallbackFactory";
+import {ICallback} from "../../../../MyTools/react-types/ICallback";
 import {GoogleBackupCallbackSettings} from "../types/GoogleBackupCallbackSettings";
 import {IGoogleDriveFile} from "../../../common/types/IGoogleDriveFile";
 

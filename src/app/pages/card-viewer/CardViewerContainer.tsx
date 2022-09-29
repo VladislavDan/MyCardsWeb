@@ -4,7 +4,6 @@ import {useChannel} from "../../../MyTools/channel-conception/react-hooks/useCha
 import {AppContext} from "../../../App";
 import {CardViewerComponent} from "./CardViewerComponent";
 import {useConstructor} from "../../../MyTools/react-hooks/useConstructor";
-import {ICardViewerContainer} from "./types/ICardViewerContainer";
 import {onDeleteCard} from "./ui-callbacks/onDeleteCard";
 import {onDeleteSingleCardChannel} from "./channels-callbacks/onDeleteSingleCardChannel";
 import {onCardGroupNameChannel} from "./channels-callbacks/onCardGroupNameChannel";
@@ -22,19 +21,29 @@ import {initialState} from "./defaults/initialState";
 import {CardViewerCallbackSettings} from "./types/CardViewerCallbackSettings";
 import {onReadByVoiceEngine} from "./ui-callbacks/onReadByVoiceEngine";
 import {onReadByVoiceEngineChannel} from "./channels-callbacks/onReadByVoiceEngineChannel";
+import {useDependency} from "../../../MyTools/react-di/hooks/useDependency";
+import {CardViewerService} from "./CardViewerService";
+import {CardsEditorService} from "../cards-editor/CardsEditorService";
+import {ToolbarService} from "../../parts/toolbar/ToolbarService";
+import {ConfirmDialogService} from "../../parts/confirm-dialog/ConfirmDialogService";
 
-export const CardViewerContainer: FC<ICardViewerContainer> = (services) => {
+export const CardViewerContainer: FC = () => {
+
+    const cardViewerService = useDependency(CardViewerService);
+    const cardsEditorService = useDependency(CardsEditorService);
+    const toolbarService = useDependency(ToolbarService);
+    const confirmDialogService = useDependency(ConfirmDialogService);
 
     const {
         callbackFactory,
-        callbackSettings
+        externalCallbackSettings
     } = useCallbackFactory<CardViewerCallbackSettings>(
         initialState,
-        services,
+        {cardViewerService, cardsEditorService, toolbarService, confirmDialogService},
         AppContext
     );
 
-    const {state, context, services: {cardViewerService, cardsEditorService}} = callbackSettings
+    const {state, context} = externalCallbackSettings
 
     useChannel(cardViewerService.deleteSingleCardChannel, callbackFactory(onDeleteSingleCardChannel))
     useChannel(cardViewerService.cardGroupNameChannel, callbackFactory(onCardGroupNameChannel))

@@ -3,25 +3,29 @@ import {FC, useCallback} from 'react';
 
 import {NavigationPanelComponent} from './NavigationPanelComponent';
 import {useChannel} from '../../../MyTools/channel-conception/react-hooks/useChannel';
-import {INavigationPanelContainer} from "./types/INavigationPanelContainer";
 import {useCallbackFactory} from "../../../MyTools/react-hooks/useCallbackFactory";
 import {AppContext} from "../../../App";
 import {initialState} from "./defaults/initialState";
 import {onNavigationPanelOpenChannel} from "./channels-callbacks/onNavigationPanelOpenChannel";
 import {onToggleDrawer} from "./ui-callbacks/onToggleDrawer";
 import {NavigationPanelCallbackSettings} from "./types/NavigationPanelCallbackSettings";
+import {useDependency} from "../../../MyTools/react-di/hooks/useDependency";
+import {NavigationPanelService} from "./NavigationPanelService";
 
-export const NavigationPanelContainer: FC<INavigationPanelContainer> = (services) => {
+export const NavigationPanelContainer: FC = () => {
+
+    const navigationPanelService = useDependency(NavigationPanelService);
+
     const {
         callbackFactory,
-        callbackSettings
+        externalCallbackSettings
     } = useCallbackFactory<NavigationPanelCallbackSettings>(
         initialState,
-        services,
+        {navigationPanelService},
         AppContext
     );
 
-    const {state, services: {navigationPanelService}} = callbackSettings
+    const {state} = externalCallbackSettings
 
     useChannel(navigationPanelService.navigationPanelOpenChannel, callbackFactory(onNavigationPanelOpenChannel));
 

@@ -1,4 +1,4 @@
-import {ICallback} from "../../../../MyTools/react-utils/CallbackFactory";
+import {ICallback} from "../../../../MyTools/react-types/ICallback";
 import {ErrorCallbackSettings} from "../types/ErrorCallbackSettings";
 
 export const onErrorChannel: ICallback<ErrorCallbackSettings, string> = (

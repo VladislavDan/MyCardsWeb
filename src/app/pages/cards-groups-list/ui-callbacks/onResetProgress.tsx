@@ -1,6 +1,6 @@
 import RefreshIcon from '@mui/icons-material/Refresh';
 
-import {ICallback} from "../../../../MyTools/react-utils/CallbackFactory";
+import {ICallback} from "../../../../MyTools/react-types/ICallback";
 import {ICardsGroupsCallbackSettings} from "../types/ICardsGroupsCallbackSettings";
 import {defaultConfirmDialogState} from "../../../common/defaults/defaultConfirmDialogState";
 

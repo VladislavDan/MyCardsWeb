@@ -4,7 +4,6 @@ import {useChannel} from '../../../MyTools/channel-conception/react-hooks/useCha
 import {useConstructor} from '../../../MyTools/react-hooks/useConstructor';
 import {CardsRepeaterComponent} from './CardsRepeaterComponent';
 import {AppContext} from '../../../App';
-import {ICardRepeaterContainer} from "./types/ICardRepeaterContainer";
 import {onDeleteCard} from "./ui-callbacks/onDeleteCard";
 import {onDeleteSingleCardChannel} from "./channels-callbacks/onDeleteSingleCardChannel";
 import {onCardGroupNameChannel} from "./channels-callbacks/onCardGroupNameChannel";
@@ -24,25 +23,34 @@ import {initialState} from "./defaults/initialState";
 import {CardRepeaterCallbackSettings} from "./types/CardRepeaterCallbackSettings";
 import {onReadByVoiceEngine} from "./ui-callbacks/onReadByVoiceEngine";
 import {onReadByVoiceEngineChannel} from "./channels-callbacks/onReadByVoiceEngineChannel";
+import {useDependency} from "../../../MyTools/react-di/hooks/useDependency";
+import {CardsRepeaterService} from "./CardsRepeaterService";
+import {ConfirmDialogService} from "../../parts/confirm-dialog/ConfirmDialogService";
+import {CardsEditorService} from "../cards-editor/CardsEditorService";
+import {ToolbarService} from "../../parts/toolbar/ToolbarService";
 
-export const CardRepeaterContainer: FC<ICardRepeaterContainer> = (
-    services
-) => {
+export const CardRepeaterContainer: FC = () => {
+
+    const cardsRepeaterService = useDependency(CardsRepeaterService);
+    const cardsEditorService = useDependency(CardsEditorService);
+    const confirmDialogService = useDependency(ConfirmDialogService);
+    const toolbarService = useDependency(ToolbarService);
 
     const {
         callbackFactory,
-        callbackSettings
+        externalCallbackSettings
     } = useCallbackFactory<CardRepeaterCallbackSettings>(
         initialState,
-        services,
+        {
+            cardsRepeaterService,
+            cardsEditorService,
+            confirmDialogService,
+            toolbarService
+        },
         AppContext
     );
 
-    const {
-        state, context, services: {
-            cardsRepeaterService, cardsEditorService
-        }
-    } = callbackSettings
+    const {state, context} = externalCallbackSettings;
 
     useChannel(cardsRepeaterService.deleteSingleCardChannel, callbackFactory(onDeleteSingleCardChannel))
     useChannel(cardsRepeaterService.cardGroupNameChannel, callbackFactory(onCardGroupNameChannel))

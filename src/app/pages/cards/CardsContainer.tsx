@@ -4,7 +4,6 @@ import {CardsComponent} from './CardsComponent';
 import {useChannel} from '../../../MyTools/channel-conception/react-hooks/useChannel';
 import {useConstructor} from '../../../MyTools/react-hooks/useConstructor';
 import {AppContext} from '../../../App';
-import {ICardsContainer} from "./types/ICardsContainer";
 import {onDeleteSelectedCards} from "./ui-callbacks/onDeleteSelectedCards";
 import {onCopySelectedCards} from "./ui-callbacks/onCopySelectedCards";
 import {onMovingSelectedCards} from "./ui-callbacks/onMovingSelectedCards";
@@ -33,18 +32,27 @@ import {onResetProgress} from "./ui-callbacks/onResetProgress";
 import {onClickItem} from "./ui-callbacks/onClickItem";
 import {initialState} from "./defaults/initialState";
 import {CardsCallbackSettings} from "./types/CardsCallbackSettings";
+import {useDependency} from "../../../MyTools/react-di/hooks/useDependency";
+import {CardsService} from "./CardsService";
+import {SelectionDialogService} from "../../parts/selection-dialog/SelectionDialogService";
+import {ConfirmDialogService} from "../../parts/confirm-dialog/ConfirmDialogService";
 
-export const CardsContainer: FC<ICardsContainer> = (services) => {
+export const CardsContainer: FC = () => {
+
+    const cardsListService = useDependency(CardsService);
+    const selectionDialogService = useDependency(SelectionDialogService);
+    const confirmDialogService = useDependency(ConfirmDialogService);
+
     const {
         callbackFactory,
-        callbackSettings
+        externalCallbackSettings
     } = useCallbackFactory<CardsCallbackSettings>(
         initialState,
-        services,
+        {cardsListService, selectionDialogService, confirmDialogService},
         AppContext
     );
 
-    const {state, context, services: {cardsListService}} = callbackSettings
+    const {state, context} = externalCallbackSettings
 
     useChannel(cardsListService.cardsChannel, callbackFactory(onCardsChannel));
     useChannel(cardsListService.cardsIDsByGroupIDsChannel, callbackFactory(onCardsIDsByGroupIDsChannel));

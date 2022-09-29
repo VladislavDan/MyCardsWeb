@@ -3,7 +3,6 @@ import {FC, useCallback} from 'react';
 
 import {ConfirmDialogComponent} from './ConfirmDialogComponent';
 import {useChannel} from '../../../MyTools/channel-conception/react-hooks/useChannel';
-import {IConfirmDialogContainer} from "./types/IConfirmDialogContainer";
 import {defaultConfirmDialogState} from "../../common/defaults/defaultConfirmDialogState";
 import {useCallbackFactory} from "../../../MyTools/react-hooks/useCallbackFactory";
 import {AppContext} from "../../../App";
@@ -12,19 +11,26 @@ import {onClose} from "./ui-callbacks/onClose";
 import {onClickAgree} from "./ui-callbacks/onClickAgree";
 import {onClickDisagree} from "./ui-callbacks/onClickDisagree";
 import {ConfirmDialogCallbackSettings} from "./types/ConfirmDialogCallbackSettings";
+import {useDependency} from "../../../MyTools/react-di/hooks/useDependency";
+import {ConfirmDialogService} from "./ConfirmDialogService";
 
-export const ConfirmDialogContainer: FC<IConfirmDialogContainer> = (services) => {
+export const ConfirmDialogContainer: FC = () => {
+
+    const confirmDialogService = useDependency(ConfirmDialogService);
+
 
     const {
         callbackFactory,
-        callbackSettings
+        externalCallbackSettings
     } = useCallbackFactory<ConfirmDialogCallbackSettings>(
         defaultConfirmDialogState,
-        services,
+        {
+            confirmDialogService
+        },
         AppContext
     );
 
-    const {state, services: {confirmDialogService}} = callbackSettings
+    const {state} = externalCallbackSettings
 
     useChannel(confirmDialogService.openDialogChannel, callbackFactory(onOpenDialogChannel));
 

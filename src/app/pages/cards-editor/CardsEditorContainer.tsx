@@ -4,7 +4,6 @@ import {FC, useCallback} from 'react';
 import {useChannel} from '../../../MyTools/channel-conception/react-hooks/useChannel';
 import {CardsEditorComponent} from './CardsEditorComponent';
 import {useConstructor} from '../../../MyTools/react-hooks/useConstructor';
-import {ICardsEditorContainer} from "./types/ICardsEditorContainer";
 import {useCallbackFactory} from "../../../MyTools/react-hooks/useCallbackFactory";
 import {AppContext} from "../../../App";
 import {onCardEditingChannel} from "./channels-callbacks/onCardEditingChannel";
@@ -15,19 +14,23 @@ import {onChangeAnswer} from "./ui-callbacks/onChangeAnswer";
 import {onSaveCard} from "./ui-callbacks/onSaveCard";
 import {initialState} from "./defaults/initialState";
 import {CardsEditorCallbackSettings} from "./types/CardsEditorCallbackSettings";
+import {useDependency} from "../../../MyTools/react-di/hooks/useDependency";
+import {CardsEditorService} from "./CardsEditorService";
 
-export const CardsEditorContainer: FC<ICardsEditorContainer> = (services) => {
+export const CardsEditorContainer: FC = () => {
+
+    const cardsEditorService = useDependency(CardsEditorService);
 
     const {
         callbackFactory,
-        callbackSettings
+        externalCallbackSettings
     } = useCallbackFactory<CardsEditorCallbackSettings>(
         initialState,
-        services,
+        {cardsEditorService},
         AppContext
     );
 
-    const {state, services: {cardsEditorService}} = callbackSettings
+    const {state} = externalCallbackSettings;
 
     useChannel(cardsEditorService.cardEditingChannel, callbackFactory(onCardEditingChannel));
     useChannel(cardsEditorService.cardChannel, callbackFactory(onCardChannel));

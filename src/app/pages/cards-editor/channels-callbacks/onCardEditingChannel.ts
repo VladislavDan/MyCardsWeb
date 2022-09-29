@@ -1,4 +1,4 @@
-import {ICallback} from "../../../../MyTools/react-utils/CallbackFactory";
+import {ICallback} from "../../../../MyTools/react-types/ICallback";
 import {ICard} from "../../../common/types/ICard";
 import {CardsEditorCallbackSettings} from "../types/CardsEditorCallbackSettings";
 

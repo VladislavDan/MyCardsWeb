@@ -1,4 +1,4 @@
-import {ICallback} from "../../../../MyTools/react-utils/CallbackFactory";
+import {ICallback} from "../../../../MyTools/react-types/ICallback";
 import {CardViewerCallbackSettings} from "../types/CardViewerCallbackSettings";
 
 export const onChangeAnswer: ICallback<CardViewerCallbackSettings, string> = (

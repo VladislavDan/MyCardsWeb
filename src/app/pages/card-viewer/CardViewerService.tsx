@@ -23,7 +23,7 @@ export class CardViewerService {
     public deleteSingleCardChannel: Channel<number, ICardsGroup[]>;
     public readByVoiceEngineChannel: Channel<string, string>;
 
-    constructor(private storageService: StorageService, voiceService: VoiceService) {
+    constructor(private storageService: StorageService, private voiceService: VoiceService) {
         this.cardChannel = new Channel((cardID = -1) => this.storageService.getBackup().pipe(
             map((cardsGroups: ICardsGroup[]) => getCardForViewing(cardsGroups, cardID))
         ));

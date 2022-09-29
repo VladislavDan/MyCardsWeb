@@ -1,4 +1,4 @@
-import {ICallback} from "../../../../MyTools/react-utils/CallbackFactory";
+import {ICallback} from "../../../../MyTools/react-types/ICallback";
 import {StatisticCallbackSettings} from "../types/StatisticCallbackSettings";
 import {defaultConfirmDialogState} from "../../../common/defaults/defaultConfirmDialogState";
 import DeleteIcon from "@mui/icons-material/Delete";

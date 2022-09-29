@@ -3,7 +3,6 @@ import {FC, useCallback} from 'react';
 
 import {SelectionDialogComponent} from './SelectionDialogComponent';
 import {useChannel} from '../../../MyTools/channel-conception/react-hooks/useChannel';
-import {ISelectionDialogContainer} from "./types/ISelectionDialogContainer";
 import {useCallbackFactory} from "../../../MyTools/react-hooks/useCallbackFactory";
 import {AppContext} from "../../../App";
 import {initialState} from "./defaults/initialState";
@@ -11,18 +10,23 @@ import {SelectionDialogCallbackSettings} from "./types/SelectionDialogCallbackSe
 import {onOpenDialogChannel} from "./channels-callbacks/onOpenDialogChannel";
 import {onClose} from "./ui-callbacks/onClose";
 import {onClickItem} from "./ui-callbacks/onClickItem";
+import {useDependency} from "../../../MyTools/react-di/hooks/useDependency";
+import {SelectionDialogService} from "./SelectionDialogService";
 
-export const SelectionDialogContainer: FC<ISelectionDialogContainer> = (services) => {
+export const SelectionDialogContainer: FC = () => {
+
+    const selectionDialogService = useDependency(SelectionDialogService);
+
     const {
         callbackFactory,
-        callbackSettings
+        externalCallbackSettings
     } = useCallbackFactory<SelectionDialogCallbackSettings>(
         initialState,
-        services,
+        {selectionDialogService},
         AppContext
     );
 
-    const {state, services: {selectionDialogService}} = callbackSettings
+    const {state} = externalCallbackSettings
 
     useChannel(selectionDialogService.openDialogChannel, callbackFactory(onOpenDialogChannel));
 

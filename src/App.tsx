@@ -8,60 +8,14 @@ import {NavigationPanelContainer} from './app/parts/navigation-panel/NavigationP
 import {ErrorContainer} from './app/parts/error-container/ErrorContainer';
 import {SpinnerContainer} from './app/parts/spinner/SpinnerContainer';
 import {ConfirmDialogContainer} from './app/parts/confirm-dialog/ConfirmDialogContainer';
-import {SpinnerService} from './app/parts/spinner/SpinnerService';
-import {ErrorService} from './app/parts/error-container/ErrorService';
 import {NavigationContainer} from './app/parts/navigation/NavigationContainer';
-import {CardsGroupsEditorService} from './app/pages/cards-groups-editor/CardsGroupsEditorService';
-import {CardsGroupsListService} from './app/pages/cards-groups-list/CardsGroupsListService';
-import {ConfirmDialogService} from './app/parts/confirm-dialog/ConfirmDialogService';
-import {GoogleAuthService} from './app/pages/google-auth/GoogleAuthService';
-import {GoogleBackupsService} from './app/pages/google-backups/GoogleBackupsService';
-import {CardsEditorService} from './app/pages/cards-editor/CardsEditorService';
-import {StorageService} from './app/common/services/StorageService';
-import {CardsService} from './app/pages/cards/CardsService';
-import {CardsRepeaterService} from './app/pages/cards-repeater/CardsRepeaterService';
-import {LocalBackupsService} from './app/pages/local-backup/LocalBackupsService';
-import {DataBaseService} from './app/common/services/DataBaseService';
-import {SettingsService} from './app/pages/settings/SettingsService';
-import {CardViewerService} from "./app/pages/card-viewer/CardViewerService";
 import {SelectionDialogContainer} from "./app/parts/selection-dialog/SelectionDialogContainer";
-import {SelectionDialogService} from "./app/parts/selection-dialog/SelectionDialogService";
-import {NavigationPanelService} from "./app/parts/navigation-panel/NavigationPanelService";
-import {ToolbarService} from "./app/parts/toolbar/ToolbarService";
 import {Channel} from "./MyTools/channel-conception/Channel";
 import {defaultAppState} from "./app/common/defaults/defaultAppState";
-import {STORE_NAME} from "./app/common/constants/STORE_NAME";
-import {StatisticService} from "./app/pages/statistic/StatisticService";
-import {RepeaterListService} from "./app/pages/repeater-list/RepeaterListService";
-import {RepeaterEditorService} from "./app/pages/repeater-editor/RepeaterEditorService";
-import {VoiceService} from "./app/common/services/VoiceService";
+import {DependenciesProvider} from "./MyTools/react-di/DependenciesProvider";
+import {Dependencies} from "./Dependencies";
 
 export const AppContext = React.createContext<IAppContext>(defaultAppState);
-
-const errorService = new ErrorService();
-const spinnerService = new SpinnerService();
-
-const confirmDialogService = new ConfirmDialogService();
-const selectionDialogService = new SelectionDialogService();
-const navigationPanelService = new NavigationPanelService();
-const toolbarService = new ToolbarService();
-
-const voiceService = new VoiceService();
-const dataBaseService = new DataBaseService(STORE_NAME);
-const storageService = new StorageService(dataBaseService);
-const cardsGroupsEditorService = new CardsGroupsEditorService(storageService);
-const cardsGroupsListService = new CardsGroupsListService(storageService);
-const googleAuthService = new GoogleAuthService(storageService);
-const googleBackupsService = new GoogleBackupsService(storageService);
-const cardsEditorService = new CardsEditorService(storageService);
-const cardsListService = new CardsService(storageService);
-const cardsRepeaterService = new CardsRepeaterService(storageService, voiceService);
-const localBackupsService = new LocalBackupsService(storageService);
-const settingService = new SettingsService(storageService);
-const cardViewerService = new CardViewerService(storageService, voiceService);
-const statisticService = new StatisticService(storageService);
-const repeaterListService = new RepeaterListService(storageService);
-const repeaterEditorService = new RepeaterEditorService(storageService);
 
 Channel.setGlobalErrorHandler((error) => {
     console.error(error);
@@ -80,49 +34,23 @@ function App() {
 
     return (
         <>
-            <AppContext.Provider value={appState}>
-                <Router>
-                    <div>
-
-                        <ErrorContainer errorService={errorService}/>
-
-                        <ToolbarContainer
-                            toolbarService={toolbarService}
-                            navigationPanelService={navigationPanelService}
-                        />
-
-                        <NavigationPanelContainer navigationPanelService={navigationPanelService}/>
-
-                        <ConfirmDialogContainer confirmDialogService={confirmDialogService}/>
-
-                        <SelectionDialogContainer selectionDialogService={selectionDialogService}/>
-
-                        <div className="page-container" style={{height: appState.height - 110, width: '100%'}}>
-                            <SpinnerContainer spinnerService={spinnerService}/>
-                            <NavigationContainer
-                                toolbarService={toolbarService}
-                                cardsGroupsListService={cardsGroupsListService}
-                                cardsGroupsEditorService={cardsGroupsEditorService}
-                                googleAuthService={googleAuthService}
-                                googleBackupsService={googleBackupsService}
-                                errorService={errorService}
-                                spinnerService={spinnerService}
-                                confirmDialogService={confirmDialogService}
-                                cardsEditorService={cardsEditorService}
-                                cardsListService={cardsListService}
-                                cardsRepeaterService={cardsRepeaterService}
-                                localBackupsService={localBackupsService}
-                                settingsService={settingService}
-                                cardViewerService={cardViewerService}
-                                selectionDialogService={selectionDialogService}
-                                statisticService={statisticService}
-                                repeaterListService={repeaterListService}
-                                repeaterEditorService={repeaterEditorService}
-                            />
+            <DependenciesProvider functions={Dependencies}>
+                <AppContext.Provider value={appState}>
+                    <Router>
+                        <div>
+                            <ErrorContainer/>
+                            <ToolbarContainer/>
+                            <NavigationPanelContainer/>
+                            <ConfirmDialogContainer/>
+                            <SelectionDialogContainer/>
+                            <div className="page-container" style={{height: appState.height - 110, width: '100%'}}>
+                                <SpinnerContainer/>
+                                <NavigationContainer/>
+                            </div>
                         </div>
-                    </div>
-                </Router>
-            </AppContext.Provider>
+                    </Router>
+                </AppContext.Provider>
+            </DependenciesProvider>
         </>
     );
 }

@@ -4,7 +4,6 @@ import {FC, useCallback} from 'react';
 import {useChannel} from '../../../MyTools/channel-conception/react-hooks/useChannel';
 import {SettingsComponent} from './SettingsComponent';
 import {useConstructor} from '../../../MyTools/react-hooks/useConstructor';
-import {ISettingsContainer} from "./types/ISettingsContainer";
 import {useCallbackFactory} from "../../../MyTools/react-hooks/useCallbackFactory";
 import {AppContext} from "../../../App";
 import {defaultSettings} from "../../common/defaults/defaultSettings";
@@ -16,19 +15,23 @@ import {onChangeAutoObsolete} from "./ui-callbacks/onChangeAutoObsolete";
 import {onChangeTimeInDone} from "./ui-callbacks/onChangeTimeInDone";
 import {onChangeTimeInProgress} from "./ui-callbacks/onChangeTimeInProgress";
 import {SettingsCallbackSettings} from "./types/SettingsCallbackSettings";
+import {useDependency} from "../../../MyTools/react-di/hooks/useDependency";
+import {SettingsService} from "./SettingsService";
 
-export const SettingsContainer: FC<ISettingsContainer> = (services) => {
+export const SettingsContainer: FC = () => {
+
+    const settingsService = useDependency(SettingsService);
 
     const {
         callbackFactory,
-        callbackSettings
+        externalCallbackSettings
     } = useCallbackFactory<SettingsCallbackSettings>(
         defaultSettings,
-        services,
+        {settingsService},
         AppContext
     );
 
-    const {state, services: {settingsService}} = callbackSettings
+    const {state} = externalCallbackSettings;
 
     useChannel(settingsService.changeSettingsChannel, callbackFactory(onChangeSettingsChannel));
     useChannel(settingsService.settingsChannel, callbackFactory(onSettingsChannel));

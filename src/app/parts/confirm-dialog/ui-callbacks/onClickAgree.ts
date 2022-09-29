@@ -1,5 +1,5 @@
-import {ICallback} from "../../../../MyTools/react-utils/CallbackFactory";
 import {ConfirmDialogCallbackSettings} from "../types/ConfirmDialogCallbackSettings";
+import {ICallback} from "../../../../MyTools/react-types/ICallback";
 
 export const onClickAgree: ICallback<ConfirmDialogCallbackSettings, void> = (
     {services: {confirmDialogService}}

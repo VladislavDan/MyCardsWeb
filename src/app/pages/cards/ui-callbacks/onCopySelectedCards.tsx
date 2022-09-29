@@ -1,6 +1,6 @@
 import CopyIcon from '@mui/icons-material/CopyAll';
 
-import {ICallback} from "../../../../MyTools/react-utils/CallbackFactory";
+import {ICallback} from "../../../../MyTools/react-types/ICallback";
 import {CardsCallbackSettings} from "../types/CardsCallbackSettings";
 import {defaultConfirmDialogState} from "../../../common/defaults/defaultConfirmDialogState";
 

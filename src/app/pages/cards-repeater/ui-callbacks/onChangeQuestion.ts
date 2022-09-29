@@ -1,4 +1,4 @@
-import {ICallback} from "../../../../MyTools/react-utils/CallbackFactory";
+import {ICallback} from "../../../../MyTools/react-types/ICallback";
 import {CardRepeaterCallbackSettings} from "../types/CardRepeaterCallbackSettings";
 
 export const onChangeQuestion: ICallback<CardRepeaterCallbackSettings, string> = (

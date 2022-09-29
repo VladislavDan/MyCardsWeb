@@ -1,4 +1,4 @@
-import {ICallback} from "../../../../MyTools/react-utils/CallbackFactory";
+import {ICallback} from "../../../../MyTools/react-types/ICallback";
 import {NavigationPanelCallbackSettings} from "../types/NavigationPanelCallbackSettings";
 import {IEmpty} from "../../../../MyTools/channel-conception/defaults/IEmpty";
 

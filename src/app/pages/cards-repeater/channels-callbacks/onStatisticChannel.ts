@@ -1,4 +1,4 @@
-import {ICallback} from "../../../../MyTools/react-utils/CallbackFactory";
+import {ICallback} from "../../../../MyTools/react-types/ICallback";
 import {CardRepeaterCallbackSettings} from "../types/CardRepeaterCallbackSettings";
 import {IRepeatingProgress} from "../../../common/types/IRepeatingProgress";
 import {defaultRepeatingProgress} from "../../../common/defaults/defaultRepeatingProgress";

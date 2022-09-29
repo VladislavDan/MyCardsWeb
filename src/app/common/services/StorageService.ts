@@ -8,8 +8,9 @@ import {IStatistic} from "../types/IStatistic";
 import {defaultStatistic} from "../defaults/defaultStatistic";
 import {defaultSettings} from "../defaults/defaultSettings";
 import {IRepeater} from "../types/IRepeater";
+import {Dependency} from "../../../MyTools/react-di/Dependency";
 
-export class StorageService {
+export class StorageService extends Dependency {
 
     private cardsStorageID = 'cards-local-storage';
     private authTokenLocalStorageID = 'auth-token';
@@ -19,6 +20,7 @@ export class StorageService {
     private repeatersID = 'repeaters'
 
     constructor(private dataBaseService: DataBaseService) {
+        super();
     }
 
     public getBackup = () : Observable<ICardsGroup[]> => {

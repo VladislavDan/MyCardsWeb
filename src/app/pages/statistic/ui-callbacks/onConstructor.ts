@@ -1,4 +1,4 @@
-import {ICallback} from "../../../../MyTools/react-utils/CallbackFactory";
+import {ICallback} from "../../../../MyTools/react-types/ICallback";
 import {StatisticCallbackSettings} from "../types/StatisticCallbackSettings";
 import {empty} from "../../../../MyTools/channel-conception/defaults/empty";
 

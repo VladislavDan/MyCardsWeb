@@ -1,5 +1,5 @@
 import {ISortVariant} from "../../../common/types/ISortVariant";
-import {ICallback} from "../../../../MyTools/react-utils/CallbackFactory";
+import {ICallback} from "../../../../MyTools/react-types/ICallback";
 import {CardsCallbackSettings} from "../types/CardsCallbackSettings";
 
 export const onChangeSorting: ICallback<CardsCallbackSettings, ISortVariant> = (

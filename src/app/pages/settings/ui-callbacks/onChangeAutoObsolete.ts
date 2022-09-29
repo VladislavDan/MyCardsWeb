@@ -1,4 +1,4 @@
-import {ICallback} from "../../../../MyTools/react-utils/CallbackFactory";
+import {ICallback} from "../../../../MyTools/react-types/ICallback";
 import {SettingsCallbackSettings} from "../types/SettingsCallbackSettings";
 
 export const onChangeAutoObsolete: ICallback<SettingsCallbackSettings, boolean> = (

@@ -1,4 +1,4 @@
-import {ICallback} from "../../../../MyTools/react-utils/CallbackFactory";
+import {ICallback} from "../../../../MyTools/react-types/ICallback";
 import {ICardsGroupsCallbackSettings} from "../types/ICardsGroupsCallbackSettings";
 import {Routs} from "../../../common/Routs";
 

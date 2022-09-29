@@ -4,7 +4,6 @@ import {FC, useCallback} from 'react';
 import {useChannel} from '../../../MyTools/channel-conception/react-hooks/useChannel';
 import {CardsGroupsEditorComponent} from './CardsGroupsEditorComponent';
 import {useConstructor} from '../../../MyTools/react-hooks/useConstructor';
-import {ICardsGroupsEditorContainer} from "./types/ICardsGroupsEditorContainer";
 import {useCallbackFactory} from "../../../MyTools/react-hooks/useCallbackFactory";
 import {AppContext} from "../../../App";
 import {onChangeGroupName} from "./ui-callbacks/onChangeGroupName";
@@ -14,21 +13,23 @@ import {onGroupEditingChannel} from "./channels-callbacks/onGroupEditingChannel"
 import {onGroupChannel} from "./channels-callbacks/onGroupChannel";
 import {initialState} from "./defaults/initialState";
 import {ICardsGroupsEditorCallbackSettings} from "./types/ICardsGroupsEditorCallbackSettings";
+import {useDependency} from "../../../MyTools/react-di/hooks/useDependency";
+import {CardsGroupsEditorService} from "./CardsGroupsEditorService";
 
-export const CardsGroupsEditorContainer: FC<ICardsGroupsEditorContainer> = (
-    services
-) => {
+export const CardsGroupsEditorContainer: FC = () => {
+
+    const cardsGroupsEditorService = useDependency(CardsGroupsEditorService);
 
     const {
         callbackFactory,
-        callbackSettings
+        externalCallbackSettings
     } = useCallbackFactory<ICardsGroupsEditorCallbackSettings>(
         initialState,
-        services,
+        {cardsGroupsEditorService},
         AppContext
     );
 
-    const {state, services: {cardsGroupsEditorService}} = callbackSettings
+    const {state} = externalCallbackSettings;
 
     useChannel(cardsGroupsEditorService.groupEditingChannel, callbackFactory(onGroupEditingChannel));
     useChannel(cardsGroupsEditorService.groupChannel, callbackFactory(onGroupChannel));

@@ -1,4 +1,4 @@
-import {ICallback} from "../../../../MyTools/react-utils/CallbackFactory";
+import {ICallback} from "../../../../MyTools/react-types/ICallback";
 import {RepeaterEditorCallbackSettings} from "../types/RepeaterEditorCallbackSettings";
 import {IRepeater} from "../../../common/types/IRepeater";
 import {defaultRepeater} from "../../../common/defaults/defaultRepeater";

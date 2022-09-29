@@ -1,4 +1,4 @@
-import {ICallback} from "../../../../MyTools/react-utils/CallbackFactory";
+import {ICallback} from "../../../../MyTools/react-types/ICallback";
 import {GoogleLoginResponse, GoogleLoginResponseOffline} from "react-google-login";
 import {GoogleAuthCallbackSettings} from "../types/GoogleAuthCallbackSettings";
 

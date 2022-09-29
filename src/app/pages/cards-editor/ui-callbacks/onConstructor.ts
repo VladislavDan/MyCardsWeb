@@ -1,4 +1,4 @@
-import {ICallback} from "../../../../MyTools/react-utils/CallbackFactory";
+import {ICallback} from "../../../../MyTools/react-types/ICallback";
 import {CardsEditorCallbackSettings} from "../types/CardsEditorCallbackSettings";
 
 export const onConstructor: ICallback<CardsEditorCallbackSettings, void> = (

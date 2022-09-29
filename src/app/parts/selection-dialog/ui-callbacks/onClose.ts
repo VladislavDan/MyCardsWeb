@@ -1,4 +1,4 @@
-import {ICallback} from "../../../../MyTools/react-utils/CallbackFactory";
+import {ICallback} from "../../../../MyTools/react-types/ICallback";
 import {SelectionDialogCallbackSettings} from "../types/SelectionDialogCallbackSettings";
 import {initialState} from "../defaults/initialState";
 

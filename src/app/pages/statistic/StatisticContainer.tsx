@@ -1,5 +1,4 @@
 import {StatisticComponent} from "./StatisticComponent";
-import {IStatisticContainer} from "./types/IStatisticContainer";
 import {FC, useCallback} from "react";
 import {useCallbackFactory} from "../../../MyTools/react-hooks/useCallbackFactory";
 import {AppContext} from "../../../App";
@@ -11,19 +10,25 @@ import {useConstructor} from "../../../MyTools/react-hooks/useConstructor";
 import {onConstructor} from "./ui-callbacks/onConstructor";
 import {onRemoveStatistic} from "./ui-callbacks/onRemoveStatistic";
 import {onRemoveStatisticChannel} from "./channels-callbacks/onRemoveStatisticChannel";
+import {useDependency} from "../../../MyTools/react-di/hooks/useDependency";
+import {StatisticService} from "./StatisticService";
+import {ConfirmDialogService} from "../../parts/confirm-dialog/ConfirmDialogService";
 
-export const StatisticContainer: FC<IStatisticContainer> = (services) => {
+export const StatisticContainer: FC = () => {
+
+    const statisticService = useDependency(StatisticService);
+    const confirmDialogService = useDependency(ConfirmDialogService);
 
     const {
         callbackFactory,
-        callbackSettings
+        externalCallbackSettings
     } = useCallbackFactory<StatisticCallbackSettings>(
         initialState,
-        services,
+        {statisticService, confirmDialogService},
         AppContext
     );
 
-    const {services: {statisticService}, state} = callbackSettings
+    const {state} = externalCallbackSettings;
 
     useChannel(statisticService.statisticChannel, callbackFactory(onStatisticChannel));
     useChannel(statisticService.removeStatisticChannel, callbackFactory(onRemoveStatisticChannel));

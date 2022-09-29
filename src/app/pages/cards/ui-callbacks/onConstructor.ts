@@ -1,4 +1,4 @@
-import {ICallback} from "../../../../MyTools/react-utils/CallbackFactory";
+import {ICallback} from "../../../../MyTools/react-types/ICallback";
 import {CardsCallbackSettings} from "../types/CardsCallbackSettings";
 import {ISortVariant} from "../../../common/types/ISortVariant";
 import {empty} from "../../../../MyTools/channel-conception/defaults/empty";
