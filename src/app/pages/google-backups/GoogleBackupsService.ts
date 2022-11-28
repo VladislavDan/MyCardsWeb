@@ -1,20 +1,20 @@
 import {defer, from, mergeMap, of} from 'rxjs';
 import {map, switchMap, tap} from 'rxjs/operators';
 
-import {StorageService} from '../../common/services/StorageService';
+import {getStorageService} from 'src/app/common/services/storage-service/getStorageService';
 import {IGoogleDriveFile} from '../../common/types/IGoogleDriveFile';
 import {ICardsGroup} from '../../common/types/ICardsGroup';
 import {Channel} from '../../../MyTools/channel-conception/Channel';
 import {formatCreatedDate} from './logic/formatCreatedDate';
-import {getBackupFolder} from "./logic/getBackupFolder";
-import {getBackupFiles} from "./logic/getBackupFiles";
-import {loadBackupFile} from "./logic/loadBackupFile";
-import {createBackupFolder} from "./logic/createBackupFolder";
-import {createEmptyBackupFile} from "./logic/createEmptyBackupFile";
-import {createBackupName} from "./logic/createBackupName";
-import {uploadBackupFile} from "./logic/uploadBackupFile";
-import {deleteBackupFile} from "./logic/deleteBackupFile";
-import {IEmpty} from "../../../MyTools/channel-conception/defaults/IEmpty";
+import {getBackupFolder} from './logic/getBackupFolder';
+import {getBackupFiles} from './logic/getBackupFiles';
+import {loadBackupFile} from './logic/loadBackupFile';
+import {createBackupFolder} from './logic/createBackupFolder';
+import {createEmptyBackupFile} from './logic/createEmptyBackupFile';
+import {createBackupName} from './logic/createBackupName';
+import {uploadBackupFile} from './logic/uploadBackupFile';
+import {deleteBackupFile} from './logic/deleteBackupFile';
+import {IEmpty} from '../../../MyTools/channel-conception/defaults/IEmpty';
 
 export class GoogleBackupsService {
 
@@ -23,7 +23,7 @@ export class GoogleBackupsService {
     public backupUploadChannel: Channel<void, string>;
     public backupDeleteChannel: Channel<string, string>;
 
-    constructor(private storageService: StorageService) {
+    constructor(private storageService: getStorageService) {
 
         this.backupsNameLoadChannel = new Channel(() => storageService.getAuthToken().pipe(
             mergeMap(

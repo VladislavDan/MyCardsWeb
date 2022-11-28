@@ -1,15 +1,15 @@
-import {map, switchMap} from "rxjs/operators";
+import {map, switchMap} from 'rxjs/operators';
 
-import {Channel} from "../../../MyTools/channel-conception/Channel";
-import {IEmpty} from "../../../MyTools/channel-conception/defaults/IEmpty";
-import {ICardsGroup} from "../../common/types/ICardsGroup";
-import {StorageService} from "../../common/services/StorageService";
-import {IRepeater} from "../../common/types/IRepeater";
-import {updateExistRepeater} from "./logic/updateExistRepeater";
-import {of} from "rxjs";
-import {updateGroupsIDs} from "./logic/updateGroupsIDs";
-import {getRepeaterByID} from "./logic/getRepeaterByID";
-import {getSelectedGroups} from "./logic/getSelectedGroups";
+import {Channel} from '../../../MyTools/channel-conception/Channel';
+import {IEmpty} from '../../../MyTools/channel-conception/defaults/IEmpty';
+import {ICardsGroup} from '../../common/types/ICardsGroup';
+import {getStorageService} from 'src/app/common/services/storage-service/getStorageService';
+import {IRepeater} from '../../common/types/IRepeater';
+import {updateExistRepeater} from './logic/updateExistRepeater';
+import {of} from 'rxjs';
+import {updateGroupsIDs} from './logic/updateGroupsIDs';
+import {getRepeaterByID} from './logic/getRepeaterByID';
+import {getSelectedGroups} from './logic/getSelectedGroups';
 
 export class RepeaterEditorService {
     public groupsListChannel: Channel<IEmpty, ICardsGroup[]>;
@@ -21,7 +21,7 @@ export class RepeaterEditorService {
         [key: number]: boolean;
     }>;
 
-    constructor(private storageService: StorageService) {
+    constructor(private storageService: getStorageService) {
         this.groupsListChannel = new Channel(
             () => storageService.getBackup()
         );

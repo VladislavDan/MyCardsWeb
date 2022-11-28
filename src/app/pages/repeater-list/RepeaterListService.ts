@@ -1,14 +1,14 @@
-import {Channel} from "../../../MyTools/channel-conception/Channel";
-import {IEmpty} from "../../../MyTools/channel-conception/defaults/IEmpty";
-import {IRepeater} from "../../common/types/IRepeater";
-import {StorageService} from "../../common/services/StorageService";
-import {map, switchMap, tap} from "rxjs/operators";
-import {getRepeaterByID} from "./logic/getRepeaterByID";
-import {getCardsIDsFromRepeater} from "./logic/getCardsIDsFromRepeater";
-import {removeRepeater} from "./logic/removeRepeater";
-import {updateRepeatersProgress} from "./logic/updateRepeatersProgress";
-import {resetRepeatingProgress} from "./logic/resetRepeatingProgress";
-import {ICardsGroup} from "../../common/types/ICardsGroup";
+import {Channel} from '../../../MyTools/channel-conception/Channel';
+import {IEmpty} from '../../../MyTools/channel-conception/defaults/IEmpty';
+import {IRepeater} from '../../common/types/IRepeater';
+import {getStorageService} from 'src/app/common/services/storage-service/getStorageService';
+import {map, switchMap, tap} from 'rxjs/operators';
+import {getRepeaterByID} from './logic/getRepeaterByID';
+import {getCardsIDsFromRepeater} from './logic/getCardsIDsFromRepeater';
+import {removeRepeater} from './logic/removeRepeater';
+import {updateRepeatersProgress} from './logic/updateRepeatersProgress';
+import {resetRepeatingProgress} from './logic/resetRepeatingProgress';
+import {ICardsGroup} from '../../common/types/ICardsGroup';
 
 export class RepeaterListService {
     public repeaterListChannel: Channel<IEmpty, IRepeater[]>;
@@ -16,7 +16,7 @@ export class RepeaterListService {
     public removingRepeaterChannel: Channel<number, IRepeater[]>;
     public resetProgressChannel: Channel<number, ICardsGroup[]>;
 
-    constructor(storageService: StorageService) {
+    constructor(storageService: getStorageService) {
         this.repeaterListChannel = new Channel(
             () => storageService.getRepeaters().pipe(
                 switchMap((repeaters) => {

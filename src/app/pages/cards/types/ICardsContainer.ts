@@ -1,9 +1,9 @@
-import {CardsService} from "../CardsService";
-import {ConfirmDialogService} from "../../../parts/confirm-dialog/ConfirmDialogService";
-import {SelectionDialogService} from "../../../parts/selection-dialog/SelectionDialogService";
+import {getCardsService} from 'src/app/pages/cards/getCardsService';
+import {ConfirmDialogService} from '../../../parts/confirm-dialog/ConfirmDialogService';
+import {SelectionDialogService} from '../../../parts/selection-dialog/SelectionDialogService';
 
 export interface ICardsContainer {
-    cardsListService: CardsService;
+    cardsListService: getCardsService;
     confirmDialogService: ConfirmDialogService;
     selectionDialogService: SelectionDialogService;
 }

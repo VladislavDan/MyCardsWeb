@@ -1,45 +1,59 @@
 import {map, mergeMap, tap} from 'rxjs/operators';
-import {of} from "rxjs";
+import {of} from 'rxjs';
 
 import {ICard} from '../../common/types/ICard';
-import {StorageService} from '../../common/services/StorageService';
+import {getStorageService} from 'src/app/common/services/storage-service/getStorageService';
 import {ICardsGroup} from '../../common/types/ICardsGroup';
 import {Channel} from '../../../MyTools/channel-conception/Channel';
 import {getCardsByGroup} from './logic/getCardsByGroup';
 import {resetCardProgress} from './logic/resetCardProgress';
 import {deleteSingleCard} from '../../common/logic/deleteSingleCard';
-import {filterCards} from "./logic/filterCards";
-import {IFilter} from "../../common/types/IFilter";
-import {changeCardsGroup} from "./logic/changeCardsGroup";
-import {selectedItemsObjectToArray} from "./logic/selectedItemsObjectToArray";
-import {getExistedCardsGroups} from "./logic/getExistedCardsGroups";
-import {copyCardsInGroup} from "./logic/copyCardsInGroup";
-import {deleteCards} from "./logic/deleteCards";
-import {cardsToIDS} from "./logic/cardsToIDS";
-import {selectedItemsToIDs} from "./logic/selectedItemsToIDs";
-import {IStoredFilters} from "../../common/types/IStoredFilters";
-import {IEmpty} from "../../../MyTools/channel-conception/defaults/IEmpty";
+import {filterCards} from './logic/filterCards';
+import {IFilter} from '../../common/types/IFilter';
+import {changeCardsGroup} from './logic/changeCardsGroup';
+import {selectedItemsObjectToArray} from './logic/selectedItemsObjectToArray';
+import {getExistedCardsGroups} from './logic/getExistedCardsGroups';
+import {copyCardsInGroup} from './logic/copyCardsInGroup';
+import {deleteCards} from './logic/deleteCards';
+import {cardsToIDS} from './logic/cardsToIDS';
+import {selectedItemsToIDs} from './logic/selectedItemsToIDs';
+import {IStoredFilters} from '../../common/types/IStoredFilters';
+import {IEmpty} from '../../../MyTools/channel-conception/defaults/IEmpty';
 
-export class CardsService {
-    public cardsChannel: Channel<{ cardsGroupID: number, filter: IFilter }, ICard[]>;
-    public resetCardProgressChannel: Channel<{ cardID: number, cardsGroupID: number }, ICardsGroup[]>;
-    public deleteSingleCardChannel: Channel<number, ICardsGroup[]>;
-    public movingCardsChannel: Channel<{
+export const getCardsService = () => {
+public
+    cardsChannel: Channel<{ cardsGroupID: number, filter: IFilter }, ICard[]>;
+public
+    resetCardProgressChannel: Channel<{ cardID: number, cardsGroupID: number }, ICardsGroup[]>;
+public
+    deleteSingleCardChannel: Channel<number, ICardsGroup[]>;
+public
+    movingCardsChannel: Channel<{
         selectedItems: { [key: number]: boolean };
         destinationGroupID: number;
     }, ICardsGroup[]>;
-    public copyCardsChannel: Channel<{
+public
+    copyCardsChannel: Channel<{
         selectedItems: { [key: number]: boolean };
         destinationGroupID: number;
     }, ICardsGroup[]>;
-    public deleteCardsChannel: Channel<{ [key: number]: boolean }, ICardsGroup[]>;
-    public existedGroupsIDsChannel: Channel<IEmpty, Array<{ id: number; label: string }>>;
-    public cardsIDsByGroupIDsChannel: Channel<number, number[]>;
-    public cardsIDsBySelectedItemsChannel: Channel<{ [key: number]: boolean }, number[]>;
-    public filterChannel: Channel<IEmpty, IFilter>;
-    public changeFilterChannel: Channel<IFilter, IStoredFilters>;
+public
+    deleteCardsChannel: Channel<{ [key: number]: boolean }, ICardsGroup[]>;
+public
+    existedGroupsIDsChannel: Channel<IEmpty, Array<{ id: number; label: string }>>;
+public
+    cardsIDsByGroupIDsChannel: Channel<number, number[]>;
+public
+    cardsIDsBySelectedItemsChannel: Channel<{ [key: number]: boolean }, number[]>;
+public
+    filterChannel: Channel<IEmpty, IFilter>;
+public
+    changeFilterChannel: Channel<IFilter, IStoredFilters>;
 
-    constructor(private storageService: StorageService) {
+    constructor(private
+    storageService: getStorageService
+)
+    {
         this.cardsChannel = new Channel(
             ({cardsGroupID, filter}) => this.storageService.getBackup().pipe(
                 map((cardsGroups: ICardsGroup[]) => getCardsByGroup(cardsGroupID, cardsGroups)),
@@ -162,4 +176,18 @@ export class CardsService {
             )
         )
     }
-}
+
+    return {
+        cardsChannel,
+        resetCardProgressChannel,
+        deleteSingleCardChannel,
+        movingCardsChannel,
+        copyCardsChannel,
+        deleteCardsChannel,
+        existedGroupsIDsChannel,
+        cardsIDsByGroupIDsChannel,
+        cardsIDsBySelectedItemsChannel,
+        filterChannel,
+        changeFilterChannel
+    }
+};

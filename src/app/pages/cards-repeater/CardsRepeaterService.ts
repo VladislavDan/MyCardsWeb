@@ -2,7 +2,7 @@ import {of} from 'rxjs';
 import {map, switchMap, tap} from 'rxjs/operators';
 
 import {ICard} from '../../common/types/ICard';
-import {StorageService} from '../../common/services/StorageService';
+import {getStorageService} from 'src/app/common/services/storage-service/getStorageService';
 import {ICardsGroup} from '../../common/types/ICardsGroup';
 import {IRepeatingArgs} from '../../common/types/IRepeatingArgs';
 import {Channel} from '../../../MyTools/channel-conception/Channel';
@@ -11,14 +11,14 @@ import {getCardsByIDs} from './logic/getCardsByIDs';
 import {changeRangeOfKnowledge} from '../../common/logic/changeRangeOfKnowledge';
 import {getCardForRepeating} from './logic/getCardForRepeating';
 import {getRepeatingProgress} from './logic/getRepeatingProgress';
-import {refreshCardRepeatingDate} from "../../common/logic/refreshCardRepeatingDate";
-import {deleteSingleCard} from "../../common/logic/deleteSingleCard";
-import {getCardGroupName} from "../card-viewer/logic/getCardGroupName";
-import {updateStatistic} from "../../common/logic/updateStatistic";
-import {IStatistic} from "../../common/types/IStatistic";
-import {IEmpty} from "../../../MyTools/channel-conception/defaults/IEmpty";
-import {readByVoiceEngine} from "../../common/logic/readByVoiceEngine";
-import {VoiceService} from "../../common/services/VoiceService";
+import {refreshCardRepeatingDate} from '../../common/logic/refreshCardRepeatingDate';
+import {deleteSingleCard} from '../../common/logic/deleteSingleCard';
+import {getCardGroupName} from '../card-viewer/logic/getCardGroupName';
+import {updateStatistic} from '../../common/logic/updateStatistic';
+import {IStatistic} from '../../common/types/IStatistic';
+import {IEmpty} from '../../../MyTools/channel-conception/defaults/IEmpty';
+import {readByVoiceEngine} from '../../common/logic/readByVoiceEngine';
+import {getVoiceService} from 'src/app/common/services/voice-service/getVoiceService';
 
 export class CardsRepeaterService {
     public cardChannel: Channel<number[], ICard>;
@@ -34,7 +34,7 @@ export class CardsRepeaterService {
         done: 0
     };
 
-    constructor(private storageService: StorageService, private voiceService: VoiceService) {
+    constructor(private storageService: getStorageService, private voiceService: getVoiceService) {
         this.cardChannel = new Channel((cardsIDs) => this.storageService.getBackup().pipe(
             map((cardsGroups: ICardsGroup[]) => getCardsByIDs(cardsGroups, cardsIDs)),
             tap((cards) => {

@@ -1,7 +1,7 @@
-import {StorageService} from '../../common/services/StorageService';
+import {getStorageService} from 'src/app/common/services/storage-service/getStorageService';
 import {Channel} from '../../../MyTools/channel-conception/Channel';
 import {ISettings} from '../../common/types/ISettings';
-import {IEmpty} from "../../../MyTools/channel-conception/defaults/IEmpty";
+import {IEmpty} from '../../../MyTools/channel-conception/defaults/IEmpty';
 
 export class SettingsService {
 
@@ -9,7 +9,7 @@ export class SettingsService {
 
     public changeSettingsChannel: Channel<ISettings, ISettings>;
 
-    constructor(storageService: StorageService) {
+    constructor(storageService: getStorageService) {
 
         this.settingsChannel = new Channel(() => storageService.getSettings());
 
