@@ -1,14 +1,14 @@
 import {ICallback} from '../../../../MyTools/react-types/ICallback';
 import {ToolbarCallbackSettings} from '../types/ToolbarCallbackSettings';
 
-export const onPageLabelChannel: ICallback<ToolbarCallbackSettings, string> = (
+export const onCardsCountInGroupChannel: ICallback<ToolbarCallbackSettings, number> = (
     {setState},
-    label = ''
+    cardsCount = -1
 ) => {
     setState((prevState) => {
         return {
             ...prevState,
-            label
+            cardsCount
         }
-    });
+    })
 }

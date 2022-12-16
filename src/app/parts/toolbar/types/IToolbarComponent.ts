@@ -1,6 +1,7 @@
-import {MouseEventHandler} from "react";
+import {MouseEventHandler} from 'react';
 
 export interface IToolbarComponent {
     pageLabel: string;
-    onClick: MouseEventHandler
+    onClick: MouseEventHandler;
+    cardsCount: number;
 }

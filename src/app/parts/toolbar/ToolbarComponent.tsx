@@ -3,9 +3,9 @@ import {AppBar, IconButton, Toolbar, Typography} from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 
 import './ToolbarComponent.css'
-import {IToolbarComponent} from "./types/IToolbarComponent";
+import {IToolbarComponent} from './types/IToolbarComponent';
 
-export const ToolbarComponent: FC<IToolbarComponent> = ({pageLabel, onClick}) => {
+export const ToolbarComponent: FC<IToolbarComponent> = ({pageLabel, onClick, cardsCount}) => {
 
     return (
         <AppBar position="fixed">
@@ -15,7 +15,7 @@ export const ToolbarComponent: FC<IToolbarComponent> = ({pageLabel, onClick}) =>
                     <MenuIcon/>
                 </IconButton>
                 <Typography className="toolbar_label" variant="h6">
-                    {pageLabel}
+                    {pageLabel}{cardsCount !== -1 ? ` (cards count: ${cardsCount})` : ''}
                 </Typography>
             </Toolbar>
         </AppBar>

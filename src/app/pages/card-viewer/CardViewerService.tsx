@@ -6,19 +6,17 @@ import {ICardsGroup} from '../../common/types/ICardsGroup';
 import {IRepeatingArgs} from '../../common/types/IRepeatingArgs';
 import {Channel} from '../../../MyTools/channel-conception/Channel';
 import {changeRangeOfKnowledge} from '../../common/logic/changeRangeOfKnowledge';
-import {getCardForViewing} from "./logic/getCardForViewing";
-import {refreshCardRepeatingDate} from "../../common/logic/refreshCardRepeatingDate";
-import {deleteSingleCard} from "../../common/logic/deleteSingleCard";
-import {getCardGroupName} from "./logic/getCardGroupName";
-import {IStatistic} from "../../common/types/IStatistic";
-import {updateStatistic} from "../../common/logic/updateStatistic";
-import {readByVoiceEngine} from "../../common/logic/readByVoiceEngine";
-import {of} from "rxjs";
-import {VoiceService} from "../../common/services/VoiceService";
+import {getCardForViewing} from './logic/getCardForViewing';
+import {refreshCardRepeatingDate} from '../../common/logic/refreshCardRepeatingDate';
+import {deleteSingleCard} from '../../common/logic/deleteSingleCard';
+import {IStatistic} from '../../common/types/IStatistic';
+import {updateStatistic} from '../../common/logic/updateStatistic';
+import {readByVoiceEngine} from '../../common/logic/readByVoiceEngine';
+import {of} from 'rxjs';
+import {VoiceService} from '../../common/services/VoiceService';
 
 export class CardViewerService {
     public cardChannel: Channel<number, ICard>;
-    public cardGroupNameChannel: Channel<number, string>;
     public repeatingResultChannel: Channel<IRepeatingArgs, ICardsGroup[]>;
     public deleteSingleCardChannel: Channel<number, ICardsGroup[]>;
     public readByVoiceEngineChannel: Channel<string, string>;
@@ -45,13 +43,6 @@ export class CardViewerService {
                     storageService.setBackup(cardsGroups);
                 }))
         );
-        this.cardGroupNameChannel = new Channel<number, string>(
-            (cardID) => storageService.getBackup().pipe(
-                map((cardsGroups: ICardsGroup[]) => {
-                    return getCardGroupName(cardsGroups, cardID);
-                })
-            )
-        )
         this.readByVoiceEngineChannel = new Channel<string, string>(
             (text) => of(text).pipe(
                 map(
