@@ -1,5 +1,5 @@
-import {ISettings} from "../types/ISettings";
-import {IRepeatingType} from "../types/IRepeatingType";
+import {ISettings} from '../types/ISettings';
+import {IRepeatingType} from '../types/IRepeatingType';
 
 export const defaultSettings: ISettings = {
     repeatingType: IRepeatingType.DEFAULT,
@@ -7,5 +7,6 @@ export const defaultSettings: ISettings = {
         isEnable: false,
         timeInDone: 7,
         timeInProgress: 7
-    }
+    },
+    difficultCardsAmountForRepeating: 15
 }

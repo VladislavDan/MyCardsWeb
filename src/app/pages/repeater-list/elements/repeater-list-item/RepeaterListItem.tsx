@@ -1,13 +1,14 @@
-import React, {FC} from "react";
-import ListItemIcon from "@mui/material/ListItemIcon/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText/ListItemText";
-import ListItem from "@mui/material/ListItem";
+import React, {FC} from 'react';
+import ListItemIcon from '@mui/material/ListItemIcon/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText/ListItemText';
+import ListItem from '@mui/material/ListItem';
 
-import {IRepeaterListItem} from "./types/IRepeaterListItem";
-import {ListItemMenuComponent} from "../../../../common/elements/list-item-menu/ListItemMenuComponent";
+import {IRepeaterListItem} from './types/IRepeaterListItem';
+import {ListItemMenuComponent} from '../../../../common/elements/list-item-menu/ListItemMenuComponent';
 import {
     CircularProgressComponent
-} from "../../../cards-groups-list/elements/circular-progress/CircularProgressComponent";
+} from '../../../cards-groups-list/elements/circular-progress/CircularProgressComponent';
+import {IMenuSetupItem} from '../../../../common/elements/list-item-menu/types/IMenuSetupItem';
 
 export const RepeaterListItem: FC<IRepeaterListItem> = (
     {
@@ -19,6 +20,27 @@ export const RepeaterListItem: FC<IRepeaterListItem> = (
     }
 ) => {
 
+    const menuSetup: IMenuSetupItem[] = [
+        {
+            fieldName: 'Edit',
+            handler: () => {
+                onEditItem(repeater.id);
+            }
+        },
+        {
+            fieldName: 'Delete',
+            handler: () => {
+                onDeleteRepeater(repeater.id);
+            }
+        },
+        {
+            fieldName: 'Reset progress',
+            handler: () => {
+                onResetProgress(repeater.id);
+            }
+        }
+    ];
+
     return <ListItem key={repeater.id} button component="div">
         <ListItemIcon onClick={() => onStartRepeating(repeater.id)}>
             <CircularProgressComponent percent={repeater.percentRepeatedCards || 0}/>
@@ -29,11 +51,7 @@ export const RepeaterListItem: FC<IRepeaterListItem> = (
             onClick={() => onStartRepeating(repeater.id)}
         />
         <ListItemIcon>
-            <ListItemMenuComponent
-                onEdit={() => onEditItem(repeater.id)}
-                onDelete={() => onDeleteRepeater(repeater.id)}
-                onResetProgress={() => onResetProgress(repeater.id)}
-            />
+            <ListItemMenuComponent menuSetup={menuSetup}/>
         </ListItemIcon>
     </ListItem>
 }

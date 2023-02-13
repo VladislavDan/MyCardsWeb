@@ -1,5 +1,5 @@
+import {IMenuSetupItem} from './IMenuSetupItem';
+
 export interface IListItemMenuComponent {
-    onEdit: () => void;
-    onDelete: () => void;
-    onResetProgress: () => void;
+    menuSetup: IMenuSetupItem[];
 }

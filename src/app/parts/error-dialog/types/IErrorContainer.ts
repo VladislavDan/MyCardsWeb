@@ -1,4 +1,4 @@
-import {ErrorService} from "../ErrorService";
+import {ErrorService} from '../ErrorService';
 
 export interface IErrorContainer {
     errorService: ErrorService;

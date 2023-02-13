@@ -1,19 +1,19 @@
 import React, {useEffect, useState} from 'react';
-import {BrowserRouter as Router} from "react-router-dom";
+import {BrowserRouter as Router} from 'react-router-dom';
 
 import './App.css';
 import {IAppContext} from './app/common/types/IAppContext';
 import {ToolbarContainer} from './app/parts/toolbar/ToolbarContainer';
 import {NavigationPanelContainer} from './app/parts/navigation-panel/NavigationPanelContainer';
-import {ErrorContainer} from './app/parts/error-container/ErrorContainer';
+import {ErrorContainer} from './app/parts/error-dialog/ErrorContainer';
 import {SpinnerContainer} from './app/parts/spinner/SpinnerContainer';
 import {ConfirmDialogContainer} from './app/parts/confirm-dialog/ConfirmDialogContainer';
 import {NavigationContainer} from './app/parts/navigation/NavigationContainer';
-import {SelectionDialogContainer} from "./app/parts/selection-dialog/SelectionDialogContainer";
-import {Channel} from "./MyTools/channel-conception/Channel";
-import {defaultAppState} from "./app/common/defaults/defaultAppState";
-import {DependenciesProvider} from "./MyTools/react-di/DependenciesProvider";
-import {Dependencies} from "./Dependencies";
+import {SelectionDialogContainer} from './app/parts/selection-dialog/SelectionDialogContainer';
+import {Channel} from './MyTools/channel-conception/Channel';
+import {defaultAppState} from './app/common/defaults/defaultAppState';
+import {DependenciesProvider} from './MyTools/react-di/DependenciesProvider';
+import {Dependencies} from './Dependencies';
 
 export const AppContext = React.createContext<IAppContext>(defaultAppState);
 

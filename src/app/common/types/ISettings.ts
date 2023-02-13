@@ -1,4 +1,4 @@
-import {IRepeatingType} from "./IRepeatingType";
+import {IRepeatingType} from './IRepeatingType';
 
 export interface ISettings {
     repeatingType: IRepeatingType;
@@ -6,5 +6,6 @@ export interface ISettings {
         isEnable: boolean;
         timeInProgress: number;
         timeInDone: number;
-    }
+    },
+    difficultCardsAmountForRepeating: number;
 }

@@ -3,9 +3,11 @@
 }
 
 .repeater-editor_text {
-
+    width: 100%;
+    margin: 10px !important;
 }
 
 .repeater-editor_button {
     margin: 10px !important;
+    width: 100%;
 }

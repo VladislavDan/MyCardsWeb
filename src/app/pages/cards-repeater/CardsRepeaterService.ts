@@ -18,6 +18,7 @@ import {IStatistic} from '../../common/types/IStatistic';
 import {IEmpty} from '../../../MyTools/channel-conception/defaults/IEmpty';
 import {readByVoiceEngine} from '../../common/logic/readByVoiceEngine';
 import {VoiceService} from '../../common/services/VoiceService';
+import {prepareTextForVoiceEngine} from '../../common/logic/prepareTextForVoiceEngine';
 
 export class CardsRepeaterService {
     public cardChannel: Channel<number[], ICard>;
@@ -66,7 +67,8 @@ export class CardsRepeaterService {
                 }))
         );
         this.readByVoiceEngineChannel = new Channel<string, string>(
-            (text) => of(text).pipe(
+            (inputText) => of(inputText).pipe(
+                map((text) => prepareTextForVoiceEngine(text)),
                 map(
                     (text) => readByVoiceEngine(text, voiceService.getRandomVoice())
                 )

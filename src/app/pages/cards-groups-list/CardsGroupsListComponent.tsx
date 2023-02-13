@@ -1,12 +1,12 @@
-import React, {FC} from "react";
+import React, {FC} from 'react';
 import {FixedSizeList as List} from 'react-window';
 
 import './CardsGroupsListComponent.css'
 import {AddButtonComponent} from '../../common/elements/add-button/AddButtonComponent';
 import {CardsGroupsListItemComponent} from './elements/cards-groups-list-item/CardsGroupsListItemComponent';
-import {ICardsGroupsListComponent} from "./types/ICardsGroupsListComponent";
-import {FilterComponent} from "../../common/elements/filter/FilterComponent";
-import {ISortVariant} from "../../common/types/ISortVariant";
+import {ICardsGroupsListComponent} from './types/ICardsGroupsListComponent';
+import {FilterComponent} from '../../common/elements/filter/FilterComponent';
+import {ISortVariant} from '../../common/types/ISortVariant';
 
 export const CardsGroupsListComponent: FC<ICardsGroupsListComponent> = (
     {
@@ -18,6 +18,7 @@ export const CardsGroupsListComponent: FC<ICardsGroupsListComponent> = (
         onResetProgress,
         onChangeSearchableText,
         onChangeSorting,
+        onStartRepeatingDifficultCards,
         filter,
         height,
     }
@@ -56,6 +57,7 @@ export const CardsGroupsListComponent: FC<ICardsGroupsListComponent> = (
                     onEditItem={onEditItem}
                     onDeleteItem={onDeleteItem}
                     onResetProgress={onResetProgress}
+                    onStartRepeatingDifficultCards={onStartRepeatingDifficultCards}
                 /></div>
             }}
         </List>

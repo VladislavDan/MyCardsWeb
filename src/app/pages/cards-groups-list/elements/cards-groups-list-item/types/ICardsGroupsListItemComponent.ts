@@ -1,4 +1,4 @@
-import {ICardsGroup} from "../../../../../common/types/ICardsGroup";
+import {ICardsGroup} from '../../../../../common/types/ICardsGroup';
 
 export interface ICardsGroupsListItemComponent {
     cardsGroup: ICardsGroup;
@@ -6,4 +6,5 @@ export interface ICardsGroupsListItemComponent {
     onEditItem: (id: number) => void;
     onDeleteItem: (id: number) => void;
     onResetProgress: (id: number) => void;
+    onStartRepeatingDifficultCards: (id: number) => void;
 }

@@ -1,5 +1,5 @@
-import {GoogleAuthService} from "../GoogleAuthService";
-import {ErrorService} from "../../../parts/error-container/ErrorService";
+import {GoogleAuthService} from '../GoogleAuthService';
+import {ErrorService} from '../../../parts/error-dialog/ErrorService';
 
 export interface IGoogleAuthContainer {
     googleAuthService: GoogleAuthService;

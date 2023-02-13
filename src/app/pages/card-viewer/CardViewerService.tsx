@@ -14,6 +14,7 @@ import {updateStatistic} from '../../common/logic/updateStatistic';
 import {readByVoiceEngine} from '../../common/logic/readByVoiceEngine';
 import {of} from 'rxjs';
 import {VoiceService} from '../../common/services/VoiceService';
+import {prepareTextForVoiceEngine} from '../../common/logic/prepareTextForVoiceEngine';
 
 export class CardViewerService {
     public cardChannel: Channel<number, ICard>;
@@ -45,6 +46,7 @@ export class CardViewerService {
         );
         this.readByVoiceEngineChannel = new Channel<string, string>(
             (text) => of(text).pipe(
+                map((text) => prepareTextForVoiceEngine(text)),
                 map(
                     (text) => readByVoiceEngine(text, voiceService.getRandomVoice())
                 )

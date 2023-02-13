@@ -1,11 +1,11 @@
-import * as React from "react";
-import {ChangeEvent, FC} from "react";
-import {Button, TextField} from "@mui/material";
-import {FixedSizeList as List} from "react-window";
+import * as React from 'react';
+import {ChangeEvent, FC} from 'react';
+import {Button, TextField} from '@mui/material';
+import {FixedSizeList as List} from 'react-window';
 
 import './RepeaterEditorComponent.css'
-import {IRepeaterEditorComponent} from "./types/IRepeaterEditorComponent";
-import {SelectingGroupListItem} from "./elements/selecting-group-list-element/SelectingGroupListItem";
+import {IRepeaterEditorComponent} from './types/IRepeaterEditorComponent';
+import {SelectingGroupListItem} from './elements/selecting-group-list-element/SelectingGroupListItem';
 
 export const RepeaterEditorComponent: FC<IRepeaterEditorComponent> = (
     {
@@ -39,7 +39,7 @@ export const RepeaterEditorComponent: FC<IRepeaterEditorComponent> = (
             itemSize={55}
             itemCount={cardsGroups.length}
             overscanCount={5}
-            height={height}
+            height={height - 500}
             width="100%"
         >
             {({index, style}: any) => {

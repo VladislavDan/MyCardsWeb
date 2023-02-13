@@ -2,9 +2,11 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import {IconButton, Menu, MenuItem} from '@mui/material';
 import {default as React, FC} from 'react';
 
-import {IListItemMenuComponent} from "./types/IListItemMenuComponent";
+import {IListItemMenuComponent} from './types/IListItemMenuComponent';
 
-export const ListItemMenuComponent: FC<IListItemMenuComponent> = ({onEdit, onDelete, onResetProgress}) => {
+export const ListItemMenuComponent: FC<IListItemMenuComponent> = (
+    {menuSetup}
+) => {
 
     const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -16,35 +18,27 @@ export const ListItemMenuComponent: FC<IListItemMenuComponent> = ({onEdit, onDel
         setAnchorEl(null);
     };
 
-    const editClick = () => {
-        onEdit();
+    const onMenuClick = (handler: () => void) => () => {
+        handler();
         handleClose();
-    };
-
-    const resetClick = () => {
-        onResetProgress();
-        handleClose();
-    };
-
-    const deleteClick = () => {
-        onDelete();
-        handleClose();
-    };
+    }
 
     return (
         <>
             <Menu
-                id="simple-menu"
+                id="menu"
                 anchorEl={anchorEl}
                 keepMounted
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
             >
-                <MenuItem onClick={editClick}>Edit</MenuItem>
-                <MenuItem onClick={resetClick}>Reset progress</MenuItem>
-                <MenuItem onClick={deleteClick}>Delete</MenuItem>
+                {menuSetup.map((menuItem) => {
+                    return <MenuItem key={menuItem.fieldName} onClick={onMenuClick(menuItem.handler)}>
+                        {menuItem.fieldName}
+                    </MenuItem>
+                })}
             </Menu>
-            <IconButton aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
+            <IconButton aria-controls="menu" aria-haspopup="true" onClick={handleClick}>
                 <MoreVertIcon/>
             </IconButton>
         </>

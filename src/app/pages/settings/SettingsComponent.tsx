@@ -4,11 +4,11 @@ import {FormControlLabel, FormGroup, FormLabel} from '@mui/material';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 
-import {ISettingsComponent} from "./types/ISettingsComponent";
-import {SettingsSwitcherComponent} from "./elements/settings-switcher/SettingsSwitcherComponent";
-import {SettingsNumberInputComponent} from "./elements/settings-number-input/SettingsNumberInputComponent";
+import {ISettingsComponent} from './types/ISettingsComponent';
+import {SettingsSwitcherComponent} from './elements/settings-switcher/SettingsSwitcherComponent';
+import {SettingsNumberInputComponent} from './elements/settings-number-input/SettingsNumberInputComponent';
 import './SettingsComponent.css'
-import {IRepeatingType} from "../../common/types/IRepeatingType";
+import {IRepeatingType} from '../../common/types/IRepeatingType';
 
 export const SettingsComponent: FC<ISettingsComponent> = (
     {
@@ -45,6 +45,11 @@ export const SettingsComponent: FC<ISettingsComponent> = (
             value={settings.autoObsolete?.timeInProgress}
             onChange={onChangeTimeInProgress}
             label="How long cards exist in progress status (days)"
+        />
+        <SettingsNumberInputComponent
+            value={settings.difficultCardsAmountForRepeating}
+            onChange={onChangeTimeInProgress}
+            label="How many difficult cards do you want to repeat by default"
         />
     </FormGroup>
 };

@@ -1,34 +1,36 @@
-import {FC, useCallback} from "react";
+import {FC, useCallback} from 'react';
 
-import {RepeaterEditorComponent} from "./RepeaterEditorComponent";
-import {useCallbackFactory} from "../../../MyTools/react-hooks/useCallbackFactory";
-import {AppContext} from "../../../App";
-import {initialState} from "./defaults/inititalState";
-import {RepeaterEditorCallbackSettings} from "./types/RepeaterEditorCallbackSettings";
-import {useChannel} from "../../../MyTools/channel-conception/react-hooks/useChannel";
-import {onGroupsListChannel} from "./channels-callbacks/onGroupsListChannel";
-import {onSaveRepeaterChannel} from "./channels-callbacks/onSaveRepeaterChannel";
-import {onSaveRepeater} from "./ui-callbacks/onSaveRepeater";
-import {onUpdateGroupsIDsChannel} from "./channels-callbacks/onUpdateGroupsIDsChannel";
-import {onSelect} from "./ui-callbacks/onSelect";
-import {onRepeaterChannel} from "./channels-callbacks/onRepeaterChannel";
-import {onChangeName} from "./ui-callbacks/onChangeName";
-import {useConstructor} from "../../../MyTools/react-hooks/useConstructor";
-import {onConstructor} from "./ui-callbacks/onConstructor";
-import {onSelectedGroupsChannel} from "./channels-callbacks/onSelectedGroupsChannel";
-import {useDependency} from "../../../MyTools/react-di/hooks/useDependency";
-import {RepeaterEditorService} from "./RepeaterEditorService";
+import {RepeaterEditorComponent} from './RepeaterEditorComponent';
+import {useCallbackFactory} from '../../../MyTools/react-hooks/useCallbackFactory';
+import {AppContext} from '../../../App';
+import {initialState} from './defaults/inititalState';
+import {RepeaterEditorCallbackSettings} from './types/RepeaterEditorCallbackSettings';
+import {useChannel} from '../../../MyTools/channel-conception/react-hooks/useChannel';
+import {onGroupsListChannel} from './channels-callbacks/onGroupsListChannel';
+import {onSaveRepeaterChannel} from './channels-callbacks/onSaveRepeaterChannel';
+import {onSaveRepeater} from './ui-callbacks/onSaveRepeater';
+import {onUpdateGroupsIDsChannel} from './channels-callbacks/onUpdateGroupsIDsChannel';
+import {onSelect} from './ui-callbacks/onSelect';
+import {onRepeaterChannel} from './channels-callbacks/onRepeaterChannel';
+import {onChangeName} from './ui-callbacks/onChangeName';
+import {useConstructor} from '../../../MyTools/react-hooks/useConstructor';
+import {onConstructor} from './ui-callbacks/onConstructor';
+import {onSelectedGroupsChannel} from './channels-callbacks/onSelectedGroupsChannel';
+import {useDependency} from '../../../MyTools/react-di/hooks/useDependency';
+import {RepeaterEditorService} from './RepeaterEditorService';
+import {ErrorService} from '../../parts/error-dialog/ErrorService';
 
 export const RepeaterEditorContainer: FC = () => {
 
     const repeaterEditorService = useDependency(RepeaterEditorService);
+    const errorService = useDependency(ErrorService);
 
     const {
         callbackFactory,
         externalCallbackSettings
     } = useCallbackFactory<RepeaterEditorCallbackSettings>(
         initialState,
-        {repeaterEditorService},
+        {repeaterEditorService, errorService},
         AppContext
     );
 

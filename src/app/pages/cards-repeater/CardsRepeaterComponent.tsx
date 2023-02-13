@@ -1,14 +1,14 @@
 import React, {FC} from 'react';
 
 import {StatisticComponent} from './elements/statistic/StatisticComponent';
-import "./CardsRepeaterComponent.css"
+import './CardsRepeaterComponent.css'
 import {AllCardsRepeatedComponent} from './elements/all-cards-repeated/AllCardsRepeatedComponent';
-import {CardsContentComponent} from "../../common/elements/cards-content/CardsContentComponent";
-import {ICardsRepeaterComponent} from "./types/ICardsRepeaterComponent";
+import {CardsContentComponent} from '../../common/elements/cards-content/CardsContentComponent';
+import {ICardsRepeaterComponent} from './types/ICardsRepeaterComponent';
 
 export const CardsRepeaterComponent: FC<ICardsRepeaterComponent> = (
     {
-        card,
+            card,
             cardHeight,
             isQuestionSide,
             onClickCard,

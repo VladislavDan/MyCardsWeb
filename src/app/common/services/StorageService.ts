@@ -2,13 +2,13 @@ import {from, Observable} from 'rxjs';
 import {ICardsGroup} from '../types/ICardsGroup';
 import {DataBaseService} from './DataBaseService';
 import {ISettings} from '../types/ISettings';
-import {IStoredFilters} from "../types/IStoredFilters";
-import {defaultFilter} from "../defaults/defaultFilter";
-import {IStatistic} from "../types/IStatistic";
-import {defaultStatistic} from "../defaults/defaultStatistic";
-import {defaultSettings} from "../defaults/defaultSettings";
-import {IRepeater} from "../types/IRepeater";
-import {Dependency} from "../../../MyTools/react-di/Dependency";
+import {IStoredFilters} from '../types/IStoredFilters';
+import {defaultFilter} from '../defaults/defaultFilter';
+import {IStatistic} from '../types/IStatistic';
+import {defaultStatistic} from '../defaults/defaultStatistic';
+import {defaultSettings} from '../defaults/defaultSettings';
+import {IRepeater} from '../types/IRepeater';
+import {Dependency} from '../../../MyTools/react-di/Dependency';
 
 export class StorageService extends Dependency {
 

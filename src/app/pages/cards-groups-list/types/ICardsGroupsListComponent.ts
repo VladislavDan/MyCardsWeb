@@ -1,6 +1,6 @@
-import {ICardsGroup} from "../../../common/types/ICardsGroup";
-import {IFilter} from "../../../common/types/IFilter";
-import {ISortVariant} from "../../../common/types/ISortVariant";
+import {ICardsGroup} from '../../../common/types/ICardsGroup';
+import {IFilter} from '../../../common/types/IFilter';
+import {ISortVariant} from '../../../common/types/ISortVariant';
 
 export interface ICardsGroupsListComponent {
     cardsGroups: ICardsGroup[];
@@ -11,6 +11,7 @@ export interface ICardsGroupsListComponent {
     onResetProgress: (id: number) => void;
     onChangeSearchableText: (searchableText: string) => void;
     onChangeSorting: (sortVariant: ISortVariant) => void;
+    onStartRepeatingDifficultCards: (id: number) => void;
     filter: IFilter;
     height: number;
 }
