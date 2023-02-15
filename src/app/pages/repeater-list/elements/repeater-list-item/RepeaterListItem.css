@@ -3,5 +3,14 @@
 }
 
 .repeater-list-item_content {
+}
 
+.repeater-list-item_tag-container {
+    flex-wrap: wrap;
+}
+
+.repeater-list-item_tag {
+    font-size: 10px;
+    height: 18px;
+    margin: 2px;
 }

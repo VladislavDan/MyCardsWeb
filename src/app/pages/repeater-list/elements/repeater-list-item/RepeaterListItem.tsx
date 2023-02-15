@@ -4,11 +4,14 @@ import ListItemText from '@mui/material/ListItemText/ListItemText';
 import ListItem from '@mui/material/ListItem';
 
 import {IRepeaterListItem} from './types/IRepeaterListItem';
+import './RepeaterListItem.css';
 import {ListItemMenuComponent} from '../../../../common/elements/list-item-menu/ListItemMenuComponent';
 import {
     CircularProgressComponent
 } from '../../../cards-groups-list/elements/circular-progress/CircularProgressComponent';
 import {IMenuSetupItem} from '../../../../common/elements/list-item-menu/types/IMenuSetupItem';
+import {Chip, Stack} from '@mui/material';
+import {getRandomColor} from '../../../../common/logic/getRandomColor';
 
 export const RepeaterListItem: FC<IRepeaterListItem> = (
     {
@@ -48,6 +51,18 @@ export const RepeaterListItem: FC<IRepeaterListItem> = (
         <ListItemText
             className="repeater-list-item_content"
             primary={repeater.name}
+            secondary={<Stack className="repeater-list-item_tag-container" direction="row">
+                {repeater.groupsNames?.map((groupName) => {
+                    const color = getRandomColor();
+                    return <Chip
+                        className="repeater-list-item_tag"
+                        label={groupName}
+                        size="small"
+                        variant="outlined"
+                        style={{color, borderColor: color}}
+                    />
+                })}
+            </Stack>}
             onClick={() => onStartRepeating(repeater.id)}
         />
         <ListItemIcon>

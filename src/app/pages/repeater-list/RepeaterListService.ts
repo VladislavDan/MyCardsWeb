@@ -1,14 +1,16 @@
-import {Channel} from "../../../MyTools/channel-conception/Channel";
-import {IEmpty} from "../../../MyTools/channel-conception/defaults/IEmpty";
-import {IRepeater} from "../../common/types/IRepeater";
-import {StorageService} from "../../common/services/StorageService";
-import {map, switchMap, tap} from "rxjs/operators";
-import {getRepeaterByID} from "./logic/getRepeaterByID";
-import {getCardsIDsFromRepeater} from "./logic/getCardsIDsFromRepeater";
-import {removeRepeater} from "./logic/removeRepeater";
-import {updateRepeatersProgress} from "./logic/updateRepeatersProgress";
-import {resetRepeatingProgress} from "./logic/resetRepeatingProgress";
-import {ICardsGroup} from "../../common/types/ICardsGroup";
+import {Channel} from '../../../MyTools/channel-conception/Channel';
+import {IEmpty} from '../../../MyTools/channel-conception/defaults/IEmpty';
+import {IRepeater} from '../../common/types/IRepeater';
+import {StorageService} from '../../common/services/StorageService';
+import {map, switchMap, tap} from 'rxjs/operators';
+import {getRepeaterByID} from './logic/getRepeaterByID';
+import {getCardsIDsFromRepeater} from './logic/getCardsIDsFromRepeater';
+import {removeRepeater} from './logic/removeRepeater';
+import {updateRepeatersProgress} from './logic/updateRepeatersProgress';
+import {resetRepeatingProgress} from './logic/resetRepeatingProgress';
+import {ICardsGroup} from '../../common/types/ICardsGroup';
+import {of} from 'rxjs';
+import {mapGroupsNameToRepeater} from './logic/mapGroupsNameToRepeater';
 
 export class RepeaterListService {
     public repeaterListChannel: Channel<IEmpty, IRepeater[]>;
@@ -21,7 +23,15 @@ export class RepeaterListService {
             () => storageService.getRepeaters().pipe(
                 switchMap((repeaters) => {
                     return storageService.getBackup().pipe(
-                        map((cardsGroups) => updateRepeatersProgress(cardsGroups, repeaters))
+                        switchMap((cardsGroups) => {
+                            return of(cardsGroups).pipe(
+                                map(() => mapGroupsNameToRepeater(cardsGroups, repeaters)),
+                                map((mappedRepeaters) => updateRepeatersProgress(
+                                    cardsGroups,
+                                    mappedRepeaters
+                                ))
+                            )
+                        }),
                     )
                 })
             )
