@@ -1,14 +1,15 @@
-import React, {FC} from "react";
-import {List} from "@mui/material";
-import Typography from "@mui/material/Typography";
-import {ILongTextViewerComponent} from "./types/ILongTextViewerComponent";
+import React, {FC} from 'react';
+import {List} from '@mui/material';
+import Typography from '@mui/material/Typography';
+import {ILongTextViewerComponent} from './types/ILongTextViewerComponent';
 import './LongTextViewerComponent.css'
 
 export const LongTextViewerComponent: FC<ILongTextViewerComponent> = (
     {
         viewHeight,
         text,
-        onClickText = () => {}
+        onClickText = () => {
+        }
     }
 ) => {
     return <Typography
@@ -17,7 +18,7 @@ export const LongTextViewerComponent: FC<ILongTextViewerComponent> = (
         gutterBottom
         onClick={onClickText}
         className="long-text-viewer"
-        style={{height: viewHeight}}
+        style={{height: viewHeight - 20}}
     >
         <List style={{paddingTop: 0}}>
             {text}
