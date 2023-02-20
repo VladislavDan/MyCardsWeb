@@ -3,21 +3,21 @@ import {FC, useCallback} from 'react';
 
 import {ConfirmDialogComponent} from './ConfirmDialogComponent';
 import {useChannel} from '../../../MyTools/channel-conception/react-hooks/useChannel';
-import {defaultConfirmDialogState} from "../../common/defaults/defaultConfirmDialogState";
-import {useCallbackFactory} from "../../../MyTools/react-hooks/useCallbackFactory";
-import {AppContext} from "../../../App";
-import {onOpenDialogChannel} from "./channels-callbacks/onOpenDialogChannel";
-import {onClose} from "./ui-callbacks/onClose";
-import {onClickAgree} from "./ui-callbacks/onClickAgree";
-import {onClickDisagree} from "./ui-callbacks/onClickDisagree";
-import {ConfirmDialogCallbackSettings} from "./types/ConfirmDialogCallbackSettings";
-import {useDependency} from "../../../MyTools/react-di/hooks/useDependency";
-import {ConfirmDialogService} from "./ConfirmDialogService";
+import {defaultConfirmDialogState} from '../../common/defaults/defaultConfirmDialogState';
+import {useCallbackFactory} from '../../../MyTools/react-hooks/useCallbackFactory';
+import {AppContext} from '../../../App';
+import {onOpenDialogChannel} from './channels-callbacks/onOpenDialogChannel';
+import {onClose} from './ui-callbacks/onClose';
+import {onClickAgree} from './ui-callbacks/onClickAgree';
+import {onClickDisagree} from './ui-callbacks/onClickDisagree';
+import {ConfirmDialogCallbackSettings} from './types/ConfirmDialogCallbackSettings';
+import {useDependencyContext} from '../../../MyTools/react-di/hooks/useDependency';
+import {ConfirmDialogService} from './ConfirmDialogService';
+import {IDependenciesNames} from '../../common/types/IDependenciesNames';
 
 export const ConfirmDialogContainer: FC = () => {
 
-    const confirmDialogService = useDependency(ConfirmDialogService);
-
+    const confirmDialogService = useDependencyContext<ConfirmDialogService>(IDependenciesNames.ConfirmDialogService);
 
     const {
         callbackFactory,

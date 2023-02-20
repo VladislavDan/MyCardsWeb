@@ -13,7 +13,7 @@ import {SelectionDialogContainer} from './app/parts/selection-dialog/SelectionDi
 import {Channel} from './MyTools/channel-conception/Channel';
 import {defaultAppState} from './app/common/defaults/defaultAppState';
 import {DependenciesProvider} from './MyTools/react-di/DependenciesProvider';
-import {Dependencies} from './Dependencies';
+import {DependenciesMap} from './DependenciesMap';
 
 export const AppContext = React.createContext<IAppContext>(defaultAppState);
 
@@ -34,7 +34,7 @@ function App() {
 
     return (
         <>
-            <DependenciesProvider functions={Dependencies}>
+            <DependenciesProvider dependenciesMap={DependenciesMap}>
                 <AppContext.Provider value={appState}>
                     <Router>
                         <div>

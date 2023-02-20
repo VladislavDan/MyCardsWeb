@@ -16,14 +16,15 @@ import {onChangeName} from './ui-callbacks/onChangeName';
 import {useConstructor} from '../../../MyTools/react-hooks/useConstructor';
 import {onConstructor} from './ui-callbacks/onConstructor';
 import {onSelectedGroupsChannel} from './channels-callbacks/onSelectedGroupsChannel';
-import {useDependency} from '../../../MyTools/react-di/hooks/useDependency';
+import {useDependencyContext} from '../../../MyTools/react-di/hooks/useDependency';
 import {RepeaterEditorService} from './RepeaterEditorService';
 import {ErrorService} from '../../parts/error-dialog/ErrorService';
+import {IDependenciesNames} from '../../common/types/IDependenciesNames';
 
 export const RepeaterEditorContainer: FC = () => {
 
-    const repeaterEditorService = useDependency(RepeaterEditorService);
-    const errorService = useDependency(ErrorService);
+    const repeaterEditorService = useDependencyContext<RepeaterEditorService>(IDependenciesNames.RepeaterEditorService);
+    const errorService = useDependencyContext<ErrorService>(IDependenciesNames.ErrorService);
 
     const {
         callbackFactory,

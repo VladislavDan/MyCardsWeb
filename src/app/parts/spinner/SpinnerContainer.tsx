@@ -3,16 +3,17 @@ import {FC} from 'react';
 
 import {SpinnerComponent} from './SpinnerComponent';
 import {useChannel} from '../../../MyTools/channel-conception/react-hooks/useChannel';
-import {useCallbackFactory} from "../../../MyTools/react-hooks/useCallbackFactory";
-import {AppContext} from "../../../App";
-import {SpinnerCallbackSettings} from "./types/SpinnerCallbackSettings";
-import {onSpinnerCounterChannel} from "./channels-callbacks/onSpinnerCounterChannel";
-import {useDependency} from "../../../MyTools/react-di/hooks/useDependency";
-import {SpinnerService} from "./SpinnerService";
+import {useCallbackFactory} from '../../../MyTools/react-hooks/useCallbackFactory';
+import {AppContext} from '../../../App';
+import {SpinnerCallbackSettings} from './types/SpinnerCallbackSettings';
+import {onSpinnerCounterChannel} from './channels-callbacks/onSpinnerCounterChannel';
+import {useDependencyContext} from '../../../MyTools/react-di/hooks/useDependency';
+import {SpinnerService} from './SpinnerService';
+import {IDependenciesNames} from '../../common/types/IDependenciesNames';
 
 export const SpinnerContainer: FC = () => {
 
-    const spinnerService = useDependency(SpinnerService);
+    const spinnerService = useDependencyContext<SpinnerService>(IDependenciesNames.SpinnerService);
 
     const {
         callbackFactory,

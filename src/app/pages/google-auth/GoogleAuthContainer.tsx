@@ -9,14 +9,15 @@ import {onSuccess} from './ui-callbacks/onSuccess';
 import {onFailure} from './ui-callbacks/onFailure';
 import {onLoginChannel} from './channels-callbacks/onLoginChannel';
 import {GoogleAuthCallbackSettings} from './types/GoogleAuthCallbackSettings';
-import {useDependency} from '../../../MyTools/react-di/hooks/useDependency';
+import {useDependencyContext} from '../../../MyTools/react-di/hooks/useDependency';
 import {GoogleAuthService} from './GoogleAuthService';
 import {ErrorService} from '../../parts/error-dialog/ErrorService';
+import {IDependenciesNames} from '../../common/types/IDependenciesNames';
 
 export const GoogleAuthContainer: FC = () => {
 
-    const googleAuthService = useDependency(GoogleAuthService);
-    const errorService = useDependency(ErrorService);
+    const googleAuthService = useDependencyContext<GoogleAuthService>(IDependenciesNames.GoogleAuthService);
+    const errorService = useDependencyContext<ErrorService>(IDependenciesNames.ErrorService);
 
     const {
         callbackFactory,

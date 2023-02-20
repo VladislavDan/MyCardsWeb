@@ -4,22 +4,23 @@ import {FC, useCallback} from 'react';
 import {useChannel} from '../../../MyTools/channel-conception/react-hooks/useChannel';
 import {CardsEditorComponent} from './CardsEditorComponent';
 import {useConstructor} from '../../../MyTools/react-hooks/useConstructor';
-import {useCallbackFactory} from "../../../MyTools/react-hooks/useCallbackFactory";
-import {AppContext} from "../../../App";
-import {onCardEditingChannel} from "./channels-callbacks/onCardEditingChannel";
-import {onCardChannel} from "./channels-callbacks/onCardChannel";
-import {onConstructor} from "./ui-callbacks/onConstructor";
-import {onChangeQuestion} from "./ui-callbacks/onChangeQuestion";
-import {onChangeAnswer} from "./ui-callbacks/onChangeAnswer";
-import {onSaveCard} from "./ui-callbacks/onSaveCard";
-import {initialState} from "./defaults/initialState";
-import {CardsEditorCallbackSettings} from "./types/CardsEditorCallbackSettings";
-import {useDependency} from "../../../MyTools/react-di/hooks/useDependency";
-import {CardsEditorService} from "./CardsEditorService";
+import {useCallbackFactory} from '../../../MyTools/react-hooks/useCallbackFactory';
+import {AppContext} from '../../../App';
+import {onCardEditingChannel} from './channels-callbacks/onCardEditingChannel';
+import {onCardChannel} from './channels-callbacks/onCardChannel';
+import {onConstructor} from './ui-callbacks/onConstructor';
+import {onChangeQuestion} from './ui-callbacks/onChangeQuestion';
+import {onChangeAnswer} from './ui-callbacks/onChangeAnswer';
+import {onSaveCard} from './ui-callbacks/onSaveCard';
+import {initialState} from './defaults/initialState';
+import {CardsEditorCallbackSettings} from './types/CardsEditorCallbackSettings';
+import {useDependencyContext} from '../../../MyTools/react-di/hooks/useDependency';
+import {CardsEditorService} from './CardsEditorService';
+import {IDependenciesNames} from '../../common/types/IDependenciesNames';
 
 export const CardsEditorContainer: FC = () => {
 
-    const cardsEditorService = useDependency(CardsEditorService);
+    const cardsEditorService = useDependencyContext<CardsEditorService>(IDependenciesNames.CardsEditorService);
 
     const {
         callbackFactory,

@@ -4,23 +4,24 @@ import {FC, useCallback} from 'react';
 import {useChannel} from '../../../MyTools/channel-conception/react-hooks/useChannel';
 import {SettingsComponent} from './SettingsComponent';
 import {useConstructor} from '../../../MyTools/react-hooks/useConstructor';
-import {useCallbackFactory} from "../../../MyTools/react-hooks/useCallbackFactory";
-import {AppContext} from "../../../App";
-import {defaultSettings} from "../../common/defaults/defaultSettings";
-import {onChangeSettingsChannel} from "./channels-callbacks/onChangeSettingsChannel";
-import {onSettingsChannel} from "./channels-callbacks/onSettingsChannel";
-import {onConstructor} from "./ui-callbacks/onConstructor";
-import {onChangeAlgorithm} from "./ui-callbacks/onChangeAlgorithm";
-import {onChangeAutoObsolete} from "./ui-callbacks/onChangeAutoObsolete";
-import {onChangeTimeInDone} from "./ui-callbacks/onChangeTimeInDone";
-import {onChangeTimeInProgress} from "./ui-callbacks/onChangeTimeInProgress";
-import {SettingsCallbackSettings} from "./types/SettingsCallbackSettings";
-import {useDependency} from "../../../MyTools/react-di/hooks/useDependency";
-import {SettingsService} from "./SettingsService";
+import {useCallbackFactory} from '../../../MyTools/react-hooks/useCallbackFactory';
+import {AppContext} from '../../../App';
+import {defaultSettings} from '../../common/defaults/defaultSettings';
+import {onChangeSettingsChannel} from './channels-callbacks/onChangeSettingsChannel';
+import {onSettingsChannel} from './channels-callbacks/onSettingsChannel';
+import {onConstructor} from './ui-callbacks/onConstructor';
+import {onChangeAlgorithm} from './ui-callbacks/onChangeAlgorithm';
+import {onChangeAutoObsolete} from './ui-callbacks/onChangeAutoObsolete';
+import {onChangeTimeInDone} from './ui-callbacks/onChangeTimeInDone';
+import {onChangeTimeInProgress} from './ui-callbacks/onChangeTimeInProgress';
+import {SettingsCallbackSettings} from './types/SettingsCallbackSettings';
+import {useDependencyContext} from '../../../MyTools/react-di/hooks/useDependency';
+import {SettingsService} from './SettingsService';
+import {IDependenciesNames} from '../../common/types/IDependenciesNames';
 
 export const SettingsContainer: FC = () => {
 
-    const settingsService = useDependency(SettingsService);
+    const settingsService = useDependencyContext<SettingsService>(IDependenciesNames.SettingsService);
 
     const {
         callbackFactory,

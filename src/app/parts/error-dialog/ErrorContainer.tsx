@@ -8,12 +8,13 @@ import {initialState} from './defaults/initialState';
 import {onErrorChannel} from './channels-callbacks/onErrorChannel';
 import {onClose} from './ui-callbacks/onClose';
 import {ErrorCallbackSettings} from './types/ErrorCallbackSettings';
-import {useDependency} from '../../../MyTools/react-di/hooks/useDependency';
+import {useDependencyContext} from '../../../MyTools/react-di/hooks/useDependency';
 import {ErrorService} from './ErrorService';
+import {IDependenciesNames} from '../../common/types/IDependenciesNames';
 
 export const ErrorContainer: FC = () => {
 
-    const errorService = useDependency(ErrorService);
+    const errorService = useDependencyContext<ErrorService>(IDependenciesNames.ErrorService);
 
     const {
         callbackFactory,

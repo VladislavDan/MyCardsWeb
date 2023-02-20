@@ -20,18 +20,19 @@ import {initialState} from './defaults/initialState';
 import {CardViewerCallbackSettings} from './types/CardViewerCallbackSettings';
 import {onReadByVoiceEngine} from './ui-callbacks/onReadByVoiceEngine';
 import {onReadByVoiceEngineChannel} from './channels-callbacks/onReadByVoiceEngineChannel';
-import {useDependency} from '../../../MyTools/react-di/hooks/useDependency';
+import {useDependencyContext} from '../../../MyTools/react-di/hooks/useDependency';
 import {CardViewerService} from './CardViewerService';
 import {CardsEditorService} from '../cards-editor/CardsEditorService';
 import {ToolbarService} from '../../parts/toolbar/ToolbarService';
 import {ConfirmDialogService} from '../../parts/confirm-dialog/ConfirmDialogService';
+import {IDependenciesNames} from '../../common/types/IDependenciesNames';
 
 export const CardViewerContainer: FC = () => {
 
-    const cardViewerService = useDependency(CardViewerService);
-    const cardsEditorService = useDependency(CardsEditorService);
-    const toolbarService = useDependency(ToolbarService);
-    const confirmDialogService = useDependency(ConfirmDialogService);
+    const cardViewerService = useDependencyContext<CardViewerService>(IDependenciesNames.CardViewerService);
+    const cardsEditorService = useDependencyContext<CardsEditorService>(IDependenciesNames.CardsEditorService);
+    const toolbarService = useDependencyContext<ToolbarService>(IDependenciesNames.ToolbarService);
+    const confirmDialogService = useDependencyContext<ConfirmDialogService>(IDependenciesNames.ConfirmDialogService);
 
     const {
         callbackFactory,

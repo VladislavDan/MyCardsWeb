@@ -4,28 +4,29 @@ import {FC, useCallback} from 'react';
 import {useChannel} from '../../../MyTools/channel-conception/react-hooks/useChannel';
 import {GoogleBackupsComponent} from './GoogleBackupsComponent';
 import {useConstructor} from '../../../MyTools/react-hooks/useConstructor';
-import {useCallbackFactory} from "../../../MyTools/react-hooks/useCallbackFactory";
-import {AppContext} from "../../../App";
-import {onBackupsNameLoadChannelError} from "./channels-callback/onBackupsNameLoadChannelError";
-import {onBackupsNameLoadChannel} from "./channels-callback/onBackupsNameLoadChannel";
-import {onBackupLoadChannelError} from "./channels-callback/onBackupLoadChannelError";
-import {onBackupLoadChannel} from "./channels-callback/onBackupLoadChannel";
-import {onBackupDeleteChannel} from "./channels-callback/onBackupDeleteChannel";
-import {onBackupUploadChannel} from "./channels-callback/onBackupUploadChannel";
-import {onConstructor} from "./ui-callbacks/onConstructor";
-import {onLoad} from "./ui-callbacks/onLoad";
-import {onDelete} from "./ui-callbacks/onDelete";
-import {GoogleBackupCallbackSettings} from "./types/GoogleBackupCallbackSettings";
-import {useDependency} from "../../../MyTools/react-di/hooks/useDependency";
-import {GoogleBackupsService} from "./GoogleBackupsService";
-import {SpinnerService} from "../../parts/spinner/SpinnerService";
-import {ConfirmDialogService} from "../../parts/confirm-dialog/ConfirmDialogService";
+import {useCallbackFactory} from '../../../MyTools/react-hooks/useCallbackFactory';
+import {AppContext} from '../../../App';
+import {onBackupsNameLoadChannelError} from './channels-callback/onBackupsNameLoadChannelError';
+import {onBackupsNameLoadChannel} from './channels-callback/onBackupsNameLoadChannel';
+import {onBackupLoadChannelError} from './channels-callback/onBackupLoadChannelError';
+import {onBackupLoadChannel} from './channels-callback/onBackupLoadChannel';
+import {onBackupDeleteChannel} from './channels-callback/onBackupDeleteChannel';
+import {onBackupUploadChannel} from './channels-callback/onBackupUploadChannel';
+import {onConstructor} from './ui-callbacks/onConstructor';
+import {onLoad} from './ui-callbacks/onLoad';
+import {onDelete} from './ui-callbacks/onDelete';
+import {GoogleBackupCallbackSettings} from './types/GoogleBackupCallbackSettings';
+import {useDependencyContext} from '../../../MyTools/react-di/hooks/useDependency';
+import {GoogleBackupsService} from './GoogleBackupsService';
+import {SpinnerService} from '../../parts/spinner/SpinnerService';
+import {ConfirmDialogService} from '../../parts/confirm-dialog/ConfirmDialogService';
+import {IDependenciesNames} from '../../common/types/IDependenciesNames';
 
 export const GoogleBackupsContainer: FC = () => {
 
-    const googleBackupsService = useDependency(GoogleBackupsService);
-    const spinnerService = useDependency(SpinnerService);
-    const confirmDialogService = useDependency(ConfirmDialogService);
+    const googleBackupsService = useDependencyContext<GoogleBackupsService>(IDependenciesNames.GoogleBackupsService);
+    const spinnerService = useDependencyContext<SpinnerService>(IDependenciesNames.SpinnerService);
+    const confirmDialogService = useDependencyContext<ConfirmDialogService>(IDependenciesNames.ConfirmDialogService);
 
     const {
         callbackFactory,

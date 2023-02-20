@@ -7,18 +7,19 @@ import {AppContext} from '../../../App';
 import {ToolbarCallbackSettings} from './types/ToolbarCallbackSettings';
 import {onPageLabelChannel} from './channels-callbacks/onPageLabelChannel';
 import {onClick} from './ui-callbacks/onClick';
-import {useDependency} from '../../../MyTools/react-di/hooks/useDependency';
+import {useDependencyContext} from '../../../MyTools/react-di/hooks/useDependency';
 import {ToolbarService} from './ToolbarService';
 import {NavigationPanelService} from '../navigation-panel/NavigationPanelService';
 import {onLoadCardsCount} from './ui-callbacks/onLoadCardsCount';
 import {initialState} from './defaults/initialState';
 import {onCardsCountInGroupChannel} from './channels-callbacks/onCardsCountInGroupChannel';
 import {onLoadLabel} from './ui-callbacks/onLoadLabel';
+import {IDependenciesNames} from '../../common/types/IDependenciesNames';
 
 export const ToolbarContainer: FC = () => {
 
-    const toolbarService = useDependency(ToolbarService);
-    const navigationPanelService = useDependency(NavigationPanelService);
+    const toolbarService = useDependencyContext<ToolbarService>(IDependenciesNames.ToolbarService);
+    const navigationPanelService = useDependencyContext<NavigationPanelService>(IDependenciesNames.NavigationPanelService);
 
     const {
         callbackFactory,

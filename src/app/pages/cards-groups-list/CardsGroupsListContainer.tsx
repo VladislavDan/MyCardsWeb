@@ -20,16 +20,17 @@ import {onFilterChannel} from './channels-callbacks/onFilterChannel';
 import {onChangeSearchableText} from './ui-callbacks/onChangeSearchableText';
 import {initialState} from './defaults/initialState';
 import {ICardsGroupsCallbackSettings} from './types/ICardsGroupsCallbackSettings';
-import {useDependency} from '../../../MyTools/react-di/hooks/useDependency';
+import {useDependencyContext} from '../../../MyTools/react-di/hooks/useDependency';
 import {CardsGroupsListService} from './CardsGroupsListService';
 import {ConfirmDialogService} from '../../parts/confirm-dialog/ConfirmDialogService';
 import {onStartRepeatingDifficultCards} from './ui-callbacks/onStartRepeatingDifficultCards';
 import {onStartRepeatingDifficultCardsChannel} from './channels-callbacks/onStartRepeatingDifficultCardsChannel';
+import {IDependenciesNames} from '../../common/types/IDependenciesNames';
 
 export const CardsGroupsListContainer: FC = () => {
 
-    const cardsGroupsListService = useDependency(CardsGroupsListService);
-    const confirmDialogService = useDependency(ConfirmDialogService);
+    const cardsGroupsListService = useDependencyContext<CardsGroupsListService>(IDependenciesNames.CardsGroupsListService);
+    const confirmDialogService = useDependencyContext<ConfirmDialogService>(IDependenciesNames.ConfirmDialogService);
 
     const {
         callbackFactory,
